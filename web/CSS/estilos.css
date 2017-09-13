@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11/09/2017, 04:36:15 PM
+    Author     : Kevin
+*/
+.navbar-custom {
+    background-color: #1ED760; /*fondo para el navegador-cabecera*/
+    border-radius: 0px; /*es para que las puntas no queden redondeadas*/
+}
+
+#formBuscar{
+    width: 100%;
+}
+
+#buscar{
+    width: 70%;
+}
+    
+#registrarse{
+    color: white;
+}
+
+#iniciarSesion{
+    color: yellow;
+}
+
+.imgAlbum{
+    padding: 4px;
+    border-style: solid;
+    border-color: #1ED760;
+    border-width: 2px 2px 2px 2px;
+    /*opacity: 0.9;*/
+    position: relative;
+    display: inline-block;
+    height: 210px;
+    width: 212px;    
+    border-radius: 100%;
+}
+
+.imgAlbum:hover{
+    border-color: #0080FF;
+}
+
+.img-text{
+    top:45%;
+    position: absolute;
+    display:block;
+    width: 100%;
+    color:#0080FF;
+    text-shadow: 1px 0 0 white, -1px 0 0 white, 0 1px 0 white, 0 -1px 0 white, 1px 1px white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white;
+}
+
+.img-text:hover{
+    text-decoration: underline;
+}
+
+.img-text:active{
+    color: #1B559F;
+}

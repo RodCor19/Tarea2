@@ -6,6 +6,7 @@
 package Servlets;
 
 import Logica.DtArtista;
+import Logica.DtGenero;
 import Logica.Fabrica;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -69,6 +70,15 @@ public class ServletArtistas extends HttpServlet {
 //                
 //                response.getWriter().write(retornar);
             }
+            
+        if(request.getParameter("listarGeneros") != null){    
+            Fabrica.getCliente();
+                Fabrica.getArtista();
+                Fabrica.SetControladores();
+                Fabrica.cargarDatos();
+                ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
+                request.getSession().setAttribute("Generos", generos);
+        }
             
         
     }

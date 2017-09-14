@@ -58,5 +58,18 @@ $(document).ready(function(){
         $('#btnArtistas').css("color","");                
         $('#btnGeneros').css("background-color","#343333");
         $('#btnGeneros').css("color","#1ED760");
+        
+        $.ajax({
+            type : 'POST', //tipo de request
+            url : 'ServletArtistas',
+            dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+            data:{ // Parametros que se pasan en el request
+                listarGeneros : true
+            },
+            success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+               $('#listaArtGen').load('/EspotifyWeb/Vistas/listaGeneros.jsp');
+            }
+        });
+        
     });
 });

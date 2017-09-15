@@ -71,3 +71,15 @@ and open the template in the editor.
     background-color: #1ED760;
     color: white;
 }
+
+/*
+body{
+    background-image: url("/EspotifyWeb/Imagenes/fondo2.jpg");
+
+    height: 100%; 
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+*/

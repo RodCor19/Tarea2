@@ -19,7 +19,7 @@
         
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-2">
+                <div class="btn-group-vertical col-sm-2" >
                     <button id="btnArtistas" type="button" class="btn btn-default btn-block btnOpcion">Artistas</button>
                     <button id="btnGeneros" type="button" class="btn btn-default btn-block btnOpcion">Géneros</button>
                 </div>

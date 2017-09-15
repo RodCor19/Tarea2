@@ -61,3 +61,13 @@ and open the template in the editor.
 .img-text:active{
     color: #1B559F;
 }
+
+.tituloPerfil{
+    color:#0080FF;
+    text-decoration: underline;
+}
+
+.tituloLista{
+    background-color: #1ED760;
+    color: white;
+}

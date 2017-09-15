@@ -24,7 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletArtistas", urlPatterns = {"/ServletArtistas"})
 public class ServletArtistas extends HttpServlet {
-
+    
+    @Override
+    public void init() throws ServletException {
+        Fabrica.getInstance(); //crea los controladores y carga los datos de la bd
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,46 +42,29 @@ public class ServletArtistas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
+           
+        //Si se pasó el parametro "listarArtistas", entocnes reconoce que tiene que listarlos
+        if(request.getParameter("listarArtistas") != null){
+            ArrayList<DtArtista> artistas =  Fabrica.getArtista().ListarArtistas();
+            request.getSession().setAttribute("Artistas", artistas);
+//          
+            response.getWriter().write("artistas listados correctamente");// es para que mostrar un mensaje en la consola del navegador, es opcional
+        }
+        
+        if(request.getParameter("verPerfilArt") != null){
+            String nickname = request.getParameter("verPerfilArt");
+            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
+            request.getSession().setAttribute("Perfil", datosArtista);
             
-//            if(request.getParameter("cargarDatos") != null){
-//                //Para que solo carge los datos una vez
-//                if(request.getSession().getAttribute("datosCargados") == null){
-//                    Fabrica.getCliente();
-//                    Fabrica.getArtista();
-//                    Fabrica.SetControladores();
-//                    Fabrica.cargarDatos();
-//                    request.getSession().setAttribute("datosCargados", true);
-//                    
-//                    response.getWriter().write("datos cargados correctamente");
-//                }else{
-//                    response.getWriter().write("los datos ya estaban cargados");
-//                }
-//            }
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
+            requestDispatcher.forward(request, response);
             
-            //Si se pasó el parametro "listarArtistas", entocnes reconoce que tiene que listarlos
-            if(request.getParameter("listarArtistas") != null){
-                Fabrica.getCliente();
-                Fabrica.getArtista();
-                Fabrica.SetControladores();
-                Fabrica.cargarDatos();
-                ArrayList<DtArtista> artistas =  Fabrica.getArtista().ListarArtistas();
-                request.getSession().setAttribute("Artistas", artistas);
-//                String retornar="{";
-//                for (DtArtista artista : artistas) {
-//                    retornar +=artista.getNombre()+" "+artista.getApellido()+","; 
-//                }
-//                retornar += "}";
-//                
-//                response.getWriter().write(retornar);
-            }
+            response.getWriter().write("perfil del artista cargado");
+        }
             
         if(request.getParameter("listarGeneros") != null){    
-            Fabrica.getCliente();
-                Fabrica.getArtista();
-                Fabrica.SetControladores();
-                Fabrica.cargarDatos();
-                ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
-                request.getSession().setAttribute("Generos", generos);
+            ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
+            request.getSession().setAttribute("Generos", generos);
         }
             
         

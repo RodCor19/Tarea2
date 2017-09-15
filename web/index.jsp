@@ -37,9 +37,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <h3>Column 3</h3>
-                    <p>Lorem ipsum dolor..</p>
-                    <p>Ut enim ad..</p>
+                    <h3>Columna 3</h3>
                 </div>
             </div>
         </div>
@@ -49,6 +47,6 @@
         </footer>
                     
         <script src="Javascript/jquery.min.js"></script>
-        <script src="Javascript/artistas.js"></script>
+        <script src="Javascript/artistasGeneros.js"></script>
     </body>
 </html>

@@ -12,7 +12,7 @@
         <div class="row">
             <%-- se divide la pantalla en 3 partes de tamaño 4(columnas) (El total de columnas de la pantalla es 12) --%>
             <div class="col-md-4" >
-                <a href="http://www.spotify.com">
+                <a href="/EspotifyWeb/index.jsp">
                     <img src="/EspotifyWeb/Imagenes/Espotify.png" alt="imagen de header" width="200" onclick="">
                 </a>
             </div>

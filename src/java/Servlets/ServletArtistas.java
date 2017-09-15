@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtGenero;
 import Logica.Fabrica;
@@ -60,6 +61,17 @@ public class ServletArtistas extends HttpServlet {
             requestDispatcher.forward(request, response);
             
             response.getWriter().write("perfil del artista cargado");
+        }
+        if(request.getParameter("consultarAlbum") != null){
+            String nombre = request.getParameter("consultarAlbum");
+            ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre); 
+            request.getSession().setAttribute("Album", albumnes);
+            
+            //Redirecciona a la pagina indicada 
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen="+nombre);
+            requestDispatcher.forward(request, response);
+            
+            response.getWriter().write("albumnes cargados");
         }
             
         if(request.getParameter("listarGeneros") != null){    

@@ -62,8 +62,8 @@ and open the template in the editor.
     color: #1B559F;
 }
 
-.tituloPerfil{
-    color:#0080FF;
+.tituloPerfil, .tituloGenero{
+/*    color:#0080FF;*/
     text-decoration: underline;
 }
 
@@ -72,14 +72,45 @@ and open the template in the editor.
     color: white;
 }
 
-/*
-body{
-    background-image: url("/EspotifyWeb/Imagenes/fondo2.jpg");
+/* Para cambiar color de las pestañas */
+.nav-tabs > li > a{
+    color: black;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+    color: #337AB7;
+} 
+
+/*.nav-tabs{
+  background-color:#1ED760;
+}
+.tab-content{
+    background-color: white;
+    color:black;
+    padding:5px
+}
+.nav-tabs > li > a{
+  border: medium none;
+  color:#fff;
+}
+.nav-tabs > li > a:hover{
+    background-color: #1EC160 ;
+    border: medium none;
+    border-radius: 0;
+    color:#fff;
+}*/
+
+
+/*body{
+    background-image: url("/EspotifyWeb/Imagenes/fondo4.jpg");
 
     height: 100%; 
 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-*/
+    color: white;
+    
+}*/

@@ -5,11 +5,10 @@
  */
 package Servlets;
 
-import Logica.DtAlbum;
-import Logica.DtArtista;
+import Logica.DtCliente;
 import Logica.Fabrica;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,13 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Kevin
  */
-@WebServlet(name = "ServletArtistas", urlPatterns = {"/ServletArtistas"})
-public class ServletArtistas extends HttpServlet {
-    
-    @Override
-    public void init() throws ServletException {
-        Fabrica.getInstance(); //crea los controladores y carga los datos de la bd
-    }
+@WebServlet(name = "ServletClientes", urlPatterns = {"/ServletClientes"})
+public class ServletClientes extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,44 +35,17 @@ public class ServletArtistas extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            /* TODO output your page here. You may use following sample code. */
-           
-        //Si se pasó el parametro "listarArtistas", entocnes reconoce que tiene que listarlos
-        if(request.getParameter("listarArtistas") != null){
-            ArrayList<DtArtista> artistas =  Fabrica.getArtista().ListarArtistas();
-            request.getSession().setAttribute("Artistas", artistas);
-//          
-            response.getWriter().write("artistas listados correctamente");// es para que mostrar un mensaje en la consola del navegador, es opcional
-        }
         
-        if(request.getParameter("verPerfilArt") != null){
-            String nickname = request.getParameter("verPerfilArt");
-            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
-            request.getSession().setAttribute("PerfilArt", datosArtista);
+        if(request.getParameter("verPerfilCli") != null){
+            String nickname = request.getParameter("verPerfilCli");
+            DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(nickname);
+            request.getSession().setAttribute("PerfilCli", datosClientes);
             
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
             requestDispatcher.forward(request, response);
             
-            response.getWriter().write("perfil del artista cargado");
+            response.getWriter().write("perfil del cliente cargado");
         }
-        if(request.getParameter("consultarAlbum") != null){
-            String nombre = request.getParameter("consultarAlbum");
-            ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre); 
-            request.getSession().setAttribute("Album", albumnes);
-            
-            //Redirecciona a la pagina indicada 
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen="+nombre);
-            requestDispatcher.forward(request, response);
-            
-            response.getWriter().write("albumnes cargados");
-        }
-            
-        if(request.getParameter("listarGeneros") != null){    
-            ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
-            request.getSession().setAttribute("Generos", generos);
-        }
-            
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

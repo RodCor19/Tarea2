@@ -60,23 +60,23 @@
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                  <input id="password" type="password" class="form-control" name="VerContraseña" placeholder="Verificacion de Contraseña">
+                                  <input id="password" type="password" class="form-control" name="VerContraseña" placeholder="Verificacion de contraseña">
                                 </div>
                                 <div class="input-group">
-                                  <span class="input-group-addon">Nombre: </span>
-                                  <input id="msg" type="text" class="form-control" name="Nombre" placeholder="">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-chevron-right"></i></span>
+                                  <input id="msg" type="text" class="form-control" name="Nombre" placeholder="Nombre">
                                 </div>
                                 <div class="input-group">
-                                  <span class="input-group-addon">Apellido: </span>
-                                  <input id="msg" type="text" class="form-control" name="Apellido" placeholder="">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-chevron-right"></i></span>
+                                  <input id="msg" type="text" class="form-control" name="Apellido" placeholder="Apellido">
                                 </div>
                                 <div class="input-group">
-                                  <span class="input-group-addon">Fecha de Nacimiento: </span>
-                                  <input id="msg" type="text" class="form-control" name="Fecha" placeholder="">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                  <input id="msg" type="text" class="form-control" name="Fecha" placeholder="Fecha de nacimiento">
                                 </div>
                                 <div class="input-group">
-                                  <span class="input-group-addon">Email: </span>
-                                  <input id="msg" type="text" class="form-control" name="Email" placeholder="">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-chevron-right"></i></span>
+                                  <input id="msg" type="text" class="form-control" name="Email" placeholder="Email">
                                 </div>
                                 
                              </form>
@@ -97,7 +97,7 @@
                             </form>
                         </ul>
                     
-                                <button type="button" class="button btn-block" >Aceptar</button>
+                        <button type="button" class="button btn-block" >Aceptar</button>
                 
                     </div>
                 </div>

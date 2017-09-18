@@ -7,6 +7,7 @@ package Servlets;
 
 import Logica.DtAlbum;
 import Logica.DtArtista;
+import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -76,10 +78,21 @@ public class ServletArtistas extends HttpServlet {
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
         }
-            
+        
+        if(request.getParameter("Join")!=null){
+            HttpSession sesion = request.getSession();
+            String nickname = request.getParameter("Join");
+            String contrasenia = request.getParameter("Contraseña");
+            DtUsuario dt=Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+            if(dt!=null){
+                sesion.setAttribute("Usuario", dt);
+            }else{
+                sesion.setAttribute("error", true);
+                response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");
+            }
+        }
         
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

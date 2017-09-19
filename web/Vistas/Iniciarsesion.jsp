@@ -22,8 +22,8 @@
         
             <form action="../ServletArtistas" method="post">
                 
-                Nickname o correo :<input type="text"  name="Join" requerid/><br>
-                Contraseña :<input type="password" name="Contraseña" requerid/><br>
+                Nickname o correo :<input type="text"  name="Join"/><br>
+                Contraseña :<input type="password" name="Contraseña"/><br>
                 <%
                 HttpSession sesion = request.getSession();
                 if(sesion.getAttribute("error")!=null){

@@ -52,52 +52,52 @@
                             <form>
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                  <input id="email" type="text" class="form-control" name="Nickname" placeholder="Nickname">
+                                  <input id="nickname" type="text" class="form-control" name="nickname" placeholder="Nickname">
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                  <input id="password" type="password" class="form-control" name="Contraseña" placeholder="Contraseña">
+                                  <input id="contrasenia" type="password" class="form-control" name="contrasenia" placeholder="Contraseña">
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                  <input id="password" type="password" class="form-control" name="VerContraseña" placeholder="Verificacion de Contraseña">
+                                  <input id="vcontrasenia" type="password" class="form-control" name="vcontrasenia" placeholder="Verificacion de Contraseña">
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon">Nombre: </span>
-                                  <input id="msg" type="text" class="form-control" name="Nombre" placeholder="">
+                                  <input id="nombre" type="text" class="form-control" name="nombre" placeholder="">
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon">Apellido: </span>
-                                  <input id="msg" type="text" class="form-control" name="Apellido" placeholder="">
+                                  <input id="apellido" type="text" class="form-control" name="apellido" placeholder="">
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon">Fecha de Nacimiento: </span>
-                                  <input id="msg" type="text" class="form-control" name="Fecha" placeholder="">
+                                  <input id="fechanac" type="text" class="form-control" name="fecha" placeholder="">
                                 </div>
                                 <div class="input-group">
                                   <span class="input-group-addon">Email: </span>
-                                  <input id="msg" type="text" class="form-control" name="Email" placeholder="">
+                                  <input id="correo" type="text" class="form-control" name="correo" placeholder="">
                                 </div>
                                 
                              </form>
 
                         </ul>
-                        <label class="radio-inline"><input type="radio" name="optradio" id="radioC" checked>Cliente</label>
-                        <label class="radio-inline"><input type="radio" name="optradio" id="radioA">Artista</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" value="Cliente" id="radioC" checked>Cliente</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" value="Artista" id="radioA">Artista</label>
                         <ul class="list-group">
                             <form hidden="" id="formArt">
                                 <div class="input-group" >
                                   <span  class="input-group-addon">Biografia: </span>
-                                  <input id="msg" type="text" class="form-control" name="Biografia" placeholder="">
+                                  <input id="biografia" type="text" class="form-control" name="biografia" placeholder="">
                                 </div>
                                 <div class="input-group" >
                                   <span class="input-group-addon">Pagina Web: </span>
-                                  <input id="msg" type="text" class="form-control" name="Pagweb" placeholder="">
+                                  <input id="paginaweb" type="text" class="form-control" name="paginaweb" placeholder="">
                                 </div>
                             </form>
                         </ul>
                     
-                                <button type="button" class="button btn-block" >Aceptar</button>
+                                <button type="button" class="button btn-block" id="bntaceptar" >Aceptar</button>
                 
                     </div>
                 </div>

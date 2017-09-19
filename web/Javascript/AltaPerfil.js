@@ -11,4 +11,17 @@ $('#radioA').click(function(){
 $('#radioC').click(function(){
     $('#formArt').hide();
 });
+$('#btnaceptar').click(function(){
+ /*   var nick = $('#nickname').val();
+    var cont = $('#contrasenia').val();
+    var nom = $('#nombre').val();
+    var ape = $('#apellido').val();
+    var fecha = $('#fechanac').val();
+    var correo = $('#correo').val();*/
+   // if( $('#radioA').val()=="Artista" ){
+        alert("I am an alert box!");
+        //var biogra = $('#biografia').val();
+       // var pagweb = $('#paginaweb').val();
+    //}
+});
 });

@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../Bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="../CSS/estilos.css">
+        <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
                         <style>
                             .button {
                               padding: 7px 12px;
@@ -97,7 +97,7 @@
                             </form>
                         </ul>
 
-                                <button type="button" class="button btn-block" id="bntaceptar" >Aceptar</button>
+                                <button type="button" class="button btn-block" id="bntAceptar" >Aceptar</button>
                 
                     </div>
                 </div>
@@ -108,7 +108,6 @@
         </div>
         
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/AltaPerfil.js"></script>
     </body>
 </html>

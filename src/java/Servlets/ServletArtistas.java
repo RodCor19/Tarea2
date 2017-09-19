@@ -9,10 +9,8 @@ import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
-import Logica.DtGenero;
+import Logica.DtUsuario;
 import Logica.Fabrica;
-import Logica.IcontArtista;
-import Logica.IcontCliente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -26,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -64,7 +63,7 @@ public class ServletArtistas extends HttpServlet {
         if(request.getParameter("verPerfilArt") != null){
             String nickname = request.getParameter("verPerfilArt");
             DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
-            request.getSession().setAttribute("Perfil", datosArtista);
+            request.getSession().setAttribute("PerfilArt", datosArtista);
             
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
             requestDispatcher.forward(request, response);
@@ -87,6 +86,7 @@ public class ServletArtistas extends HttpServlet {
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
         }
+
             
         if(request.getParameter("Registrarse") != null){
             try{
@@ -104,7 +104,7 @@ public class ServletArtistas extends HttpServlet {
                 if(optradio.equals("Cliente")){
 
                 DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null);
-             boolean ok=Fabrica.getCliente().IngresarCliente(cli);
+                boolean ok=  Fabrica.getCliente().IngresarCliente(cli);
              if(ok){
               request.getRequestDispatcher("Se ah completado su registro.").forward(request, response);
              }else{
@@ -115,7 +115,7 @@ public class ServletArtistas extends HttpServlet {
                 if(!biografia.equals("") && !paginaweb.equals("")){
                 if(optradio.equals("Artista")){
                 DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null);
-             boolean ok=Fabrica.getArtista().IngresarArtista(art);
+             boolean ok= Fabrica.getArtista().IngresarArtista(art);
              if(ok){
               request.getRequestDispatcher("Se ah completado su registro.").forward(request, response);
              }else{
@@ -136,6 +136,61 @@ public class ServletArtistas extends HttpServlet {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
                   }
               }
+
         
-}
+        if(request.getParameter("Join")!=null){
+            HttpSession sesion = request.getSession();
+            String nickname = request.getParameter("Join");
+            String contrasenia = request.getParameter("Contraseña");
+            DtUsuario dt=Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+            if(dt==null){
+                sesion.setAttribute("Usuario", dt);
+                 response.sendRedirect("/EspotifyWeb/Vistas/Cabecera.jsp");
+            }else{
+                sesion.setAttribute("error", true);
+                response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");
+            }
+        }
+
+
+    }
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }

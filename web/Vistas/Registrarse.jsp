@@ -96,7 +96,7 @@
                                 </div>
                             </form>
                         </ul>
-                    
+
                                 <button type="button" class="button btn-block" id="bntaceptar" >Aceptar</button>
                 
                     </div>

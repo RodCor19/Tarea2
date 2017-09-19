@@ -5,12 +5,19 @@
  */
 package Servlets;
 
+import Logica.DtArtista;
+import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +30,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author Kevin
  */
+ 
 @WebServlet(name = "ServletArtistas", urlPatterns = {"/ServletArtistas"})
 public class ServletArtistas extends HttpServlet {
-    
+
     @Override
     public void init() throws ServletException {
         Fabrica.getInstance(); //crea los controladores y carga los datos de la bd
@@ -78,6 +86,57 @@ public class ServletArtistas extends HttpServlet {
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
         }
+
+            
+        if(request.getParameter("Registrarse") != null){
+            try{
+            String nickname=request.getParameter("nickname");
+            String contrasenia=request.getParameter("contrasenia");
+            String nombre=request.getParameter("nombre");
+            String apellido=request.getParameter("apellido");
+            String fechanac= request.getParameter("fechanac");
+            String correo=request.getParameter("correo");
+            String biografia=request.getParameter("biografia");
+            String paginaweb=request.getParameter("paginaweb");
+            String optradio=request.getParameter("optradio");
+            SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
+            if(!nickname.equals("") && !contrasenia.equals("") && !nombre.equals("") && !apellido.equals("") && !fechanac.equals("") && !correo.equals("")){
+                if(optradio.equals("Cliente")){
+
+                DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null);
+                boolean ok=  Fabrica.getCliente().IngresarCliente(cli);
+             if(ok){
+              request.getRequestDispatcher("Se ah completado su registro.").forward(request, response);
+             }else{
+                  PrintWriter out=response.getWriter();
+                  out.println("Algo salio mal, no se pudo completar tu solicitud.");
+                  }
+              }
+                if(!biografia.equals("") && !paginaweb.equals("")){
+                if(optradio.equals("Artista")){
+                DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null);
+             boolean ok= Fabrica.getArtista().IngresarArtista(art);
+             if(ok){
+              request.getRequestDispatcher("Se ah completado su registro.").forward(request, response);
+             }else{
+                  PrintWriter out=response.getWriter();
+                  out.println("Algo salio mal, no se pudo completar tu solicitud.");
+                  }
+              }
+            }else{//controla que biografia y pagweb del artista no esten vacios
+                  PrintWriter out=response.getWriter();
+                  out.println("No debe haber campos vacios");
+            }
+            }else{//controla que los campos del cliente no esten vacios
+                  PrintWriter out=response.getWriter();
+                  out.println("No debe haber campos vacios");
+            }
+
+           }catch (ParseException ex) {
+                  Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
+                  }
+              }
+
         
         if(request.getParameter("Join")!=null){
             HttpSession sesion = request.getSession();
@@ -92,7 +151,8 @@ public class ServletArtistas extends HttpServlet {
                 response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");
             }
         }
-        
+
+
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

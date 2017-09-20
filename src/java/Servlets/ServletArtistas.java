@@ -145,7 +145,7 @@ public class ServletArtistas extends HttpServlet {
             DtUsuario dt=Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
             if(dt!=null){
                 sesion.setAttribute("Usuario", dt);
-                 response.sendRedirect("/EspotifyWeb/index.jsp");
+                response.sendRedirect("/EspotifyWeb/index.jsp");
             }else{
                 sesion.setAttribute("error", true);
                 response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");

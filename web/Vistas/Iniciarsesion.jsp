@@ -10,14 +10,33 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../Bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="../CSS/estilos.css">
+        <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
 
         <title>Espotify: Iniciar sesion</title>
     </head>
     <body>
-                <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
-
+        <jsp:include page="/Vistas/Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+    <center>
         <h1>Iniciar sesion</h1>
-    </body>
+
+        <form id="iniciar" action="../ServletArtistas"  method="post">
+
+            Nickname o correo :<input type="text"  name="Join"/><br>
+            Contraseña :<input type="password" name="Contraseña" id="pass"/><br>
+            <%
+                HttpSession sesion = request.getSession();
+                if (sesion.getAttribute("error") != null) {
+            %>
+            <label> Usuario o contraseña incorrecto </label><br>
+            <%}%>
+            <input type="submit" value="Iniciar sesión" id="boton" /><br>
+        </form>
+        <br>
+        ¿No tienes una cuenta?<a href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a>
+    </center>
+    <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>>
+    <script src="/EspotifyWeb/Javascript/sha1.js"></script>
+    <Script src="/EspotifyWeb/Javascript/encriptacion.js"/></script>
+</body>
 </html>

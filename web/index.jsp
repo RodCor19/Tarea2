@@ -41,7 +41,12 @@
                 </div>
             </div>
         </div>
-        
+        <%
+                HttpSession sesion = request.getSession();
+                if(sesion.getAttribute("Usuario")!=null){
+        %>
+         inicio de 
+        <%}%>
         <footer class="container-fluid text-center">
             <h3>Pie de página</h3>
         </footer>

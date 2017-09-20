@@ -31,8 +31,8 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div class="row">
-                        <img src="/EspotifyWeb/Imagenes/iconoMusica2.png" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
-                        <h3 class="tituloGenero"><%= nomgen %></h3>
+                        <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
+                        <h3 class="tituloGenero text-primary"><b><%= nomgen %></b></h3>
                         <h4 class="text-left">Álbumes: </h4>
                         <table class="table text-left">
                             <thead>

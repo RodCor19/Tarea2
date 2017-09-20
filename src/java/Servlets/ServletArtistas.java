@@ -98,44 +98,30 @@ public class ServletArtistas extends HttpServlet {
             String correo=request.getParameter("correo");
             String biografia=request.getParameter("biografia");
             String paginaweb=request.getParameter("paginaweb");
-            String optradio=request.getParameter("optradio");
-            SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
-            if(!nickname.equals("") && !contrasenia.equals("") && !nombre.equals("") && !apellido.equals("") && !fechanac.equals("") && !correo.equals("")){
-                if(optradio.equals("Cliente")){
 
-                DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null);
-                boolean ok=  Fabrica.getCliente().IngresarCliente(cli);
-             if(ok){
-              request.getRequestDispatcher("Se ah completado su registro.").forward(request, response);
-             }else{
-                  PrintWriter out=response.getWriter();
-                  out.println("Algo salio mal, no se pudo completar tu solicitud.");
-                  }
-              }
-                if(!biografia.equals("") && !paginaweb.equals("")){
-                if(optradio.equals("Artista")){
-                DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null);
+            SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
+            if(nickname.equals("") && contrasenia.equals("") && nombre.equals("") && apellido.equals("") && fechanac.equals("") && correo.equals("") && biografia.equals("") && paginaweb.equals("")){
+                PrintWriter out=response.getWriter();
+                  out.println("No debe haber campos vacios");
+    
+              }else{
+                
+                
+             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null);
              boolean ok= Fabrica.getArtista().IngresarArtista(art);
              if(ok){
-              request.getRequestDispatcher("Se ah completado su registro.").forward(request, response);
+             // request.getRequestDispatcher("iniciarsesion").forward(request, response);
+                 PrintWriter out=response.getWriter();
+                out.println("ta todo bien");
              }else{
                   PrintWriter out=response.getWriter();
                   out.println("Algo salio mal, no se pudo completar tu solicitud.");
-                  }
-              }
-            }else{//controla que biografia y pagweb del artista no esten vacios
-                  PrintWriter out=response.getWriter();
-                  out.println("No debe haber campos vacios");
+                }
             }
-            }else{//controla que los campos del cliente no esten vacios
-                  PrintWriter out=response.getWriter();
-                  out.println("No debe haber campos vacios");
-            }
-
            }catch (ParseException ex) {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
-                  }
-              }
+                }
+    }
 
         
         if(request.getParameter("Join")!=null){

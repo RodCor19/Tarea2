@@ -9,6 +9,7 @@ import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
+import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
@@ -80,6 +81,21 @@ public class ServletArtistas extends HttpServlet {
             requestDispatcher.forward(request, response);
             
             response.getWriter().write("albumnes cargados");
+        }
+        
+        if(request.getParameter("verAlbum") != null && request.getParameter("artista") != null){
+            String nombreArt = request.getParameter("artista");
+            String nombreAlb = request.getParameter("verAlbum");
+            ArrayList<DtTema> albumes = Fabrica.getArtista().obtenerTema(nombreArt, nombreAlb); 
+            DtAlbum album = Fabrica.getArtista().ElegirAlbum(nombreArt, nombreAlb);
+            request.getSession().setAttribute("Album", album);
+            
+            //Redirecciona a la pagina indicada 
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/listarTema.jsp");
+            //"ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"
+            requestDispatcher.forward(request, response);
+            
+            response.getWriter().write("temas cargados");
         }
             
         if(request.getParameter("listarGeneros") != null){    

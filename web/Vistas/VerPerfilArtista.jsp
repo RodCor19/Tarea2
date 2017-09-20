@@ -78,7 +78,7 @@
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 <%for (DtAlbum album : artista.getAlbumes()) {%>
-                                <h4 class="list-group-item"><a href="#"><%= album.getNombre()%></a></h4>
+                                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre()+"&artista="+album.getNombreArtista() %>"><%= album.getNombre()%></a></h4>
                                     <%}%>
                                 <br>
                             </div>

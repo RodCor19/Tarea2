@@ -33,21 +33,23 @@
                     <div class="row">
                         <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
                         <h3 class="tituloPerfil text-primary"><b><%= cliente.getNombre() + " " + cliente.getApellido()%></b></h3>
-                        <%
-                        if(session.getAttribute("Usuario")!=null && !((DtUsuario)session.getAttribute("Usuario")).getNickname().equals(cliente.getNickname()))
-                        if(session.getAttribute("Usuario") instanceof DtCliente){
-                            boolean control = false;
-                            DtCliente dt = (DtCliente)session.getAttribute("Usuario");
-                            for(int i=0; i<dt.getUsuariosSeguidos().size();i++){
-                                if(dt.getUsuariosSeguidos().get(i).getNickname().equals(cliente.getNickname()))
-                                    control = true;
-                            }
-                            if(control){
-                        %>
-                        <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= cliente.getNickname() %>">Dejar de seguir</a>
-                        <%}else{%>
-                        <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= cliente.getNickname() %>">Seguir</a>
-                        <%}}%>
+                                <%
+                                    if (session.getAttribute("Usuario") != null && !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(cliente.getNickname()))
+                                        if (session.getAttribute("Usuario") instanceof DtCliente) {
+                                            boolean control = false;
+                                            DtCliente dt = (DtCliente) session.getAttribute("Usuario");
+                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(cliente.getNickname())) {
+                                                    control = true;
+                                                }
+                                            }
+                                            if (control) {
+                                %>
+                        <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">Dejar de seguir</a>
+                        <%} else {%>
+                        <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= cliente.getNickname()%>">Seguir</a>
+                        <%}
+                                }%>
 
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
@@ -102,8 +104,24 @@
                                 <%} else {%>
                                 <%  for (DtCliente seguidor : seguidores) {%>
                                 <h4 class="list-group-item"><a href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a></h4>
-                                    <%  }
+                                <%
+                        if(session.getAttribute("Usuario")!=null && !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(seguidor.getNickname()))
+                        if(session.getAttribute("Usuario") instanceof DtCliente){
+                            boolean control = false;
+                            DtCliente dt = (DtCliente)session.getAttribute("Usuario");
+                            for(int i=0; i<dt.getUsuariosSeguidos().size();i++){
+                                if(dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname()))
+                                    control = true;
+                            }
+                            if(control){
+                        %>
+                        <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguidor.getNickname() %>">Dejar de seguir</a>
+                        <%}else{%>
+                        <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguidor.getNickname() %>">Seguir</a>
+                        <%}}%>    
+                                <%  }
                                         }%>
+                                
                                 <br>
                             </div>
                             <div id="menu3" class="tab-pane fade">
@@ -131,7 +149,25 @@
                                                 }
                                         %>
                                         <tr>
-                                            <td><h4><a href="<%= servlet + seguido.getNickname()%>"><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a></td>
+                                            <td><h4><a href="<%= servlet + seguido.getNickname()%>"><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a>
+                                                <%
+                                                    if (session.getAttribute("Usuario") != null&& !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(seguido.getNickname()))
+                                                        if (session.getAttribute("Usuario") instanceof DtCliente) {
+                                                            boolean control = false;
+                                                            DtCliente dt = (DtCliente) session.getAttribute("Usuario");
+                                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
+                                                                    control = true;
+                                                                }
+                                                            }
+                                                            if (control) {
+                                                %>
+                                                <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguido.getNickname()%>">Dejar de seguir</a>
+                                                <%} else {%>
+                                                <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguido.getNickname()%>">Seguir</a>
+                                                <%}
+                                }%>
+                                            </td>
                                             <td><h4><%= tipo%></h4></td> 
                                         </tr>
                                         <%}%>

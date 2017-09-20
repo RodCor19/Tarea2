@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,16 +38,16 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <h3>Columna 3</h3>
+                    <%  HttpSession sesion = request.getSession();
+                            DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
+                        if(dt!=null){%>
+                            <h3 class="text-center text-primary">Bienvenido <%= dt.getNombre() +" "+ dt.getApellido()%></h3>
+                        <%}%>
+  
                 </div>
             </div>
         </div>
-        <%
-                HttpSession sesion = request.getSession();
-                if(sesion.getAttribute("Usuario")!=null){
-        %>
-         inicio de 
-        <%}%>
+        
         <footer class="container-fluid text-center">
             <h3>Pie de página</h3>
         </footer>

@@ -127,13 +127,16 @@ public class ServletArtistas extends HttpServlet {
         if(request.getParameter("Join")!=null){
             HttpSession sesion = request.getSession();
             String nickname = request.getParameter("Join");
-            String contrasenia = request.getParameter("Contraseña");
+            String contrasenia = request.getParameter("Contrasenia");
             DtUsuario dt=Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
             if(dt!=null){
                 sesion.setAttribute("Usuario", dt);
                 response.sendRedirect("/EspotifyWeb/index.jsp");
             }else{
-                sesion.setAttribute("error", true);
+                if(!(Fabrica.getCliente().verificarDatos(nickname, nickname)||Fabrica.getArtista().verificarDatos(nickname, nickname)))
+                    sesion.setAttribute("error", "Contraseña incorrecta");
+                else
+                    sesion.setAttribute("error", "Usuario y contraseña incorrectos");
                 response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");
             }
         }

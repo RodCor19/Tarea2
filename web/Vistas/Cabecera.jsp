@@ -4,6 +4,8 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.DtCliente"%>
+<%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%-- navegador, cabecera - color #1ED760 --%>
@@ -25,8 +27,25 @@
                 </form> 
             </div>
             <div class="col-md-4 text-right" >
+               <%
+                    HttpSession sesion = request.getSession();
+                    if (sesion.getAttribute("Usuario") == null) {
+                %>
                 <h5 style="color:white"><a id="registrarse" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
-                <h5><a id="iniciarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
+                <h5 style="color:white"><a id="iniciarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
+                <%} else {
+                    DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
+                    String servlet;
+                    if (dt instanceof DtCliente) {
+                        servlet = "ServletClientes?verPerfilCli=";
+                    } else {
+                        servlet = "ServletArtistas?verPerfilArt=";
+                    }
+                %>
+                <h5 style="color:white"><a id="registrarse" href="<%= servlet + dt.getNickname() %>"><%= dt.getNickname() %></a></h5>
+                <h5 style="color:white"><a id="iniciarSesion" href="http://www.google.com">Cerrar Sesión</a></h5>
+                <%}%>
+ 
             </div>
         </div>
     </div>

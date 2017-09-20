@@ -39,10 +39,11 @@
                 </div>
                 <div class="col-sm-2">
                     <%  HttpSession sesion = request.getSession();
-                            DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
-                        if(dt!=null){%>
-                            <h3 class="text-center text-primary">Bienvenido <%= dt.getNombre() +" "+ dt.getApellido()%></h3>
-                        <%}%>
+                        if(sesion.getAttribute("Mensaje")!=null){%>
+                            <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
+                        <%}
+                        sesion.removeAttribute("Mensaje");
+                        %>
   
                 </div>
             </div>

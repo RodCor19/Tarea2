@@ -6,6 +6,7 @@
 package Servlets;
 
 import Logica.DtCliente;
+import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -84,6 +86,27 @@ public class ServletClientes extends HttpServlet {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
                 }
     }
+         if(request.getParameter("dejarSeguir") != null){
+             String nickname = request.getParameter("dejarSeguir");
+             HttpSession sesion = request.getSession();
+             DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
+             Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
+             sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+             response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
+         }
+         if(request.getParameter("seguir") != null){
+             String nickname = request.getParameter("seguir");
+             HttpSession sesion = request.getSession();
+             DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
+            try {
+                Fabrica.getCliente().seguir(dt.getNickname(), nickname);
+                sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+                response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
+            } catch (Exception ex) {
+                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario "+ nickname);
+                response.sendRedirect("/EspotifyWeb/index.jsp");
+            }
+         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -131,6 +131,8 @@ public class ServletArtistas extends HttpServlet {
             DtUsuario dt=Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
             if(dt!=null){
                 sesion.setAttribute("Usuario", dt);
+                sesion.removeAttribute("error");
+                sesion.setAttribute("Mensaje", "Bienvenido/a "+dt.getNombre()+" "+dt.getApellido());
                 response.sendRedirect("/EspotifyWeb/index.jsp");
             }else{
                 if(!(Fabrica.getCliente().verificarDatos(nickname, nickname)||Fabrica.getArtista().verificarDatos(nickname, nickname)))

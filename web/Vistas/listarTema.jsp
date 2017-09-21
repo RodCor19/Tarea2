@@ -4,6 +4,8 @@
     Author     : usuario
 --%>
 
+<%@page import="Logica.DtCliente"%>
+<%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtGenero"%>
 <%@page import="Logica.DtAlbum"%>
 <%@page import="Logica.DtArtista"%>
@@ -16,6 +18,9 @@
     <% 
     DtAlbum album = (DtAlbum) session.getAttribute("Album");
     DtArtista artista = Fabrica.getArtista().ElegirArtista(album.getNombreArtista());
+    HttpSession sesion = request.getSession();
+    DtUsuario usuario = (DtUsuario) sesion.getAttribute("Usuario");
+
     %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -41,6 +46,12 @@
                             <br> <br>
                             <h3 class="tituloAlbum"><%= album.getNombre() %></h3> 
                             <a href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
+                            <%if(usuario != null && usuario instanceof DtCliente){%>
+                            <a id="Guardar" href="http://www.google.com">Guardar</a>
+                            <%}%>
+                            <%if(usuario != null && usuario instanceof DtCliente){%>
+                            <a id="Descargar" href="http://www.google.com">Descargar</a>
+                            <%}%>
                             <br> <br>
                             <table class="table text-left">
                             <thead>
@@ -57,7 +68,11 @@
                                 String durac = tem.getDuracion();
                                 %>
                                 <tr>
-                                    <td><%= orden %></td>
+                                    <%if(usuario != null && usuario instanceof DtCliente){%>
+                                    <td><%= orden %>     <a href="ServletClientes?Artista=<%=album.getNombreArtista() +"&album="+album.getNombre()+"&tema="+ nombre %>">+</a></td>
+                                    <%}else{%>
+                                    <td><%= orden %> </td>
+                                    <%}%>
                                     <td><%= nombre %></td>
                                     <td><%= durac %> </td>
                                 </tr>

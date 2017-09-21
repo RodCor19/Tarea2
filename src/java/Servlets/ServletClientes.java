@@ -94,6 +94,8 @@ public class ServletClientes extends HttpServlet {
              sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
              response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
          }
+         
+         
          if(request.getParameter("seguir") != null){
              String nickname = request.getParameter("seguir");
              HttpSession sesion = request.getSession();
@@ -107,7 +109,21 @@ public class ServletClientes extends HttpServlet {
                 response.sendRedirect("/EspotifyWeb/index.jsp");
             }
          }
+         
+         if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null){
+             String art = request.getParameter("Artista");
+             String alb = request.getParameter("album");
+             String tem = request.getParameter("tema");
+             DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
+            Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem); 
+            
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+            requestDispatcher.forward(request, response);
+         }
+        
+         
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

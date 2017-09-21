@@ -12,23 +12,13 @@ function artSeleccionado(elemento, opcion){
         img.style.borderColor='';
     }
 }
-$(document).ready(function(){    
+$(document).ready(function(){   
     
-    //Por defecto, al mostrarse la pagina lista los artistas
+    //Por defecto muestra seleccionado el botón artistas
+    $('#btnGeneros').css("background-color","");
+    $('#btnGeneros').css("color","");        
     $('#btnArtistas').css("background-color","#343333");
     $('#btnArtistas').css("color","#1ED760");
-    $.ajax({
-        type : 'POST', //tipo de request
-        url : 'ServletArtistas',
-        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-        data:{ // Parametros que se pasan en el request
-            listarArtistas : true
-        },
-        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-           $('#listaArtGen').load('/EspotifyWeb/Vistas/listaArtistas.jsp');
-        }
-    });
-    //
     
     //evento click del elemento con el id '#...'
     $('#btnArtistas').click(function() {
@@ -41,7 +31,7 @@ $(document).ready(function(){
         
         $.ajax({
             type : 'POST', //tipo de request
-            url : 'ServletArtistas',
+            url : '/EspotifyWeb/ServletArtistas',
             dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
             data:{ // Parametros que se pasan en el request
                 listarArtistas : true
@@ -61,7 +51,7 @@ $(document).ready(function(){
         
         $.ajax({
             type : 'POST', //tipo de request
-            url : 'ServletArtistas',
+            url : '/EspotifyWeb/ServletArtistas',
             dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
             data:{ // Parametros que se pasan en el request
                 listarGeneros : true

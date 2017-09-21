@@ -52,6 +52,15 @@ public class ServletArtistas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
+            
+        if(request.getParameter("Inicio") != null){
+            ArrayList<DtArtista> artistas =  Fabrica.getArtista().ListarArtistas();
+            request.getSession().setAttribute("Artistas", artistas);
+//          
+            //Redirecciona a la pagina indicada 
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/index.jsp");
+            requestDispatcher.forward(request, response);
+        }
            
         //Si se pasó el parametro "listarArtistas", entocnes reconoce que tiene que listarlos
         if(request.getParameter("listarArtistas") != null){

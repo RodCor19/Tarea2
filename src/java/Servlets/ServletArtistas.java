@@ -9,6 +9,7 @@ import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
+import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
@@ -81,6 +82,21 @@ public class ServletArtistas extends HttpServlet {
             
             response.getWriter().write("albumnes cargados");
         }
+        
+        if(request.getParameter("verAlbum") != null && request.getParameter("artista") != null){
+            String nombreArt = request.getParameter("artista");
+            String nombreAlb = request.getParameter("verAlbum");
+            ArrayList<DtTema> albumes = Fabrica.getArtista().obtenerTema(nombreArt, nombreAlb); 
+            DtAlbum album = Fabrica.getArtista().ElegirAlbum(nombreArt, nombreAlb);
+            request.getSession().setAttribute("Album", album);
+            
+            //Redirecciona a la pagina indicada 
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/listarTema.jsp");
+            //"ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"
+            requestDispatcher.forward(request, response);
+            
+            response.getWriter().write("temas cargados");
+        }
             
         if(request.getParameter("listarGeneros") != null){    
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
@@ -127,13 +143,18 @@ public class ServletArtistas extends HttpServlet {
         if(request.getParameter("Join")!=null){
             HttpSession sesion = request.getSession();
             String nickname = request.getParameter("Join");
-            String contrasenia = request.getParameter("Contraseña");
+            String contrasenia = request.getParameter("Contrasenia");
             DtUsuario dt=Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
-            if(dt==null){
+            if(dt!=null){
                 sesion.setAttribute("Usuario", dt);
-                 response.sendRedirect("/EspotifyWeb/Vistas/Cabecera.jsp");
+                sesion.removeAttribute("error");
+                sesion.setAttribute("Mensaje", "Bienvenido/a "+dt.getNombre()+" "+dt.getApellido());
+                response.sendRedirect("/EspotifyWeb/index.jsp");
             }else{
-                sesion.setAttribute("error", true);
+                if(!(Fabrica.getCliente().verificarDatos(nickname, nickname)||Fabrica.getArtista().verificarDatos(nickname, nickname)))
+                    sesion.setAttribute("error", "Contraseña incorrecta");
+                else
+                    sesion.setAttribute("error", "Usuario y contraseña incorrectos");
                 response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");
             }
         }

@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,7 +38,13 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <h3>Columna 3</h3>
+                    <%  HttpSession sesion = request.getSession();
+                        if(sesion.getAttribute("Mensaje")!=null){%>
+                            <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
+                        <%}
+                        sesion.removeAttribute("Mensaje");
+                        %>
+  
                 </div>
             </div>
         </div>

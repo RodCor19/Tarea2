@@ -42,10 +42,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%for(DtAlbum album: albumes){ %>
+                                <%for(DtAlbum album: albumes){ 
+                                String nombreAlb = album.getNombre();
+                                String nombreArt = album.getNombreArtista();
+                                %>
                                 <tr>
                                     <td><%= album.getNombreArtista() %></td>
-                                    <td><a href="#"><%= album.getNombre() %></a></td>
+                                    <td><a href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>

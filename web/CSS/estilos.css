@@ -34,11 +34,11 @@ a.link:hover{
     width: 70%;
 }
     
-#registrarse{
+.linkCabecera{
     color: white;
 }
 
-#iniciarSesion{
+.iniciarCerrarSesion{
     color: yellow;
 }
 
@@ -89,6 +89,8 @@ a.link:hover{
 /* Para cambiar color de las pestañas */
 .nav-tabs > li > a{
     color: black;
+    padding-left: 13px;
+    padding-right: 13px;
 }
 
 .nav-tabs > li.active > a,
@@ -120,11 +122,13 @@ a.link:hover{
 .opcionSelec, .opcionSelec:focus{
     background-color: #343333;
     color: #1ED760;
+    font-size: medium;
 }
 
 .opcionNoSelec, .opcionNoSelec:focus{
     background-color: transparent;
     color: whitesmoke;
+    font-size: medium;
 }
 
 .opcionSelec:hover, .opcionNoSelec:hover{
@@ -142,4 +146,16 @@ body{
     background-size: cover;
     color: black;
     
+}
+
+.imgPerfil{
+    padding: 2px;
+    border-style: solid;
+    border-color: whitesmoke;
+    border-width: 2px 2px 2px 2px;
+    position: relative;
+    display: inline-block;
+    height: 100px;
+    width: 100px;    
+    border-radius: 100%;
 }

@@ -108,8 +108,13 @@
                 </div>
             </div>
         </div>
+        
+        <br>
+        <br>
+        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/AltaPerfil.js"></script>
+        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>

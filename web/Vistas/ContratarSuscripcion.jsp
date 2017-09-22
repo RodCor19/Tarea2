@@ -12,10 +12,10 @@
 
 <!-- Si es un usuario sin suscripcion que lo redirija al inicio -->
 <%  if(session.getAttribute("Usuario") == null || session.getAttribute("Usuario") instanceof DtArtista ){ %>
-    <script>alert("No es un cliente con suscripción, no puede acceder a esta página");</script>
+    <script>alert("No es un cliente, no puede acceder a esta página");</script>
     <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
 <%}else{
-    ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus(); %>
+    ArrayList<DtTipoSuscripcion> tiposSus = (ArrayList<DtTipoSuscripcion>) session.getAttribute("TiposDeSus"); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,29 +23,6 @@
         <title>Espotify: Contratar Suscrcipción</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
-        <style>
-/*            .button {
-                padding: 5px 8px;
-                font-size: 24px;
-                text-align: center;
-                cursor: pointer;
-                outline: none;
-                color: #fff;
-                background-color: #1ED760;
-                border: none;
-                border-radius: 5px;
-                box-shadow: 0 9px #999;
-                width: 50%;
-            }
-
-            .button:hover {background-color: #3e8e41}
-
-            .button:active {
-                background-color: #3e8e41;
-                box-shadow: 0 5px #666;
-                transform: translateY(4px);
-            }*/
-        </style>
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
@@ -58,7 +35,7 @@
                 <div class="col-sm-8 text-center">
                     <div class="row">
                         <h4 class="list-group-item">Eliga un tipo de suscripción:</h4>
-                        <table class="table table-striped text-left">
+                        <table class="table text-left">
                             <thead>
                                 <tr>
                                     <th><h4><b>Tipo</b></h4></th>
@@ -83,6 +60,9 @@
 
                 </div>
             </div>
+                      
+            <br>
+            <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
                     
             <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
             <script>
@@ -99,7 +79,8 @@
                     alert("Ha elegidor una suscripcion "+susSelec);
                 }
               }); 
-            </script>
+            </script>            
+            <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>
 <%}%>

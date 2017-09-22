@@ -35,8 +35,12 @@
         <br>
         ¿No tienes una cuenta?<a href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a>
     </center>
-    <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>>
+            
+    <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+    
+    <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
     <script src="/EspotifyWeb/Javascript/sha1.js"></script>
-    <Script src="/EspotifyWeb/Javascript/encriptacion.js"/></script>
+    <Script src="/EspotifyWeb/Javascript/encriptacion.js"></script>
+    <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
 </body>
 </html>

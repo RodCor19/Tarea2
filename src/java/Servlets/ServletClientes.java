@@ -6,12 +6,14 @@
 package Servlets;
 
 import Logica.DtCliente;
+import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -118,6 +120,19 @@ public class ServletClientes extends HttpServlet {
             
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
+         }
+         
+         if(request.getParameter("contratarSuscripcion") != null){
+            ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
+            sesion.setAttribute("TiposDeSus", tiposSus);
+             
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ContratarSuscripcion.jsp");
+            requestDispatcher.forward(request, response); 
+         }
+         
+         if(request.getParameter("cargarDatosPrueba") != null){
+            Fabrica.getCliente().CargadeDatos();
+            response.getWriter().write("se han cargado los datos de prueba");
          }
          
     }

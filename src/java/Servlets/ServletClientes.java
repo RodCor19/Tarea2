@@ -41,6 +41,7 @@ public class ServletClientes extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession sesion = request.getSession();
         
         if(request.getParameter("verPerfilCli") != null){
             String nickname = request.getParameter("verPerfilCli");
@@ -88,7 +89,6 @@ public class ServletClientes extends HttpServlet {
     }
          if(request.getParameter("dejarSeguir") != null){
              String nickname = request.getParameter("dejarSeguir");
-             HttpSession sesion = request.getSession();
              DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
              Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
              sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
@@ -98,7 +98,6 @@ public class ServletClientes extends HttpServlet {
          
          if(request.getParameter("seguir") != null){
              String nickname = request.getParameter("seguir");
-             HttpSession sesion = request.getSession();
              DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
             try {
                 Fabrica.getCliente().seguir(dt.getNickname(), nickname);
@@ -106,7 +105,7 @@ public class ServletClientes extends HttpServlet {
                 response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
             } catch (Exception ex) {
                 sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario "+ nickname);
-                response.sendRedirect("/EspotifyWeb/index.jsp");
+                response.sendRedirect("ServletArtistas?Inicio=true");
             }
          }
          
@@ -117,10 +116,9 @@ public class ServletClientes extends HttpServlet {
              DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
             Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem); 
             
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
          }
-        
          
     }
 

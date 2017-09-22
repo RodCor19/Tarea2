@@ -18,7 +18,17 @@
 <html>
     <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli"); %>   
     <% ArrayList<DtCliente> seguidores = Fabrica.getCliente().getSeguidores(cliente.getNickname());
-        DtUsuario perfilUsr = (DtUsuario)session.getAttribute("Usuario");%>
+        DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
+        DtCliente dt = null;
+        boolean controlSeguir = false;
+        if (perfilUsr != null && perfilUsr instanceof DtCliente) {
+            if (((DtCliente) perfilUsr).isVigente()) {
+                controlSeguir = true;
+                dt = (DtCliente) perfilUsr;
+            }
+        }
+
+    %>
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,54 +48,52 @@
                     <div class="row">
                         <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
                         <h3 class="tituloPerfil text-primary"><b><%= cliente.getNombre() + " " + cliente.getApellido()%></b></h3>
-                        <%
-                                    if (session.getAttribute("Usuario") != null && !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(cliente.getNickname()))
-                                        if (session.getAttribute("Usuario") instanceof DtCliente) {
-                                            boolean control = false;
-                                            DtCliente dt = (DtCliente) session.getAttribute("Usuario");
-                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(cliente.getNickname())) {
-                                                    control = true;
-                                                }
+                                <%
+                                    if (controlSeguir && !perfilUsr.getNickname().equals(cliente.getNickname())) {
+                                        boolean control = false;
+                                        for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                            if (dt.getUsuariosSeguidos().get(i).getNickname().equals(cliente.getNickname())) {
+                                                control = true;
                                             }
-                                            if (control) {
+                                        }
+                                        if (control) {
                                 %>
                         <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">Dejar de seguir</a>
                         <%} else {%>
                         <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= cliente.getNickname()%>">Seguir</a>
                         <%}
-                                }%>
+                            }%>
 
                         <ul class="nav nav-tabs">
                             <!-- Si inicio sesión -->
-                            <%if(perfilUsr!=null){%>
+                            <%if (perfilUsr != null) {%>
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Listas</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size()%>)</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu3"><h4><b>Siguiendo</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu4"><h4><b>Favoritos</b></h4></a></li>
-                            <%}else{%>
-                               <li class="active"><a data-toggle="tab" href="#home"><h4><b>Listas</b></h4></a></li> 
-                            <%}%>
+                                            <%} else {%>
+                            <li class="active"><a data-toggle="tab" href="#home"><h4><b>Listas</b></h4></a></li> 
+                                            <%}%>
                         </ul>
 
                         <div class="tab-content text-left">
                             <!-- Si inicio sesión -->
-                            <%if(perfilUsr!=null){%>
+                            <%if (perfilUsr != null) {%>
                             <div id="home" class="tab-pane fade in active">
-                                <h4 class="list-group-item"><b>Nickname:</b> <%= cliente.getNickname()%></h4>
-                                <h4 class="list-group-item"><b>Nombre:</b> <%= cliente.getNombre()%></h4>
-                                <h4 class="list-group-item"><b>Apellido:</b> <%= cliente.getApellido()%></h4>                        
-                                <h4 class="list-group-item"><b>Fecha de Nacimiento:</b> <%= cliente.getFechaNac()%></h4>
-                                <h4 class="list-group-item"><b>Correo:</b> <%= cliente.getCorreo()%></h4>
+                                <h4 class="lineaAbajo"><b>Nickname:</b> <%= cliente.getNickname()%></h4>
+                                <h4 class="lineaAbajo"><b>Nombre:</b> <%= cliente.getNombre()%></h4>
+                                <h4 class="lineaAbajo"><b>Apellido:</b> <%= cliente.getApellido()%></h4>                        
+                                <h4 class="lineaAbajo"><b>Fecha de Nacimiento:</b> <%= cliente.getFechaNac()%></h4>
+                                <h4 class="lineaAbajo"><b>Correo:</b> <%= cliente.getCorreo()%></h4>
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 <% if (cliente.getListas().isEmpty()) { %>
-                                <h4 class="list-group-item">No tiene listas creadas</h4>
+                                <h4 class="lineaAbajo">No tiene listas creadas</h4>
                                 <%} else {%>
                                 <br>    
-                                <table class="table table-striped text-left">
+                                <table class="table text-left">
                                     <thead>
                                         <tr>
                                             <th><h4><b>Nombre</b></h4></th>
@@ -102,7 +110,7 @@
                                                 }
                                         %>
                                         <tr>
-                                            <td><h4><a href="#"><%= lista.getNombre()%></h4></a></td>
+                                            <td><h4><a class="link" href="#"><%= lista.getNombre()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td>
                                         </tr>
                                         <%}%>
@@ -112,36 +120,45 @@
                             </div>
                             <div id="menu2" class="tab-pane fade">
                                 <% if (seguidores.isEmpty()) { %>
-                                <h4 class="list-group-item">No tiene seguidores</h4>
+                                <h4 class="lineaAbajo">No tiene seguidores</h4>
                                 <%} else {%>
                                 <%  for (DtCliente seguidor : seguidores) {%>
-                                <h4 class="list-group-item"><a href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a></h4>
-                                <%
-                        if(session.getAttribute("Usuario")!=null && !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(seguidor.getNickname()))
-                        if(session.getAttribute("Usuario") instanceof DtCliente){
-                            boolean control = false;
-                            DtCliente dt = (DtCliente)session.getAttribute("Usuario");
-                            for(int i=0; i<dt.getUsuariosSeguidos().size();i++){
-                                if(dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname()))
-                                    control = true;
-                            }
-                            if(control){
-                        %>
-                        <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguidor.getNickname() %>">Dejar de seguir</a>
-                        <%}else{%>
-                        <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguidor.getNickname() %>">Seguir</a>
-                        <%}}%>    
-                                <%  }
-                                        }%>
-                                
+                                <h4 class="lineaAbajo"><a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a>
+                                    <%
+                                        if (controlSeguir && !perfilUsr.getNickname().equals(seguidor.getNickname())) {
+                                            boolean control = false;
+                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname())) {
+                                                    control = true;
+                                                }
+                                            }
+                                            if (control) {
+                                    %>
+                                    <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">Dejar de seguir</a>
+                                    <%} else {%>
+                                    <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguidor.getNickname()%>">Seguir</a>
+                                    <%}
+                                            }%>
+                                </h4>
+                                <% }
+                                    }%>
+
                                 <br>
                             </div>
                             <div id="menu3" class="tab-pane fade">
-                                <% if (cliente.getUsuariosSeguidos().isEmpty()) { %>
-                                <h4 class="list-group-item">No está siguiendo a ningún usuario</h4>
+                                <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
+                                <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
+                                    <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
+                                    <button class="btn" type="submit">
+                                        <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
+                                    </button>
+                                </form> </h3>
+                                <% }
+                                    if (cliente.getUsuariosSeguidos().isEmpty()) { %>
+                                <h4 class="lineaAbajo">No está siguiendo a ningún usuario</h4>
                                 <%} else {%>
                                 <br>    
-                                <table class="table table-striped text-left">
+                                <table class="table text-left">
                                     <thead>
                                         <tr>
                                             <th><h4><b>Usuario</b></h4></th>
@@ -161,24 +178,22 @@
                                                 }
                                         %>
                                         <tr>
-                                            <td><h4><a href="<%= servlet + seguido.getNickname()%>"><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a>
-                                                <%
-                                                    if (session.getAttribute("Usuario") != null&& !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(seguido.getNickname()))
-                                                        if (session.getAttribute("Usuario") instanceof DtCliente) {
-                                                            boolean control = false;
-                                                            DtCliente dt = (DtCliente) session.getAttribute("Usuario");
-                                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
-                                                                    control = true;
+                                            <td><a class="link" href="<%= servlet + seguido.getNickname()%>"><h4><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a>
+                                                        <%
+                                                            if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
+                                                                boolean control = false;
+                                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
+                                                                        control = true;
+                                                                    }
                                                                 }
-                                                            }
-                                                            if (control) {
-                                                %>
+                                                                if (control) {
+                                                        %>
                                                 <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguido.getNickname()%>">Dejar de seguir</a>
                                                 <%} else {%>
                                                 <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguido.getNickname()%>">Seguir</a>
                                                 <%}
-                                }%>
+                                                    }%>
                                             </td>
                                             <td><h4><%= tipo%></h4></td> 
                                         </tr>
@@ -196,7 +211,7 @@
 
                                 <div class="tab-content text-left">
                                     <div id="home2" class="tab-pane fade in active">
-                                        <table class="table table-striped text-left">
+                                        <table class="table text-left">
                                             <thead>
                                                 <tr>
                                                     <th><h4><b>Álbum</b></h4></th>
@@ -204,17 +219,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%for(DtAlbum album: cliente.getFavAlbumes()){ %>
+                                                <%for (DtAlbum album : cliente.getFavAlbumes()) {%>
                                                 <tr>
-                                                    <td><h4><%= album.getNombre() %></h4></td>
-                                                    <td><h4><a href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
+                                                    <td><h4><%= album.getNombre()%></h4></td>
+                                                    <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= album.getNombreArtista()%></h4></a></td>
                                                 </tr>
                                                 <%}%>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div id="menu5" class="tab-pane fade">
-                                        <table class="table table-striped text-left">
+                                        <table class="table text-left">
                                             <thead>
                                                 <tr>
                                                     <th><h4><b>Tema</b></h4></th>
@@ -223,18 +238,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%for(DtTema tema: cliente.getFavTemas()){ %>
+                                                <%for (DtTema tema : cliente.getFavTemas()) {%>
                                                 <tr>
-                                                    <td><a href="#"><h4><%= tema.getNombre() %></h4></a></td>
-                                                    <td><a href="#"><h4><%= tema.getAlbum() %></h4></a></td>
-                                                    <td><a href="ServletArtistas?verPerfilArt=<%= tema.getArtista() %>"><h4><%= tema.getArtista() %></h4></a></td>
+                                                    <td><a class="link" href="#"><h4><%= tema.getNombre()%></h4></a></td>
+                                                    <td><a class="link" href="#"><h4><%= tema.getAlbum()%></h4></a></td>
+                                                    <td><a class="link" href="ServletArtistas?verPerfilArt=<%= tema.getArtista()%>"><h4><%= tema.getArtista()%></h4></a></td>
                                                 </tr>
                                                 <%}%>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div id="menu6" class="tab-pane fade">
-                                        <table class="table table-striped text-left">
+                                        <table class="table text-left">
                                             <thead>
                                                 <tr>
                                                     <th><h4><b>Lista</b></h4></th>
@@ -242,17 +257,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <% for(DtLista lista: cliente.getFavListas()){ %>
+                                                <% for (DtLista lista : cliente.getFavListas()) { %>
                                                 <tr>
-                                                    <% if(lista instanceof DtListaP){
-                                                        DtListaP listaP = (DtListaP)lista; %>
-                                                    <td><a href="#"><h4><%= listaP.getNombre() %></h4></a></td>
-                                                    <td><a href="ServletClientes?verPerfilCli=<%= listaP.getUsuario() %>"><h4><%= listaP.getUsuario() %></h4></a></td>
-                                                    <%}else{
-                                                        DtListaPD listaPD = (DtListaPD)lista; %>
-                                                    <td><a href="#"><h4><%= listaPD.getNombre() %></h4></a></td>
-                                                    <td><a href="ServletClientes?verPerfilCli=<%= listaPD.getGenero() %>"><h4><%= listaPD.getGenero() %></h4></a></td>
-                                                    <%}%>
+                                                    <% if (lista instanceof DtListaP) {
+                                                            DtListaP listaP = (DtListaP) lista;%>
+                                                    <td><a class="link" href="#"><h4><%= listaP.getNombre()%></h4></a></td>
+                                                    <td><a class="link" href="ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
+                                                                <%} else {
+                                                        DtListaPD listaPD = (DtListaPD) lista;%>
+                                                    <td><a class="link" href="#"><h4><%= listaPD.getNombre()%></h4></a></td>
+                                                    <td><a class="link" href="ServletClientes?verPerfilCli=<%= listaPD.getGenero()%>"><h4><%= listaPD.getGenero()%></h4></a></td>
+                                                                <%}%>
                                                 </tr>
                                                 <%}%>
                                             </tbody>
@@ -261,30 +276,31 @@
                                 </div>
                                 <br>
                             </div>
-                            <%}else{%>
+                            <%} else {%>
                             <div id="home" class="tab-pane fade in active">
                                 <%  int cantListPub = 0;
                                     for (DtListaP lista : cliente.getListas()) {
-                                    if (lista.isPrivada() == false) {
-                                        cantListPub++;
+                                        if (lista.isPrivada() == false) {
+                                            cantListPub++;
                                 %>    
-                                    <h4 class="list-group-item"><a href="#"><%= lista.getNombre()%></a></h4>
+                                <h4 class="lineaAbajo"><a class="link" href="#"><%= lista.getNombre()%></a></h4>
+                                    <%}
+                                    }
+                                    if (cantListPub == 0) {%>
+                                <h4 class="lineaAbajo">No tiene listas públicas</h4> 
                                 <%}
-                                }
-                                if(cantListPub == 0){%>
-                                    <h4 class="list-group-item">No tiene listas públicas</h4> 
-                                <%}}%>
+                                    }%>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+
                     </div>
                 </div>
-                <div class="col-sm-2">
-
-                </div>
             </div>
-        </div>
 
-        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
-        <script src="/EspotifyWeb/Javascript/clientesGeneros.js"></script>
+            <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+            <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
+            <script src="/EspotifyWeb/Javascript/clientesGeneros.js"></script>
     </body>
 </html>

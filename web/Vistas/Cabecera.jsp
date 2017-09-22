@@ -14,7 +14,7 @@
         <div class="row">
             <%-- se divide la pantalla en 3 partes de tamaño 4(columnas) (El total de columnas de la pantalla es 12) --%>
             <div class="col-md-4" >
-                <a href="/EspotifyWeb/index.jsp">
+                <a href="/EspotifyWeb/ServletArtistas?Inicio=true">
                     <img src="/EspotifyWeb/Imagenes/Espotify.png" alt="imagen de header" width="200" onclick="">
                 </a>
             </div>
@@ -37,9 +37,9 @@
                     DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
                     String servlet;
                     if (dt instanceof DtCliente) {
-                        servlet = "ServletClientes?verPerfilCli=";
+                        servlet = "/EspotifyWeb/ServletClientes?verPerfilCli=";
                     } else {
-                        servlet = "ServletArtistas?verPerfilArt=";
+                        servlet = "/EspotifyWeb/ServletArtistas?verPerfilArt=";
                     }
                 %>
                 <h5 style="color:white"><a id="registrarse" href="<%= servlet + dt.getNickname() %>"><%= dt.getNickname() %></a></h5>

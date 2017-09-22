@@ -11,30 +11,22 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="Bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="CSS/estilos.css">
+        <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
         <title>Espotify</title>        
     </head>
     <body>
-        <jsp:include page="Vistas/Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+        <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         
         <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" >
-                    <button id="btnArtistas" type="button" class="btn btn-default btn-block btnOpcion">Artistas</button>
-                    <button id="btnGeneros" type="button" class="btn btn-default btn-block btnOpcion">Géneros</button>
+                    <button id="btnArtistas" type="button" class="btn btn-default btn-block opcionSelec">Artistas</button>
+                    <button id="btnGeneros" type="button" class="btn btn-default btn-block opcionNoSelec">Géneros</button>
                 </div>
                 <div class="col-sm-8 text-center">
                     <div id="listaArtGen" class="row">
-                        <%for(int i=0; i < 10; i++){ %>
-                        <div class="col-md-4" style="padding: 2px;">
-                            <a href="http://www.google.com">
-                                <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
-                                <h3 class="img-text">Artista</h3>
-                            </a>  
-                        </div>
-                        
-                        <%}%>
+                        <jsp:include page="listaArtistas.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
                     </div>
                 </div>
                 <div class="col-sm-2">
@@ -53,7 +45,7 @@
             <h3>Pie de página</h3>
         </footer>
                     
-        <script src="Javascript/jquery.min.js"></script>
-        <script src="Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
     </body>
 </html>

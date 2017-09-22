@@ -57,35 +57,35 @@
 
                         <div class="tab-content text-left">
                             <div id="home" class="tab-pane fade in active">
-                                <h4 class="list-group-item"><b>Nickname:</b> <%= artista.getNickname()%></h4>
-                                <h4 class="list-group-item"><b>Nombre:</b> <%= artista.getNombre()%></h4>
-                                <h4 class="list-group-item"><b>Apellido:</b> <%= artista.getApellido()%></h4>                        
-                                <h4 class="list-group-item"><b>Fecha de Nacimiento:</b> <%= artista.getFechaNac()%></h4>
-                                <h4 class="list-group-item"><b>Correo:</b> <%= artista.getCorreo()%></h4>
+                                <h4 class="lineaAbajo"><b>Nickname:</b> <%= artista.getNickname()%></h4>
+                                <h4 class="lineaAbajo"><b>Nombre:</b> <%= artista.getNombre()%></h4>
+                                <h4 class="lineaAbajo"><b>Apellido:</b> <%= artista.getApellido()%></h4>                        
+                                <h4 class="lineaAbajo"><b>Fecha de Nacimiento:</b> <%= artista.getFechaNac()%></h4>
+                                <h4 class="lineaAbajo"><b>Correo:</b> <%= artista.getCorreo()%></h4>
 
                                 <%String biografia = artista.getBiografia();
                                     if (biografia == null) {
                                         biografia = "";
                                     }%>
-                                <h4 class="list-group-item"><b>Biografia:</b> <%= biografia%></h4>
+                                <h4 class="lineaAbajo"><b>Biografia:</b> <%= biografia%></h4>
 
                                 <%String pagina = artista.getPagWeb();
                                     if (pagina == null) {
                                         pagina = "";
                                     }%>
-                                <h4 class="list-group-item"><b>Página:</b> <a href="http://<%= pagina%>"><%= pagina%></a></h4>
+                                <h4 class="lineaAbajo"><b>Página:</b> <a class="link" href="http://<%= pagina%>"><%= pagina%></a></h4>
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 <%for (DtAlbum album : artista.getAlbumes()) {%>
-                                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre()+"&artista="+album.getNombreArtista() %>"><%= album.getNombre()%></a></h4>
+                                <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre()+"&artista="+album.getNombreArtista() %>"><%= album.getNombre()%></a></h4>
                                     <%}%>
                                 <br>
                             </div>
                             <div id="menu2" class="tab-pane fade">
-                                <!--<h4 class="list-group-item"><b>Cantidad: </b><%= seguidores.size()%></h4>-->
+                                <!--<h4 ><b>Cantidad: </b><%= seguidores.size()%></h4>-->
                                 <% for (DtCliente seguidor : seguidores) {%>
-                                <h4 class="list-group-item"><a href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a></h>
+                                <h4 class="lineaAbajo"><a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a></h>
                                     <%
                         if(session.getAttribute("Usuario")!=null&& !((DtUsuario) session.getAttribute("Usuario")).getNickname().equals(seguidor.getNickname()))
                         if(session.getAttribute("Usuario") instanceof DtCliente){

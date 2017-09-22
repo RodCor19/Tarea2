@@ -106,7 +106,7 @@ public class ServletClientes extends HttpServlet {
                 response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
             } catch (Exception ex) {
                 sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario "+ nickname);
-                response.sendRedirect("/EspotifyWeb/index.jsp");
+                response.sendRedirect("ServletArtistas?Inicio=true");
             }
          }
          
@@ -117,7 +117,7 @@ public class ServletClientes extends HttpServlet {
              DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
             Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem); 
             
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
          }
         

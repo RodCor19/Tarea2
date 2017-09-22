@@ -45,7 +45,7 @@
                         <div class="col-sm-8 text-left">
                             <br> <br>
                             <h3 class="tituloAlbum"><%= album.getNombre() %></h3> 
-                            <a href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
+                            <a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
                             <%if(usuario != null && usuario instanceof DtCliente){%>
                             <a id="Guardar" href="http://www.google.com">Guardar</a>
                             <%}%>
@@ -95,6 +95,5 @@
         </div>
                     
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
     </body>
 </html>

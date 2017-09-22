@@ -158,7 +158,7 @@ public class ServletArtistas extends HttpServlet {
                 sesion.setAttribute("Usuario", dt);
                 sesion.removeAttribute("error");
                 sesion.setAttribute("Mensaje", "Bienvenido/a "+dt.getNombre()+" "+dt.getApellido());
-                response.sendRedirect("/EspotifyWeb/index.jsp");
+                response.sendRedirect("ServletArtistas?Inicio=true");
             }else{
                 if(!(Fabrica.getCliente().verificarDatos(nickname, nickname)||Fabrica.getArtista().verificarDatos(nickname, nickname)))
                     sesion.setAttribute("error", "Contraseña incorrecta");

@@ -21,8 +21,8 @@
         <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" >
-                    <button id="btnArtistas" type="button" class="btn btn-default btn-block btnOpcion">Artistas</button>
-                    <button id="btnGeneros" type="button" class="btn btn-default btn-block btnOpcion">Géneros</button>
+                    <button id="btnArtistas" type="button" class="btn btn-default btn-block opcionSelec">Artistas</button>
+                    <button id="btnGeneros" type="button" class="btn btn-default btn-block opcionNoSelec">Géneros</button>
                 </div>
                 <div class="col-sm-8 text-center">
                     <div id="listaArtGen" class="row">

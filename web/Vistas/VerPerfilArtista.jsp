@@ -107,18 +107,21 @@
                         <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguidor.getNickname() %>">Seguir</a>
                         <%}}%>
                                 <br>
-                                    <%}%>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
+                                <%}%>
                             </div>
-                        </div>
+                        <div class="col-sm-2">
 
-                        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-                        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
-                        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
-                        </body>
-                        </html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                            
+        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+                            
+        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
+        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+    </body>
+</html>

@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="Logica.DtTema"%>
@@ -71,7 +72,7 @@
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Listas</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size()%>)</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu3"><h4><b>Siguiendo</b></h4></a></li>
-                            <li><a data-toggle="tab" href="#menu4"><h4><b>Favoritos</b></h4></a></li>
+                            <li><a data-toggle="tab" href="#menu4"><h4><b>Suscripciones</b></h4></a></li>
                                             <%} else {%>
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Listas</b></h4></a></li> 
                                             <%}%>
@@ -203,79 +204,29 @@
                                 <%}%>                                    
                             </div>
                             <div id="menu4" class="tab-pane fade">
-                                <ul class="nav nav-tabs" style="padding-top: 0px;">
-                                    <li class="active"><a data-toggle="tab" href="#home2"><h4><b>Álbumes</b></h4></a></li>
-                                    <li><a data-toggle="tab" href="#menu5"><h4><b>Temas</b></h4></a></li>
-                                    <li><a data-toggle="tab" href="#menu6"><h4><b>Listas</b></h4></a></li>
-                                </ul>
-
-                                <div class="tab-content text-left">
-                                    <div id="home2" class="tab-pane fade in active">
-                                        <table class="table text-left">
-                                            <thead>
-                                                <tr>
-                                                    <th><h4><b>Álbum</b></h4></th>
-                                                    <th><h4><b>Artista</b></h4></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%for (DtAlbum album : cliente.getFavAlbumes()) {%>
-                                                <tr>
-                                                    <td><h4><%= album.getNombre()%></h4></td>
-                                                    <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= album.getNombreArtista()%></h4></a></td>
-                                                </tr>
-                                                <%}%>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div id="menu5" class="tab-pane fade">
-                                        <table class="table text-left">
-                                            <thead>
-                                                <tr>
-                                                    <th><h4><b>Tema</b></h4></th>
-                                                    <th><h4><b>Álbum</b></h4></th>
-                                                    <th><h4><b>Artista</b></h4></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%for (DtTema tema : cliente.getFavTemas()) {%>
-                                                <tr>
-                                                    <td><a class="link" href="#"><h4><%= tema.getNombre()%></h4></a></td>
-                                                    <td><a class="link" href="#"><h4><%= tema.getAlbum()%></h4></a></td>
-                                                    <td><a class="link" href="ServletArtistas?verPerfilArt=<%= tema.getArtista()%>"><h4><%= tema.getArtista()%></h4></a></td>
-                                                </tr>
-                                                <%}%>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div id="menu6" class="tab-pane fade">
-                                        <table class="table text-left">
-                                            <thead>
-                                                <tr>
-                                                    <th><h4><b>Lista</b></h4></th>
-                                                    <th><h4><b>Creador/Género</b></h4></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <% for (DtLista lista : cliente.getFavListas()) { %>
-                                                <tr>
-                                                    <% if (lista instanceof DtListaP) {
-                                                            DtListaP listaP = (DtListaP) lista;%>
-                                                    <td><a class="link" href="#"><h4><%= listaP.getNombre()%></h4></a></td>
-                                                    <td><a class="link" href="ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
-                                                                <%} else {
-                                                        DtListaPD listaPD = (DtListaPD) lista;%>
-                                                    <td><a class="link" href="#"><h4><%= listaPD.getNombre()%></h4></a></td>
-                                                    <td><a class="link" href="ServletClientes?verPerfilCli=<%= listaPD.getGenero()%>"><h4><%= listaPD.getGenero()%></h4></a></td>
-                                                                <%}%>
-                                                </tr>
-                                                <%}%>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                <table class="table text-left">
+                                     <thead>
+                                         <tr>
+                                             <th><h4><b>Tipo</b></h4></th>
+                                             <th><h4><b>Monto</b></h4></th>
+                                             <th><h4><b>Fecha de inicio</b></h4></th>
+                                             <th><h4><b>Estado</b></h4></th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                         <%for (DtSuscripcion suscripcion : cliente.getSuscripciones()) {%>
+                                         <tr>
+                                             <td><h4><%= suscripcion.getTipo() %></h4></td>
+                                             <td><h4><%= suscripcion.getMonto() %></h4></td>
+                                             <td><h4><%= suscripcion.getFecha() %></h4></td>
+                                             <td><h4><%= suscripcion.getEstado() %></h4></td>
+                                         </tr>
+                                         <%}%>
+                                     </tbody>
+                                 </table>
                                 <br>
-                            </div>
+                            </div>   
+                        </div>
                             <%} else {%>
                             <div id="home" class="tab-pane fade in active">
                                 <%  int cantListPub = 0;
@@ -298,9 +249,12 @@
                     </div>
                 </div>
             </div>
+                            
+            <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
             <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
             <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
             <script src="/EspotifyWeb/Javascript/clientesGeneros.js"></script>
+            <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>

@@ -30,22 +30,21 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <%  HttpSession sesion = request.getSession();
+                    <%--  HttpSession sesion = request.getSession();
                         if(sesion.getAttribute("Mensaje")!=null){%>
                             <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
                         <%}
                         sesion.removeAttribute("Mensaje");
-                        %>
+                        --%>
   
                 </div>
             </div>
         </div>
         
-        <footer class="container-fluid text-center">
-            <h3>Pie de página</h3>
-        </footer>
+        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
                     
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>

@@ -165,11 +165,12 @@ public class ServletArtistas extends HttpServlet {
                 response.sendRedirect("/EspotifyWeb/Vistas/Iniciarsesion.jsp");
             }
         }
-
+        
         if (request.getParameter("CerrarSesion") != null) {
             request.getSession().removeAttribute("Usuario");
             request.getSession().setAttribute("Mensaje", "Vuelva pronto");
             response.sendRedirect("ServletArtistas?Inicio=true");
+
         }
 
     }

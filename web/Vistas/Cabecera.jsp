@@ -43,7 +43,7 @@
                     }
                 %>
                 <h5 style="color:white"><a id="registrarse" href="<%= servlet + dt.getNickname() %>"><%= dt.getNickname() %></a></h5>
-                <h5 style="color:white"><a id="iniciarSesion" href="http://www.google.com">Cerrar Sesión</a></h5>
+                <h5 style="color:white"><a id="iniciarSesion" href="/EspotifyWeb/ServletArtistas?CerrarSesion=true">Cerrar Sesión</a></h5>
                 <%}%>
  
             </div>

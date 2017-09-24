@@ -168,6 +168,13 @@ public class ServletArtistas extends HttpServlet {
             }
         }
 
+          
+        if(request.getParameter("CerrarSesion")!=null){
+            HttpSession sesion = request.getSession();
+            sesion.removeAttribute("Usuario");
+            sesion.setAttribute("Mensaje", "Vuelva pronto");
+            response.sendRedirect("/Vistas/index.jsp");
+        }
 
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

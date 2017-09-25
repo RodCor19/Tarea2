@@ -52,6 +52,7 @@
                                         <tr>
                                             <th><h4><b>Usuario</b></h4></th>
                                             <th><h4><b>Tipo</b></h4></th>
+                                            <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,24 +68,25 @@
                                                 }
                                         %>
                                         <tr>
-                                            <td><a class="link" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNombre() + " " + u.getApellido()%></h4></a>
-                                                        <%
-                                                            if (controlSeguir && !perfilUsr.getNickname().equals(u.getNickname())) {
-                                                                boolean control = false;
-                                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(u.getNickname())) {
-                                                                        control = true;
-                                                                    }
-                                                                }
-                                                                if (control) {
-                                                        %>
-                                                <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>">Dejar de seguir</a>
-                                                <%} else {%>
-                                                <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>">Seguir</a>
-                                                <%}
-                                                    }%>
-                                            </td>
+                                            <td><a class="link" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNombre() + " " + u.getApellido()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td> 
+                                            <td>
+                                                <%
+                                                if (controlSeguir && !perfilUsr.getNickname().equals(u.getNickname())) {
+                                                    boolean control = false;
+                                                    for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                        if (dt.getUsuariosSeguidos().get(i).getNickname().equals(u.getNickname())) {
+                                                            control = true;
+                                                        }
+                                                    }
+                                                    if (control) {
+                                                %>
+                                                    <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>">Dejar de seguir</a>
+                                                    <%} else {%>
+                                                    <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>">Seguir</a>
+                                                    <%}
+                                                        }%>
+                                            </td> 
                                         </tr>
                                         <%}%>
                                     </tbody>

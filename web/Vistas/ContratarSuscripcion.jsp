@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div class="row">
-                        <h4 class="list-group-item">Eliga un tipo de suscripción:</h4>
+                        <h3 class="lineaAbajo">Eliga un tipo de suscripción:</h3>
                         <table class="table text-left">
                             <thead>
                                 <tr>
@@ -47,13 +47,13 @@
                                 <%  for (DtTipoSuscripcion sus : tiposSus) {%>
                                 <tr>
                                     <td><%= sus.getCuota() %></td>
-                                    <td><%= sus.getMonto() %></td>
+                                    <td>$<%= sus.getMonto() %></td>
                                     <td><input id="<%= sus.getId() %>" class="checkboxSus" type="checkbox" value="tipoSus"></td>
                                 </tr>
                                 <% } %>
                             </tbody>
                         </table>
-                            <button id="btnConfirmarSus" class="btn btn-block" style=""><h4>Confirmar</h4></button>
+                            <button id="btnConfirmarSus" class="btn-block boton" style="">Confirmar</button>
                     </div>                        
                 </div>
                 <div class="btn-group-vertical col-sm-2">

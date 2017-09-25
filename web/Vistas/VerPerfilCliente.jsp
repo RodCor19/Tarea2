@@ -124,7 +124,12 @@
                                 <h4 class="lineaAbajo">No tiene seguidores</h4>
                                 <%} else {%>
                                 <%  for (DtCliente seguidor : seguidores) {%>
-                                <h4 class="lineaAbajo"><a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a>
+                                <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
+                                    <div class="col-sm-8 text-left">
+                                    
+                                    <a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
                                     <%
                                         if (controlSeguir && !perfilUsr.getNickname().equals(seguidor.getNickname())) {
                                             boolean control = false;
@@ -140,6 +145,7 @@
                                     <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguidor.getNickname()%>">Seguir</a>
                                     <%}
                                             }%>
+                                    </div>
                                 </h4>
                                 <% }
                                     }%>
@@ -164,6 +170,7 @@
                                         <tr>
                                             <th><h4><b>Usuario</b></h4></th>
                                             <th><h4><b>Tipo</b></h4></th>
+                                            <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,24 +186,25 @@
                                                 }
                                         %>
                                         <tr>
-                                            <td><a class="link" href="<%= servlet + seguido.getNickname()%>"><h4><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a>
-                                                        <%
-                                                            if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-                                                                boolean control = false;
-                                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
-                                                                        control = true;
-                                                                    }
-                                                                }
-                                                                if (control) {
-                                                        %>
-                                                <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguido.getNickname()%>">Dejar de seguir</a>
-                                                <%} else {%>
-                                                <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguido.getNickname()%>">Seguir</a>
-                                                <%}
-                                                    }%>
-                                            </td>
+                                            <td><a class="link" href="<%= servlet + seguido.getNickname()%>"><h4><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td> 
+                                            <td>
+                                                <%
+                                                if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
+                                                    boolean control = false;
+                                                    for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                        if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
+                                                            control = true;
+                                                        }
+                                                    }
+                                                    if (control) {
+                                                %>
+                                                    <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguido.getNickname()%>">Dejar de seguir</a>
+                                                    <%} else {%>
+                                                    <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguido.getNickname()%>">Seguir</a>
+                                                    <%}
+                                                }%>
+                                            </td> 
                                         </tr>
                                         <%}%>
                                     </tbody>

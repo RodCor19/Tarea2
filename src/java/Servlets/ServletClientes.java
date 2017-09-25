@@ -48,7 +48,7 @@ public class ServletClientes extends HttpServlet {
         if(request.getParameter("verPerfilCli") != null){
             String nickname = request.getParameter("verPerfilCli");
             DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(nickname);
-            request.getSession().setAttribute("PerfilCli", datosClientes);
+            sesion.setAttribute("PerfilCli", datosClientes);
             
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
             requestDispatcher.forward(request, response);
@@ -144,6 +144,16 @@ public class ServletClientes extends HttpServlet {
         if(request.getParameter("cargarDatosPrueba") != null){
             Fabrica.getCliente().CargadeDatos();
             response.getWriter().write("se han cargado los datos de prueba");
+        }
+        
+        if(request.getParameter("VerFavoritos") != null){
+            DtCliente dtCli = (DtCliente)request.getSession().getAttribute("Usuario");
+            DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(dtCli.getNickname());
+            
+            sesion.setAttribute("PerfilCli", datosClientes);
+            
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Favoritos.jsp");
+            requestDispatcher.forward(request, response);
         }
          
     }

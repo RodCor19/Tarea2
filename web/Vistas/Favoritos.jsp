@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.Fabrica"%>
 <%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtListaP"%>
 <%@page import="Logica.DtLista"%>
@@ -17,7 +18,8 @@
     <script>alert("No es un cliente, no puede acceder a esta página");</script>
     <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
 <%}else{
-    DtCliente cliente = (DtCliente)session.getAttribute("Usuario");%>
+    DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli");
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

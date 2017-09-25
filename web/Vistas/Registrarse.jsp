@@ -12,28 +12,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
-        <style>
-            .button {
-                padding: 7px 12px;
-                font-size: 24px;
-                text-align: center;
-                cursor: pointer;
-                outline: none;
-                color: #fff;
-                background-color: #1ED760;
-                border: none;
-                border-radius: 5px;
-                box-shadow: 0 9px #999;
-            }
-
-            .button:hover {background-color: #3e8e41}
-
-            .button:active {
-                background-color: #3e8e41;
-                box-shadow: 0 5px #666;
-                transform: translateY(4px);
-            }
-        </style>
         <title>Espotify: Registrarse</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
@@ -99,7 +77,7 @@
                             </form>
                         </ul>
 
-                        <button type="button" class="button btn-block" id="bntAceptar" >Aceptar</button>
+                        <button type="button" class="boton btn-block" id="bntAceptar" >Aceptar</button>
 
                     </div>
                 </div>

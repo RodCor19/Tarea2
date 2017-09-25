@@ -111,29 +111,40 @@ public class ServletClientes extends HttpServlet {
             }
          }
          
-         if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null){
-             String art = request.getParameter("Artista");
-             String alb = request.getParameter("album");
-             String tem = request.getParameter("tema");
-             DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
+        if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null){
+            String art = request.getParameter("Artista");
+            String alb = request.getParameter("album");
+            String tem = request.getParameter("tema");
+            DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
             Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem); 
             
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
          }
          
-         if(request.getParameter("contratarSuscripcion") != null){
+        if(request.getParameter("contratarSuscripcion") != null){
             ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
             sesion.setAttribute("TiposDeSus", tiposSus);
              
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ContratarSuscripcion.jsp");
             requestDispatcher.forward(request, response); 
-         }
+        }
          
-         if(request.getParameter("cargarDatosPrueba") != null){
+        if(request.getParameter("nuevaSuscripcion") != null){
+            DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
+            int idTipoSus = Integer.valueOf(request.getParameter("nuevaSuscripcion"));
+            
+            if(Fabrica.getCliente().contratarSuscripcion(dc.getNickname(), idTipoSus)){
+                response.getWriter().write("ok");
+            }else{
+                response.getWriter().write("error: "+dc.getNickname()+" "+idTipoSus);
+            }
+        }
+         
+        if(request.getParameter("cargarDatosPrueba") != null){
             Fabrica.getCliente().CargadeDatos();
             response.getWriter().write("se han cargado los datos de prueba");
-         }
+        }
          
     }
 

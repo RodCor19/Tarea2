@@ -76,7 +76,21 @@
                     alert("Debe seleccionar un tipo");
                 }else{
                     var susSelec = $('input[class="checkboxSus"]:checked').attr("id"); 
-                    alert("Ha elegidor una suscripcion "+susSelec);
+                    $.ajax({
+                        type : 'POST', //tipo de request
+                        url : '/EspotifyWeb/ServletClientes',
+                        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                        data:{ // Parametros que se pasan en el request
+                            nuevaSuscripcion: susSelec
+                        },
+                        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+                           if(data === 'ok'){
+                               alert("Se ha contratado la suscripción correctamente");
+                           }else{
+                               alert("Ya tiene una suscripción vigente, no se puede continuar");
+                           }
+                        }
+                    });
                 }
               }); 
             </script>            

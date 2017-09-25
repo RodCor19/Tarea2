@@ -23,7 +23,7 @@
         DtCliente dt = null;
         boolean controlSeguir = false;
         if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-            if (((DtCliente) perfilUsr).isVigente()) {
+            if(Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
                 controlSeguir = true;
                 dt = (DtCliente) perfilUsr;
             }

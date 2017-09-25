@@ -53,7 +53,7 @@
                 <div class="col-md-4 text-right" style="padding-left: 0px;">
                     <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname() %>"><%= dt.getNickname() %></a></h5>
                     <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Favoritos.jsp">Ver Favoritos</a></h5>
-                    <h5 style="color:white"><a class="iniciarCerrarSesion" href="http://www.google.com">Cerrar Sesión</a></h5>
+                    <h5 style="color:white"><a class="iniciarCerrarSesion" href="/EspotifyWeb/ServletArtistas?CerrarSesion=true">Cerrar Sesión</a></h5>
                 <%}%>
                 </div>
             </div>

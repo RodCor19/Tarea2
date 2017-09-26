@@ -46,6 +46,9 @@
 
                         <div class="tab-content text-left">
                             <div id="home" class="tab-pane fade in active">
+                                <% if(cliente.getFavAlbumes().isEmpty()){ %>
+                                <h4 class="lineaAbajo"><i>No tiene álbumes favoritos</i></h4>
+                                <%}else{%>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -62,8 +65,12 @@
                                         <%}%>
                                     </tbody>
                                 </table>
+                                <%}%>
                             </div>
                             <div id="menu1" class="tab-pane fade">
+                                <% if(cliente.getFavTemas().isEmpty()){ %>
+                                <h4 class="lineaAbajo"><i>No tiene temas favoritos</i></h4>
+                                <%}else{%>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -75,15 +82,19 @@
                                     <tbody>
                                         <%for (DtTema tema : cliente.getFavTemas()) {%>
                                         <tr>
-                                            <td><a class="link" href="#"><h4><%= tema.getNombre()%></h4></a></td>
+                                            <td><h4><%= tema.getNombre()%></h4></td>
                                             <td><a class="link" href="#"><h4><%= tema.getAlbum()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getArtista()%>"><h4><%= tema.getArtista()%></h4></a></td>
                                         </tr>
                                         <%}%>
                                     </tbody>
                                 </table>
+                                <%}%>
                             </div>
                             <div id="menu2" class="tab-pane fade">
+                                <% if(cliente.getFavListas().isEmpty()){ %>
+                                <h4 class="lineaAbajo"><i>No tiene listas favoritas</i></h4>
+                                <%}else{%>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -107,6 +118,7 @@
                                         <%}%>
                                     </tbody>
                                 </table>
+                                <%}%>
                             </div>
                         </div>
                         <br>

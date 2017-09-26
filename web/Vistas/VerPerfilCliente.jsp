@@ -72,10 +72,12 @@
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Listas</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size()%>)</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu3"><h4><b>Siguiendo</b></h4></a></li>
+                            <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname()) ) { %>
                             <li><a data-toggle="tab" href="#menu4"><h4><b>Suscripciones</b></h4></a></li>
-                                            <%} else {%>
+                            <%}%>
+                            <%} else {%>
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Listas</b></h4></a></li> 
-                                            <%}%>
+                            <%}%>
                         </ul>
 
                         <div class="tab-content text-left">
@@ -91,7 +93,7 @@
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 <% if (cliente.getListas().isEmpty()) { %>
-                                <h4 class="lineaAbajo">No tiene listas creadas</h4>
+                                <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
                                 <%} else {%>
                                 <br>    
                                 <table class="table text-left">
@@ -121,7 +123,7 @@
                             </div>
                             <div id="menu2" class="tab-pane fade">
                                 <% if (seguidores.isEmpty()) { %>
-                                <h4 class="lineaAbajo">No tiene seguidores</h4>
+                                <h4 class="lineaAbajo"><i>No tiene seguidores</i></h4>
                                 <%} else {%>
                                 <%  for (DtCliente seguidor : seguidores) {%>
                                 <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
@@ -162,7 +164,7 @@
                                 </form> </h3>
                                 <% }
                                     if (cliente.getUsuariosSeguidos().isEmpty()) { %>
-                                <h4 class="lineaAbajo">No está siguiendo a ningún usuario</h4>
+                                <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
                                 <%} else {%>
                                 <br>    
                                 <table class="table text-left">
@@ -211,6 +213,7 @@
                                 </table>
                                 <%}%>                                    
                             </div>
+                            <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname()) ) { %>
                             <div id="menu4" class="tab-pane fade">
                                 <table class="table text-left">
                                      <thead>
@@ -234,6 +237,7 @@
                                  </table>
                                 <br>
                             </div>   
+                            <%}%>
                         </div>
                             <%} else {%>
                             <div id="home" class="tab-pane fade in active">

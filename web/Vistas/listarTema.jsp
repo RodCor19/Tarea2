@@ -27,7 +27,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
-         <title>Espotify:Temas </title>
+         <title>Espotify: Ver Álbum </title>
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
@@ -69,7 +69,16 @@
                                 %>
                                 <tr>
                                     <%if(usuario != null && usuario instanceof DtCliente){%>
-                                    <td><%= orden %>     <a href="ServletClientes?Artista=<%=album.getNombreArtista() +"&album="+album.getNombre()+"&tema="+ nombre %>">+</a></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="span">
+                                                <a style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() +"&album="+album.getNombre()+"&tema="+ nombre %>">
+                                                    <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
+                                                </a>
+                                                <div class="span" ><%= orden %></div>
+                                            </div>
+                                        </div>
+                                        </td>
                                     <%}else{%>
                                     <td><%= orden %> </td>
                                     <%}%>
@@ -98,5 +107,14 @@
                     
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script>
+//            function hover(elemento, esHover){
+//                if(esHover){
+//                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/eliminar.png'); 
+//                }else{
+//                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/guardado.png');
+//                }
+//            };
+        </script>
     </body>
 </html>

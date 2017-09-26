@@ -182,3 +182,12 @@ body{
     box-shadow: 0 3px #666;
     transform: translateY(3px);
 }
+
+.imgGuardar:hover{
+    opacity: 0.5;
+}
+
+.imgGuardar:active{
+    /*background-color: grey;*/
+    opacity: 1;
+}

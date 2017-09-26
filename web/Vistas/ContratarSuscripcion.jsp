@@ -46,8 +46,8 @@
                             <tbody>
                                 <%  for (DtTipoSuscripcion sus : tiposSus) {%>
                                 <tr>
-                                    <td><%= sus.getCuota() %></td>
-                                    <td>$<%= sus.getMonto() %></td>
+                                    <td><h4><%= sus.getCuota() %></h4></td>
+                                    <td><h4>$<%= sus.getMonto() %></h4></td>
                                     <td><input id="<%= sus.getId() %>" class="checkboxSus" type="checkbox" value="tipoSus"></td>
                                 </tr>
                                 <% } %>

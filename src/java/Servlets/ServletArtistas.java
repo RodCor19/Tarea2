@@ -157,7 +157,7 @@ public class ServletArtistas extends HttpServlet {
                 sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
                 response.sendRedirect("ServletArtistas?Inicio=true");
             } else {
-                if (!(Fabrica.getCliente().verificarDatos(nickname, nickname) || Fabrica.getArtista().verificarDatos(nickname, nickname))) {
+                if (!(Fabrica.getCliente().verificarDatos(nickname, nickname) && Fabrica.getArtista().verificarDatos(nickname, nickname))) {
                     sesion.setAttribute("error", "Contraseña incorrecta");
                 } else {
                     sesion.setAttribute("error", "Usuario y contraseña incorrectos");

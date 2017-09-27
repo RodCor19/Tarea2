@@ -4,12 +4,16 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.DtCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <footer class="container-fluid text-center" style="margin-bottom: 5px; margin-top: 5px;">
     <div class="row">
         <div class="col-md-4">
+            <!-- Solo muestra el mensaje si es un cliente el que inicio sesion -->
+            <% if(session.getAttribute("Usuario") != null && session.getAttribute("Usuario") instanceof DtCliente ){ %>
             <a class="link" href="/EspotifyWeb/ServletClientes?contratarSuscripcion=true">¿No tienes suscripción? Haz click para obtener una</a>
+            <%}%>
         </div>
         <div class="col-md-4">
             

@@ -132,7 +132,7 @@ $(document).ready(function () {
             alert("El formato de la fecha es incorrecto");
             $('#fechanac').val("");
         }
-        if((anio<1900 && anio>2016)){
+        if((anio>1900 && anio<2016)){
             alert("El formato de la fecha es incorrecto");
             $('#fechanac').val("");
         }

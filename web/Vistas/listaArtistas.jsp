@@ -13,7 +13,13 @@
     <%for(DtArtista art: artistas){ %>
     <div class="col-md-4" style="padding: 2px;">
         <a href="ServletArtistas?verPerfilArt=<%= art.getNickname() %>">
+            <% if(art.getRutaImagen() == null){ %>
             <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
+            <%}else{%>
+            <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= art.getRutaImagen() %>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
+            <%}%>
+            
+            <!--<img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">Cambiar por imagen del usuario-->
             <h4 class="img-text" onmouseover="artSeleccionado(this, true)" onmouseout="artSeleccionado(this, false)"><%=art.getNombre()+" "+art.getApellido() %></h4>
         </a>  
     </div>

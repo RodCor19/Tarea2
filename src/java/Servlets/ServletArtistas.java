@@ -67,6 +67,7 @@ public class ServletArtistas extends HttpServlet {
             ArrayList<DtArtista> artistas = Fabrica.getArtista().ListarArtistas();
             request.getSession().setAttribute("Artistas", artistas);
 //          
+            response.getWriter().write(Fabrica.getCliente().getRutaCarpeta());
             response.getWriter().write("artistas listados correctamente");// es para que mostrar un mensaje en la consola del navegador, es opcional
         }
 
@@ -130,7 +131,7 @@ public class ServletArtistas extends HttpServlet {
 
                 } else {
 
-                    DtArtista art = new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.parse(fechanac), null, biografia, paginaweb, 0, null, null);
+                    DtArtista art = new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.parse(fechanac), null, biografia, paginaweb, 0, null, null, null);
                     boolean ok = Fabrica.getArtista().IngresarArtista(art);
                     if (ok) {
                         // request.getRequestDispatcher("iniciarsesion").forward(request, response);

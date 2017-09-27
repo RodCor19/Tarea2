@@ -40,7 +40,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4 text-left">
-                            <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
+                            <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= album.getRutaImagen() %>" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                         </div>
                         <div class="col-sm-8 text-left">
                             <br> <br>
@@ -48,9 +48,6 @@
                             <a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
                             <%if(usuario != null && usuario instanceof DtCliente){%>
                             <a id="Guardar" href="http://www.google.com">Guardar</a>
-                            <%}%>
-                            <%if(usuario != null && usuario instanceof DtCliente){%>
-                            <a id="Descargar" href="http://www.google.com">Descargar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -83,7 +80,7 @@
                                     <td><%= orden %> </td>
                                     <%}%>
                                     <td><%= nombre %></td>
-                                    <td><%= durac %> </td>
+                                    <td><%= durac %> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo() %>">Descargar</a></td>
                                 </tr>
                                 <%}%>
                             </tbody>

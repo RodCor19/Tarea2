@@ -40,7 +40,11 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div class="row">
+                        <% if(artista.getRutaImagen() == null){ %>
                         <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
+                        <%}else{%>
+                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= artista.getRutaImagen() %>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
+                        <%}%>
                         <h3 class="tituloPerfil text-primary"><b><%= artista.getNombre() + " " + artista.getApellido()%></b></h3>
                         <br>
                         <%

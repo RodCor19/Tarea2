@@ -74,7 +74,7 @@ public class ServletClientes extends HttpServlet {
               }else{
                 
                 
-             DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null);
+             DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
              boolean ok= Fabrica.getCliente().IngresarCliente(cli);
              if(ok){
              // request.getRequestDispatcher("/iniciarsesion").forward(request, response);

@@ -13,17 +13,17 @@
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
 
-        <title>Espotify: Iniciar sesion</title>
+        <title>Espotify: Iniciar sesión</title>
     </head>
     <body>
         <jsp:include page="/Vistas/Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
     <center>
-        <h1>Iniciar sesion</h1>
+        <h1>Iniciar sesión</h1>
 
         <form id="iniciar" action="../ServletArtistas"  method="post">
 
-            Nickname o correo :<input type="text"  name="Join"/><br>
-            Contraseña :<input type="password" name="Contrasenia" id="pass"/><br>
+            Nickname o correo: <input type="text"  name="Join"/><br>
+            Contraseña: <input type="password" name="Contrasenia" id="pass"/><br>
             <%
                 HttpSession sesion = request.getSession();
                 if (sesion.getAttribute("error") != null) {
@@ -33,7 +33,7 @@
             <input type="submit" value="Iniciar sesión" id="boton" /><br>
         </form>
         <br>
-        ¿No tienes una cuenta?<a href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a>
+        ¿No tienes una cuenta?<a href="/EspotifyWeb/Vistas/Registrarse.jsp"> Registrarse</a>
     </center>
             
     <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>

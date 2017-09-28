@@ -40,6 +40,12 @@ $(document).ready(function () {
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                     alert("El Cliente ha sido registrado");
+                    $('#nickname').val("");
+                    $('#contrasenia').val("");  
+                    $('#nombre').val("");   
+                    $('#apellido').val(""); 
+                    $('#fechanac').val("");
+                    $('#correo').val("");
                 }
             });
         } else {
@@ -59,7 +65,15 @@ $(document).ready(function () {
                     paginaweb: $('#paginaweb').val()
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                    alert("El Artista a sido registrado");
+                    alert("El Artista ha sido registrado");
+                    $('#nickname').val("");
+                    $('#contrasenia').val("");  
+                    $('#nombre').val("");   
+                    $('#apellido').val(""); 
+                    $('#fechanac').val("");
+                    $('#correo').val("");
+                    $('#biografia').val("");     
+                    $('#paginaweb').val("");
                 }
             
             });

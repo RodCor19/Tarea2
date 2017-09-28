@@ -23,7 +23,7 @@
         DtCliente dt = null;
         boolean controlSeguir = false;
         if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-            if(Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
+            if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
                 controlSeguir = true;
                 dt = (DtCliente) perfilUsr;
             }
@@ -99,7 +99,16 @@
                                 <% if (cliente.getListas().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
                                 <%} else {%>
-                                <br>    
+                                <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
+                                <br>
+                                <h4><label class="texto">Crear lista de reproducción</label>    
+                                    <form id="formLista" action="/EspotifyWeb/ServletClientes" method="GET" class="navbar-form navbar-left input-group">
+                                        <input id="cLista" name="cLista" placeholder="Nombre de lista" type="text" class="form-control"/><button class="btn glyphicon glyphicon-edit" type="submit">
+                                        </button>
+                                    </form> 
+                                </h4>
+                                    <% }%>
+                                <br>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -220,57 +229,58 @@
                             <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname()) ) { %>
                             <div id="menu4" class="tab-pane fade">
                                 <table class="table text-left">
-                                     <thead>
-                                         <tr>
-                                             <th><h4><b>Tipo</b></h4></th>
-                                             <th><h4><b>Monto</b></h4></th>
-                                             <th><h4><b>Fecha de inicio</b></h4></th>
-                                             <th><h4><b>Estado</b></h4></th>
-                                         </tr>
-                                     </thead>
-                                     <tbody>
-                                         <%for (DtSuscripcion suscripcion : cliente.getSuscripciones()) {%>
-                                         <tr>
-                                             <td><h4><%= suscripcion.getTipo() %></h4></td>
-                                             <td><h4><%= suscripcion.getMonto() %></h4></td>
-                                             <td><h4><%= suscripcion.getFecha() %></h4></td>
-                                             <td><h4><%= suscripcion.getEstado() %></h4></td>
-                                         </tr>
-                                         <%}%>
-                                     </tbody>
-                                 </table>
+                                    <thead>
+                                        <tr>
+                                            <th><h4><b>Tipo</b></h4></th>
+                                            <th><h4><b>Monto</b></h4></th>
+                                            <th><h4><b>Fecha de inicio</b></h4></th>
+                                            <th><h4><b>Estado</b></h4></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%for (DtSuscripcion suscripcion : cliente.getSuscripciones()) {%>
+                                        <tr>
+                                            <td><h4><%= suscripcion.getTipo()%></h4></td>
+                                            <td><h4><%= suscripcion.getMonto()%></h4></td>
+                                            <td><h4><%= suscripcion.getFecha()%></h4></td>
+                                            <td><h4><%= suscripcion.getEstado()%></h4></td>
+                                        </tr>
+                                        <%}%>
+                                    </tbody>
+                                </table>
                                 <br>
                             </div>   
                             <%}%>
                         </div>
-                            <%} else {%>
-                            <div id="home" class="tab-pane fade in active">
-                                <%  int cantListPub = 0;
-                                    for (DtListaP lista : cliente.getListas()) {
-                                        if (lista.isPrivada() == false) {
-                                            cantListPub++;
-                                %>    
-                                <h4 class="lineaAbajo"><a class="link" href="#"><%= lista.getNombre()%></a></h4>
-                                    <%}
+                        <%} else {%>
+                        <div id="home" class="tab-pane fade in active">
+                            <%  int cantListPub = 0;
+                                for (DtListaP lista : cliente.getListas()) {
+                                    if (lista.isPrivada() == false) {
+                                        cantListPub++;
+                            %>    
+                            <h4 class="lineaAbajo"><a class="link" href="#"><%= lista.getNombre()%></a></h4>
+                                <%}
                                     }
                                     if (cantListPub == 0) {%>
-                                <h4 class="lineaAbajo">No tiene listas públicas</h4> 
-                                <%}
-                                    }%>
-                            </div>
+                            <h4 class="lineaAbajo">No tiene listas públicas</h4> 
+                            <%}
+                                }%>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                </div>
+                <div class="col-sm-2">
 
-                    </div>
                 </div>
             </div>
-                            
-            <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+        </div>
 
-            <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-            <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
-            <script src="/EspotifyWeb/Javascript/clientesGeneros.js"></script>
-            <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+
+        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
+        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script src="/EspotifyWeb/Javascript/lista.js"></script>
     </body>
 </html>

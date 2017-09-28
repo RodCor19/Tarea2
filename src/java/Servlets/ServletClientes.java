@@ -6,11 +6,14 @@
 package Servlets;
 
 import Logica.DtCliente;
+import Logica.DtListaP;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,15 +47,15 @@ public class ServletClientes extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
-        
-        if(request.getParameter("verPerfilCli") != null){
+
+        if (request.getParameter("verPerfilCli") != null) {
             String nickname = request.getParameter("verPerfilCli");
             DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(nickname);
             sesion.setAttribute("PerfilCli", datosClientes);
             
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
             requestDispatcher.forward(request, response);
-            
+
             response.getWriter().write("perfil del cliente cargado");
         }
         
@@ -69,79 +72,75 @@ public class ServletClientes extends HttpServlet {
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
             if(nickname.equals("") && contrasenia.equals("") && nombre.equals("") && apellido.equals("") && fechanac.equals("") && correo.equals("") ){
                 PrintWriter out=response.getWriter();
-                  out.println("No debe haber campos vacios");
-    
-              }else{
-                
-                
-             DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
-             boolean ok= Fabrica.getCliente().IngresarCliente(cli);
-             if(ok){
-             // request.getRequestDispatcher("/iniciarsesion").forward(request, response);
-             PrintWriter out=response.getWriter();
-                out.println("ta todo bien");
-             }else{
-                  PrintWriter out=response.getWriter();
-                  out.println("Algo salio mal, no se pudo completar tu solicitud.");
-                }
+                out.println("No debe haber campos vacios");
+            }else{
+                DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
+                boolean ok= Fabrica.getCliente().IngresarCliente(cli);
+                if(ok){
+                // request.getRequestDispatcher("/iniciarsesion").forward(request, response);
+                PrintWriter out=response.getWriter();
+                   out.println("ta todo bien");
+                }else{
+                   PrintWriter out=response.getWriter();
+                   out.println("Algo salio mal, no se pudo completar tu solicitud.");
+                 }
             }
-           }catch (ParseException ex) {
-                  Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
-                }
-    }
-         if(request.getParameter("dejarSeguir") != null){
-             String nickname = request.getParameter("dejarSeguir");
-             DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
-             Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
-             sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
-             response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
-         }
-         
-         
-         if(request.getParameter("seguir") != null){
-             String nickname = request.getParameter("seguir");
-             DtUsuario dt = (DtUsuario)sesion.getAttribute("Usuario");
+            } catch (ParseException ex) {
+                Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (request.getParameter("dejarSeguir") != null) {
+            String nickname = request.getParameter("dejarSeguir");
+            DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
+            Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
+            sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+            response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+        }
+
+        if (request.getParameter("seguir") != null) {
+            String nickname = request.getParameter("seguir");
+            DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
             try {
                 Fabrica.getCliente().seguir(dt.getNickname(), nickname);
                 sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
-                response.sendRedirect("ServletClientes?verPerfilCli="+dt.getNickname());
+                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
             } catch (Exception ex) {
-                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario "+ nickname);
+                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
                 response.sendRedirect("ServletArtistas?Inicio=true");
             }
-         }
-         
-        if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null){
+        }
+
+        if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null) {
             String art = request.getParameter("Artista");
             String alb = request.getParameter("album");
             String tem = request.getParameter("tema");
-            DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
-            Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem); 
-            
+            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+            Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem);
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
-         }
-         
-        if(request.getParameter("contratarSuscripcion") != null){
+        }
+
+        if (request.getParameter("contratarSuscripcion") != null) {
             ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
             sesion.setAttribute("TiposDeSus", tiposSus);
-             
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ContratarSuscripcion.jsp");
-            requestDispatcher.forward(request, response); 
+            requestDispatcher.forward(request, response);
         }
-         
-        if(request.getParameter("nuevaSuscripcion") != null){
-            DtCliente dc = (DtCliente)request.getSession().getAttribute("Usuario");
+
+        if (request.getParameter("nuevaSuscripcion") != null) {
+            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
             int idTipoSus = Integer.valueOf(request.getParameter("nuevaSuscripcion"));
-            
-            if(Fabrica.getCliente().contratarSuscripcion(dc.getNickname(), idTipoSus)){
+
+            if (Fabrica.getCliente().contratarSuscripcion(dc.getNickname(), idTipoSus)) {
                 response.getWriter().write("ok");
-            }else{
-                response.getWriter().write("error: "+dc.getNickname()+" "+idTipoSus);
+            } else {
+                response.getWriter().write("error: " + dc.getNickname() + " " + idTipoSus);
             }
         }
-         
-        if(request.getParameter("cargarDatosPrueba") != null){
+
+        if (request.getParameter("cargarDatosPrueba") != null) {
             Fabrica.getCliente().CargadeDatos();
             response.getWriter().write("se han cargado los datos de prueba");
         }
@@ -156,8 +155,46 @@ public class ServletClientes extends HttpServlet {
             requestDispatcher.forward(request, response);
         }
          
-    }
 
+        if (request.getParameter("nomLista") != null) {
+            String nLista = request.getParameter("nomLista");
+            //se crea un array de bytes con la codificación que se envía en los parametros
+            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+            // "normaliza" el texto
+            nLista = new String(bytes, StandardCharsets.UTF_8);
+            DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
+            c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
+            for (DtListaP l : c.getListas()) {
+                if (l.getNombre().equals(nLista)) {
+                    response.getWriter().write("Lista en uso");
+                } else {
+                    response.getWriter().write("ok");
+                }
+            }
+        }
+
+        if (request.getParameter("cLista") != null) {
+            String nLista = request.getParameter("cLista");
+            //se crea un array de bytes con la codificación que se envía en los parametros
+            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+            // "normaliza" el texto
+            nLista = new String(bytes, StandardCharsets.UTF_8);
+            DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
+            Fabrica.getCliente().crearListaP(c.getNickname(), nLista, null);
+            try {
+                Fabrica.getCliente().confirmar();
+                c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
+                sesion.setAttribute("Usuario", c);
+                sesion.setAttribute("Mensaje", "Lista Creada");
+                response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
+            } catch (Exception ex) {
+                sesion.setAttribute("Mensaje", "Hubo un error al crear la lista \n"+ ex.getMessage());
+                response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
+            }
+
+        }
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

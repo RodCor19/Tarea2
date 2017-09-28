@@ -30,12 +30,12 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <%--  HttpSession sesion = request.getSession();
+                    <%  HttpSession sesion = request.getSession();
                         if(sesion.getAttribute("Mensaje")!=null){%>
                             <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
                         <%}
                         sesion.removeAttribute("Mensaje");
-                        --%>
+                       %>
   
                 </div>
             </div>

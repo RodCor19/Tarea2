@@ -33,6 +33,15 @@ a.link:hover{
 #buscar{
     width: 70%;
 }
+
+#formLista{
+    width: 100%;
+}
+
+#cLista{
+    width: 80%;
+    margin-left: auto;
+}
     
 .linkCabecera{
     color: white;
@@ -86,7 +95,7 @@ a.link:hover{
     color: white;
 }
 
-/* Para cambiar color de las pestaÃ±as */
+/* Para cambiar color de las pestaÃƒÂ±as */
 .nav-tabs > li > a{
     color: black;
     padding-left: 13px;
@@ -190,4 +199,10 @@ body{
 .imgGuardar:active{
     /*background-color: grey;*/
     opacity: 1;
+}
+
+.texto{
+    width: 80%;
+    display: block;
+    text-align: center;
 }

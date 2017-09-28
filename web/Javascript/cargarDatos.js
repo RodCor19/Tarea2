@@ -16,7 +16,10 @@ $(document).ready(function(){
                 },
                 success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                     alert("Se cargaron los datos de prueba correctamente");
-                   $('#btnCargarDP').html('Cargar datos de prueba');
+                    $('#btnCargarDP').html('Cargar datos de prueba');
+                    
+                    //Redirigir al inicio
+                    location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
                 }
             });
 

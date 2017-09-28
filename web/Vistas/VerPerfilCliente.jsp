@@ -25,7 +25,8 @@
         if (perfilUsr != null && perfilUsr instanceof DtCliente) {
             if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
                 controlSeguir = true;
-                dt = (DtCliente) perfilUsr;
+                dt = Fabrica.getCliente().verPerfilCliente(perfilUsr.getNickname());
+                session.setAttribute("Usuario", dt);
             }
         }
 
@@ -47,10 +48,10 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div class="row">
-                        <% if(cliente.getRutaImagen() == null){ %>
+                        <% if (cliente.getRutaImagen() == null) { %>
                         <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Cliente"><!--Cambiar por imagen del usuario-->
-                        <%}else{%>
-                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen() %>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
+                        <%} else {%>
+                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
                         <%}%>
                         <h3 class="tituloPerfil text-primary"><b><%= cliente.getNombre() + " " + cliente.getApellido()%></b></h3>
                                 <%
@@ -63,11 +64,13 @@
                                         }
                                         if (control) {
                                 %>
-                        <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">Dejar de seguir</a>
+                        <button id="<%= cliente.getNickname()%>DS" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
+                        <button id="<%= cliente.getNickname()%>S" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= cliente.getNickname()%>');this.style.display = 'none';"></button>
                         <%} else {%>
-                        <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= cliente.getNickname()%>">Seguir</a>
+                        <button id="<%= cliente.getNickname()%>DS" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
+                        <button id="<%= cliente.getNickname()%>S" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
                         <%}
-                            }%>
+                                        }%>
 
                         <ul class="nav nav-tabs">
                             <!-- Si inicio sesión -->
@@ -76,12 +79,12 @@
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Listas</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size()%>)</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu3"><h4><b>Siguiendo</b></h4></a></li>
-                            <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname()) ) { %>
+                                            <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                             <li><a data-toggle="tab" href="#menu4"><h4><b>Suscripciones</b></h4></a></li>
-                            <%}%>
-                            <%} else {%>
+                                            <%}%>
+                                            <%} else {%>
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Listas</b></h4></a></li> 
-                            <%}%>
+                                            <%}%>
                         </ul>
 
                         <div class="tab-content text-left">
@@ -107,7 +110,7 @@
                                         </button>
                                     </form> 
                                 </h4>
-                                    <% }%>
+                                <% }%>
                                 <br>
                                 <table class="table text-left">
                                     <thead>
@@ -141,25 +144,27 @@
                                 <%  for (DtCliente seguidor : seguidores) {%>
                                 <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
                                     <div class="col-sm-8 text-left">
-                                    
-                                    <a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a>
+
+                                        <a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a>
                                     </div>
                                     <div class="col-sm-4 text-right">
-                                    <%
-                                        if (controlSeguir && !perfilUsr.getNickname().equals(seguidor.getNickname())) {
-                                            boolean control = false;
-                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname())) {
-                                                    control = true;
+                                        <%
+                                            if (controlSeguir && !perfilUsr.getNickname().equals(seguidor.getNickname())) {
+                                                boolean control = false;
+                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname())) {
+                                                        control = true;
+                                                    }
                                                 }
-                                            }
-                                            if (control) {
-                                    %>
-                                    <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">Dejar de seguir</a>
-                                    <%} else {%>
-                                    <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguidor.getNickname()%>">Seguir</a>
-                                    <%}
-                                            }%>
+                                                if (control) {
+                                        %>
+                                        <button id="<%= seguidor.getNickname()%>DS1" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir2('<%= seguidor.getNickname()%>');"></button>
+                                        <button id="<%= seguidor.getNickname()%>S1" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir2('<%= seguidor.getNickname()%>');"></button>
+                                        <%} else {%>
+                                        <button id="<%= seguidor.getNickname()%>DS1" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir2('<%= seguidor.getNickname()%>');"></button>
+                                        <button id="<%= seguidor.getNickname()%>S1" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir2('<%= seguidor.getNickname()%>');"></button>
+                                        <%}
+                                        }%>
                                     </div>
                                 </h4>
                                 <% }
@@ -170,13 +175,13 @@
                             <div id="menu3" class="tab-pane fade">
                                 <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                 <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
-                                    <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
-                                    <button class="btn" type="submit">
-                                        <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
-                                    </button>
-                                </form> </h3>
-                                <% }
-                                    if (cliente.getUsuariosSeguidos().isEmpty()) { %>
+                                        <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
+                                        <button class="btn" type="submit">
+                                            <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
+                                        </button>
+                                    </form> </h3>
+                                    <% }
+                                        if (cliente.getUsuariosSeguidos().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
                                 <%} else {%>
                                 <br>    
@@ -188,7 +193,7 @@
                                             <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="agregar">
                                         <% for (DtUsuario seguido : cliente.getUsuariosSeguidos()) {
                                                 String tipo;
                                                 String servlet;
@@ -205,20 +210,22 @@
                                             <td><h4><%= tipo%></h4></td> 
                                             <td>
                                                 <%
-                                                if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-                                                    boolean control = false;
-                                                    for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                        if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
-                                                            control = true;
+                                                    if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
+                                                        boolean control = false;
+                                                        for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                            if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
+                                                                control = true;
+                                                            }
                                                         }
-                                                    }
-                                                    if (control) {
+                                                        if (control) {
                                                 %>
-                                                    <a class="text-primary btn btn-danger" href="ServletClientes?dejarSeguir=<%= seguido.getNickname()%>">Dejar de seguir</a>
-                                                    <%} else {%>
-                                                    <a class="text-primary btn btn-success" href="ServletClientes?seguir=<%= seguido.getNickname()%>">Seguir</a>
-                                                    <%}
-                                                }%>
+                                                <button id="<%= seguido.getNickname()%>DS2" name="<%= seguido.getNickname()%>DS" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir2('<%= seguido.getNickname()%>'); this.style.display = 'none';"></button>
+                                                <button id="<%= seguido.getNickname()%>S2" name="<%= seguido.getNickname()%>S" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir2('<%= seguido.getNickname()%>');this.style.display = 'none';"></button>
+                                                <%} else {%>
+                                                <button id="<%= seguido.getNickname()%>DS2" name="<%= seguido.getNickname()%>DS" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir2('<%= seguido.getNickname()%>'); this.style.display = 'none';"></button>
+                                                <button id="<%= seguido.getNickname()%>S2" name="<%= seguido.getNickname()%>S" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir2('<%= seguido.getNickname()%>'); this.style.display = 'none';"></button>
+                                                <%}
+                                                    }%>
                                             </td> 
                                         </tr>
                                         <%}%>
@@ -226,7 +233,7 @@
                                 </table>
                                 <%}%>                                    
                             </div>
-                            <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname()) ) { %>
+                            <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                             <div id="menu4" class="tab-pane fade">
                                 <table class="table text-left">
                                     <thead>
@@ -282,5 +289,6 @@
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/lista.js"></script>
+        <script src="/EspotifyWeb/Javascript/Seguir.js"></script>
     </body>
 </html>

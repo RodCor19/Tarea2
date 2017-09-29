@@ -9,6 +9,7 @@
                 }else{
                     o.style.display='block';                  
                 }
+                return false;
             }
         };
         xhttp.open("POST", "/EspotifyWeb/ServletClientes", true);
@@ -24,6 +25,7 @@
                 if (this.responseText === "ok") {
                     o.style.display='block';
                 }
+                return false;
             }
         };
         xhttp.open("POST", "/EspotifyWeb/ServletClientes", true);
@@ -50,7 +52,9 @@
                     p.style.display='block';
                     if(r!==null)
                     r.style.display='none';                 
-                }}
+                }
+                return false;
+            }
             
         };
         xhttp.open("POST", "/EspotifyWeb/ServletClientes", true);
@@ -75,9 +79,9 @@
                     q.style.display='none';
                     if(r!==null)
                     r.style.display='none';
-            
-            }}
-        };
+            }
+            return false;
+        }};
         xhttp.open("POST", "/EspotifyWeb/ServletClientes", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("dejarSeguir=" + nick);

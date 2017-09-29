@@ -64,11 +64,11 @@
                                         }
                                         if (control) {
                                 %>
-                        <button id="<%= cliente.getNickname()%>DS" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
-                        <button id="<%= cliente.getNickname()%>S" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= cliente.getNickname()%>');this.style.display = 'none';"></button>
+                        <button id="<%= cliente.getNickname()%>DS" style="display:block;margin-left: 48%" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
+                        <button id="<%= cliente.getNickname()%>S" style="display:none;margin-left: 48%"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= cliente.getNickname()%>');this.style.display = 'none';"></button>
                         <%} else {%>
-                        <button id="<%= cliente.getNickname()%>DS" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
-                        <button id="<%= cliente.getNickname()%>S" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
+                        <button id="<%= cliente.getNickname()%>DS" style="display:none;margin-left: 48%"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
+                        <button id="<%= cliente.getNickname()%>S" style="display:block;margin-left: 48%" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
                         <%}
                                         }%>
 

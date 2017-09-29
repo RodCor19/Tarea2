@@ -91,6 +91,8 @@ public class ServletClientes extends HttpServlet {
         }
         if (request.getParameter("dejarSeguir") != null) {
             String nickname = request.getParameter("dejarSeguir");
+            byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
+            nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
             Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
             //response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
@@ -99,6 +101,8 @@ public class ServletClientes extends HttpServlet {
 
         if (request.getParameter("seguir") != null) {
             String nickname = request.getParameter("seguir");
+            byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
+            nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
             try {
                 Fabrica.getCliente().seguir(dt.getNickname(), nickname);

@@ -156,8 +156,10 @@ public class ServletArtistas extends HttpServlet {
                 sesion.removeAttribute("error");
                 sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
                 
-                //Verificar y actualizar si las suscripciones que estaban vigentes se vencieron
-                Fabrica.getCliente().actualizarVigenciaSuscripciones(nickname);
+                if(dt instanceof DtCliente){
+                    //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
+                    Fabrica.getCliente().actualizarVigenciaSuscripciones(nickname);
+                }
                 
                 response.sendRedirect("ServletArtistas?Inicio=true");
             } else {

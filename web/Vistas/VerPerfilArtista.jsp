@@ -90,7 +90,7 @@
                                     if (pagina == null) {
                                         pagina = "";
                                     }%>
-                                <h4 class="lineaAbajo"><b>Página:</b> <a class="link" href="http://<%= pagina%>"><%= pagina%></a></h4>
+                                <h4 class="lineaAbajo"><b>Página web:</b> <a class="link" href="http://<%= pagina%>"><%= pagina%></a></h4>
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">

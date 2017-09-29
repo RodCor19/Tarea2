@@ -206,3 +206,51 @@ body{
     display: block;
     text-align: center;
 }
+
+#forminiciar{
+	width:25%;
+	border:1px solid #ccc;
+	margin:20px;
+	padding:20px;
+}
+
+label{
+	font-size:12px;
+	width:50%;
+        text-align: left;
+}
+textarea{
+	resize:horizontal;
+	max-height:300px;
+	min-height:100px;
+}
+
+input[type="text"],input[type="password"], textarea{
+	margin-bottom:20px;
+	width:20%;
+        height:30px;
+	padding:10px;
+	box-sizing:border-box;
+	border:1px solid #ccc;
+        text-align: left;
+     
+}
+
+input:focus,textarea:focus{
+	border:1px solid #1668C4;
+}
+
+input[type="submit"]{
+	margin-bottom:0;
+	background:#0EBF4C;
+	color:#fff;
+	border:none;
+        width:10%;
+        height:30px;
+}
+
+input[type="submit"]:hover{
+	background:#4A88F4;
+	cursor:pointer;
+}
+

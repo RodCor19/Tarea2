@@ -240,7 +240,7 @@
                                         <tr>
                                             <th><h4><b>Tipo</b></h4></th>
                                             <th><h4><b>Monto</b></h4></th>
-                                            <th><h4><b>Fecha de inicio</b></h4></th>
+                                            <th><h4><b>Fecha</b></h4></th>
                                             <th><h4><b>Estado</b></h4></th>
                                         </tr>
                                     </thead>

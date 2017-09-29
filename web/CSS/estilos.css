@@ -214,7 +214,7 @@ body{
 	padding:20px;
 }
 
-label{
+/*label{
 	font-size:12px;
 	width:50%;
         text-align: left;
@@ -223,8 +223,8 @@ textarea{
 	resize:horizontal;
 	max-height:300px;
 	min-height:100px;
-}
-
+}*/
+/*
 input[type="text"],input[type="password"], textarea{
 	margin-bottom:20px;
 	width:20%;
@@ -252,5 +252,5 @@ input[type="submit"]{
 input[type="submit"]:hover{
 	background:#4A88F4;
 	cursor:pointer;
-}
+}*/
 

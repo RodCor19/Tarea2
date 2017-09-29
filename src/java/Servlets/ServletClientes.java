@@ -12,7 +12,6 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -148,6 +147,12 @@ public class ServletClientes extends HttpServlet {
 
         if (request.getParameter("cargarDatosPrueba") != null) {
             Fabrica.getCliente().CargadeDatos();
+            
+            if(sesion.getAttribute("Usuario") != null && sesion.getAttribute("Usuario") instanceof DtCliente){
+                DtCliente dtCli = (DtCliente) sesion.getAttribute("Usuario");
+                Fabrica.getCliente().actualizarVigenciaSuscripciones(dtCli.getNickname());
+            }
+            
             response.getWriter().write("se han cargado los datos de prueba");
         }
         

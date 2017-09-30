@@ -208,23 +208,23 @@ body{
 }
 
 #forminiciar{
-	width:25%;
+	width:20%;
 	border:1px solid #ccc;
 	margin:20px;
 	padding:20px;
 }
 
-/*label{
+label{
 	font-size:12px;
-	width:50%;
+	width:20%;
         text-align: left;
 }
 textarea{
 	resize:horizontal;
 	max-height:300px;
 	min-height:100px;
-}*/
-/*
+}
+
 input[type="text"],input[type="password"], textarea{
 	margin-bottom:20px;
 	width:20%;
@@ -241,16 +241,19 @@ input:focus,textarea:focus{
 }
 
 input[type="submit"]{
-	margin-bottom:0;
-	background:#0EBF4C;
-	color:#fff;
-	border:none;
-        width:10%;
-        height:30px;
+    margin-bottom:0;
+    background:#1ED760;
+    color:#fff;
+    border:none;
+    width:30%;
+    height:30px;
 }
 
 input[type="submit"]:hover{
-	background:#4A88F4;
+	background:#0EBF4C;
 	cursor:pointer;
-}*/
+}
 
+.x{
+    margin-bottom: 30px;
+}

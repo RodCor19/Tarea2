@@ -225,22 +225,7 @@ textarea{
 	min-height:100px;
 }
 
-input[type="text"],input[type="password"], textarea{
-	margin-bottom:20px;
-	width:20%;
-        height:30px;
-	padding:10px;
-	box-sizing:border-box;
-	border:1px solid #ccc;
-        text-align: left;
-     
-}
-
-input:focus,textarea:focus{
-	border:1px solid #1668C4;
-}
-
-input[type="submit"]{
+#boton{
     margin-bottom:0;
     background:#1ED760;
     color:#fff;
@@ -249,7 +234,7 @@ input[type="submit"]{
     height:30px;
 }
 
-input[type="submit"]:hover{
+#boton[type="submit"]:hover{
 	background:#0EBF4C;
 	cursor:pointer;
 }

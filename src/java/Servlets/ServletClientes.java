@@ -58,8 +58,7 @@ public class ServletClientes extends HttpServlet {
             response.getWriter().write("perfil del cliente cargado");
         }
         
-         if(request.getParameter("Registrarse") != null){
-             response.getWriter().write("entro al if");
+          if(request.getParameter("Registrarse") != null){
             try{
             String nickname=request.getParameter("nickname");
             String contrasenia=request.getParameter("contrasenia");
@@ -69,21 +68,19 @@ public class ServletClientes extends HttpServlet {
             String correo=request.getParameter("correo");
   
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
-            if(nickname.equals("") && contrasenia.equals("") && nombre.equals("") && apellido.equals("") && fechanac.equals("") && correo.equals("") ){
-                PrintWriter out=response.getWriter();
-                out.println("No debe haber campos vacios");
-            }else{
-                DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
-                boolean ok= Fabrica.getCliente().IngresarCliente(cli);
-                if(ok){
-                // request.getRequestDispatcher("/iniciarsesion").forward(request, response);
-                PrintWriter out=response.getWriter();
-                   out.println("ta todo bien");
-                }else{
-                   PrintWriter out=response.getWriter();
-                   out.println("Algo salio mal, no se pudo completar tu solicitud.");
-                 }
+            
+            
+            boolean x = Fabrica.getCliente().estaCliente(nickname,correo);
+            if (x) 
+                response.getWriter().write("si");
+            else
+            {response.getWriter().write("no");
+            
+            DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
+            Fabrica.getCliente().IngresarCliente(cli);
             }
+               
+            
             } catch (ParseException ex) {
                 Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
             }

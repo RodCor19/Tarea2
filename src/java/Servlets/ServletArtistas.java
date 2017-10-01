@@ -123,28 +123,23 @@ public class ServletArtistas extends HttpServlet {
                 String biografia = request.getParameter("biografia");
                 String paginaweb = request.getParameter("paginaweb");
 
-                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-                if (nickname.equals("") && contrasenia.equals("") && nombre.equals("") && apellido.equals("") && fechanac.equals("") && correo.equals("") && biografia.equals("") && paginaweb.equals("")) {
-                    PrintWriter out = response.getWriter();
-                    out.println("No debe haber campos vacios");
-
-                } else {
-
-                    DtArtista art = new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.parse(fechanac), null, biografia, paginaweb, 0, null, null, null);
-                    boolean ok = Fabrica.getArtista().IngresarArtista(art);
-                    if (ok) {
-                        // request.getRequestDispatcher("iniciarsesion").forward(request, response);
-                        PrintWriter out = response.getWriter();
-                        out.println("ta todo bien");
-                    } else {
-                        PrintWriter out = response.getWriter();
-                        out.println("Algo salio mal, no se pudo completar tu solicitud.");
-                    }
+            SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
+            
+            boolean x = Fabrica.getArtista().estaArtista(nickname,correo);
+            if (x) 
+                response.getWriter().write("si");
+            else
+            {response.getWriter().write("no");
+       
+             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
+             Fabrica.getArtista().IngresarArtista(art);
+             
                 }
-            } catch (ParseException ex) {
-                Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+
+           }catch (ParseException ex) {
+                  Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
+                }
+    }
 
         if (request.getParameter("Join") != null) {
             HttpSession sesion = request.getSession();

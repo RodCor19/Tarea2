@@ -39,13 +39,17 @@ $(document).ready(function () {
                     correo: $('#correo').val()
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+                    if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
+                        alert("el nickname y/o correo ya esta en uso");
+                    }
+                    if (data==='no'){
                     alert("El Cliente ha sido registrado");
                     $('#nickname').val("");
                     $('#contrasenia').val("");  
                     $('#nombre').val("");   
                     $('#apellido').val(""); 
                     $('#fechanac').val("");
-                    $('#correo').val("");
+                    $('#correo').val("");}
                 }
             });
         } else {
@@ -65,7 +69,11 @@ $(document).ready(function () {
                     paginaweb: $('#paginaweb').val()
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                    alert("El Artista ha sido registrado");
+                    if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
+                        alert("el nickname y/o correo ya esta en uso");
+                    }
+               if (data==='no'){
+                   alert("El Artista ha sido registrado");
                     $('#nickname').val("");
                     $('#contrasenia').val("");  
                     $('#nombre').val("");   
@@ -73,9 +81,8 @@ $(document).ready(function () {
                     $('#fechanac').val("");
                     $('#correo').val("");
                     $('#biografia').val("");     
-                    $('#paginaweb').val("");
+                    $('#paginaweb').val("");}
                 }
-            
             });
         }
     }else{
@@ -83,6 +90,7 @@ $(document).ready(function () {
     }
 
 
+    
     });
 
     $('#correo').focusout(function () {
@@ -91,7 +99,7 @@ $(document).ready(function () {
         if(correo !== ""){
         var caract = new RegExp(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/);
 
-        if (caract.test(correo) == false) {
+        if (caract.test(correo) === false) {
             console.log(correo);
             alert("El Email es incorrecto");
             $('#correo').val("");
@@ -105,7 +113,7 @@ $(document).ready(function () {
         if(fechanac !== ""){
         var caract = new RegExp(/^([0-9]{1,2})+\-(([0-9]{1,2})+\-)+([0-9]{4})+$/);
 
-        if (caract.test(fechanac) == false) {
+        if (caract.test(fechanac) === false) {
             console.log(fechanac);
             alert("la fecha es incorrecta");
             $('#fechanac').val("");

@@ -68,19 +68,14 @@ public class ServletClientes extends HttpServlet {
             String correo=request.getParameter("correo");
   
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
-            
-            
-            boolean x = Fabrica.getCliente().estaCliente(nickname,correo);
-            if (x) 
+
+            DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
+            boolean x = Fabrica.getCliente().IngresarCliente(cli);
+            if (!x) 
                 response.getWriter().write("si");
             else
-            {response.getWriter().write("no");
-            
-            DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
-            Fabrica.getCliente().IngresarCliente(cli);
-            }
-               
-            
+                response.getWriter().write("no");
+                          
             } catch (ParseException ex) {
                 Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
             }

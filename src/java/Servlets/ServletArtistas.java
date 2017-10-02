@@ -125,16 +125,12 @@ public class ServletArtistas extends HttpServlet {
 
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
             
-            boolean x = Fabrica.getArtista().estaArtista(nickname,correo);
-            if (x) 
-                response.getWriter().write("si");
-            else
-            {response.getWriter().write("no");
-       
              DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
-             Fabrica.getArtista().IngresarArtista(art);
-             
-                }
+             boolean x = Fabrica.getArtista().IngresarArtista(art);
+             if (!x)
+                response.getWriter().write("si");
+             else
+                response.getWriter().write("no");
 
            }catch (ParseException ex) {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 

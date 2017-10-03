@@ -118,6 +118,18 @@ public class ServletClientes extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
         }
+        if (request.getParameter("art") != null && request.getParameter("alb") != null) {
+            String arti = request.getParameter("art");
+            String albu = request.getParameter("alb");
+           
+            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+            Fabrica.getCliente().agregarAlbumFavorito(dc.getNickname(), arti, albu);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
+            requestDispatcher.forward(request, response);
+        }
+        
+        
 
         if (request.getParameter("contratarSuscripcion") != null) {
             ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
@@ -222,6 +234,11 @@ public class ServletClientes extends HttpServlet {
                 response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
             }
         }
+        if(request.getParameter("publicarLista") != null){
+                DtCliente dtCli = (DtCliente)request.getSession().getAttribute("Usuario");
+                String nLista = request.getParameter("publicarLista");
+                Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+            }    
 
     }
 

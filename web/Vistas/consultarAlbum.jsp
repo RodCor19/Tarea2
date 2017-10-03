@@ -47,8 +47,8 @@
                                 String nombreArt = album.getNombreArtista();
                                 %>
                                 <tr>
-                                    <td><%= album.getNombreArtista() %></td>
-                                    <td><a href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></a></td>
+                                    <td><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></a></td>
+                                    <td><a class="link" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>

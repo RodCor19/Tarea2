@@ -4,6 +4,7 @@
     Author     : usuario
 --%>
 
+<%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtGenero"%>
@@ -20,6 +21,14 @@
     DtArtista artista = Fabrica.getArtista().ElegirArtista(album.getNombreArtista());
     HttpSession sesion = request.getSession();
     DtUsuario usuario = (DtUsuario) sesion.getAttribute("Usuario");
+    DtCliente cli = (DtCliente) sesion.getAttribute("Cli");
+    
+    Boolean cliente = false;
+    if (usuario != null && usuario instanceof DtCliente){
+         if (Fabrica.getCliente().SuscripcionVigente(usuario.getNickname())){
+             cliente = true;
+         }
+    }
 
     %>
     <head>
@@ -40,14 +49,19 @@
                     
                     <div class="row">
                         <div class="col-sm-4 text-left">
+                            <%if(album.getRutaImagen() != null){%>
                             <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= album.getRutaImagen() %>" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
+                            <%}else{%>
+                            <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
+                            <%}%>
                         </div>
                         <div class="col-sm-8 text-left">
                             <br> <br>
                             <h3 class="tituloAlbum"><%= album.getNombre() %></h3> 
                             <a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
+                            <h3 class="anio"><%= album.getAnio() %></h3>
                             <%if(usuario != null && usuario instanceof DtCliente){%>
-                            <a id="Guardar" href="http://www.google.com">Guardar</a>
+                            <a href="ServletClientes?art=<%=album.getNombreArtista() +"&alb="+album.getNombre()%>">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -80,7 +94,19 @@
                                     <td><%= orden %> </td>
                                     <%}%>
                                     <td><%= nombre %></td>
-                                    <td><%= durac %> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo() %>">Descargar</a></td>
+                                        <%if(cliente){%>
+                                            <%if(tem.getArchivo()!= null){%>
+                                            <td><%= durac %> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo() %>">Descargar</a></td>
+                                            <%}else{%>
+                                            <td><%= durac %> <a id="Link" href="http://<%= tem.getDireccion() %>">Escuchar online</a></td>
+                                            <%}%>
+                                        <%}else{%>
+                                            <%if(tem.getDireccion() != null){%>
+                                                <td><%= durac %> <a id="Link" href="http://<%= tem.getDireccion() %>">Escuchar online</a></td>
+                                            <%}else{%>
+                                            <td><%= durac %></td>
+                                            <%}%>
+                                        <%}%>
                                 </tr>
                                 <%}%>
                             </tbody>

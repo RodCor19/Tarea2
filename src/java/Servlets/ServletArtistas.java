@@ -80,6 +80,16 @@ public class ServletArtistas extends HttpServlet {
 
             response.getWriter().write("perfil del artista cargado");
         }
+        if (request.getParameter("verPerfilArt") != null) {
+            String nickname = request.getParameter("verPerfilArt");
+            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
+            request.getSession().setAttribute("PerfilArt", datosArtista);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
+            requestDispatcher.forward(request, response);
+
+            response.getWriter().write("perfil del artista cargado");
+        }
         if (request.getParameter("consultarAlbum") != null) {
             String nombre = request.getParameter("consultarAlbum");
             ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);

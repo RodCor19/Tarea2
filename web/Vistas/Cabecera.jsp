@@ -48,7 +48,11 @@
                     }
                 %>
                 <div class="col-md-8 text-right" style="padding-right: 0px; padding-bottom: 5px;">
-                    <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen() %>" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
+                    <%if(dt.getRutaImagen() != null){%>
+                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen() %>" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
+                    <%}else{%>
+                        <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
+                    <%}%>
                 </div>
                 <div class="col-md-4 text-right" style="padding-left: 0px;">
                     <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname() %>"><%= dt.getNickname() %></a></h5>

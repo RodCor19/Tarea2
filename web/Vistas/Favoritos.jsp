@@ -107,11 +107,11 @@
                                         <tr>
                                             <% if (lista instanceof DtListaP) {
                                                     DtListaP listaP = (DtListaP) lista;%>
-                                            <td><a class="link" href="#"><h4><%= listaP.getNombre()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= listaP.getNombre()%>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
                                                         <%} else {
                                                 DtListaPD listaPD = (DtListaPD) lista;%>
-                                            <td><a class="link" href="#"><h4><%= listaPD.getNombre()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= listaPD.getNombre()%>"><h4><%= listaPD.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaPD.getGenero()%>"><h4><%= listaPD.getGenero()%></h4></a></td>
                                                         <%}%>
                                         </tr>

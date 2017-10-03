@@ -7,6 +7,7 @@ package Servlets;
 
 import Logica.DtCliente;
 import Logica.DtListaP;
+import Logica.DtListaPD;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
@@ -195,6 +196,31 @@ public class ServletClientes extends HttpServlet {
                 response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
             }
 
+        }
+        
+        if(request.getParameter("Lista")!=null){
+            String nLista = request.getParameter("Lista");
+            //se crea un array de bytes con la codificación que se envía en los parametros
+            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+            // "normaliza" el texto
+            nLista = new String(bytes, StandardCharsets.UTF_8);
+            if(request.getParameter("Usuario")!=null){
+                String nick = request.getParameter("Usuario");
+                DtListaP aux = null;
+                ArrayList<DtListaP> dt = Fabrica.getCliente().ListarListaP();
+                for(DtListaP p : dt)
+                    if(p.getNombre().equals(nLista) && p.getUsuario().equals(nick))
+                        aux=p;
+                sesion.setAttribute("Lista", aux);
+                response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+            }else{
+                DtListaPD aux = null;
+                for(DtListaPD pd : Fabrica.getArtista().ListarListaPD())
+                    if(pd.getNombre().equals(nLista))
+                        aux=pd;
+                sesion.setAttribute("Lista", aux);
+                response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+            }
         }
 
     }

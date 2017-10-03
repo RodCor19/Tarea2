@@ -53,8 +53,22 @@ $(document).ready(function(){
         });
         
     });
-    
- 
+   
 });
+
+function publicarLista (nombLista) { 
+      $.ajax({
+            type : 'POST', //tipo de request
+            url : '/EspotifyWeb/ServletClientes',
+            dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+            data:{ // Parametros que se pasan en el request
+                publicarLista : nombLista
+            },
+            success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+              $('#btnPublicar').hide();
+            }
+        }); 
+       
+   }
 
 

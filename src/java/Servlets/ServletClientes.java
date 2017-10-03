@@ -208,6 +208,12 @@ public class ServletClientes extends HttpServlet {
             }
 
         }
+        
+        if(request.getParameter("publicarLista") != null){
+                DtCliente dtCli = (DtCliente)request.getSession().getAttribute("Usuario");
+                String nLista = request.getParameter("publicarLista");
+                Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+            }    
 
     }
 

@@ -117,6 +117,7 @@
                                         <tr>
                                             <th><h4><b>Nombre</b></h4></th>
                                             <th><h4><b>Tipo</b></h4></th>
+                                            <th><h4><b> </b></h4></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -131,6 +132,12 @@
                                         <tr>
                                             <td><h4><a class="link" href="#"><%= lista.getNombre()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td>
+                                           <% if (lista.isPrivada() && controlSeguir) {%>
+                                           <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
+                                                
+                                           <%}else{%> 
+                                                <td> </td>
+                                           <%}%>
                                         </tr>
                                         <%}%>
                                     </tbody>

@@ -26,7 +26,7 @@
             </div>
             <div class="col-md-4 text-right" >
                 <h5 style="color:white"><a id="registrarse" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
-                <h5><a id="iniciarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
+                <h5><a id="iniciarSesion" href="Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
             </div>
         </div>
     </div>

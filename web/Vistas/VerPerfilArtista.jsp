@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
     </head>
-    <body>
+    <body onload="mifuncion()">
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         
         <div class="container">
@@ -60,9 +60,12 @@
                                 <h4 class="list-group-item"><b>Página:</b> <a href="http://<%= pagina %>"><%= pagina %></a></h4>
                                 <br>
                             </div>
-                            <div id="menu1" class="tab-pane fade">
+                                <div id="menu1" class="tab-pane fade" >
+                                <!--<h4 class="list-group-item"><a href="/EspotifyWeb/Vistas/AltaAlbum.jsp">Crear Album</a></h4>-->
+                                                             
+                                <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a></h4>
                                 <%for(DtAlbum album: artista.getAlbumes()){ %>
-                                    <h4 class="list-group-item"><a href="#"><%= album.getNombre() %></a></h4>
+                                <h4 class="list-group-item"><a href="#"><%= album.getNombre() %></a></h4>
                                 <%}%>
                                 <br>
                             </div>
@@ -81,8 +84,9 @@
             </div>
         </div>
                 
-        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
-        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script language="JavaScript" type="text/javascript" src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+        <script language="JavaScript" type="text/javascript" src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
+        <script language="JavaScript" type="text/javascript" src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script language="JavaScript" type="text/javascript" src="/EspotifyWeb/Javascript/Funciones.js"></script>
     </body>
 </html>

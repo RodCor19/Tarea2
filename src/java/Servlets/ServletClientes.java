@@ -7,6 +7,7 @@ package Servlets;
 
 import Logica.DtCliente;
 import Logica.DtListaP;
+import Logica.DtListaPD;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
@@ -68,19 +69,14 @@ public class ServletClientes extends HttpServlet {
             String correo=request.getParameter("correo");
   
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
-            
-            
-            boolean x = Fabrica.getCliente().estaCliente(nickname,correo);
-            if (x) 
+
+            DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
+            boolean x = Fabrica.getCliente().IngresarCliente(cli);
+            if (!x) 
                 response.getWriter().write("si");
             else
-            {response.getWriter().write("no");
-            
-            DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
-            Fabrica.getCliente().IngresarCliente(cli);
-            }
-               
-            
+                response.getWriter().write("no");
+                          
             } catch (ParseException ex) {
                 Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -122,6 +118,18 @@ public class ServletClientes extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
         }
+        if (request.getParameter("art") != null && request.getParameter("alb") != null) {
+            String arti = request.getParameter("art");
+            String albu = request.getParameter("alb");
+           
+            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+            Fabrica.getCliente().agregarAlbumFavorito(dc.getNickname(), arti, albu);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
+            requestDispatcher.forward(request, response);
+        }
+        
+        
 
         if (request.getParameter("contratarSuscripcion") != null) {
             ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
@@ -201,6 +209,36 @@ public class ServletClientes extends HttpServlet {
             }
 
         }
+        
+        if(request.getParameter("Lista")!=null){
+            String nLista = request.getParameter("Lista");
+            //se crea un array de bytes con la codificación que se envía en los parametros
+            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+            // "normaliza" el texto
+            nLista = new String(bytes, StandardCharsets.UTF_8);
+            if(request.getParameter("Usuario")!=null){
+                String nick = request.getParameter("Usuario");
+                DtListaP aux = null;
+                ArrayList<DtListaP> dt = Fabrica.getCliente().ListarListaP();
+                for(DtListaP p : dt)
+                    if(p.getNombre().equals(nLista) && p.getUsuario().equals(nick))
+                        aux=p;
+                sesion.setAttribute("Lista", aux);
+                response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+            }else{
+                DtListaPD aux = null;
+                for(DtListaPD pd : Fabrica.getArtista().ListarListaPD())
+                    if(pd.getNombre().equals(nLista))
+                        aux=pd;
+                sesion.setAttribute("Lista", aux);
+                response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+            }
+        }
+        if(request.getParameter("publicarLista") != null){
+                DtCliente dtCli = (DtCliente)request.getSession().getAttribute("Usuario");
+                String nLista = request.getParameter("publicarLista");
+                Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+            }    
 
     }
 

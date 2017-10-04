@@ -80,6 +80,16 @@ public class ServletArtistas extends HttpServlet {
 
             response.getWriter().write("perfil del artista cargado");
         }
+        if (request.getParameter("verPerfilArt") != null) {
+            String nickname = request.getParameter("verPerfilArt");
+            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
+            request.getSession().setAttribute("PerfilArt", datosArtista);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
+            requestDispatcher.forward(request, response);
+
+            response.getWriter().write("perfil del artista cargado");
+        }
         if (request.getParameter("consultarAlbum") != null) {
             String nombre = request.getParameter("consultarAlbum");
             ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);
@@ -125,16 +135,12 @@ public class ServletArtistas extends HttpServlet {
 
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
             
-            boolean x = Fabrica.getArtista().estaArtista(nickname,correo);
-            if (x) 
-                response.getWriter().write("si");
-            else
-            {response.getWriter().write("no");
-       
              DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
-             Fabrica.getArtista().IngresarArtista(art);
-             
-                }
+             boolean x = Fabrica.getArtista().IngresarArtista(art);
+             if (!x)
+                response.getWriter().write("si");
+             else
+                response.getWriter().write("no");
 
            }catch (ParseException ex) {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
@@ -153,7 +159,7 @@ public class ServletArtistas extends HttpServlet {
                 
                 if(dt instanceof DtCliente){
                     //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
-                    Fabrica.getCliente().actualizarVigenciaSuscripciones(nickname);
+                    Fabrica.getCliente().actualizarVigenciaSuscripciones(dt.getNickname());
                 }
                 
                 response.sendRedirect("ServletArtistas?Inicio=true");

@@ -59,7 +59,7 @@
                                     <tbody>
                                         <%for (DtAlbum album : cliente.getFavAlbumes()) {%>
                                         <tr>
-                                            <td><h4><%= album.getNombre()%></h4></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4></td>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= album.getNombreArtista()%></h4></a></td>
                                         </tr>
                                         <%}%>
@@ -83,7 +83,7 @@
                                         <%for (DtTema tema : cliente.getFavTemas()) {%>
                                         <tr>
                                             <td><h4><%= tema.getNombre()%></h4></td>
-                                            <td><a class="link" href="#"><h4><%= tema.getAlbum()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tema.getAlbum()+ "&artista=" + tema.getArtista() %>"><h4><%= tema.getAlbum() %></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getArtista()%>"><h4><%= tema.getArtista()%></h4></a></td>
                                         </tr>
                                         <%}%>
@@ -107,11 +107,11 @@
                                         <tr>
                                             <% if (lista instanceof DtListaP) {
                                                     DtListaP listaP = (DtListaP) lista;%>
-                                            <td><a class="link" href="#"><h4><%= listaP.getNombre()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= listaP.getNombre()%>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
                                                         <%} else {
                                                 DtListaPD listaPD = (DtListaPD) lista;%>
-                                            <td><a class="link" href="#"><h4><%= listaPD.getNombre()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= listaPD.getNombre()%>"><h4><%= listaPD.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaPD.getGenero()%>"><h4><%= listaPD.getGenero()%></h4></a></td>
                                                         <%}%>
                                         </tr>

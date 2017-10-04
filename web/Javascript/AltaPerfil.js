@@ -14,14 +14,14 @@ $(document).ready(function () {
 
     $('#bntAceptar').click(function () {
         var nickname = $('#nickname').val(),
-                    contrasenia = $('#contrasenia').val(),
+                    contrasenia = sha1($('#contrasenia').val()),
                     nombre = $('#nombre').val(),
                     apellido = $('#apellido').val(),
                     fechanac = $('#fechanac').val(),
                     correo = $('#correo').val(),
                     biografia = $('#biografia').val(),
                     paginaweb = $('#paginaweb').val();
-        if(nickname !== "" && contrasenia !== "" && nombre!== "" && apellido !== "" && fechanac !== "" && correo !== ""){
+        if(nickname !== "" && $('#contrasenia').val(contrasenia) !== "" && nombre!== "" && apellido !== "" && fechanac !== "" && correo !== ""){
         if ($('#radioC').is(':checked')) {
             
             
@@ -32,7 +32,7 @@ $(document).ready(function () {
                 data: {// Parametros que se pasan en el request
                     Registrarse: true,
                     nickname: $('#nickname').val(),
-                    contrasenia: $('#contrasenia').val(),
+                    contrasenia: contrasenia,
                     nombre: $('#nombre').val(),
                     apellido: $('#apellido').val(),
                     fechanac: $('#fechanac').val(),
@@ -45,7 +45,7 @@ $(document).ready(function () {
                     if (data==='no'){
                     alert("El Cliente ha sido registrado");
                     $('#nickname').val("");
-                    $('#contrasenia').val("");  
+                    $('#contrasenia').val(contrasenia);
                     $('#nombre').val("");   
                     $('#apellido').val(""); 
                     $('#fechanac').val("");
@@ -60,7 +60,7 @@ $(document).ready(function () {
                 data: {// Parametros que se pasan en el request
                     Registrarse: true,
                     nickname: $('#nickname').val(),
-                    contrasenia: $('#contrasenia').val(),
+                    contrasenia: contrasenia,
                     nombre: $('#nombre').val(),
                     apellido: $('#apellido').val(),
                     fechanac: $('#fechanac').val(),
@@ -75,7 +75,7 @@ $(document).ready(function () {
                if (data==='no'){
                    alert("El Artista ha sido registrado");
                     $('#nickname').val("");
-                    $('#contrasenia').val("");  
+                    $('#contrasenia').val(contrasenia); 
                     $('#nombre').val("");   
                     $('#apellido').val(""); 
                     $('#fechanac').val("");
@@ -148,12 +148,12 @@ $(document).ready(function () {
     });
     
     $('#vcontrasenia').focusout(function () {
-        var contrasenia = $('#contrasenia').val();
-        var vcontrasenia = $('#vcontrasenia').val();
+        var contrasenia = sha1($('#contrasenia').val());
+        var vcontrasenia = sha1($('#vcontrasenia').val());
         if(vcontrasenia !== ""){
         if(contrasenia !== vcontrasenia){
             $('#error').show();
-            $('#vcontrasenia').val("");
+            $('#vcontrasenia').val(vcontrasenia);
             $('#vcontrasenia').parent().addClass("input-group has-error has-feedback");
         }else{
             $('#vcontrasenia').parent().removeClass("has-error has-feedback");

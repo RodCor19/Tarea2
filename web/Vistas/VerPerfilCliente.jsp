@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtLista"%>
@@ -70,7 +71,7 @@
                         <button id="<%= cliente.getNickname()%>DS" style="display:none;margin-left: 48%"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
                         <button id="<%= cliente.getNickname()%>S" style="display:block;margin-left: 48%" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
                         <%}
-                                        }%>
+                            }%>
 
                         <ul class="nav nav-tabs">
                             <!-- Si inicio sesión -->
@@ -99,9 +100,6 @@
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">
-                                <% if (cliente.getListas().isEmpty()) { %>
-                                <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
-                                <%} else {%>
                                 <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                 <br>
                                 <h4><label class="texto">Crear lista de reproducción</label>    
@@ -111,12 +109,16 @@
                                     </form> 
                                 </h4>
                                 <% }%>
+                                <% if (cliente.getListas().isEmpty()) { %>
+                                <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
+                                <%} else {%>
                                 <br>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
                                             <th><h4><b>Nombre</b></h4></th>
                                             <th><h4><b>Tipo</b></h4></th>
+                                            <th><h4><b> </b></h4></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -127,10 +129,21 @@
                                                 } else {
                                                     tipo = "Pública";
                                                 }
+                                                String nLista = lista.getNombre();
+                                                //se crea un array de bytes con la codificación que se envía en los parametros
+                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
+                                                // "normaliza" el texto
+                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);
                                         %>
                                         <tr>
-                                            <td><h4><a class="link" href="#"><%= lista.getNombre()%></h4></a></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td>
+                                           <% if (lista.isPrivada() && controlSeguir) {%>
+                                           <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
+                                                
+                                           <%}else{%> 
+                                                <td> </td>
+                                           <%}%>
                                         </tr>
                                         <%}%>
                                     </tbody>
@@ -164,7 +177,7 @@
                                         <button id="<%= seguidor.getNickname()%>DS1" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir2('<%= seguidor.getNickname()%>');"></button>
                                         <button id="<%= seguidor.getNickname()%>S1" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir2('<%= seguidor.getNickname()%>');"></button>
                                         <%}
-                                        }%>
+                                            }%>
                                     </div>
                                 </h4>
                                 <% }

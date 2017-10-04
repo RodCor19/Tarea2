@@ -87,7 +87,7 @@
                            if(data === 'ok'){
                                alert("Se ha contratado la suscripción correctamente");
                            }else{
-                               alert("Ya tiene una suscripción vigente, no se puede continuar");
+                               alert("Ya tiene una suscripción vigente o pendiente, no puede contratar otra.");
                            }
                         }
                     });

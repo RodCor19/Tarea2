@@ -42,10 +42,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%for(DtAlbum album: albumes){ %>
+                                <%for(DtAlbum album: albumes){ 
+                                String nombreAlb = album.getNombre();
+                                String nombreArt = album.getNombreArtista();
+                                %>
                                 <tr>
-                                    <td><%= album.getNombreArtista() %></td>
-                                    <td><a href="#"><%= album.getNombre() %></a></td>
+                                    <td><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></a></td>
+                                    <td><a class="link" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>
@@ -59,7 +62,10 @@
             </div> 
         </div>
                     
+        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
+        
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>

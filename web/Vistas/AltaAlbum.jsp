@@ -4,11 +4,21 @@
     Author     : Admin
 --%>
 
+<%@page import="Logica.DtUsuario"%>
+<%@page import="Logica.DtCliente"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Logica.DtAlbum"%>
 <%@page import="Logica.DtArtista"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%  if(session.getAttribute("Usuario") == null || session.getAttribute("Usuario") instanceof DtCliente ){ %>
+    <script>alert("Solo un artista puede crear sus albumes");</script>
+    <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
+    <%} else{
+        if (session.getAttribute("PerfilArt")==null){
+            DtUsuario dt = (DtUsuario) session.getAttribute("Usuario");%>
+            <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?verPerfilArt=<%= dt.getNickname()%>">
+    <%}else{%>
 <html>
     <style>
                 table {
@@ -151,7 +161,7 @@
           </div>
           <div class="col-sm-3">
             <h3>Elegir Imagen Album</h3>        
-            <img id="imgalbum" src="https://vignette.wikia.nocookie.net/callofduty/images/b/b1/Happy_face.png" width="230" height="230" />
+            <img id="imgalbum" src="" width="230" height="230" />
             <form  target="iframe" action="subir.jsp" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">
                 <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
                 <br><br><div class="form-group">
@@ -171,4 +181,4 @@
         <script src="../Bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>
-
+<%}}%>

@@ -100,9 +100,6 @@
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">
-                                <% if (cliente.getListas().isEmpty()) { %>
-                                <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
-                                <%} else {%>
                                 <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                 <br>
                                 <h4><label class="texto">Crear lista de reproducción</label>    
@@ -112,6 +109,9 @@
                                     </form> 
                                 </h4>
                                 <% }%>
+                                <% if (cliente.getListas().isEmpty()) { %>
+                                <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
+                                <%} else {%>
                                 <br>
                                 <table class="table text-left">
                                     <thead>

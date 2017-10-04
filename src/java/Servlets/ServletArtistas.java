@@ -159,7 +159,7 @@ public class ServletArtistas extends HttpServlet {
                 
                 if(dt instanceof DtCliente){
                     //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
-                    Fabrica.getCliente().actualizarVigenciaSuscripciones(nickname);
+                    Fabrica.getCliente().actualizarVigenciaSuscripciones(dt.getNickname());
                 }
                 
                 response.sendRedirect("ServletArtistas?Inicio=true");

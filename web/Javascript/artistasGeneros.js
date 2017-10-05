@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 function artSeleccionado(elemento, opcion){
     if(opcion === true){
         var img = elemento.parentNode.querySelector("img");
@@ -12,7 +13,12 @@ function artSeleccionado(elemento, opcion){
         img.style.borderColor='';
     }
 }
-$(document).ready(function(){   
+$(document).ready(function(){    
+    
+    
+    
+    //
+    
     //evento click del elemento con el id '#...'
     $('#btnArtistas').click(function() {
         $('#btnArtistas').removeClass("opcionNoSelec");
@@ -53,7 +59,6 @@ $(document).ready(function(){
         });
         
     });
-   
 });
 
 function publicarLista (nombLista) { 

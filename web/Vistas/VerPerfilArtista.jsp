@@ -94,6 +94,11 @@
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">
+                                <% if (request.getSession().getAttribute("Usuario")!=null){
+                                        DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("Usuario");
+                                        if (artista.getNickname().equals(dtu.getNickname())){%>
+                                            <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a>
+                                <%}}%>
                                 <%for (DtAlbum album : artista.getAlbumes()) {%>
                                 <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4>
                                     <%}%>

@@ -113,7 +113,7 @@ public class ServletArtistas extends HttpServlet {
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
                 byte[] imagen = null;
-                if (request.getParameter("foto")!=null){
+                if (request.getParameter("foto")!=""){
                     String img = request.getParameter("foto");
                     img = (path + img);
                     imagen = org.apache.commons.io.FileUtils.readFileToByteArray(new File(img));

@@ -59,13 +59,11 @@
                                 }
                                 if (control) {
                         %>
-                        <button id="<%= artista.getNickname()%>DS" style="display:block; margin-left: 48%; " class="text-center text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= artista.getNickname()%>'); this.style.display = 'none'; location.reload();"></button>
-                        <button id="<%= artista.getNickname()%>S" style="display:none; margin-left: 48%;"class="text-center text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= artista.getNickname()%>');this.style.display = 'none'; location.reload();"></button>
+                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"></a>
                         <%} else {%>
-                        <button id="<%= artista.getNickname()%>DS" style="display:none; margin-left: 48%;"  class="text-center text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= artista.getNickname()%>'); this.style.display = 'none'; location.reload();"></button>
-                        <button id="<%= artista.getNickname()%>S" style="display:block; margin-left: 48%;" class="text-center text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= artista.getNickname()%>'); this.style.display = 'none'; location.reload();"></button>
+                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>"></a>
                         <%}
-                                                }%>
+                            }%>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Álbumes</b></h4></a></li>
@@ -94,11 +92,12 @@
                                 <br>
                             </div>
                             <div id="menu1" class="tab-pane fade">
-                                <% if (request.getSession().getAttribute("Usuario")!=null){
+                                <% if (request.getSession().getAttribute("Usuario") != null) {
                                         DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("Usuario");
-                                        if (artista.getNickname().equals(dtu.getNickname())){%>
-                                            <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a>
-                                <%}}%>
+                                        if (artista.getNickname().equals(dtu.getNickname())) {%>
+                                <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a>
+                                <%}
+                                    }%>
                                 <%for (DtAlbum album : artista.getAlbumes()) {%>
                                 <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4>
                                     <%}%>
@@ -118,13 +117,11 @@
                                             }
                                             if (control) {
                                     %>
-                                    <button id="<%= seguidor.getNickname()%>DS" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= seguidor.getNickname()%>');this.style.display = 'none';"></button>
-                                    <button id="<%= seguidor.getNickname()%>S" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= seguidor.getNickname()%>');this.style.display = 'none';"></button>
+                                    <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"></a>
                                     <%} else {%>
-                                    <button id="<%= seguidor.getNickname()%>DS" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= seguidor.getNickname()%>'); this.style.display = 'none';"></button>
-                                    <button id="<%= seguidor.getNickname()%>S" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= seguidor.getNickname()%>'); this.style.display = 'none';"></button>
+                                    <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"></a>
                                     <%}
-                                               }%>
+                            }%>
                                     <br>
                                     <%}%>
                                     </div>

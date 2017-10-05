@@ -60,7 +60,7 @@
                             <h3 class="tituloAlbum"><%= album.getNombre() %></h3> 
                             <a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
                             <h3 class="anio"><%= album.getAnio() %></h3>
-                            <%if(usuario != null && usuario instanceof DtCliente){%>
+                            <%if(usuario != null && usuario instanceof DtCliente && cliente){%>
                             <a href="ServletClientes?art=<%=album.getNombreArtista() +"&alb="+album.getNombre()%>">Guardar</a>
                             <%}%>
                             <br> <br>
@@ -79,7 +79,7 @@
                                 String durac = tem.getDuracion();
                                 %>
                                 <tr>
-                                    <%if(usuario != null && usuario instanceof DtCliente){%>
+                                    <%if(usuario != null && usuario instanceof DtCliente && cliente){%>
                                     <td>
                                         <div class="row">
                                             <div class="span">

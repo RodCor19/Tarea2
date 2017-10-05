@@ -20,10 +20,7 @@
                     session.setAttribute("Usuario", dt);
                 }
             }
-            if (!controlSeguir) {
         %>
-        <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
-        <%}%>
     </head>
     <body>
         <%
@@ -36,7 +33,6 @@
                 <div class="btn-group-vertical col-sm-2" ></div>
                 <div class="col-sm-8 text-center">
                     <div  class="tab-pane ">
-                        <% if (controlSeguir) { %>
                         <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
                                 <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
                                 <button class="btn" type="submit">
@@ -44,8 +40,7 @@
                                 </button>
                             </form> </h3>
                         <br/>
-                        <% }
-                            if (usus.isEmpty()) { %>
+                        <% if (usus.isEmpty()) { %>
                         <h4 class="lineaAbajo">No hay ningún resultado</h4>
                         <%} else {%>
                         <br>    
@@ -83,14 +78,11 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <button id="<%= u.getNickname()%>DS" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= u.getNickname()%>'); this.style.display = 'none';"></button>
-                                        <button id="<%= u.getNickname()%>S" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= u.getNickname()%>');this.style.display = 'none';"></button>
+                                        <button class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"></button>
                                         <%} else {%>
-                                        <button id="<%= u.getNickname()%>DS" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= u.getNickname()%>');
-                                                this.style.display = 'none';"></button>
-                                        <button id="<%= u.getNickname()%>S" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= u.getNickname()%>'); this.style.display = 'none';"></button>
+                                        <button class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>"></button>
                                         <%}
-                                            }%>
+                                                    }%>
                                     </td> 
                                 </tr>
                                 <%}%>

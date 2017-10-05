@@ -192,12 +192,13 @@ public class ServletArtistas extends HttpServlet {
             String nombre = request.getParameter("consultarAlbum");
             ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);
             request.getSession().setAttribute("Album", albumnes);
-
+            if (nombre.contains("&"))
+                nombre = java.net.URLEncoder.encode(nombre, "UTF-8");
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen=" + nombre);
             requestDispatcher.forward(request, response);
 
-            response.getWriter().write("albumnes cargados");
+            response.getWriter().write("albumes cargados");
         }
 
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {

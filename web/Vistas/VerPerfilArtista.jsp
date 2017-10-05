@@ -135,6 +135,7 @@
                         </div>
                     </div>
                 </div>
+        </div>
 
                 <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 

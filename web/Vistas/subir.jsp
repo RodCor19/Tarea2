@@ -32,6 +32,7 @@
                 /*cual sera la ruta al archivo en el servidor*/
                 
                 File archivo_server = new File(path + item.getName());
+                archivo_server.getParentFile().mkdirs();
 //                archivo_server.getParentFile().mkdirs();
 //                archivo_server.createNewFile();
                 /*y lo escribimos en el servido*/

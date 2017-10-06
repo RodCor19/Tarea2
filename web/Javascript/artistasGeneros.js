@@ -15,11 +15,7 @@ function artSeleccionado(elemento, opcion){
 }
 $(document).ready(function(){    
     
-    
-    
-    //
-    
-    //evento click del elemento con el id '#...'
+        //evento click del elemento con el id '#...'
     $('#btnArtistas').click(function() {
         $('#btnArtistas').removeClass("opcionNoSelec");
         $('#btnArtistas').addClass("opcionSelec");
@@ -59,6 +55,7 @@ $(document).ready(function(){
         });
         
     });
+    
 });
 
 function publicarLista (nombLista) { 

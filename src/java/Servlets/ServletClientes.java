@@ -87,8 +87,8 @@ public class ServletClientes extends HttpServlet {
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
             Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
-            //response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-            response.getWriter().write("ok");
+            response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+            //response.getWriter().write("ok");
         }
 
         if (request.getParameter("seguir") != null) {
@@ -98,13 +98,13 @@ public class ServletClientes extends HttpServlet {
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
             try {
                 Fabrica.getCliente().seguir(dt.getNickname(), nickname);
-                //sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
-                //response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-                response.getWriter().write("ok");
+                sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                //response.getWriter().write("ok");
             } catch (Exception ex) {
-                //sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
-                //response.sendRedirect("ServletArtistas?Inicio=true");
-                response.getWriter().write("ERROR : " + ex.getMessage());
+                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
+                response.sendRedirect("ServletArtistas?Inicio=true");
+                //response.getWriter().write("ERROR : " + ex.getMessage());
             }
         }
 

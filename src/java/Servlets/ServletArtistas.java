@@ -113,7 +113,7 @@ public class ServletArtistas extends HttpServlet {
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
                 byte[] imagen = null;
-                if (request.getParameter("foto")!=null){
+                if (request.getParameter("foto")!=""){
                     String img = request.getParameter("foto");
                     img = (path + img);
                     imagen = org.apache.commons.io.FileUtils.readFileToByteArray(new File(img));
@@ -188,16 +188,6 @@ public class ServletArtistas extends HttpServlet {
 
             response.getWriter().write("perfil del artista cargado");
         }
-        if (request.getParameter("verPerfilArt") != null) {
-            String nickname = request.getParameter("verPerfilArt");
-            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
-            request.getSession().setAttribute("PerfilArt", datosArtista);
-
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
-            requestDispatcher.forward(request, response);
-
-            response.getWriter().write("perfil del artista cargado");
-        }
         if (request.getParameter("consultarAlbum") != null) {
             String nombre = request.getParameter("consultarAlbum");
             ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);
@@ -206,8 +196,6 @@ public class ServletArtistas extends HttpServlet {
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen=" + nombre);
             requestDispatcher.forward(request, response);
-
-            response.getWriter().write("albumnes cargados");
         }
 
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {

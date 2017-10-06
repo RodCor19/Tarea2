@@ -55,21 +55,20 @@
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
                         <%}%>
                         <h3 class="tituloPerfil text-primary"><b><%= cliente.getNombre() + " " + cliente.getApellido()%></b></h3>
-                                <%
-                                    if (controlSeguir && !perfilUsr.getNickname().equals(cliente.getNickname())) {
-                                        boolean control = false;
-                                        for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                            if (dt.getUsuariosSeguidos().get(i).getNickname().equals(cliente.getNickname())) {
-                                                control = true;
-                                            }
-                                        }
-                                        if (control) {
-                                %>
-                        <button id="<%= cliente.getNickname()%>DS" style="display:block;margin-left: 48%" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
-                        <button id="<%= cliente.getNickname()%>S" style="display:none;margin-left: 48%"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir('<%= cliente.getNickname()%>');this.style.display = 'none';"></button>
+                        <br>
+                        <%
+                            if (controlSeguir && !perfilUsr.getNickname().equals(cliente.getNickname())) {
+                                boolean control = false;
+                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(cliente.getNickname())) {
+                                        control = true;
+                                    }
+                                }
+                                if (control) {
+                        %>
+                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>"></a>
                         <%} else {%>
-                        <button id="<%= cliente.getNickname()%>DS" style="display:none;margin-left: 48%"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
-                        <button id="<%= cliente.getNickname()%>S" style="display:block;margin-left: 48%" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir('<%= cliente.getNickname()%>'); this.style.display = 'none';"></button>
+                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>"></a>
                         <%}
                             }%>
 
@@ -136,14 +135,12 @@
                                                 nLista = new String(bytes, StandardCharsets.ISO_8859_1);
                                         %>
                                         <tr>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
-                                            <td><h4><%= tipo%></h4></td>
-                                           <% if (lista.isPrivada() && controlSeguir) {%>
-                                           <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
-                                                
-                                           <%}else{%> 
-                                                <td> </td>
-                                           <%}%>
+                                            <% if (lista.isPrivada() && controlSeguir) {%>
+                                            <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
+
+                                            <%} else {%> 
+                                            <td> </td>
+                                            <%}%>
                                         </tr>
                                         <%}%>
                                     </tbody>
@@ -171,11 +168,9 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <button id="<%= seguidor.getNickname()%>DS1" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir2('<%= seguidor.getNickname()%>');"></button>
-                                        <button id="<%= seguidor.getNickname()%>S1" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir2('<%= seguidor.getNickname()%>');"></button>
+                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"></a>
                                         <%} else {%>
-                                        <button id="<%= seguidor.getNickname()%>DS1" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir2('<%= seguidor.getNickname()%>');"></button>
-                                        <button id="<%= seguidor.getNickname()%>S1" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir2('<%= seguidor.getNickname()%>');"></button>
+                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"></a>
                                         <%}
                                             }%>
                                     </div>
@@ -186,15 +181,13 @@
                                 <br>
                             </div>
                             <div id="menu3" class="tab-pane fade">
-                                <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                 <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
                                         <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
                                         <button class="btn" type="submit">
                                             <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
                                         </button>
                                     </form> </h3>
-                                    <% }
-                                        if (cliente.getUsuariosSeguidos().isEmpty()) { %>
+                                    <%if (cliente.getUsuariosSeguidos().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
                                 <%} else {%>
                                 <br>    
@@ -224,21 +217,10 @@
                                             <td>
                                                 <%
                                                     if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-                                                        boolean control = false;
-                                                        for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                            if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
-                                                                control = true;
-                                                            }
-                                                        }
-                                                        if (control) {
+                                                        
                                                 %>
-                                                <button id="<%= seguido.getNickname()%>DS2" name="<%= seguido.getNickname()%>DS" style="display:block;" class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick="dejarSeguir2('<%= seguido.getNickname()%>'); this.style.display = 'none';"></button>
-                                                <button id="<%= seguido.getNickname()%>S2" name="<%= seguido.getNickname()%>S" style="display:none;"class="text-primary btn btn-success glyphicon glyphicon-ok" onclick="seguir2('<%= seguido.getNickname()%>');this.style.display = 'none';"></button>
-                                                <%} else {%>
-                                                <button id="<%= seguido.getNickname()%>DS2" name="<%= seguido.getNickname()%>DS" style="display:none;"  class="text-primary btn btn-danger glyphicon glyphicon-remove" onclick=" dejarSeguir2('<%= seguido.getNickname()%>'); this.style.display = 'none';"></button>
-                                                <button id="<%= seguido.getNickname()%>S2" name="<%= seguido.getNickname()%>S" style="display:block;" class="text-primary btn btn-success glyphicon glyphicon-ok" onclick= "seguir2('<%= seguido.getNickname()%>'); this.style.display = 'none';"></button>
-                                                <%}
-                                                    }%>
+                                                <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"></a>
+                                                <%}%>
                                             </td> 
                                         </tr>
                                         <%}%>
@@ -278,8 +260,14 @@
                                 for (DtListaP lista : cliente.getListas()) {
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
+                                        String nLista = lista.getNombre();
+                                        //se crea un array de bytes con la codificación que se envía en los parametros
+                                        byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
+                                        // "normaliza" el texto
+                                        nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+
                             %>    
-                            <h4 class="lineaAbajo"><a class="link" href="#"><%= lista.getNombre()%></a></h4>
+                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
                                 <%}
                                     }
                                     if (cantListPub == 0) {%>

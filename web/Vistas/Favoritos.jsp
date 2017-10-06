@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="Logica.Fabrica"%>
 <%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtListaP"%>
@@ -37,7 +38,7 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div class="row">
-                        <h3 class="lineaAbajo"><b>Favoritos de <%= cliente.getNombre()+" "+cliente.getApellido() %></b></h3>
+                        <h3 class="lineaAbajo"><b>Mis Favoritos</b></h3>
                         <ul class="nav nav-tabs" style="padding-top: 0px;">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Álbumes</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Temas</b></h4></a></li>
@@ -106,12 +107,23 @@
                                         <% for (DtLista lista : cliente.getFavListas()) { %>
                                         <tr>
                                             <% if (lista instanceof DtListaP) {
-                                                    DtListaP listaP = (DtListaP) lista;%>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= listaP.getNombre()%>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
+                                                DtListaP listaP = (DtListaP) lista;
+                                                String nLista = lista.getNombre();
+                                                //se crea un array de bytes con la codificación que se envía en los parametros
+                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
+                                                // "normaliza" el texto
+                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);%>
+                                                
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
                                                         <%} else {
-                                                DtListaPD listaPD = (DtListaPD) lista;%>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= listaPD.getNombre()%>"><h4><%= listaPD.getNombre()%></h4></a></td>
+                                                DtListaPD listaPD = (DtListaPD) lista;
+                                                        String nLista = lista.getNombre();
+                                                //se crea un array de bytes con la codificación que se envía en los parametros
+                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
+                                                // "normaliza" el texto
+                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);%>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>"><h4><%= listaPD.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaPD.getGenero()%>"><h4><%= listaPD.getGenero()%></h4></a></td>
                                                         <%}%>
                                         </tr>

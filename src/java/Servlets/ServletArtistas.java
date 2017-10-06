@@ -117,7 +117,9 @@ public class ServletArtistas extends HttpServlet {
                 if (request.getParameter("foto")!=""){
                     String img = request.getParameter("foto");
                     img = (path + img);
-                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(new File(img));
+                    File im = new File(img);
+                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                    im.delete();
                     }
                 //org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path +"hola.jpg"), bs);
                 HashMap<String,DtTema> temasenviar = new HashMap();
@@ -131,8 +133,11 @@ public class ServletArtistas extends HttpServlet {
                     DtTema dtt;
                     if (arch_url.contains(".mp3")){
                         arch_url = (path + arch_url);
-                        byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(new File(arch_url));
+                        File audio =new File(arch_url);
+                        byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
                         dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
+                        audio.delete();
+                        
                     }
                     else
                         dtt = new DtTema(nomtema,duracion,orden,null,arch_url);

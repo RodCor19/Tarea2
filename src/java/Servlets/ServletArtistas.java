@@ -112,6 +112,7 @@ public class ServletArtistas extends HttpServlet {
                 int n = temas.length();
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path= path.substring(1);
                 byte[] imagen = null;
                 if (request.getParameter("foto")!=""){
                     String img = request.getParameter("foto");

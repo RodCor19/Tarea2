@@ -27,13 +27,15 @@
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
         <title>Espotify: Lista de Reproduccion</title>
         <%if (dt == null) {
+
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%}
-            DtListaP aux = (DtListaP) dt;
             DtUsuario aux2 = (DtUsuario) session.getAttribute("Usuario");
             boolean cliente = false;
-            if (aux.isPrivada() && aux2 != null && aux2 instanceof DtArtista) {%>
+            if (dt instanceof DtListaP) {
+                DtListaP aux = (DtListaP) dt;
+                if (aux.isPrivada() && aux2 != null && aux2 instanceof DtArtista) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
             DtCliente dtc = (DtCliente) aux2;
@@ -41,9 +43,10 @@
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%}
-            if (aux2 !=null && Fabrica.getCliente().SuscripcionVigente(aux2.getNickname())) {
-                cliente = true;
-            }
+                    if (aux2 != null && Fabrica.getCliente().SuscripcionVigente(aux2.getNickname())) {
+                        cliente = true;
+                    }
+                }
             }%>
     </head>
     <body>
@@ -55,7 +58,7 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <img src="/EspotifyWeb/Imagenes/iconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
+                        <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <% if (dt instanceof DtListaPD) {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Por Defecto</h4>
@@ -116,8 +119,8 @@
                                         <%} else {%>
                                         <td><%= nombre%></td>
                                         <%}%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getAlbum() + "&artista=" + tem.getArtista() %>"><%= tem.getAlbum() %></a></td>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getArtista()%>"><%= a.getNombre() +" "+ a.getApellido() %></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getAlbum() + "&artista=" + tem.getArtista()%>"><%= tem.getAlbum()%></a></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getArtista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                         <%if (cliente) {%>
                                         <%if (tem.getArchivo() != null) {%>
                                         <td><%= durac%> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>">Descargar</a></td>
@@ -127,7 +130,7 @@
                                         <%} else {%>
                                         <%if (tem.getDireccion() != null) {%>
                                         <td><%= durac%><br> <a id="Link" href="http://<%= tem.getDireccion()%>">Escuchar online</a></td>
-                                        <%} else {%>
+                                            <%} else {%>
                                         <td><%= durac%></td>
                                         <%}%>
                                         <%}%>

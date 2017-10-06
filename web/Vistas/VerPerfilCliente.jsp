@@ -4,7 +4,7 @@
     Author     : Kevin
 --%>
 
-<%@page import="java.nio.charset.StandardCharsets"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtLista"%>
@@ -102,11 +102,16 @@
                                 <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                 <br>
                                 <h4><label class="texto">Crear lista de reproducción</label>    
-                                    <form id="formLista" action="/EspotifyWeb/ServletClientes" method="GET" class="navbar-form navbar-left input-group">
-                                        <input id="cLista" name="cLista" placeholder="Nombre de lista" type="text" class="form-control"/><button class="btn glyphicon glyphicon-edit" type="submit">
-                                        </button>
-                                    </form> 
+                                    <div >
+                                        <input id="cLista" name="cLista" placeholder="Nombre de lista" type="text" class="form-control"/>
+                                    </div> 
+                                    <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/Vistas/SubirImagenLista.jsp" enctype="MULTIPART/FORM-DATA" method="post">
+                                            <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
+                                            <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
+                                    </form>
+                                   
                                 </h4>
+                                <br class="x">
                                 <% }%>
                                 <% if (cliente.getListas().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
@@ -128,15 +133,13 @@
                                                 } else {
                                                     tipo = "Pública";
                                                 }
-                                                String nLista = lista.getNombre();
-                                                //se crea un array de bytes con la codificación que se envía en los parametros
-                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                                // "normaliza" el texto
-                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+                                                String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
                                         %>
                                         <tr>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                            <td><h4><%= tipo%></h4></td>
                                             <% if (lista.isPrivada() && controlSeguir) {%>
-                                            <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
+                                            <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
 
                                             <%} else {%> 
                                             <td> </td>
@@ -217,7 +220,7 @@
                                             <td>
                                                 <%
                                                     if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-                                                        
+
                                                 %>
                                                 <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"></a>
                                                 <%}%>
@@ -260,11 +263,7 @@
                                 for (DtListaP lista : cliente.getListas()) {
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
-                                        String nLista = lista.getNombre();
-                                        //se crea un array de bytes con la codificación que se envía en los parametros
-                                        byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                        // "normaliza" el texto
-                                        nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+                                        String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
 
                             %>    
                             <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
@@ -290,6 +289,5 @@
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/lista.js"></script>
-        <script src="/EspotifyWeb/Javascript/Seguir.js"></script>
     </body>
 </html>

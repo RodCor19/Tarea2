@@ -12,7 +12,9 @@
 <%  ArrayList<String> generos = (ArrayList<String>) session.getAttribute("Generos"); %>
 
 <div class="row">
-    <%for(String gen: generos){ %>
+    <%for(String gen: generos){
+        
+    %>
     <div class="col-md-4" style="padding: 2px;">
         <% String generoCodificado = URLEncoder.encode(gen, "UTF-8"); %>
         <a href="ServletArtistas?consultarAlbum=<%= generoCodificado %>">

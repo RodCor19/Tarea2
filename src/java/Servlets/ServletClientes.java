@@ -6,11 +6,13 @@
 package Servlets;
 
 import Logica.DtCliente;
+import Logica.DtLista;
 import Logica.DtListaP;
 import Logica.DtListaPD;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -52,31 +54,32 @@ public class ServletClientes extends HttpServlet {
             String nickname = request.getParameter("verPerfilCli");
             DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(nickname);
             sesion.setAttribute("PerfilCli", datosClientes);
-            
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
             requestDispatcher.forward(request, response);
 
             response.getWriter().write("perfil del cliente cargado");
         }
-        
-          if(request.getParameter("Registrarse") != null){
-            try{
-            String nickname=request.getParameter("nickname");
-            String contrasenia=request.getParameter("contrasenia");
-            String nombre=request.getParameter("nombre");
-            String apellido=request.getParameter("apellido");
-            String fechanac= request.getParameter("fechanac");
-            String correo=request.getParameter("correo");
-  
-            SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
 
-            DtCliente cli=new DtCliente(nickname,contrasenia,nombre,apellido,formato.parse(fechanac),correo,null,null,null,null,null,null, null, null);
-            boolean x = Fabrica.getCliente().IngresarCliente(cli);
-            if (!x) 
-                response.getWriter().write("si");
-            else
-                response.getWriter().write("no");
-                          
+        if (request.getParameter("Registrarse") != null) {
+            try {
+                String nickname = request.getParameter("nickname");
+                String contrasenia = request.getParameter("contrasenia");
+                String nombre = request.getParameter("nombre");
+                String apellido = request.getParameter("apellido");
+                String fechanac = request.getParameter("fechanac");
+                String correo = request.getParameter("correo");
+
+                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+
+                DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, formato.parse(fechanac), correo, null, null, null, null, null, null, null, null);
+                boolean x = Fabrica.getCliente().IngresarCliente(cli);
+                if (!x) {
+                    response.getWriter().write("si");
+                } else {
+                    response.getWriter().write("no");
+                }
+
             } catch (ParseException ex) {
                 Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -121,15 +124,13 @@ public class ServletClientes extends HttpServlet {
         if (request.getParameter("art") != null && request.getParameter("alb") != null) {
             String arti = request.getParameter("art");
             String albu = request.getParameter("alb");
-           
+
             DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
             Fabrica.getCliente().agregarAlbumFavorito(dc.getNickname(), arti, albu);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
         }
-        
-        
 
         if (request.getParameter("contratarSuscripcion") != null) {
             ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
@@ -152,93 +153,87 @@ public class ServletClientes extends HttpServlet {
 
         if (request.getParameter("cargarDatosPrueba") != null) {
             Fabrica.getCliente().CargadeDatos();
-            
-            if(sesion.getAttribute("Usuario") != null && sesion.getAttribute("Usuario") instanceof DtCliente){
-                DtCliente dtCli = (DtCliente) sesion.getAttribute("Usuario");
-                Fabrica.getCliente().actualizarVigenciaSuscripciones(dtCli.getNickname());
-            }
+            request.getSession().removeAttribute("Usuario");
             
             response.getWriter().write("se han cargado los datos de prueba");
         }
-        
-        if(request.getParameter("VerFavoritos") != null){
-            DtCliente dtCli = (DtCliente)request.getSession().getAttribute("Usuario");
+
+        if (request.getParameter("VerFavoritos") != null) {
+            DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
             DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(dtCli.getNickname());
-            
+
             sesion.setAttribute("PerfilCli", datosClientes);
-            
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Favoritos.jsp");
             requestDispatcher.forward(request, response);
         }
-         
 
-        if (request.getParameter("nomLista") != null) {
-            String nLista = request.getParameter("nomLista");
+        if (sesion.getAttribute("cLista") != null) {
+            String nLista = (String) sesion.getAttribute("cLista"), imagen = null;
             //se crea un array de bytes con la codificación que se envía en los parametros
             byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
             // "normaliza" el texto
             nLista = new String(bytes, StandardCharsets.UTF_8);
-            DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
-            c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
-            for (DtListaP l : c.getListas()) {
-                if (l.getNombre().equals(nLista)) {
-                    response.getWriter().write("Lista en uso");
-                } else {
-                    response.getWriter().write("ok");
-                }
+            if (sesion.getAttribute("imagen") != null) {
+                imagen = (String) sesion.getAttribute("imagen");
+                imagen = imagen.substring(1);
+                sesion.removeAttribute("imagen");
             }
-        }
-
-        if (request.getParameter("cLista") != null) {
-            String nLista = request.getParameter("cLista");
-            //se crea un array de bytes con la codificación que se envía en los parametros
-            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-            // "normaliza" el texto
-            nLista = new String(bytes, StandardCharsets.UTF_8);
+            sesion.removeAttribute("cLista");
             DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
-            Fabrica.getCliente().crearListaP(c.getNickname(), nLista, null);
+            Fabrica.getCliente().crearListaP(c.getNickname(), nLista, imagen);
             try {
                 Fabrica.getCliente().confirmar();
                 c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
                 sesion.setAttribute("Usuario", c);
-                sesion.setAttribute("Mensaje", "Lista Creada");
+                sesion.setAttribute("Mensaje", "Lista creada");
+                File fichero = new File(imagen);
+                if (fichero.delete()) {
+                    System.out.println("El fichero ha sido borrado satisfactoriamente");
+                } else {
+                    System.out.println("El fichero no puede ser borrado");
+                }
                 response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
             } catch (Exception ex) {
-                sesion.setAttribute("Mensaje", "Hubo un error al crear la lista \n"+ ex.getMessage());
+                sesion.setAttribute("Mensaje", ex.getMessage());
                 response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
             }
 
         }
-        
-        if(request.getParameter("Lista")!=null){
+
+        if (request.getParameter("Lista") != null) {
             String nLista = request.getParameter("Lista");
             //se crea un array de bytes con la codificación que se envía en los parametros
             byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
             // "normaliza" el texto
             nLista = new String(bytes, StandardCharsets.UTF_8);
-            if(request.getParameter("Usuario")!=null){
+            if (request.getParameter("Usuario") != null) {
                 String nick = request.getParameter("Usuario");
                 DtListaP aux = null;
                 ArrayList<DtListaP> dt = Fabrica.getCliente().ListarListaP();
-                for(DtListaP p : dt)
-                    if(p.getNombre().equals(nLista) && p.getUsuario().equals(nick))
-                        aux=p;
-                sesion.setAttribute("Lista", aux);
+                for (DtListaP p : dt) {
+                    if (p.getNombre().equals(nLista) && p.getUsuario().equals(nick)) {
+                        aux = p;
+                    }
+                }
+                sesion.setAttribute("Lista", (DtLista) aux);
                 response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
-            }else{
+            } else {
                 DtListaPD aux = null;
-                for(DtListaPD pd : Fabrica.getArtista().ListarListaPD())
-                    if(pd.getNombre().equals(nLista))
-                        aux=pd;
-                sesion.setAttribute("Lista", aux);
+                for (DtListaPD pd : Fabrica.getArtista().ListarListaPD()) {
+                    if (pd.getNombre().equals(nLista)) {
+                        aux = pd;
+                    }
+                }
+                sesion.setAttribute("Lista", (DtLista) aux);
                 response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
             }
         }
-        if(request.getParameter("publicarLista") != null){
-                DtCliente dtCli = (DtCliente)request.getSession().getAttribute("Usuario");
-                String nLista = request.getParameter("publicarLista");
-                Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
-            }    
+        if (request.getParameter("publicarLista") != null) {
+            DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
+            String nLista = request.getParameter("publicarLista");
+            Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+        }
 
     }
 

@@ -47,6 +47,7 @@
                         <table class="table text-left">
                             <thead>
                                 <tr>
+                                    <th><h4><b>Nickname</b></h4></th>
                                     <th><h4><b>Usuario</b></h4></th>
                                     <th><h4><b>Tipo</b></h4></th>
                                     <th></th> <!-- Es para el boton seguir/dejar de seguir -->
@@ -65,6 +66,7 @@
                                         }
                                 %>
                                 <tr>
+                                    <td><a class="link" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNickname() %></h4></a></td>
                                     <td><a class="link" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNombre() + " " + u.getApellido()%></h4></a></td>
                                     <td><h4><%= tipo%></h4></td> 
                                     <td>
@@ -98,7 +100,5 @@
         <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
-        <script src="/EspotifyWeb/Javascript/Seguir.js"></script>
-
     </body>
 </html>

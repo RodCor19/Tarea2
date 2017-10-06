@@ -14,6 +14,7 @@
 <%@ page import="java.io.*" %>
  
 <%
+
         /*FileItemFactory es una interfaz para crear FileItem*/
         FileItemFactory file_factory = new DiskFileItemFactory();
  
@@ -23,7 +24,9 @@
         List items = servlet_up.parseRequest(request);
         String path = this.getClass().getClassLoader().getResource("").getPath();
         path = path.replace("build/web/WEB-INF/classes/","temporales/");
-        
+        if(session.getAttribute("imagen")!=null){
+            session.removeAttribute("imagen");
+        }
         for(int i=0;i<items.size();i++){
             /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
             FileItem item = (FileItem) items.get(i);
@@ -32,9 +35,10 @@
                 /*cual sera la ruta al archivo en el servidor*/
                 
                 File archivo_server = new File(path + item.getName());
+                archivo_server.getParentFile().mkdirs();
 //                archivo_server.getParentFile().mkdirs();
 //                archivo_server.createNewFile();
-                /*y lo escribimos en el servido*/
+                /*y lo escribimos en el servidor*/
                 item.write(archivo_server);
                 out.print("Nombre --> " + item.getName() );
                 out.print("<br> Tipo --> " + item.getContentType());

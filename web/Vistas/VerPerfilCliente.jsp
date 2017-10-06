@@ -141,7 +141,7 @@
                                         %>
                                         <tr>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
-                                            <td><h4><%= tipo%></h4></td>
+                                            <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
                                             <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
 

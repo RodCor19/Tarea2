@@ -35,16 +35,18 @@
             boolean cliente = false;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
-                if (aux.isPrivada() && aux2 != null && aux2 instanceof DtArtista) {%>
+                if (aux.isPrivada() && ((aux2==null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
-            DtCliente dtc = (DtCliente) aux2;
-            if (!dtc.getNickname().equals(aux.getUsuario()) && aux.isPrivada()) {
+            if (aux2 instanceof DtCliente) {
+                DtCliente dtc = (DtCliente) aux2;
+                if (!dtc.getNickname().equals(aux.getUsuario()) && aux.isPrivada()) {
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%}
-                    if (aux2 != null && Fabrica.getCliente().SuscripcionVigente(aux2.getNickname())) {
-                        cliente = true;
+                        if (aux2 != null && Fabrica.getCliente().SuscripcionVigente(aux2.getNickname())) {
+                            cliente = true;
+                        }
                     }
                 }
             }%>
@@ -58,8 +60,12 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <img src="/EspotifyWeb/Imagenes/iconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
-                        <% if (dt instanceof DtListaPD) {%>
+                        <%if (dt.getImagen() != null) {%>
+                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
+                        <%} else {%>
+                        <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
+                        <%}
+                            if (dt instanceof DtListaPD) {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Por Defecto</h4>
                         <%} else {%>
@@ -70,19 +76,24 @@
                         <div class="tab-pane">
                             <% if (dt instanceof DtListaPD) {
                                     DtListaPD dtpd = (DtListaPD) dt;
+                                    String gen = dtpd.getGenero();
+                                    if (gen.contains("&")) {
+                                        gen = java.net.URLEncoder.encode(gen, "UTF-8");
+                                    }
                             %>
-                            <h4 class="lineaAbajo"><b>Género:</b> <%= dtpd.getGenero()%></h4>
-                            <%} else {
-                                DtListaP dtp = (DtListaP) dt;
-                                String tipo = "Privada";
-                            %>
-                            <h4 class="lineaAbajo"><b>Cliente:</b> <%= dtp.getUsuario()%></h4>
+                            <h4 class="lineaAbajo"><b>Género:</b> <a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= gen %>"><%= dtpd.getGenero()%></a></h4>
+                                <%} else {
+                                    DtListaP dtp = (DtListaP) dt;
+                                    String tipo = "Privada";
+                                %>
+                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= dtp.getUsuario()%></a></h4>
                             <%if (!dtp.isPrivada()) {
                                     tipo = "Pública";
-                                }
                             %>
                             <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%></h4>
-                            <%}%>
+                            <%}else{%>
+                            <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%> <button id="btnPublicar" class="btn" onclick="publicarLista('<%= dtp.getNombre()%>')">Publicar</button></h4>
+                            <%}}%>
                         </div>
                         <br>
                         <div class="tab-pane">
@@ -152,6 +163,7 @@
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ListaReproduccion.js"></script>
-        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>               
+        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
     </body>
 </html>

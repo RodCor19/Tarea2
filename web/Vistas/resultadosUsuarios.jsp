@@ -98,7 +98,5 @@
         <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
-        <script src="/EspotifyWeb/Javascript/Seguir.js"></script>
-
     </body>
 </html>

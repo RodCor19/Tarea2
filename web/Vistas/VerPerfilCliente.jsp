@@ -102,11 +102,16 @@
                                 <% if (controlSeguir && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                 <br>
                                 <h4><label class="texto">Crear lista de reproducción</label>    
-                                    <form id="formLista" action="/EspotifyWeb/ServletClientes" method="GET" class="navbar-form navbar-left input-group">
-                                        <input id="cLista" name="cLista" placeholder="Nombre de lista" type="text" class="form-control"/><button class="btn glyphicon glyphicon-edit" type="submit">
-                                        </button>
-                                    </form> 
+                                    <div >
+                                        <input id="cLista" name="cLista" placeholder="Nombre de lista" type="text" class="form-control"/>
+                                    </div> 
+                                    <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/Vistas/SubirImagenLista.jsp" enctype="MULTIPART/FORM-DATA" method="post">
+                                            <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
+                                            <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
+                                    </form>
+                                   
                                 </h4>
+                                <br class="x">
                                 <% }%>
                                 <% if (cliente.getListas().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
@@ -174,7 +179,7 @@
                                         <%} else {%>
                                         <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"></a>
                                         <%}
-                                        }%>
+                                            }%>
                                     </div>
                                 </h4>
                                 <% }
@@ -219,7 +224,7 @@
                                             <td>
                                                 <%
                                                     if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-                                                        
+
                                                 %>
                                                 <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"></a>
                                                 <%}%>
@@ -292,6 +297,5 @@
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/lista.js"></script>
-        <script src="/EspotifyWeb/Javascript/Seguir.js"></script>
     </body>
 </html>

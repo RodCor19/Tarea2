@@ -4,6 +4,7 @@
     Author     : usuario
 --%>
 
+<%@page import="java.util.Collections"%>
 <%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtUsuario"%>
@@ -73,7 +74,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%for(DtTema tem: album.getTemas()){ 
+                                <% ArrayList<DtTema> arr = album.getTemas();
+                                Collections.reverse(arr);
+                                for(DtTema tem: arr){
                                 int orden = tem.getOrden();
                                 String nombre = tem.getNombre();
                                 String durac = tem.getDuracion();

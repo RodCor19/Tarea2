@@ -9,13 +9,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%-- navegador, cabecera - color #1ED760 --%>
-<nav class="navbar navbar-custom">
+<nav class="navbar navbar-custom ">
     <div class="container-fluid">
         <div class="row">
             <%-- se divide la pantalla en 3 partes de tamaño 4(columnas) (El total de columnas de la pantalla es 12) --%>
             <div class="col-md-4">
                 <a href="/EspotifyWeb/ServletArtistas?Inicio=true">
-                    <img src="/EspotifyWeb/Imagenes/Espotify.png" alt="imagen de header" width="250"  style="margin-top: 17px;">
+                    <img src="/EspotifyWeb/Imagenes/Espotify.png" alt="imagen de header" width="350"  style="margin-top: 17px;">
                 </a>
                
              </div>
@@ -36,8 +36,8 @@
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                 </div>
                 <div class="col-md-4 text-right" style="padding-left: 0px;">
-                    <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
-                    <h5 style="color:white"><a class="iniciarCerrarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
+                    <h5 style="color:white; border-color: white; border-style: outset;"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
+                    <h5 style="color:white; border-color: white; border-style: outset;"><a class="iniciarCerrarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
                 </div>
                 <%} else {
                     DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");

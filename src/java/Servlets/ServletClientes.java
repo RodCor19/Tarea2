@@ -180,6 +180,7 @@ public class ServletClientes extends HttpServlet {
             nLista = new String(bytes, StandardCharsets.UTF_8);
             if (sesion.getAttribute("imagen") != null) {
                 imagen = (String) sesion.getAttribute("imagen");
+                imagen = imagen.substring(1);
                 sesion.removeAttribute("imagen");
             }
             sesion.removeAttribute("cLista");

@@ -197,10 +197,10 @@ public class ServletClientes extends HttpServlet {
                 } else {
                     System.out.println("El fichero no puede ser borrado");
                 }
-                response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
+                response.sendRedirect("ServletClientes?verPerfilCli=" + c.getNickname());
             } catch (Exception ex) {
                 sesion.setAttribute("Mensaje", ex.getMessage());
-                response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
+                response.sendRedirect("ServletClientes?verPerfilCli=" + c.getNickname());
             }
 
         }

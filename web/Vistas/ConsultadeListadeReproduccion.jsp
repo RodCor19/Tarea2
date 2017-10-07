@@ -60,12 +60,17 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
+<<<<<<< HEAD
                         <%if (dt.getImagen() != null) {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%}
                             if (dt instanceof DtListaPD) {%>
+=======
+                        <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
+                        <% if (dt instanceof DtListaPD) {%>
+>>>>>>> 837e848a7c8ad9dfa6df9e9b5ebbf664705f3cad
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Por Defecto</h4>
                         <%} else {%>

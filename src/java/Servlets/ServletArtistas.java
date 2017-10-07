@@ -203,8 +203,6 @@ public class ServletArtistas extends HttpServlet {
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen=" + nombre);
             requestDispatcher.forward(request, response);
-
-            response.getWriter().write("albumes cargados");
         }
 
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {
@@ -265,7 +263,6 @@ public class ServletArtistas extends HttpServlet {
                 if(dt instanceof DtCliente){
                     //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
                     Fabrica.getCliente().actualizarVigenciaSuscripciones(dt.getNickname());
-
                 }
                 
                 response.sendRedirect("ServletArtistas?Inicio=true");

@@ -86,7 +86,7 @@
                             <div class="modal-dialog modal-lg" >
 
                                 <!-- Modal content-->
-                                <div class="modal-content" style="background-color:blue;">
+                                <div class="modal-content" style="background-color:#34D26C;">
                                     <div class="modal-header">
                                         <h4 class="modal-title" style="font-weight:bold;color:white;font-size:30px">Nuevo Tema</h4>
                                     </div>

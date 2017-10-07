@@ -84,11 +84,13 @@
                             nuevaSuscripcion: susSelec
                         },
                         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                           if(data === 'ok'){
-                               alert("Se ha contratado la suscripción correctamente");
-                           }else{
-                               alert("Ya tiene una suscripción vigente, no se puede continuar");
-                           }
+                            if(data === 'ok'){
+                                alert("Se ha contratado la suscripción correctamente");
+                            }else{
+                                  alert("Ya tiene una suscripción Vigente o Pendiente. Si tiene una Pendiente, cancelela para poder contratar otra");
+                            }
+                            //Redirigir al inicio
+                            location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
                         }
                     });
                 }

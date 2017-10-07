@@ -4,7 +4,7 @@
     Author     : Kevin
 --%>
 
-<%@page import="java.nio.charset.StandardCharsets"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtLista"%>
@@ -133,17 +133,13 @@
                                                 } else {
                                                     tipo = "Pública";
                                                 }
-                                                String nLista = lista.getNombre();
-                                                //se crea un array de bytes con la codificación que se envía en los parametros
-                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                                // "normaliza" el texto
-                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+                                                String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
                                         %>
                                         <tr>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                             <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
                                             <% if (lista.isPrivada() && controlSeguir) {%>
-                                            <td><button id="btnPublicar" class="btn" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
+                                            <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
 
                                             <%} else {%> 
                                             <td> </td>
@@ -267,11 +263,7 @@
                                 for (DtListaP lista : cliente.getListas()) {
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
-                                        String nLista = lista.getNombre();
-                                        //se crea un array de bytes con la codificación que se envía en los parametros
-                                        byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                        // "normaliza" el texto
-                                        nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+                                        String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
 
                             %>    
                             <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>

@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="Logica.Fabrica"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -36,8 +37,8 @@
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                 </div>
                 <div class="col-md-4 text-right" style="padding-left: 0px;">
-                    <h5 style="color:white; border-color: white; border-style: outset;"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
-                    <h5 style="color:white; border-color: white; border-style: outset;"><a class="iniciarCerrarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
+                    <h5 style="color:white;"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
+                    <h5><a class="iniciarCerrarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
                 </div>
                 <%} else {
                     DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
@@ -48,19 +49,22 @@
                         servlet = "/EspotifyWeb/ServletArtistas?verPerfilArt=";
                     }
                 %>
-                <div class="col-md-8 text-right" style="padding-right: 0px; padding-bottom: 5px;">
+                <div class="col-md-7 text-right" style="padding-right: 0px; padding-bottom: 5px;">
                     <%if (dt.getRutaImagen() != null) {%>
                     <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                     <%} else {%>
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                     <%}%>
                 </div>
-                <div class="col-md-4 text-right" style="padding-left: 0px;">
+                <div class="col-md-5 text-left" style="padding-left: 3px;padding-right: 0px;">
                     <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname()%>"><%= dt.getNickname()%></a></h5>
                     <!-- Solo muestra el mensaje si es un cliente el que inicio sesion -->
-                    <% if (session.getAttribute("Usuario") != null && session.getAttribute("Usuario") instanceof DtCliente) { %>
+                    <% if (dt != null && dt instanceof DtCliente) { %>
                     <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/ServletClientes?VerFavoritos=true">Ver Favoritos</a></h5>
-                    <%}%>
+                        <% if (Fabrica.getCliente().SuscripcionVigente(dt.getNickname()) == false) { %>
+                    <!-- SOlo muestra el lik de contratar suscripcion si no tiene una vigente -->
+                    <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/ServletClientes?contratarSuscripcion=true">Obtener Suscripcion</a></h5>
+                    <%}}%>
                     <h5 style="color:white"><a class="iniciarCerrarSesion" href="/EspotifyWeb/ServletArtistas?CerrarSesion=true">Cerrar Sesión</a></h5>
                     <%}%>
 

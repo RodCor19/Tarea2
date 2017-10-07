@@ -153,12 +153,8 @@ public class ServletClientes extends HttpServlet {
 
         if (request.getParameter("cargarDatosPrueba") != null) {
             Fabrica.getCliente().CargadeDatos();
-
-            if (sesion.getAttribute("Usuario") != null && sesion.getAttribute("Usuario") instanceof DtCliente) {
-                DtCliente dtCli = (DtCliente) sesion.getAttribute("Usuario");
-                Fabrica.getCliente().actualizarVigenciaSuscripciones(dtCli.getNickname());
-            }
-
+            request.getSession().removeAttribute("Usuario");
+            
             response.getWriter().write("se han cargado los datos de prueba");
         }
 

@@ -4,6 +4,7 @@
     Author     : usuario
 --%>
 
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.Collections"%>
 <%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtCliente"%>
@@ -122,8 +123,10 @@
                 </div>
                  <div class="btn-group-vertical col-sm-2">
                 <h3> Géneros: </h3> 
-                <%for (String genero: album.getGeneros()) {%>
-                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= genero%>"><%= genero %></a></h4>
+                <%for (String genero: album.getGeneros()) {
+                    String generoCodificado = URLEncoder.encode(genero, "UTF-8");
+                %>
+                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= genero %></a></h4>
                 <%}%>
                 </div>
             </div> 

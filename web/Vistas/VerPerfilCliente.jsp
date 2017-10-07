@@ -103,9 +103,9 @@
                                 <br>
                                 <h4><label class="texto">Crear lista de reproducción</label>    
                                     <div >
-                                        <input id="cLista" name="cLista" placeholder="Nombre de lista" type="text" class="form-control"/>
+                                        <input id="cLista" name="cListaAux" placeholder="Nombre de lista" type="text" class="form-control"/>
                                     </div> 
-                                    <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/Vistas/SubirImagenLista.jsp" enctype="MULTIPART/FORM-DATA" method="post">
+                                    <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/ServletClientes" enctype="multipart/form-data" method="post">
                                             <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
                                             <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
                                     </form>

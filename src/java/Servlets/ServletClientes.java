@@ -14,7 +14,6 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +27,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.FileItemFactory;
+import java.util.List;
+import org.apache.commons.fileupload.FileUploadException;
 
 /**
  *
@@ -168,36 +173,74 @@ public class ServletClientes extends HttpServlet {
             requestDispatcher.forward(request, response);
         }
 
-        if (sesion.getAttribute("cLista") != null) {
-            String nLista = (String) sesion.getAttribute("cLista"), imagen = null;
-            //se crea un array de bytes con la codificación que se envía en los parametros
-            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-            // "normaliza" el texto
-            nLista = new String(bytes, StandardCharsets.UTF_8);
-            if (sesion.getAttribute("imagen") != null) {
-                imagen = (String) sesion.getAttribute("imagen");
-                imagen = imagen.substring(1);
-                sesion.removeAttribute("imagen");
-            }
-            sesion.removeAttribute("cLista");
-            DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
-            Fabrica.getCliente().crearListaP(c.getNickname(), nLista, imagen);
+        if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
             try {
-                Fabrica.getCliente().confirmar();
-                c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
-                sesion.setAttribute("Usuario", c);
-                sesion.setAttribute("Mensaje", "Lista creada");
-                if(imagen!=null){
-                File fichero = new File(imagen);
-                if (fichero.delete()) {
-                    System.out.println("El fichero ha sido borrado satisfactoriamente");
-                } else {
-                    System.out.println("El fichero no puede ser borrado");
-                }}
-                response.sendRedirect("ServletArtistas?Inicio=true");
+                String nLista = "", imagen = null;
+                
+                /*FileItemFactory es una interfaz para crear FileItem*/
+                FileItemFactory file_factory = new DiskFileItemFactory();
+                /*ServletFileUpload esta clase convierte los input file a FileItem*/
+                ServletFileUpload servlet_up = new ServletFileUpload(file_factory);
+                /*sacando los FileItem del ServletFileUpload en una lista */
+                List items = servlet_up.parseRequest(request);
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = path.replace( "%20", " ");
+                if(sesion.getAttribute("imagen")!=null){
+                    sesion.removeAttribute("imagen");
+                }
+                for(int i=0;i<items.size();i++){
+                    /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
+                    FileItem item = (FileItem) items.get(i);
+                    
+                    /*item.isFormField() false=input file; true=text field*/
+                    //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
+                    if (item.isFormField() == false && item.getName().isEmpty() == false){
+                        File archivo_server = new File(path + item.getName());
+                        if(item.getName().contains(".jpg")){
+                            sesion.setAttribute("imagen", path + item.getName());
+                        }
+                        item.write(archivo_server);
+                    }else{
+                        nLista= item.getString();
+                    }
+                }
+                
+                //se crea un array de bytes con la codificación que se envía en los parametros
+                byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+                // "normaliza" el texto
+                nLista = new String(bytes, StandardCharsets.UTF_8);
+                if (sesion.getAttribute("imagen") != null) {
+                    imagen = (String) sesion.getAttribute("imagen");
+                    imagen = imagen.substring(1);
+                    sesion.removeAttribute("imagen");
+                }
+                sesion.removeAttribute("cLista");
+                DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
+                Fabrica.getCliente().crearListaP(c.getNickname(), nLista, imagen);
+                try {
+                    Fabrica.getCliente().confirmar();
+                    c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
+                    sesion.setAttribute("Usuario", c);
+                    sesion.setAttribute("Mensaje", "Lista creada");
+                    if(imagen!=null){
+                        File fichero = new File(imagen);
+                        if (fichero.delete()) {
+                            System.out.println("El fichero ha sido borrado satisfactoriamente");
+                        } else {
+                            System.out.println("El fichero no puede ser borrado");
+                        }
+                    }
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                } catch (Exception ex) {
+                    sesion.setAttribute("Mensaje", ex.getMessage());
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                }
+                
+            } catch (FileUploadException ex) {
+                Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                sesion.setAttribute("Mensaje", ex.getMessage());
-                response.sendRedirect("ServletArtistas?Inicio=true");
+                Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

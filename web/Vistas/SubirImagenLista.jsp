@@ -16,6 +16,7 @@
         List items = servlet_up.parseRequest(request);
         String path = this.getClass().getClassLoader().getResource("").getPath();
         path = path.replace("build/web/WEB-INF/classes/","temporales/");
+        path = path.replace( "%20", " ");
         if(session.getAttribute("imagen")!=null){
             session.removeAttribute("imagen");
         }
@@ -23,14 +24,17 @@
             /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
             FileItem item = (FileItem) items.get(i);
             /*item.isFormField() false=input file; true=text field*/
+            if(item.getName()!=""){
             if (! item.isFormField()){
                 File archivo_server = new File(path + item.getName());
                 if(item.getName().contains(".jpg")){
                     session.setAttribute("imagen", path + item.getName());
                 }
                 item.write(archivo_server);
+                response.sendRedirect("/EspotifyWeb/ServletClientes");                
+            }}else
                 response.sendRedirect("/EspotifyWeb/ServletClientes");
-            }
         }
+        
         }
 %>

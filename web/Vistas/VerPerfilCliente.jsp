@@ -148,7 +148,7 @@
                                         <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                         <tr>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
-                                            <td><h4><%= tipo%></h4></td>
+                                            <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
                                             <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
 

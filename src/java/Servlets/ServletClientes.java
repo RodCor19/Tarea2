@@ -187,16 +187,17 @@ public class ServletClientes extends HttpServlet {
                 c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
                 sesion.setAttribute("Usuario", c);
                 sesion.setAttribute("Mensaje", "Lista creada");
+                if(imagen!=null){
                 File fichero = new File(imagen);
                 if (fichero.delete()) {
                     System.out.println("El fichero ha sido borrado satisfactoriamente");
                 } else {
                     System.out.println("El fichero no puede ser borrado");
-                }
-                response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
+                }}
+                response.sendRedirect("ServletArtistas?Inicio=true");
             } catch (Exception ex) {
                 sesion.setAttribute("Mensaje", ex.getMessage());
-                response.sendRedirect("/EspotifyWeb/Vistas/index.jsp");
+                response.sendRedirect("ServletArtistas?Inicio=true");
             }
 
         }

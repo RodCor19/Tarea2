@@ -113,9 +113,18 @@
                                 </h4>
                                 <br class="x">
                                 <% }%>
+                                <% int cantLPub = 0;
+                                   for (DtListaP lista : cliente.getListas()) {
+                                    if (lista.isPrivada() == false) {
+                                        cantLPub++;
+                                    }
+                                } %>
                                 <% if (cliente.getListas().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
-                                <%} else {%>
+                                <%} else {
+                                        if(cantLPub == 0 && perfilUsr.getNickname().equals(cliente.getNickname()) == false){%>
+                                            <h4 class="lineaAbajo"><i>No tiene listas públicas</i></h4>
+                                <%      } else { %>
                                 <br>
                                 <table class="table text-left">
                                     <thead>
@@ -135,6 +144,8 @@
                                                 }
                                                 String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
                                         %>
+                                        <!-- Si es publica o es privada pero el perfil es del cliente que inicio sesion -->
+                                        <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                         <tr>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td>
@@ -145,10 +156,10 @@
                                             <td> </td>
                                             <%}%>
                                         </tr>
-                                        <%}%>
+                                        <%}}%>
                                     </tbody>
                                 </table>
-                                <%}%>
+                                <%}}%>
                             </div>
                             <div id="menu2" class="tab-pane fade">
                                 <% if (seguidores.isEmpty()) { %>

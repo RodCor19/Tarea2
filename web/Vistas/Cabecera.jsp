@@ -56,7 +56,7 @@
                     <%}%>
                 </div>
                 <div class="col-md-4 text-right" style="padding-left: 0px;">
-                    <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname()%>"><%= dt.getNickname()%></a></h5>
+                    <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname()%>"><%= dt.getNombre()+" "+dt.getApellido()%></a></h5>
                     <!-- Solo muestra el mensaje si es un cliente el que inicio sesion -->
                     <% if (session.getAttribute("Usuario") != null && session.getAttribute("Usuario") instanceof DtCliente) { %>
                     <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/ServletClientes?VerFavoritos=true">Ver Favoritos</a></h5>

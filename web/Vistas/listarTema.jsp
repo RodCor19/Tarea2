@@ -123,7 +123,7 @@
                  <div class="btn-group-vertical col-sm-2">
                 <h3> Géneros: </h3> 
                 <%for (String genero: album.getGeneros()) {%>
-                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= genero%>"><%= genero %></a></h4>
+                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%=java.net.URLEncoder.encode(genero, "UTF-8")%>"><%= genero %></a></h4>
                 <%}%>
                 </div>
             </div> 

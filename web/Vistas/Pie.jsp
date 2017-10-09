@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <footer class="container-fluid text-center" style="margin-bottom: 5px; margin-top: 5px;">
     <div class="row">
-<!--        <div class="col-md-4">
+<!--    <div class="col-md-4">
             <main>
             <audio controls="controls">
                 <source src="\EspotifyWeb\Imagenes\Linkin Park - Numb Lyrics [HQ] [HD].mp3" type="audio/mpeg">

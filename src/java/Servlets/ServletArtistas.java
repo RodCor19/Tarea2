@@ -67,11 +67,13 @@ public class ServletArtistas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
                    
-        
+            
 
         if(request.getParameter("listarGeneros") != null){    
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
+            ArrayList<DtTema> temas = Fabrica.getArtista().listarTodosTemas();
+            request.getSession().setAttribute("temas", temas);
         }    
         
         /* TODO output your page here. You may use following sample code. */
@@ -134,7 +136,7 @@ public class ServletArtistas extends HttpServlet {
                         dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
                     }
                     else
-                        dtt = new DtTema(nomtema,duracion,orden,null,arch_url);
+                        dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
                     temasenviar.put(dtt.getNombre(), dtt);
                     }
                 Map<String,DtGenero> gen = new HashMap();

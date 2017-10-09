@@ -17,17 +17,6 @@ $(document).ready(function(){
     
     
     //Por defecto, al mostrarse la pagina lista los artistas
-    $.ajax({
-            type : 'POST', //tipo de request
-            url : 'ServletArtistas',
-            dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-            data:{ // Parametros que se pasan en el request
-                listarGeneros : true
-            },
-            success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-               $('#listaArtGen').load('/EspotifyWeb/Vistas/listaGeneros.jsp');
-            }
-        });
     
     $('#btnArtistas').css("background-color","#343333");
     $('#btnArtistas').css("color","#1ED760");
@@ -36,7 +25,8 @@ $(document).ready(function(){
         url : 'ServletArtistas',
         dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
         data:{ // Parametros que se pasan en el request
-            listarArtistas : true
+            listarArtistas : true,
+            listarGeneros : true
         },
         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
            $('#listaArtGen').load('/EspotifyWeb/Vistas/listaArtistas.jsp');

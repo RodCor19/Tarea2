@@ -55,7 +55,7 @@
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-1">
+                <div class="btn-group-vertical col-sm-0">
 
                 </div>
                 <div class="col-sm-10 text-center">
@@ -114,8 +114,14 @@
                                             String nombre = tem.getNombre();
                                             String durac = tem.getDuracion();
                                             DtArtista a = Fabrica.getArtista().ElegirArtista(tem.getArtista());
+                                            if (dt instanceof DtListaP) {
+                                                DtListaP aux = (DtListaP) dt;
                                     %>
-                                    <tr>
+                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>','<%= aux.getUsuario() %>',null)">
+                                    <%      }else{
+                                            DtListaPD aux = (DtListaPD) dt;%>
+                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>',null,'<%= aux.getGenero()%>')">
+                                    <%      }%>
                                         <%if (aux2 != null && aux2 instanceof DtCliente && cliente) {%>
                                         <td>
                                             <div class="row">
@@ -155,15 +161,21 @@
                     </div>
                 </div>
                 <div class="btn-group-vertical col-sm-2">
-
+                    <div id="divReproductor">
+                    <% if(session.getAttribute("temasAReproducir") != null){ %>
+                        <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
+                    <%}%>
+                    </div>
                 </div>
             </div> 
         </div>
         <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ListaReproduccion.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>               
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
     </body>
 </html>

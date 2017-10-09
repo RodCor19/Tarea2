@@ -97,6 +97,9 @@
                                         if (artista.getNickname().equals(dtu.getNickname())) {%>
                                 <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a>
                                 <%}}%>
+                                <%if(artista.getAlbumes().isEmpty()){%>
+                                    <h4 class="lineaAbajo"><i>No tiene álbumes</i></h4>
+                                <%} else { %>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -113,6 +116,7 @@
                                 <%}%>
                                     </tbody>
                                 </table>
+                                <%}%>
                                 <br>
                             </div>
                             <div id="menu2" class="tab-pane fade">

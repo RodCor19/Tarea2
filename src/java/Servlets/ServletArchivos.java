@@ -5,14 +5,20 @@
  */
 package Servlets;
 
+import Logica.DtTema;
 import Logica.Fabrica;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,37 +48,103 @@ public class ServletArchivos extends HttpServlet {
         
         String tipoArchivo = request.getParameter("tipo");
         
-        if (tipoArchivo.equals("audio")) {
-            String ruta = request.getParameter("ruta");
-            response.setContentType("audio/mpeg");
-            response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
+        if(tipoArchivo != null){
+            if (tipoArchivo.equals("audio")) {
+                String ruta = request.getParameter("ruta");
+                if(ruta!=null){
+                    response.setContentType("audio/mpeg");
+                    response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
 
-            BufferedInputStream buf = Fabrica.getArtista().cargarTema(ruta);
+                    BufferedInputStream buf = Fabrica.getArtista().cargarTema(ruta);
+
+                    OutputStream out = response.getOutputStream();     
+                    int readBytes = 0;
+                    //read from the file; write to the ServletOutputStream
+                    while ((readBytes = buf.read()) != -1)
+                        out.write(readBytes);
+
+                    out.close();
+                    buf.close();
+                }else{
+                    String direccion = request.getParameter("direccion");
+                    URLConnection conn = new URL("http://"+direccion).openConnection();
+                    InputStream is = conn.getInputStream();
+                    
+                    FileOutputStream outstream = new FileOutputStream("/EspotifyWeb/Temas/tema.mp3");   
+                    byte[] buffer = new byte[4096];
+                    int len;
+                    while ((len = is.read(buffer)) > 0) {
+                        outstream.write(buffer, 0, len);
+                    }
+                    outstream.close();
+                }
+            } else {
+                // tipo == "imagen"
+                String img = request.getParameter("ruta");
+                response.setContentType("image/jpeg");
+                BufferedImage bi = Fabrica.getCliente().cargarImagen(img);
+                OutputStream out = response.getOutputStream();
+                ImageIO.write(bi, "png", out);
+                out.close();
+            }
+        }
+        
+        if(request.getParameter("reproducirAlbum")!=null){
+            String album = request.getParameter("reproducirAlbum");
+            String artista = request.getParameter("artista");
+            String temaSeleccionado = request.getParameter("tema");
+            ArrayList<DtTema> temas = Fabrica.getArtista().reproducirAlbum(artista, album);
+            request.getSession().setAttribute("temasAReproducir", temas);
             
-            OutputStream out = response.getOutputStream();     
-            int readBytes = 0;
-            //read from the file; write to the ServletOutputStream
-            while ((readBytes = buf.read()) != -1)
-                out.write(readBytes);
+            //Si es el rquest que se envia al seleccionar un tema
+            if(temaSeleccionado != null){
+                //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
+                for (DtTema tema : temas) {
+                    if(tema.getNombre().equals(temaSeleccionado)){
+                        request.getSession().setAttribute("reproducirTema", tema);
+                        break;
+                    }
+                }
+            }else{
+                //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
+                if(temas.isEmpty() == false){
+                    request.getSession().setAttribute("reproducirTema", temas.get(0));
+                }
+            }
+        }
+        
+        if(request.getParameter("reproducirLista")!=null){
+            String lista = request.getParameter("reproducirLista");
+            String creador = request.getParameter("creador");
+            String genero = request.getParameter("genero");
+            String temaSeleccionado = request.getParameter("tema");
             
-            out.close();
-            buf.close();
+            ArrayList<DtTema> temas;
             
-//            byte[] arrayB = new byte[2040];
-//            response.setContentLength(arrayB.length);
-//                //Escribir el baos(ByteArrayOutputStream) en el response
-//                OutputStream os = response.getOutputStream();
-//                baos.writeTo(os);
-//                os.flush();
-//                os.close();
-        } else {
-            // tipo == "imagen"
-            String img = request.getParameter("ruta");
-            response.setContentType("image/jpeg");
-            BufferedImage bi = Fabrica.getCliente().cargarImagen(img);
-            OutputStream out = response.getOutputStream();
-            ImageIO.write(bi, "png", out);
-            out.close();
+            //Si tiene creador es una lista particular, sino por defecto
+            if(creador != null){
+                temas = Fabrica.getCliente().reproducirListaP(creador, lista);
+            }else{
+                temas = Fabrica.getArtista().reproducirListaPD(genero, lista);
+            }
+            
+            request.getSession().setAttribute("temasAReproducir", temas);
+            
+            //Si es el rquest que se envia al seleccionar un tema
+            if(temaSeleccionado != null){
+                //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
+                for (DtTema tema : temas) {
+                    if(tema.getNombre().equals(temaSeleccionado)){
+                        request.getSession().setAttribute("reproducirTema", tema);
+                        break;
+                    }
+                }
+            }else{
+                //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
+                if(temas.isEmpty() == false){
+                    request.getSession().setAttribute("reproducirTema", temas.get(0));
+                }
+            }
         }
     }
 

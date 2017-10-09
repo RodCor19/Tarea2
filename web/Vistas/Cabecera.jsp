@@ -56,8 +56,8 @@
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                     <%}%>
                 </div>
-                <div class="col-md-5 text-left" style="padding-left: 3px;padding-right: 0px;">
-                    <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname()%>"><%= dt.getNickname()%></a></h5>
+                <div class="col-md-4 text-right" style="padding-left: 0px;">
+                    <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname()%>"><%= dt.getNombre()+" "+dt.getApellido()%></a></h5>
                     <!-- Solo muestra el mensaje si es un cliente el que inicio sesion -->
                     <% if (dt != null && dt instanceof DtCliente) { %>
                     <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/ServletClientes?VerFavoritos=true">Ver Favoritos</a></h5>

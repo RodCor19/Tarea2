@@ -20,6 +20,9 @@
 
 <html>
     <style>
+        .modal-content{
+            background-image: url("/EspotifyWeb/Imagenes/fondo3.jpg");
+        }
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;

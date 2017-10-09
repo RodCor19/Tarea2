@@ -107,7 +107,7 @@ $('#aceptartema').click(function(e){
         if (sec<30 && min==0)
             alert("Duración mínima 30 segundos");
         else{
-            if (archivo==="" && url===""){
+            if ((archivo==="" && url==="") || (document.getElementById("checkurl").checked === true && url==="") || (document.getElementById("checkurl").checked === false && archivo==="") ){
                 alert("Archivo o Url vacío");
             }
             else{
@@ -115,12 +115,11 @@ $('#aceptartema').click(function(e){
                     alert("Nombre de tema vacío ó ya existente dentro del album");
                     }
                 else{
-                    if (z == 1){
+                    if ((z == 1) && document.getElementById("checkurl").checked === false){
                         alert("El Archivo elegido ya esta asociado a otro tema del album");
                     }
                     else{
                         //document.getElementById["myForm"].action = "subir.jsp";
-                        $("#myForm").submit();
                         var row = tabla.insertRow(tabla.rows.length);
                         var cell1 = row.insertCell(0);
                         var cell2 = row.insertCell(1);
@@ -129,10 +128,14 @@ $('#aceptartema').click(function(e){
                         cell1.innerHTML = nombre;
                         cell2.innerHTML = orden.value;
                         cell3.innerHTML = min + ":" + sec;
-                        if (archivo==="")
+                        if (document.getElementById("checkurl").checked === true){
                             cell4.innerHTML = url;
-                        else
+                            alert("url");}
+                        else{
                             cell4.innerHTML = archivo;
+                            $("#myForm").submit();
+                            alert("arch");
+                        }
                         $('#modal').modal('hide');
                         document.getElementById("elegircancion").value = "";
                         document.getElementById("url").value = "";

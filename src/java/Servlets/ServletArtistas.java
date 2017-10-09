@@ -109,53 +109,53 @@ public class ServletArtistas extends HttpServlet {
                 JSON_data = "{" + "  \"temas\": "+ JSON_data + "}";
                 String[] generos = request.getParameterValues("generos[]");
                 try{
-                    JSONObject obj = new JSONObject(JSON_data);
-                    JSONArray temas = obj.getJSONArray("temas");
-                    int n = temas.length();
-                    String path = this.getClass().getClassLoader().getResource("").getPath();
-                    path = path.replace("build/web/WEB-INF/classes/","temporales/");
-                    path = path.replace( "%20", " ");
-                    path= path.substring(1);
-                    byte[] imagen = null;
-                    if (request.getParameter("foto")!= null){
-                        String img = request.getParameter("foto");
-                        img = (path + img);
-                        File im = new File(img);
-                        imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
-                        im.delete();
+                JSONObject obj = new JSONObject(JSON_data);
+                JSONArray temas = obj.getJSONArray("temas");
+                int n = temas.length();
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = path.replace( "%20", " ");
+                path= path.substring(1);
+                byte[] imagen = null;
+                if (request.getParameter("foto")!=""){
+                    String img = request.getParameter("foto");
+                    img = (path + img);
+                    File im = new File(img);
+                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                    im.delete();
                     }
-                    //org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path +"hola.jpg"), bs);
-                    HashMap<String,DtTema> temasenviar = new HashMap();
-                    for (int i = 0; i < n; ++i) {
-                        JSONObject person = temas.getJSONObject(i);
-                        int orden = person.getInt("orden");
-                        String nomtema = person.getString("nombre");
-                        String duracion = person.getString("duracion");
-                        String arch_url = person.getString("Archivo_Url");
-
-                        DtTema dtt;
-                        if (arch_url.contains(".mp3")){
-                            arch_url = (path + arch_url);
-                            File audio =new File(arch_url);
-                            byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
-                            dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
-                            audio.delete();
-
-                        }
-                        else
-                            dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
-                        temasenviar.put(dtt.getNombre(), dtt);
-                        }
-                    Map<String,DtGenero> gen = new HashMap();
-                    HashMap<String,DtGenero> generosenviar = new HashMap();
-                    gen = Fabrica.getArtista().GetDataGeneros();
-                    for (String genero : generos) {
-                        if (genero.contains("Rock") && genero.contains("Roll"))
-                            genero = genero.substring(0, 6) + genero.substring(10);
-                        DtGenero dt = gen.get(genero);
-                        generosenviar.put(dt.getNombre(), dt);
-                        }
-                    Fabrica.getArtista().IngresarAlbumWeb(artista.getNickname(),anio,nom,imagen,temasenviar,generosenviar);
+                //org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path +"hola.jpg"), bs);
+                HashMap<String,DtTema> temasenviar = new HashMap();
+                for (int i = 0; i < n; ++i) {
+                    JSONObject person = temas.getJSONObject(i);
+                    int orden = person.getInt("orden");
+                    String nomtema = person.getString("nombre");
+                    String duracion = person.getString("duracion");
+                    String arch_url = person.getString("Archivo_Url");
+                    
+                    DtTema dtt;
+                    if (arch_url.contains(".mp3")){
+                        arch_url = (path + arch_url);
+                        File audio =new File(arch_url);
+                        byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
+                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
+                        audio.delete();
+                        
+                    }
+                    else
+                        dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
+                    temasenviar.put(dtt.getNombre(), dtt);
+                    }
+                Map<String,DtGenero> gen = new HashMap();
+                HashMap<String,DtGenero> generosenviar = new HashMap();
+                gen = Fabrica.getArtista().GetDataGeneros();
+                for (String genero : generos) {
+                    if (genero.contains("Rock") && genero.contains("Roll"))
+                        genero = genero.substring(0, 6) + genero.substring(10);
+                    DtGenero dt = gen.get(genero);
+                    generosenviar.put(dt.getNombre(), dt);
+                    }
+                Fabrica.getArtista().IngresarAlbumWeb(artista.getNickname(),anio,nom,imagen,temasenviar,generosenviar);
                 }
                 catch (Exception e){e.getMessage();}
             }

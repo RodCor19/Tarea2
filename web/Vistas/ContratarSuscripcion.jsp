@@ -33,7 +33,7 @@
 
                 </div>
                 <div class="col-sm-8 text-center">
-                    <div class="row">
+                    <div id="divContSus" class="row">
                         <h3 class="lineaAbajo">Eliga un tipo de suscripción:</h3>
                         <table class="table text-left">
                             <thead>
@@ -54,7 +54,10 @@
                             </tbody>
                         </table>
                             <button id="btnConfirmarSus" class="btn-block boton" style="">Confirmar</button>
-                    </div>                        
+                    </div>
+                    <div id="divExitoConSus" class="alert alert-success" style="text-align: center;" hidden="">
+                        <strong><h1 style="font-size: 30px;">Operación Exitosa</h1></strong><h4>Se ha contratado la suscripción</h4>
+                    </div>
                 </div>
                 <div class="btn-group-vertical col-sm-2">
 
@@ -84,11 +87,16 @@
                             nuevaSuscripcion: susSelec
                         },
                         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                           if(data === 'ok'){
-                               alert("Se ha contratado la suscripción correctamente");
-                           }else{
-                               alert("Ya tiene una suscripción vigente, no se puede continuar");
-                           }
+                            if(data === 'ok'){
+                                alert("Se ha contratado la suscripción correctamente");
+                                $('#divConSus').hide();
+                                $('#divExitoConSus').show();
+                            }else{
+                                  alert("Ya tiene una suscripción Vigente o Pendiente. Si tiene una Pendiente, cancelela para poder contratar otra");
+                                  location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
+                            }
+                            //Redirigir al inicio
+//                            location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
                         }
                     });
                 }

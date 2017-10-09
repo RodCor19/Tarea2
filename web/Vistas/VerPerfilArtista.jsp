@@ -96,11 +96,23 @@
                                         DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("Usuario");
                                         if (artista.getNickname().equals(dtu.getNickname())) {%>
                                 <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a>
-                                <%}
-                                    }%>
+                                <%}}%>
+                                <table class="table text-left">
+                                    <thead>
+                                        <tr>
+                                            <th><h4><b>Nombre</b></h4></th>
+                                            <th><h4><b>Año</b></h4></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                 <%for (DtAlbum album : artista.getAlbumes()) {%>
-                                <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4>
-                                    <%}%>
+                                        <tr>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4></td>
+                                            <td><h4><%= album.getAnio() %></h4></td>
+                                        </tr>
+                                <%}%>
+                                    </tbody>
+                                </table>
                                 <br>
                             </div>
                             <div id="menu2" class="tab-pane fade">
@@ -140,6 +152,5 @@
                 <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
                 <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
                 <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
-                <script src="/EspotifyWeb/Javascript/Seguir.js"></script>
                 </body>
                 </html>

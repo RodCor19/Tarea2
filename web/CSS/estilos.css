@@ -54,10 +54,19 @@ a.link:hover{
 }
 
 #cLista{
-    width: 80%;
-    margin-left: auto;
+    width: 50%;
+    margin-left: 25%;
 }
-    
+
+#formImagen{
+    width: 100%;
+}
+
+.inputImg{
+    width: 50%;
+    margin-left: 25%;
+}
+
 .linkCabecera{
     color: white;
 }
@@ -110,7 +119,7 @@ a.link:hover{
     color: white;
 }
 
-/* Para cambiar color de las pestaÃƒÂ±as */
+/* Para cambiar color de las pestaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±as */
 .nav-tabs > li > a{
     color: black;
     padding-left: 13px;
@@ -217,7 +226,8 @@ body{
 }
 
 .texto{
-    width: 80%;
+    width: 100%;
+    font-size: 20px;
     display: block;
     text-align: center;
 }
@@ -240,7 +250,7 @@ textarea{
 	min-height:100px;
 }
 
-#boton{
+#boton{/**/
     margin-bottom:0;
     background:#1ED760;
     color:#fff;

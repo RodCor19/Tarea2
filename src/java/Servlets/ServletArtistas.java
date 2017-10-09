@@ -114,11 +114,14 @@ public class ServletArtistas extends HttpServlet {
                 int n = temas.length();
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path= path.substring(1);
                 byte[] imagen = null;
                 if (request.getParameter("foto")!=""){
                     String img = request.getParameter("foto");
                     img = (path + img);
-                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(new File(img));
+                    File im = new File(img);
+                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                    im.delete();
                     }
                 //org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path +"hola.jpg"), bs);
                 HashMap<String,DtTema> temasenviar = new HashMap();
@@ -132,8 +135,11 @@ public class ServletArtistas extends HttpServlet {
                     DtTema dtt;
                     if (arch_url.contains(".mp3")){
                         arch_url = (path + arch_url);
-                        byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(new File(arch_url));
+                        File audio =new File(arch_url);
+                        byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
                         dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
+                        audio.delete();
+                        
                     }
                     else
                         dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
@@ -199,8 +205,6 @@ public class ServletArtistas extends HttpServlet {
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen=" + nombre);
             requestDispatcher.forward(request, response);
-
-            response.getWriter().write("albumes cargados");
         }
 
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {
@@ -261,7 +265,6 @@ public class ServletArtistas extends HttpServlet {
                 if(dt instanceof DtCliente){
                     //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
                     Fabrica.getCliente().actualizarVigenciaSuscripciones(dt.getNickname());
-
                 }
                 
                 response.sendRedirect("ServletArtistas?Inicio=true");

@@ -74,11 +74,24 @@ public class ServletClientes extends HttpServlet {
                 String apellido = request.getParameter("apellido");
                 String fechanac = request.getParameter("fechanac");
                 String correo = request.getParameter("correo");
+                String foto = request.getParameter("foto");
 
                 SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path= path.substring(1);
+                byte[] imagen = null;
+                if (request.getParameter("foto")!=""){
+                    String img = request.getParameter("foto");
+                    img = (path + img);
+                    File im = new File(img);
+                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                    im.delete();
+                    }
+                
                 DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, formato.parse(fechanac), correo, null, null, null, null, null, null, null, null);
-                boolean x = Fabrica.getCliente().IngresarCliente(cli);
+                boolean x = Fabrica.getCliente().IngresarCliente(cli,imagen);
                 if (!x) {
                     response.getWriter().write("si");
                 } else {

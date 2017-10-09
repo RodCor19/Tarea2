@@ -69,10 +69,16 @@ a.link:hover{
 
 .linkCabecera{
     color: white;
+    border-bottom-style: inset;
+    border-radius: 20%;
+    background-color: black;
 }
 
 .iniciarCerrarSesion{
     color: yellow;
+    background-color: black;
+    border-bottom-style: inset;
+    border-radius: 20%;
 }
 
 .imgAlbum{

@@ -169,10 +169,6 @@
                             <input name="aceptar" type="submit" value="Crear Album" id="aceptar" style="width: 40%;background-color:dodgerblue;color:white">
                         </div>
                     </form>
-                    <!--        <form  target="iframe" action="subir.jsp" id="myForm" enctype="MULTIPART/FORM-DATA" method="post">
-                                    <input type="file" name="file" /><br/>
-                                    <input type="submit" value="Upload" />
-                                </form>-->
                     <iframe style="display:none" id="iframe" name="iframe"></iframe>
                 </div>
             </div>

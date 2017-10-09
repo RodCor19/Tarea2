@@ -37,7 +37,7 @@
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                 </div>
                 <div class="col-md-4 text-right" style="padding-left: 0px;">
-                    <h5 style="color:white;"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse</a> o</h5>
+                    <h5 style="color:white;"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse   </a></h5>
                     <h5><a class="iniciarCerrarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
                 </div>
                 <%} else {

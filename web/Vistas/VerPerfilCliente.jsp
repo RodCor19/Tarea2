@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtListaPD"%>
@@ -142,12 +143,14 @@
                                                 } else {
                                                     tipo = "Pública";
                                                 }
-                                                String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
+                                                byte[] bytes = lista.getNombre().getBytes(StandardCharsets.UTF_8);
+                                                // "normaliza" el texto
+                                                String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                                         %>
                                         <!-- Si es publica o es privada pero el perfil es del cliente que inicio sesion -->
                                         <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                         <tr>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                             <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
                                             <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>

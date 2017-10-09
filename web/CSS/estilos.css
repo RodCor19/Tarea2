@@ -273,3 +273,14 @@ textarea{
 .x{
     margin-bottom: 30px;
 }
+
+.filaTema:hover{
+    cursor: pointer;
+    background-color: #ECF8E0;
+}
+
+
+.filaTema:active{
+    cursor: pointer;
+    background-color: #E0F5E6;
+}

@@ -80,6 +80,7 @@ public class ServletClientes extends HttpServlet {
 
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = path.replace( "%20", " ");
                 path= path.substring(1);
                 byte[] imagen = null;
                 if (request.getParameter("foto")!=""){

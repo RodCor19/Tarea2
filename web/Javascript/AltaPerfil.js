@@ -32,12 +32,14 @@ $(document).ready(function () {
                     correo = $('#correo').val(),
                     //biografia = $('#biografia').val(),
                     //paginaweb = $('#paginaweb').val(),
-                    photo = document.getElementById("elegirimagen");
+                    photo = "";
+        if(document.getElementById("elegirimagen").value !== ""){
+            photo = document.getElementById("elegirimagen").files[0].name;
+        }
         if (contrasenia === vcontrasenia){
         if(nickname !== "" && $('#contrasenia').val() !== "" && nombre!== "" && apellido !== "" && fechanac !== "" && correo !== ""){
 //        if (photo.value !== "")
 //            $("#formcrear").submit();
-        photo = photo.value.substring(12);    
         if ($('#radioC').is(':checked')) {
             $.ajax({
                 type: 'POST', //tipo de request

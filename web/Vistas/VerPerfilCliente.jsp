@@ -51,7 +51,7 @@
                 <div class="col-sm-8 text-center">
                     <div class="row">
                         <% if (cliente.getRutaImagen() == null) { %>
-                        <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Cliente"><!--Cambiar por imagen del usuario-->
+                        <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgAlbum" title="Cliente"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
                         <%}%>
@@ -247,6 +247,7 @@
                             </div>
                             <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                             <div id="menu4" class="tab-pane fade">
+                                <% if(cliente.getSuscripciones().isEmpty() == false){ %>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -267,6 +268,9 @@
                                         <%}%>
                                     </tbody>
                                 </table>
+                                <%}else{%>
+                                <h4 class="lineaAbajo"><i>No tiene suscripciones</i></h4>
+                                <%}%>
                                 <br>
                             </div>   
                             <%}%>

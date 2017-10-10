@@ -18,7 +18,7 @@ if (document.getElementById("checkurl").checked === false){
     
 $('#aceptar').click(function(e) {
         e.preventDefault();
-        var photo = document.getElementById("elegirimagen").files[0].name;
+        var photo = document.getElementById("elegirimagen");
         var listagen = $("#listageneros li");
         var tabla = document.getElementById("mitabla");
         var nombre = document.getElementById("nombrealbum").value;
@@ -35,8 +35,13 @@ $('#aceptar').click(function(e) {
                     if (nombre ==="")
                         alert("Nombre vacío");
                     else{
-                        if (photo.value !== "")
+                        if (photo.value !== ""){
                             $("#formcrear").submit();
+                            photo = photo.files[0].name;
+                        }else{
+                            photo = "";
+                        }
+                        alert(photo);
                         var temas = [];
                         var generos = [];
                         for (var x=1, n = tabla.rows.length; x<n; x++){
@@ -80,17 +85,20 @@ $('#aceptar').click(function(e) {
     
     
 $('#aceptartema').click(function(e){
-   e.preventDefault();
-   var archivo = document.getElementById("elegircancion").files[0].name;
-   var url = document.getElementById("url").value;
-   var nombre = document.getElementById("nomtema").value;
-   var orden = document.getElementById("ordentema");
-   var min = parseInt(document.getElementById("sel1").value);
-   var sec = parseInt(document.getElementById("sel2").value);
-   var tabla = document.getElementById("mitabla");
-   var x = 0;
-   var z = 0;
-   nombre = ConvertirCadena(nombre);
+    e.preventDefault();
+    var archivo = "";
+    if(document.getElementById("elegircancion").value !== ""){
+        archivo = document.getElementById("elegircancion").files[0].name;
+    }
+    var url = document.getElementById("url").value;
+    var nombre = document.getElementById("nomtema").value;
+    var orden = document.getElementById("ordentema");
+    var min = parseInt(document.getElementById("sel1").value);
+    var sec = parseInt(document.getElementById("sel2").value);
+    var tabla = document.getElementById("mitabla");
+    var x = 0;
+    var z = 0;
+    nombre = ConvertirCadena(nombre);
     for (var r = 1, n = tabla.rows.length; r < n; r++) {
                 if (tabla.rows[r].cells[0].innerHTML === nombre)
                     x = 1;

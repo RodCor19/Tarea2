@@ -16,10 +16,8 @@ function artSeleccionado(elemento, opcion){
 $(document).ready(function(){    
     
     
-    //Por defecto, al mostrarse la pagina lista los artistas
+    //Borrar para la tarea 3
     
-    $('#btnArtistas').css("background-color","#343333");
-    $('#btnArtistas').css("color","#1ED760");
     $.ajax({
         type : 'POST', //tipo de request
         url : 'ServletArtistas',

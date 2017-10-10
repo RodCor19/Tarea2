@@ -111,14 +111,22 @@
                                             <div id="enlinea">
                                                 <p style="color:white">Minutos:</p>
                                                 <select class="form-control" id="sel1" style="width:20%">
-                                                    <%for (int i = 0; i < 60; i++) {%>
-                                                    <option><%=i%></option>
+                                                    <%for (int i = 0; i < 60; i++) {
+                                                        String mins = String.valueOf(i);
+                                                        if(i<10){
+                                                            mins = "0"+i;
+                                                        }%>
+                                                    <option><%=mins%></option>
                                                     <%}%>
                                                 </select>
                                                 <p style="color:white">Segundos:</p>
                                                 <select class="form-control" id="sel2" style="width:20%">
-                                                    <%for (int i = 0; i < 60; i++) {%>
-                                                    <option><%=i%></option>
+                                                    <%for (int i = 0; i < 60; i++) {
+                                                        String seg = String.valueOf(i);
+                                                        if(i<10){
+                                                            seg = "0"+i;
+                                                        }%>
+                                                    <option><%=seg%></option>
                                                     <%}%>
                                                 </select>
                                             </div>

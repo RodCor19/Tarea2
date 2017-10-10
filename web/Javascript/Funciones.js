@@ -18,7 +18,7 @@ if (document.getElementById("checkurl").checked === false){
     
 $('#aceptar').click(function(e) {
         e.preventDefault();
-        var photo = document.getElementById("elegirimagen");
+        var photo = document.getElementById("elegirimagen").files[0].name;
         var listagen = $("#listageneros li");
         var tabla = document.getElementById("mitabla");
         var nombre = document.getElementById("nombrealbum").value;
@@ -48,7 +48,7 @@ $('#aceptar').click(function(e) {
                         for (i = 0; i < x.length; i++){
                             generos.push(x[i].innerHTML);
                         }
-                        photo = photo.value.substring(12);
+                         
                         $.ajax({
                         type : 'POST', //tipo de request
                         url : '../ServletArtistas',
@@ -81,8 +81,7 @@ $('#aceptar').click(function(e) {
     
 $('#aceptartema').click(function(e){
    e.preventDefault();
-   var archivo = document.getElementById("elegircancion").value;
-   archivo = archivo.substring(12);
+   var archivo = document.getElementById("elegircancion").files[0].name;
    var url = document.getElementById("url").value;
    var nombre = document.getElementById("nomtema").value;
    var orden = document.getElementById("ordentema");

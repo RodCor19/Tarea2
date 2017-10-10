@@ -22,10 +22,11 @@
         <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2">
-                    <h3>Ingrese Los Datos Del Nuevo Perfil:</h3>
+                    
                 </div>
                 <div class="col-sm-7 text-left">
                     <div class="row">
+<!--                        <h3><b>Ingrese sus datos:</b></h3>-->
                         <ul class="list-group">
                             <form>
                                 <div class="input-group">

@@ -10,6 +10,7 @@ import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtGenero;
+import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
@@ -184,7 +185,9 @@ public class ServletArtistas extends HttpServlet {
         if (request.getParameter("consultarAlbum") != null) {
             String nombre = request.getParameter("consultarAlbum");
             ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);
+            ArrayList<DtListaPD> listas = Fabrica.getArtista().getListasGenero(nombre);
             request.getSession().setAttribute("Album", albumnes);
+            request.getSession().setAttribute("Listas", listas);
             if (nombre.contains("&"))
                 nombre = java.net.URLEncoder.encode(nombre, "UTF-8");
             //Redirecciona a la pagina indicada 

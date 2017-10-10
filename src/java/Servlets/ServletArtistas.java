@@ -10,6 +10,7 @@ import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtGenero;
+import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
@@ -67,11 +68,13 @@ public class ServletArtistas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
                    
-        
+            
 
         if(request.getParameter("listarGeneros") != null){    
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
+            ArrayList<DtTema> temas = Fabrica.getArtista().listarTodosTemas();
+            request.getSession().setAttribute("temas", temas);
         }    
         
         /* TODO output your page here. You may use following sample code. */
@@ -112,6 +115,7 @@ public class ServletArtistas extends HttpServlet {
                 int n = temas.length();
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = path.replace( "%20", " ");
                 path= path.substring(1);
                 byte[] imagen = null;
                 if (request.getParameter("foto")!=""){
@@ -140,7 +144,7 @@ public class ServletArtistas extends HttpServlet {
                         
                     }
                     else
-                        dtt = new DtTema(nomtema,duracion,orden,null,arch_url);
+                        dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
                     temasenviar.put(dtt.getNombre(), dtt);
                     }
                 Map<String,DtGenero> gen = new HashMap();
@@ -156,23 +160,7 @@ public class ServletArtistas extends HttpServlet {
                 }
                 catch (Exception e){e.getMessage();}
             }
-//            byte[] data = Base64.decodeBase64(nom);
-//            int i=0;
-//            String ruta = "D:\\hol" + i + ".mp3";
-//            try (OutputStream stream = new FileOutputStream(ruta)) {
-//                stream.write(data);
-//            }
-            /*File file = new File("D:\\newfile.txt");
-            String content = "This is the text content";
-            try (FileOutputStream fop = new FileOutputStream(file)) {
-                if (!file.exists()) {
-                    file.createNewFile();
-                    }
-                byte[] contentInBytes = nom.getBytes();
-                fop.write(contentInBytes);
-                fop.flush();
-                fop.close();
-            }*/
+//            
         }
         if(request.getParameter("verPerfilArt") != null){
             String nickname = request.getParameter("verPerfilArt");
@@ -197,7 +185,9 @@ public class ServletArtistas extends HttpServlet {
         if (request.getParameter("consultarAlbum") != null) {
             String nombre = request.getParameter("consultarAlbum");
             ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);
+            ArrayList<DtListaPD> listas = Fabrica.getArtista().getListasGenero(nombre);
             request.getSession().setAttribute("Album", albumnes);
+            request.getSession().setAttribute("Listas", listas);
             if (nombre.contains("&"))
                 nombre = java.net.URLEncoder.encode(nombre, "UTF-8");
             //Redirecciona a la pagina indicada 
@@ -224,7 +214,25 @@ public class ServletArtistas extends HttpServlet {
             ArrayList<String> generos = Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
         }
-
+        
+        if (request.getParameter("nickenuso") != null) {
+            String nick = request.getParameter("nickenuso");
+            if (((Fabrica.getArtista().verificarDatos(nick, null))==false) || (Fabrica.getCliente().verificarDatos(nick, null))==false){
+                response.getWriter().write("si");
+            }
+            else
+                response.getWriter().write("no");
+        }
+        if (request.getParameter("correoenuso") != null) {
+            String mail = request.getParameter("correoenuso");
+            if (((Fabrica.getArtista().verificarDatos(null, mail))==false) || (Fabrica.getCliente().verificarDatos(null, mail))==false){
+                response.getWriter().write("si");
+            }
+            else
+                response.getWriter().write("no");
+        }
+        
+        
         if (request.getParameter("Registrarse") != null) {
             try {
                 String nickname = request.getParameter("nickname");
@@ -237,9 +245,25 @@ public class ServletArtistas extends HttpServlet {
                 String paginaweb = request.getParameter("paginaweb");
 
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
+            String path = this.getClass().getClassLoader().getResource("").getPath();
+            path = path.replace("build/web/WEB-INF/classes/","temporales/");
+            path= path.substring(1);
+            byte[] imagen = null;
+            if (request.getParameter("foto")!=""){
+                String img = request.getParameter("foto");
+                img = (path + img);
+                File im = new File(img);
+                imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                im.delete();
+                }
             
+<<<<<<< HEAD
              DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,"www.paginaweb.com",0,null,null,null);
              boolean x = Fabrica.getArtista().IngresarArtista(art);
+=======
+             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
+             boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
+>>>>>>> origin/Desarrollo
              if (!x)
                 response.getWriter().write("si");
              else
@@ -248,7 +272,7 @@ public class ServletArtistas extends HttpServlet {
            }catch (ParseException ex) {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
                 }
-    }
+        }
 
         if (request.getParameter("Join") != null) {
             HttpSession sesion = request.getSession();

@@ -4,6 +4,9 @@
     Author     : usuario
 --%>
 
+<%@page import="java.nio.charset.StandardCharsets"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="Logica.DtListaPD"%>
 <%@page import="Logica.DtAlbum"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Logica.DtGenero"%>
@@ -13,6 +16,7 @@
     <% 
     String nomgen = request.getParameter("nomgen");
     ArrayList<DtAlbum> albumes = (ArrayList<DtAlbum>) session.getAttribute("Album");
+    ArrayList<DtListaPD> listas = (ArrayList<DtListaPD>) session.getAttribute("Listas");
     %>
     
     <head>
@@ -53,7 +57,25 @@
                                 <%}%>
                             </tbody>
                         </table>
-                        
+                        <table class="table text-left">
+                            <thead>
+                                <tr>
+                                    <th>Listas</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%for(DtListaPD lista: listas){ 
+                                String nombre = lista.getNombre();
+                                byte[] bytes = nombre.getBytes(StandardCharsets.UTF_8);
+                                // "normaliza" el texto
+                                String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
+                                %>
+                                <tr>
+                                    <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado %>"><%= nombre%></a></td> 
+                                </tr>
+                                <%}%>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="btn-group-vertical col-sm-2">

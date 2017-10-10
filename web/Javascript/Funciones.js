@@ -35,8 +35,13 @@ $('#aceptar').click(function(e) {
                     if (nombre ==="")
                         alert("Nombre vacío");
                     else{
-                        if (photo.value !== "")
+                        if (photo.value !== ""){
                             $("#formcrear").submit();
+                            photo = photo.files[0].name;
+                        }else{
+                            photo = "";
+                        }
+                        alert(photo);
                         var temas = [];
                         var generos = [];
                         for (var x=1, n = tabla.rows.length; x<n; x++){
@@ -48,7 +53,7 @@ $('#aceptar').click(function(e) {
                         for (i = 0; i < x.length; i++){
                             generos.push(x[i].innerHTML);
                         }
-                        photo = photo.value.substring(12);
+                         
                         $.ajax({
                         type : 'POST', //tipo de request
                         url : '../ServletArtistas',
@@ -80,18 +85,20 @@ $('#aceptar').click(function(e) {
     
     
 $('#aceptartema').click(function(e){
-   e.preventDefault();
-   var archivo = document.getElementById("elegircancion").value;
-   archivo = archivo.substring(12);
-   var url = document.getElementById("url").value;
-   var nombre = document.getElementById("nomtema").value;
-   var orden = document.getElementById("ordentema");
-   var min = parseInt(document.getElementById("sel1").value);
-   var sec = parseInt(document.getElementById("sel2").value);
-   var tabla = document.getElementById("mitabla");
-   var x = 0;
-   var z = 0;
-   nombre = ConvertirCadena(nombre);
+    e.preventDefault();
+    var archivo = "";
+    if(document.getElementById("elegircancion").value !== ""){
+        archivo = document.getElementById("elegircancion").files[0].name;
+    }
+    var url = document.getElementById("url").value;
+    var nombre = document.getElementById("nomtema").value;
+    var orden = document.getElementById("ordentema");
+    var min = parseInt(document.getElementById("sel1").value);
+    var sec = parseInt(document.getElementById("sel2").value);
+    var tabla = document.getElementById("mitabla");
+    var x = 0;
+    var z = 0;
+    nombre = ConvertirCadena(nombre);
     for (var r = 1, n = tabla.rows.length; r < n; r++) {
                 if (tabla.rows[r].cells[0].innerHTML === nombre)
                     x = 1;
@@ -107,7 +114,7 @@ $('#aceptartema').click(function(e){
         if (sec<30 && min==0)
             alert("Duración mínima 30 segundos");
         else{
-            if (archivo==="" && url===""){
+            if ((archivo==="" && url==="") || (document.getElementById("checkurl").checked === true && url==="") || (document.getElementById("checkurl").checked === false && archivo==="") ){
                 alert("Archivo o Url vacío");
             }
             else{
@@ -115,12 +122,11 @@ $('#aceptartema').click(function(e){
                     alert("Nombre de tema vacío ó ya existente dentro del album");
                     }
                 else{
-                    if (z == 1){
+                    if ((z == 1) && document.getElementById("checkurl").checked === false){
                         alert("El Archivo elegido ya esta asociado a otro tema del album");
                     }
                     else{
                         //document.getElementById["myForm"].action = "subir.jsp";
-                        $("#myForm").submit();
                         var row = tabla.insertRow(tabla.rows.length);
                         var cell1 = row.insertCell(0);
                         var cell2 = row.insertCell(1);
@@ -129,10 +135,14 @@ $('#aceptartema').click(function(e){
                         cell1.innerHTML = nombre;
                         cell2.innerHTML = orden.value;
                         cell3.innerHTML = min + ":" + sec;
-                        if (archivo==="")
+                        if (document.getElementById("checkurl").checked === true){
                             cell4.innerHTML = url;
-                        else
+                            alert("url");}
+                        else{
                             cell4.innerHTML = archivo;
+                            $("#myForm").submit();
+                            alert("arch");
+                        }
                         $('#modal').modal('hide');
                         document.getElementById("elegircancion").value = "";
                         document.getElementById("url").value = "";

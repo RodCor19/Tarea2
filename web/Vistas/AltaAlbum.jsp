@@ -20,6 +20,9 @@
 
 <html>
     <style>
+        .modal-content{
+            background-image: url("/EspotifyWeb/Imagenes/fondo3.jpg");
+        }
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -108,14 +111,22 @@
                                             <div id="enlinea">
                                                 <p style="color:white">Minutos:</p>
                                                 <select class="form-control" id="sel1" style="width:20%">
-                                                    <%for (int i = 0; i < 60; i++) {%>
-                                                    <option><%=i%></option>
+                                                    <%for (int i = 0; i < 60; i++) {
+                                                        String mins = String.valueOf(i);
+                                                        if(i<10){
+                                                            mins = "0"+i;
+                                                        }%>
+                                                    <option><%=mins%></option>
                                                     <%}%>
                                                 </select>
                                                 <p style="color:white">Segundos:</p>
                                                 <select class="form-control" id="sel2" style="width:20%">
-                                                    <%for (int i = 0; i < 60; i++) {%>
-                                                    <option><%=i%></option>
+                                                    <%for (int i = 0; i < 60; i++) {
+                                                        String seg = String.valueOf(i);
+                                                        if(i<10){
+                                                            seg = "0"+i;
+                                                        }%>
+                                                    <option><%=seg%></option>
                                                     <%}%>
                                                 </select>
                                             </div>
@@ -166,10 +177,6 @@
                             <input name="aceptar" type="submit" value="Crear Album" id="aceptar" style="width: 40%;background-color:dodgerblue;color:white">
                         </div>
                     </form>
-                    <!--        <form  target="iframe" action="subir.jsp" id="myForm" enctype="MULTIPART/FORM-DATA" method="post">
-                                    <input type="file" name="file" /><br/>
-                                    <input type="submit" value="Upload" />
-                                </form>-->
                     <iframe style="display:none" id="iframe" name="iframe"></iframe>
                 </div>
             </div>

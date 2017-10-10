@@ -15,7 +15,25 @@ function artSeleccionado(elemento, opcion){
 }
 $(document).ready(function(){    
     
-        //evento click del elemento con el id '#...'
+    
+    //Borrar para la tarea 3
+    
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : 'ServletArtistas',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+            listarArtistas : true,
+            listarGeneros : true
+        },
+        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+           $('#listaArtGen').load('/EspotifyWeb/Vistas/listaArtistas.jsp');
+        }
+    });
+    
+    //
+    
+    //evento click del elemento con el id '#...'
     $('#btnArtistas').click(function() {
         $('#btnArtistas').removeClass("opcionNoSelec");
         $('#btnArtistas').addClass("opcionSelec");

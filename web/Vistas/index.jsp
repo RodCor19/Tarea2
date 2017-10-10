@@ -24,7 +24,7 @@
                     </form> </h3></div>
             <div class="col-md-4 text-right" ></div>
         </div>
-        <br>
+        <!--<br>-->
         <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" >
@@ -36,15 +36,16 @@
                         <jsp:include page="listaArtistas.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
                     </div>
                 </div>
-                <div class="col-sm-2">
-
+                <div class="col-sm-2" style="padding-right: 0px;">
+                    <% if(session.getAttribute("temasAReproducir") != null){ %>
+                    <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
+                    <%}%>
                     <%  HttpSession sesion = request.getSession();
                         if (sesion.getAttribute("Mensaje") != null) {%>
                     <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
                     <%}
                         sesion.removeAttribute("Mensaje");
                     %>
-
                 </div>
             </div>
         </div>
@@ -54,5 +55,7 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>

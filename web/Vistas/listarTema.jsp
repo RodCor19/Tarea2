@@ -56,11 +56,17 @@
                             <%}else{%>
                             <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                             <%}%>
+                            <h3> Géneros: </h3> 
+                            <%for (String genero: album.getGeneros()) {
+                                String generoCodificado = URLEncoder.encode(genero, "UTF-8");
+                            %>
+                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= genero %></a></h4>
+                            <%}%>
                         </div>
                         <div class="col-sm-8 text-left">
                             <br> <br>
-                            <h3 class="tituloAlbum"><%= album.getNombre() %></h3> 
-                            <a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3 class="tituloArtista"><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
+                            <a class="link" onclick="reproducirAlbum('<%= album.getNombre()%>','<%= album.getNombreArtista() %>')" href="#"><h3 class="tituloAlbum"><%= album.getNombre() %></h3></a> 
+                            <a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>">  <h3><%= artista.getNombre()+ " " + artista.getApellido() %></h3></a>                            
                             <h3 class="anio"><%= album.getAnio() %></h3>
                             <%if(usuario != null && usuario instanceof DtCliente && cliente){%>
                             <a href="ServletClientes?art=<%=album.getNombreArtista() +"&alb="+album.getNombre()%>">Guardar</a>
@@ -82,7 +88,7 @@
                                 String nombre = tem.getNombre();
                                 String durac = tem.getDuracion();
                                 %>
-                                <tr>
+                                <tr class="filaTema">
                                     <%if(usuario != null && usuario instanceof DtCliente && cliente){%>
                                     <td>
                                         <div class="row">
@@ -97,7 +103,7 @@
                                     <%}else{%>
                                     <td><%= orden %> </td>
                                     <%}%>
-                                    <td><%= nombre %></td>
+                                    <td onclick="reproducirTema('<%= tem.getNombre()%>','<%= tem.getAlbum() %>','<%= tem.getArtista() %>')"><%= nombre %></td>
                                         <%if(cliente){%>
                                             <%if(tem.getArchivo()!= null){%>
                                             <td><%= durac %> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo() %>">Descargar</a></td>
@@ -121,13 +127,12 @@
                         </div>
                     </div>
                 </div>
-                 <div class="btn-group-vertical col-sm-2">
-                <h3> Géneros: </h3> 
-                <%for (String genero: album.getGeneros()) {
-                    String generoCodificado = URLEncoder.encode(genero, "UTF-8");
-                %>
-                <h4 class="list-group-item"><a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= genero %></a></h4>
-                <%}%>
+                <div class="btn-group-vertical col-sm-2" style="padding-right: 0px;">
+                    <div id="divReproductor">
+                    <% if(session.getAttribute("temasAReproducir") != null){ %>
+                        <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
+                    <%}%>
+                    </div>
                 </div>
             </div> 
         </div>
@@ -136,6 +141,8 @@
                     
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script>
 //            function hover(elemento, esHover){
 //                if(esHover){

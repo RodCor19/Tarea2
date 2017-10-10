@@ -22,10 +22,11 @@
         <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2">
-
+                    
                 </div>
-                <div class="col-sm-8 text-left">
+                <div class="col-sm-7 text-left">
                     <div class="row">
+<!--                        <h3><b>Ingrese sus datos:</b></h3>-->
                         <ul class="list-group">
                             <form>
                                 <div class="input-group">
@@ -51,7 +52,7 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon ">Fecha de Nacimiento: </span>
-                                    <input id="fechanac" type="text" class="form-control" name="fecha" placeholder="">
+                                    <input id="fechanac" type="text" class="form-control" name="fecha" placeholder="dd-mm-aaaa">
                                     <label class="glyphicon form-control-feedback" hidden="" id="error"></label>
                                 </div>
                                 <div class="input-group">
@@ -81,8 +82,16 @@
 
                     </div>
                 </div>
-                <div class="col-sm-2">
-
+                <div class="col-sm-3">
+                    <h3>Elegir Imagen Perfil</h3>        
+                    <img id="imgalbum" src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" width="200" height="200" class="imgAlbum" />
+                    <form  target="iframe" action="subir.jsp" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">
+                        <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
+                        <br><br><div class="form-group">
+                            <input name="aceptar" type="submit" value="subirfoto" id="subirfoto" class="hidden">
+                        </div>
+                    </form>
+                    <iframe style="display:none" id="iframe" name="iframe"></iframe>
                 </div>
             </div>
         </div>

@@ -94,9 +94,13 @@ public class ServletClientes extends HttpServlet {
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
-            response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-            //response.getWriter().write("ok");
+            if(dt.equals("chaiko")){
+                request.getSession().setAttribute("Mensaje", "No se puede dejar de seguir a ese usuario");
+            }else{
+                Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
+                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                //response.getWriter().write("ok");
+            }
         }
 
         if (request.getParameter("seguir") != null) {
@@ -104,15 +108,19 @@ public class ServletClientes extends HttpServlet {
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            try {
-                Fabrica.getCliente().seguir(dt.getNickname(), nickname);
-                sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
-                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-                //response.getWriter().write("ok");
-            } catch (Exception ex) {
-                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
-                response.sendRedirect("ServletArtistas?Inicio=true");
-                //response.getWriter().write("ERROR : " + ex.getMessage());
+            if(dt.equals("clauper")){
+                request.getSession().setAttribute("Mensaje", "No se puede seguir a ese usuario");
+            }else{
+                try {
+                    Fabrica.getCliente().seguir(dt.getNickname(), nickname);
+                    sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                    //response.getWriter().write("ok");
+                } catch (Exception ex) {
+                    sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                    //response.getWriter().write("ERROR : " + ex.getMessage());
+                }
             }
         }
 
@@ -276,7 +284,11 @@ public class ServletClientes extends HttpServlet {
         if (request.getParameter("publicarLista") != null) {
             DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
             String nLista = request.getParameter("publicarLista");
-            Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+            if(nLista.equals("Lista1")){
+                 sesion.setAttribute("error", "No se puede publicar una lista con ese nombre");
+            }else{
+                Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+            }
         }
 
     }

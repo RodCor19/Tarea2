@@ -238,7 +238,7 @@ public class ServletArtistas extends HttpServlet {
 
             SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
             
-             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
+             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,"www.paginaweb.com",0,null,null,null);
              boolean x = Fabrica.getArtista().IngresarArtista(art);
              if (!x)
                 response.getWriter().write("si");

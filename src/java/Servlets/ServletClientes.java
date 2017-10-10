@@ -51,7 +51,7 @@ public class ServletClientes extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
 
@@ -108,13 +108,9 @@ public class ServletClientes extends HttpServlet {
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            if(dt.equals("chaiko")){
-                request.getSession().setAttribute("Mensaje", "No se puede dejar de seguir a ese usuario");
-            }else{
-                Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
-                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-                //response.getWriter().write("ok");
-            }
+            Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
+            response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+            //response.getWriter().write("ok");
         }
 
         if (request.getParameter("seguir") != null) {
@@ -122,19 +118,15 @@ public class ServletClientes extends HttpServlet {
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            if(dt.equals("clauper")){
-                request.getSession().setAttribute("Mensaje", "No se puede seguir a ese usuario");
-            }else{
-                try {
-                    Fabrica.getCliente().seguir(dt.getNickname(), nickname);
-                    sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
-                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-                    //response.getWriter().write("ok");
-                } catch (Exception ex) {
-                    sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
-                    response.sendRedirect("ServletArtistas?Inicio=true");
-                    //response.getWriter().write("ERROR : " + ex.getMessage());
-                }
+            try {
+                Fabrica.getCliente().seguir(dt.getNickname(), nickname);
+                sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                //response.getWriter().write("ok");
+            } catch (Exception ex) {
+                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
+                response.sendRedirect("ServletArtistas?Inicio=true");
+                //response.getWriter().write("ERROR : " + ex.getMessage());
             }
         }
 
@@ -263,10 +255,7 @@ public class ServletClientes extends HttpServlet {
                 
             } catch (FileUploadException ex) {
                 Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            } 
         }
 
         if (request.getParameter("Lista") != null) {
@@ -300,11 +289,7 @@ public class ServletClientes extends HttpServlet {
         if (request.getParameter("publicarLista") != null) {
             DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
             String nLista = request.getParameter("publicarLista");
-            if(nLista.equals("Lista1")){
-                 sesion.setAttribute("error", "No se puede publicar una lista con ese nombre");
-            }else{
-                Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
-            }
+            Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
         }
 
     }
@@ -321,7 +306,11 @@ public class ServletClientes extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -335,7 +324,11 @@ public class ServletClientes extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

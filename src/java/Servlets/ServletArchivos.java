@@ -79,25 +79,25 @@ public class ServletArchivos extends HttpServlet {
             String album = request.getParameter("reproducirAlbum");
             String artista = request.getParameter("artista");
             String temaSeleccionado = request.getParameter("tema");
-            response.getWriter().write(temaSeleccionado);
-//            ArrayList<DtTema> temas = Fabrica.getArtista().reproducirAlbum(artista, album);
-//            request.getSession().setAttribute("temasAReproducir", temas);
-//            
-//            //Si es el rquest que se envia al seleccionar un tema
-//            if(temaSeleccionado != null){
-//                //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
-//                for (DtTema tema : temas) {
-//                    if(tema.getNombre().equals(temaSeleccionado)){
-//                        request.getSession().setAttribute("reproducirTema", tema);
-//                        break;
-//                    }
-//                }
-//            }else{
-//                //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
-//                if(temas.isEmpty() == false){
-//                    request.getSession().setAttribute("reproducirTema", temas.get(0));
-//                }
-//            }
+//            response.getWriter().write(temaSeleccionado);
+            ArrayList<DtTema> temas = Fabrica.getArtista().reproducirAlbum(artista, album);
+            request.getSession().setAttribute("temasAReproducir", temas);
+            
+            //Si es el rquest que se envia al seleccionar un tema
+            if(temaSeleccionado != null){
+                //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
+                for (DtTema tema : temas) {
+                    if(tema.getNombre().equals(temaSeleccionado)){
+                        request.getSession().setAttribute("reproducirTema", tema);
+                        break;
+                    }
+                }
+            }else{
+                //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
+                if(temas.isEmpty() == false){
+                    request.getSession().setAttribute("reproducirTema", temas.get(0));
+                }
+            }
         }
         
         if(request.getParameter("reproducirLista")!=null){

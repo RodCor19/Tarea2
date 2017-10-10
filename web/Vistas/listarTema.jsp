@@ -103,7 +103,7 @@
                                     <%}else{%>
                                     <td><%= orden %> </td>
                                     <%}%>
-                                    <td onclick="reproducirTema('<%= URLEncoder.encode(tem.getNombre(), "UTF-8")%>','<%= tem.getAlbum() %>','<%= tem.getArtista() %>')"><%= nombre %></td>
+                                    <td onclick="reproducirTema('<%= tem.getNombre()%>','<%= tem.getAlbum() %>','<%= tem.getArtista() %>')"><%= nombre %></td>
                                         <%if(cliente){%>
                                             <%if(tem.getArchivo()!= null){%>
                                             <td><%= durac %> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo() %>">Descargar</a></td>

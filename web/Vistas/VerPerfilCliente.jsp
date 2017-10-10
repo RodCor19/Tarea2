@@ -281,14 +281,15 @@
                                 for (DtListaP lista : cliente.getListas()) {
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
-                                        String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
-
+                                        byte[] bytes = lista.getNombre().getBytes(StandardCharsets.UTF_8);
+                                        // "normaliza" el texto
+                                        String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                             %>    
-                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
+                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
                                 <%}
                                     }
                                     if (cantListPub == 0) {%>
-                            <h4 class="lineaAbajo">No tiene listas públicas</h4> 
+                            <h4 class="lineaAbajo"><i>No tiene listas públicas</i></h4> 
                             <%}
                                 }%>
                         </div>

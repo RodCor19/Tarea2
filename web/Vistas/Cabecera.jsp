@@ -21,7 +21,7 @@
                
              </div>
             <div class="col-md-4">
-                <form id="formBuscar" action="http://www.google.com" method="GET" class="navbar-form navbar-left" style="margin-top: 40px;">
+                <form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosBuscador.jsp" method="GET" class="navbar-form navbar-left" style="margin-top: 40px;">
                     <input id="buscar" name="busqueda" placeholder="Buscar Tema, Lista, Álbum..." type="text" class="form-control">
                     <button class="btn" type="submit">
                         <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>

@@ -202,9 +202,6 @@ public class ServletClientes extends HttpServlet {
                 String path = this.getClass().getClassLoader().getResource("").getPath();
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
                 path = path.replace( "%20", " ");
-                if(sesion.getAttribute("imagen")!=null){
-                    sesion.removeAttribute("imagen");
-                }
                 for(int i=0;i<items.size();i++){
                     /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
                     FileItem item = (FileItem) items.get(i);
@@ -213,10 +210,8 @@ public class ServletClientes extends HttpServlet {
                     //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
                     if (item.isFormField() == false && item.getName().isEmpty() == false){
                         File archivo_server = new File(path + item.getName());
-                        if(item.getName().contains(".jpg")){
-                            sesion.setAttribute("imagen", path + item.getName());
-                        }
                         item.write(archivo_server);
+                        imagen = path.substring(1) + item.getName();
                     }else{
                         nLista= item.getString();
                     }
@@ -226,11 +221,6 @@ public class ServletClientes extends HttpServlet {
                 byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
                 // "normaliza" el texto
                 nLista = new String(bytes, StandardCharsets.UTF_8);
-                if (sesion.getAttribute("imagen") != null) {
-                    imagen = (String) sesion.getAttribute("imagen");
-                    imagen = imagen.substring(1);
-                    sesion.removeAttribute("imagen");
-                }
                 sesion.removeAttribute("cLista");
                 DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
                 Fabrica.getCliente().crearListaP(c.getNickname(), nLista, imagen);
@@ -290,6 +280,20 @@ public class ServletClientes extends HttpServlet {
             DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
             String nLista = request.getParameter("publicarLista");
             Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+        }
+        
+        if (request.getParameter("favLista") != null) {
+            DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
+            String nLista = request.getParameter("favLista");
+            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+            nLista = new String(bytes, StandardCharsets.UTF_8);
+            if(request.getParameter("cliente") != null){
+                Fabrica.getCliente().agregarListaFavorito(dtCli.getNickname() , (String)request.getParameter("cliente"), nLista);
+            }else{
+                Fabrica.getCliente().agregarListaFavorito(dtCli.getNickname() , nLista);
+            }
+            response.sendRedirect("ServletArtistas?Inicio=true");
+            
         }
 
     }

@@ -79,7 +79,6 @@
             cursor:pointer;
     }
 </style>
-<link href="/EspotifyMediaControl/media/fonts/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <div id="contenedorReproductor" class="text-right">
         <button onclick="cerrarRep(this.parentElement)" class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
         <div id="audiocontrol">
@@ -93,12 +92,12 @@
             <div id="auExtraControls" style="background: red">
                 <div  class="col-sm-6 text-center" style="padding: 0px;">
                     <button id="btnPrev" class="ctrlbtn" onclick="get_next(-1);">
-                        <i class="fa fa-step-backward fa-2x" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-step-backward" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div  class="col-sm-6 text-center" style="padding: 0px;">
                     <button id="btnNext" class="ctrlbtn" onclick="get_next(1);">
-                        <i class="fa fa-step-forward fa-2x" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-step-forward" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

@@ -81,8 +81,9 @@ public class ServletArtistas extends HttpServlet {
 
         if (request.getParameter("Inicio") != null) {
             ArrayList<DtArtista> artistas = Fabrica.getArtista().ListarArtistas();
+            request.getSession().removeAttribute("temasAReproducir");
             request.getSession().setAttribute("Artistas", artistas);
-//          
+            
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/index.jsp");
             requestDispatcher.forward(request, response);
@@ -200,6 +201,7 @@ public class ServletArtistas extends HttpServlet {
             String nombreAlb = request.getParameter("verAlbum");
             DtAlbum album = Fabrica.getArtista().ElegirAlbum(nombreArt, nombreAlb);
             request.getSession().setAttribute("Album", album);
+            request.getSession().removeAttribute("temasAReproducir");
 
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/listarTema.jsp");

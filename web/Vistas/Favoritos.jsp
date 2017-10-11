@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="Logica.Fabrica"%>
 <%@page import="Logica.DtListaPD"%>
@@ -125,8 +126,9 @@
                                                 // "normaliza" el texto
                                                 nLista = new String(bytes, StandardCharsets.ISO_8859_1);%>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>"><h4><%= listaPD.getNombre()%></h4></a></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaPD.getGenero()%>"><h4><%= listaPD.getGenero()%></h4></a></td>
-                                                        <%}%>
+                                            <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8"); %>
+                                            <td><a class="link" href="ServletArtistas?consultarAlbum=<%= generoCodificado %>"><h4><%= listaPD.getGenero() %></h4></a></td>
+                                             <%}%>
                                         </tr>
                                         <%}%>
                                     </tbody>

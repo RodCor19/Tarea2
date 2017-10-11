@@ -136,7 +136,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=tem.getArtista() + "&album=" + tem.getAlbum() + "&tema=" + nombre%>">
+                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getArtista() + "&album=" + tem.getAlbum() + "&tema=" + nombre%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>

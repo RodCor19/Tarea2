@@ -182,7 +182,7 @@
                                                         }
                                                     }
                                                 }
-
+                                                if(!listaP.isPrivada()){
                                         %>
                                         <%if (control && control2) {%>
                                         <td>
@@ -199,7 +199,7 @@
                                         <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
                                             <%}%>
                                         <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= listaP.getUsuario()%></a></td>
-                                            <%} else {
+                                            <%}} else {
                                                 DtListaPD listaPD = (DtListaPD) lista;
                                                 String nLista = lista.getNombre();
                                                 //se crea un array de bytes con la codificación que se envía en los parametros

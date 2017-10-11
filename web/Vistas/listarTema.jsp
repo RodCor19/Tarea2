@@ -18,8 +18,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%
-        DtAlbum album = (DtAlbum) session.getAttribute("Album");
+    <%  DtAlbum album = (DtAlbum) session.getAttribute("Album");
         DtArtista artista = Fabrica.getArtista().ElegirArtista(album.getNombreArtista());
         HttpSession sesion = request.getSession();
         DtUsuario usuario = (DtUsuario) sesion.getAttribute("Usuario");

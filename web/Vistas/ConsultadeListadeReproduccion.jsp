@@ -18,6 +18,7 @@
 <html>
     <%
         DtLista dt = (DtLista) session.getAttribute("Lista");
+        session.removeAttribute("temasAReproducir");
     %>
 
     <head>
@@ -27,7 +28,6 @@
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
         <title>Espotify: Lista de Reproduccion</title>
         <%if (dt == null) {
-
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%}
@@ -57,7 +57,7 @@
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-1">
+                <div class="btn-group-vertical">
 
                 </div>
                 <div class="col-sm-10 text-center">

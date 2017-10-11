@@ -5,12 +5,14 @@
  */
 package Servlets;
 
+import Logica.DtLista;
 import Logica.DtTema;
 import Logica.Fabrica;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +21,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -82,7 +85,22 @@ public class ServletArchivos extends HttpServlet {
 //            response.getWriter().write(temaSeleccionado);
             ArrayList<DtTema> temas = Fabrica.getArtista().reproducirAlbum(artista, album);
             request.getSession().setAttribute("temasAReproducir", temas);
-            
+            byte[] imagen = Fabrica.getArtista().getImagenAlbum(artista, album);
+            if (imagen!=null){
+                try {
+                    String path = this.getClass().getClassLoader().getResource("").getPath();
+                    path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                    path = path + album + "REPRODUCTOR.jpg";
+                    File f = new File(path);
+                    org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                    request.getSession().setAttribute("ImagenAlbumReproductor", path);
+                } catch (FileNotFoundException ex) {ex.getMessage();
+                } catch (IOException ex) {ex.getMessage();}
+            }
+            else
+                if (request.getSession().getAttribute("ImagenAlbumReproductor")!=null)
+                    request.getSession().removeAttribute("ImagenAlbumReproductor");
+                
             //Si es el rquest que se envia al seleccionar un tema
             if(temaSeleccionado != null){
                 //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
@@ -114,6 +132,14 @@ public class ServletArchivos extends HttpServlet {
             }else{
                 temas = Fabrica.getArtista().reproducirListaPD(genero, lista);
             }
+            
+            DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
+            if (dt.getImagen()!=null){
+                request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());    
+            }
+            else
+                if (request.getSession().getAttribute("ImagenAlbumReproductor")!=null)
+                    request.getSession().removeAttribute("ImagenAlbumReproductor");
             
             request.getSession().setAttribute("temasAReproducir", temas);
             

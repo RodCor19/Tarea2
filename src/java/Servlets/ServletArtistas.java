@@ -10,6 +10,7 @@ import Logica.DtCliente;
 import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtGenero;
+import Logica.DtListaP;
 import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.DtUsuario;
@@ -232,7 +233,6 @@ public class ServletArtistas extends HttpServlet {
                 response.getWriter().write("no");
         }
         
-        
         if (request.getParameter("Registrarse") != null) {
             try {
                 String nickname = request.getParameter("nickname");
@@ -267,6 +267,61 @@ public class ServletArtistas extends HttpServlet {
            }catch (ParseException ex) {
                   Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
                 }
+        }
+        
+        if (request.getParameter("TipoAgregarTema")!=null){
+            String tipo = (String) request.getParameter("TipoAgregarTema");
+            if (tipo.equals("0")){
+                String nomalbum = (String) request.getParameter("NombreElementoAgregarTema");
+                String nomartista = (String) request.getParameter("NombreCreadorAgregarTema");
+                ArrayList<DtAlbum> albumes = (ArrayList<DtAlbum>)request.getSession().getAttribute("todosalbumes");
+                DtAlbum al = null;
+                for (int i=0;i<albumes.size();i++){
+                    if (albumes.get(i).getNombre().equals(nomalbum) && albumes.get(i).getNombreArtista().equals(nomartista))
+                        al = albumes.get(i);
+                }
+                request.getSession().setAttribute("ColeccionTemas", al);
+                request.getSession().setAttribute("TipoAgregarTema", tipo);
+                }
+            if (tipo.equals("1")){
+                String nomlista = (String) request.getParameter("NombreElementoAgregarTema");
+                String nomcreador = (String) request.getParameter("NombreCreadorAgregarTema");
+                ArrayList<DtListaP> listasp = (ArrayList<DtListaP>)request.getSession().getAttribute("todaslistasp");
+                DtListaP lp = null;
+                for (int i=0;i<listasp.size();i++){
+                    if (listasp.get(i).getNombre().equals(nomlista) && listasp.get(i).getUsuario().equals(nomcreador))
+                        lp = listasp.get(i);
+                }
+                request.getSession().setAttribute("ColeccionTemas", lp);
+                request.getSession().setAttribute("TipoAgregarTema", tipo);
+            }
+            if (tipo.equals("2")){
+                String nomlista = (String) request.getParameter("NombreElementoAgregarTema");
+                ArrayList<DtListaPD> listaspd = (ArrayList<DtListaPD>) request.getSession().getAttribute("todaslistaspd");
+                DtListaPD lpd = null;
+                for (int i=0;i<listaspd.size();i++){
+                    if (listaspd.get(i).getNombre().equals(nomlista))
+                        lpd = listaspd.get(i);
+                }
+                request.getSession().setAttribute("ColeccionTemas", lpd);
+                request.getSession().setAttribute("TipoAgregarTema", tipo);
+            }
+        }
+        
+        if (request.getParameter("agregartemalista") != null) {
+            ArrayList<DtAlbum> todosalbumes = Fabrica.getArtista().listarTodosAlbumes();
+            ArrayList<DtListaPD> todaslistaspd = Fabrica.getArtista().ListarListaPD();
+            ArrayList<DtListaP> auxiliar = Fabrica.getCliente().ListarListaP();
+            ArrayList<DtListaP> todaslistasp = new ArrayList();
+            for (int i=0;i<auxiliar.size();i++){
+                if (!(auxiliar.get(i).isPrivada()))
+                    todaslistasp.add(auxiliar.get(i));
+            }
+            request.getSession().setAttribute("todosalbumes", todosalbumes);
+            request.getSession().setAttribute("todaslistaspd", todaslistaspd);
+            request.getSession().setAttribute("todaslistasp", todaslistasp);
+            
+            response.sendRedirect("/EspotifyWeb/Vistas/AgregarTema.jsp");
         }
 
         if (request.getParameter("Join") != null) {

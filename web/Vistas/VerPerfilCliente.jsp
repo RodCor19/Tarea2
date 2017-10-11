@@ -39,6 +39,7 @@
         <title>Espotify: Cliente</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
@@ -51,7 +52,7 @@
                 <div class="col-sm-8 text-center">
                     <div class="row">
                         <% if (cliente.getRutaImagen() == null) { %>
-                        <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Cliente"><!--Cambiar por imagen del usuario-->
+                        <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgAlbum" title="Cliente"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
                         <%}%>
@@ -250,6 +251,7 @@
                             </div>
                             <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                             <div id="menu4" class="tab-pane fade">
+                                <% if(cliente.getSuscripciones().isEmpty() == false){ %>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -270,6 +272,9 @@
                                         <%}%>
                                     </tbody>
                                 </table>
+                                <%}else{%>
+                                <h4 class="lineaAbajo"><i>No tiene suscripciones</i></h4>
+                                <%}%>
                                 <br>
                             </div>   
                             <%}%>
@@ -280,14 +285,15 @@
                                 for (DtListaP lista : cliente.getListas()) {
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
-                                        String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
-
+                                        byte[] bytes = lista.getNombre().getBytes(StandardCharsets.UTF_8);
+                                        // "normaliza" el texto
+                                        String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                             %>    
-                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
+                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
                                 <%}
                                     }
                                     if (cantListPub == 0) {%>
-                            <h4 class="lineaAbajo">No tiene listas públicas</h4> 
+                            <h4 class="lineaAbajo"><i>No tiene listas públicas</i></h4> 
                             <%}
                                 }%>
                         </div>

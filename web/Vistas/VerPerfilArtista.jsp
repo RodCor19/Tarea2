@@ -31,6 +31,7 @@
         <title>Espotify: Artista</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
@@ -108,9 +109,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                <%for (DtAlbum album : artista.getAlbumes()) {%>
+                                <%for (DtAlbum album : artista.getAlbumes()) {
+                                        String albumCod = java.net.URLEncoder.encode(album.getNombre(), "UTF-8");%>
                                         <tr>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= albumCod + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4></td>
                                             <td><h4><%= album.getAnio() %></h4></td>
                                         </tr>
                                 <%}%>

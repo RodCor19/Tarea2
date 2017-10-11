@@ -10,6 +10,7 @@
         <title>Resultados</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <% DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
             DtCliente dt = null;
             boolean controlSeguir = false;
@@ -59,10 +60,10 @@
                                         String servlet;
                                         if (u instanceof DtCliente) {
                                             tipo = "Cliente";
-                                            servlet = "../ServletClientes?verPerfilCli=";
+                                            servlet = "/EspotifyWeb/ServletClientes?verPerfilCli=";
                                         } else {
                                             tipo = "Artista";
-                                            servlet = "../ServletArtistas?verPerfilArt=";
+                                            servlet = "/EspotifyWeb/ServletArtistas?verPerfilArt=";
                                         }
                                 %>
                                 <tr>
@@ -80,9 +81,9 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <button class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"></button>
+                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"></a>
                                         <%} else {%>
-                                        <button class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>"></button>
+                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>"></a>
                                         <%}
                                                     }%>
                                     </td> 

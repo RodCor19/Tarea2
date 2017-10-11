@@ -18,6 +18,7 @@
 <html>
     <%
         DtLista dt = (DtLista) session.getAttribute("Lista");
+        session.removeAttribute("temasAReproducir");
     %>
 
     <head>
@@ -25,14 +26,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <title>Espotify: Lista de Reproduccion</title>
         <%if (dt == null) {
-
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%}
             DtUsuario aux2 = (DtUsuario) session.getAttribute("Usuario");
             boolean cliente = false;
+            DtCliente dtcontrol = null;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
                 if (aux.isPrivada() && ((aux2==null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
@@ -46,6 +48,7 @@
         <%}
                         if (aux2 != null && Fabrica.getCliente().SuscripcionVigente(aux2.getNickname())) {
                             cliente = true;
+                            dtcontrol=Fabrica.getCliente().verPerfilCliente(aux2.getNickname());
                         }
                     }
                 }
@@ -55,12 +58,12 @@
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-0">
+                <div class="btn-group-vertical">
 
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <%if (dt.getImagen() != null) {%>
+                        <%if ( dt.getImagen() != null) {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
@@ -86,18 +89,18 @@
                                     DtListaP dtp = (DtListaP) dt;
                                     String tipo = "Privada";
                                 %>
-                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= dtp.getUsuario()%></a></h4>
+                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= dtp.getUsuario()%></a></h4>
                             <%if (!dtp.isPrivada()) {
                                     tipo = "Pública";
                             %>
                             <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%></h4>
                             <%}else{%>
-                            <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%> <button id="btnPublicar" class="btn" onclick="publicarLista('<%= dtp.getNombre()%>')">Publicar</button></h4>
+                            <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%> <button style="font-size: 15px; margin-left: 5px;" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= dtp.getNombre()%>')">Publicar</button></h4>
                             <%}}%>
                         </div>
                         <br>
                         <div class="tab-pane">
-                            <% if (dt.getTema() != null && dt.getTema().isEmpty()) { %>
+                            <% if (dt.getTema() == null || dt.getTema().isEmpty()) { %>
                             <h4 class="lineaAbajo"><i>No tiene temas</i></h4>
                             <%} else {%>
                             <table class="table text-left">
@@ -114,6 +117,14 @@
                                             String nombre = tem.getNombre();
                                             String durac = tem.getDuracion();
                                             DtArtista a = Fabrica.getArtista().ElegirArtista(tem.getArtista());
+                                            boolean control2 = true;
+                                            if (dtcontrol != null) {
+                                                for (DtTema t : dtcontrol.getFavTemas()) {
+                                                    if (t.getNombre().equals(nombre) && t.getArtista().equals(tem.getArtista()) && t.getAlbum().equals(tem.getAlbum())) {
+                                                        control2 = false;
+                                                    }
+                                                }
+                                            }
                                             if (dt instanceof DtListaP) {
                                                 DtListaP aux = (DtListaP) dt;
                                     %>
@@ -122,11 +133,11 @@
                                             DtListaPD aux = (DtListaPD) dt;%>
                                     <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>',null,'<%= aux.getGenero()%>')">
                                     <%      }%>
-                                        <%if (aux2 != null && aux2 instanceof DtCliente && cliente) {%>
+                                        <%if (cliente && control2) {%>
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=tem.getArtista() + "&album=" + tem.getAlbum() + "&tema=" + nombre%>">
+                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getArtista() + "&album=" + tem.getAlbum() + "&tema=" + nombre%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>

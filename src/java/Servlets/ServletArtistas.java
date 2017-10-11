@@ -82,8 +82,9 @@ public class ServletArtistas extends HttpServlet {
 
         if (request.getParameter("Inicio") != null) {
             ArrayList<DtArtista> artistas = Fabrica.getArtista().ListarArtistas();
+            request.getSession().removeAttribute("temasAReproducir");
             request.getSession().setAttribute("Artistas", artistas);
-//          
+            
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/index.jsp");
             requestDispatcher.forward(request, response);
@@ -199,9 +200,9 @@ public class ServletArtistas extends HttpServlet {
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {
             String nombreArt = request.getParameter("artista");
             String nombreAlb = request.getParameter("verAlbum");
-            ArrayList<DtTema> albumes = Fabrica.getArtista().obtenerTema(nombreArt, nombreAlb);
             DtAlbum album = Fabrica.getArtista().ElegirAlbum(nombreArt, nombreAlb);
             request.getSession().setAttribute("Album", album);
+            request.getSession().removeAttribute("temasAReproducir");
 
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/listarTema.jsp");
@@ -256,7 +257,6 @@ public class ServletArtistas extends HttpServlet {
                 imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                 im.delete();
                 }
-            
              DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
              boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
              if (!x)

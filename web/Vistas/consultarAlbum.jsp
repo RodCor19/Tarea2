@@ -24,6 +24,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
          <title>Espotify: Género</title>
     </head>
     <body>
@@ -71,7 +72,7 @@
                                 String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                                 %>
                                 <tr>
-                                    <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado %>"><%= nombre%></a></td> 
+                                    <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre() %>"><%= nombre%></a></td> 
                                 </tr>
                                 <%}%>
                             </tbody>

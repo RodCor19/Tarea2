@@ -111,7 +111,10 @@
                                             <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
                                             <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
                                     </form>
-                                   
+                                    <br><br>
+                                    <%if (!(cliente.getListas().isEmpty())){%>
+                                    <button type="button" class="btn btn-success btn-lg" onclick = "window.location.href='/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar Tema A Lista</button>
+                                    <%}%>
                                 </h4>
                                 <br class="x">
                                 <% }%>
@@ -151,7 +154,7 @@
                                         <!-- Si es publica o es privada pero el perfil es del cliente que inicio sesion -->
                                         <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                                         <tr>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                             <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
                                             <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>

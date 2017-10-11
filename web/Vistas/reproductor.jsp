@@ -12,6 +12,9 @@
 <%  //DtAlbum album = (DtAlbum) session.getAttribute("Album");
     ArrayList<DtTema> temas = (ArrayList<DtTema>) session.getAttribute("temasAReproducir"); 
     DtTema repTema = (DtTema) session.getAttribute("reproducirTema");
+    String ImagenReproductor = null;
+    if (session.getAttribute("ImagenAlbumReproductor")!=null){
+        ImagenReproductor = (String) session.getAttribute("ImagenAlbumReproductor");}
 %>
 <style>
     contenedorReproductor{
@@ -115,7 +118,10 @@
                     <%  for (DtTema tema : temas) { 
                             //String cargarImagen = "/EspotifyWeb/ServletArchivos?tipo=imagen&ruta="+album.getRutaImagen();
                             //if(album.getRutaImagen() == null){ //Si no tiene imagen se carga una por defecto
-                                String cargarImagen = "/EspotifyWeb/Imagenes/albumReproductor.jpg";
+                            
+                            String cargarImagen = "/EspotifyWeb/Imagenes/albumReproductor.jpg";
+                            if (ImagenReproductor!=null)
+                                cargarImagen = "/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=" + ImagenReproductor;
                            // }
                             if(tema.getArchivo() != null){
                                 boolean controlRepTema = false;

@@ -72,7 +72,7 @@
                                 String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                                 %>
                                 <tr>
-                                    <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado %>"><%= nombre%></a></td> 
+                                    <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre() %>"><%= nombre%></a></td> 
                                 </tr>
                                 <%}%>
                             </tbody>

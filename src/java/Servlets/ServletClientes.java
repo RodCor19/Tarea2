@@ -66,6 +66,21 @@ public class ServletClientes extends HttpServlet {
             response.getWriter().write("perfil del cliente cargado");
         }
 
+        if (request.getParameter("AgregarTemaNombreTema") != null) {
+            
+            String tema = request.getParameter("AgregarTemaNombreTema");
+            String album = request.getParameter("AgregarTemaNombreAlbum");
+            String artista = request.getParameter("AgregarTemaNombreArtista");
+            String listaelegida = request.getParameter("AgregarTemaListaElegida");
+            DtCliente cliente = (DtCliente) request.getSession().getAttribute("PerfilCli");
+            boolean x = Fabrica.getArtista().AgregarTemaListaWeb(tema, album, artista, listaelegida, cliente.getNickname());
+            if (x==true){
+                response.getWriter().write("si");
+            }
+            else
+                response.getWriter().write("no");
+        }
+        
         if (request.getParameter("Registrarse") != null) {
             try {
                 String nickname = request.getParameter("nickname");
@@ -241,9 +256,9 @@ public class ServletClientes extends HttpServlet {
         if (request.getParameter("Lista") != null) {
             String nLista = request.getParameter("Lista");
             //se crea un array de bytes con la codificación que se envía en los parametros
-            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+            //byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
             // "normaliza" el texto
-            nLista = new String(bytes, StandardCharsets.UTF_8);
+            //nLista = new String(bytes, StandardCharsets.UTF_8);
             if (request.getParameter("Usuario") != null) {
                 String nick = request.getParameter("Usuario");
                 DtListaP aux = null;

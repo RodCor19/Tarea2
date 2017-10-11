@@ -56,7 +56,7 @@ $('#aceptar').click(function(e) {
                          
                         $.ajax({
                         type : 'POST', //tipo de request
-                        url : '../ServletArtistas',
+                        url : '/EspotifyWeb/ServletArtistas',
                         dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
                         data:{ // Parametros que se pasan en el request
                             //NombreAlbum : $('#nombrealbum').val()

@@ -283,3 +283,7 @@ textarea{
     cursor: pointer;
     background-color: #E0F5E6;
 }
+
+.tituloFila:hover{
+    cursor: pointer;
+}

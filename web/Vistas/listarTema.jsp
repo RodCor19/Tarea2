@@ -79,7 +79,7 @@
                             <a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>">  <h3><%= artista.getNombre() + " " + artista.getApellido()%></h3></a>                            
                             <h3 class="anio"><%= album.getAnio()%></h3>
                             <%if (cliente && control2) {%>
-                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>">Guardar</a>
+                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px;">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -88,6 +88,7 @@
                                         <th>Orden</th>
                                         <th>Nombre</th>
                                         <th>Duración</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,7 +110,7 @@
                                     <tr class="filaTema">
                                         <%if (usuario != null && usuario instanceof DtCliente && cliente && control2) {%>
                                         <td>
-                                            <div class="row">
+                                            <div>
                                                 <div class="span">
                                                     <a style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
@@ -119,20 +120,31 @@
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><%= orden%> </td>
+                                        <td>
+                                            <div>
+                                                <div class="span">
+                                                    <!--<a style="float:left; margin-right: 5px; opacity: 0" href="#">-->
+                                                        <img style="float:left; margin-right: 5px; opacity: 0" src="/EspotifyWeb/Imagenes/eliminar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
+                                                    <!--</a>-->
+                                                    <div class="span" ><%= orden%></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <%}%>
                                         <td onclick="reproducirTema('<%= tem.getNombre()%>', '<%= tem.getAlbum()%>', '<%= tem.getArtista()%>')"><%= nombre%></td>
                                         <%if (cliente) {%>
+                                        <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><%= durac%> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>">Descargar</a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
                                         <%} else {%>
-                                        <td><%= durac%> <a id="Link" href="http://<%= tem.getDireccion()%>">Escuchar online</a></td>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>
                                         <%} else {%>
-                                        <%if (tem.getDireccion() != null) {%>
-                                        <td><%= durac%> <a id="Link" href="http://<%= tem.getDireccion()%>">Escuchar online</a></td>
-                                        <%} else {%>
                                         <td><%= durac%></td>
+                                        <%if (tem.getDireccion() != null) {%>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
+                                        <%} else {%>
+                                        <td></td>
                                         <%}%>
                                         <%}%>
                                     </tr>
@@ -155,10 +167,7 @@
             </div> 
         </div>
 
-        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
-
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script>

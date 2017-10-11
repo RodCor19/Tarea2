@@ -55,11 +55,9 @@
             </div>
         </center>
             
-    <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
     
     <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
     <script src="/EspotifyWeb/Javascript/sha1.js"></script>
     <Script src="/EspotifyWeb/Javascript/encriptacion.js"></script>
-    <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
 </body>
 </html>

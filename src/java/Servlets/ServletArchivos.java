@@ -46,6 +46,15 @@ public class ServletArchivos extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        if (request.getParameter("cargarDatosPrueba") != null) {
+            Fabrica.getCliente().CargadeDatos();
+            request.getSession().removeAttribute("Usuario");
+            request.getSession().removeAttribute("Album");
+            request.getSession().removeAttribute("temasAReproducir");
+            
+            response.getWriter().write("se han cargado los datos de prueba");
+        }
+        
         String tipoArchivo = request.getParameter("tipo");
         
         if(tipoArchivo != null){

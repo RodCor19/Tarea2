@@ -80,7 +80,8 @@
     }
 </style>
 <link href="/EspotifyMediaControl/media/fonts/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
-    <div id="contenedorReproductor">
+    <div id="contenedorReproductor" class="text-right">
+        <button onclick="cerrarRep(this.parentElement)" class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
         <div id="audiocontrol">
             <div id="trackImageContainer">
                 <img id="trackImage" src= "/EspotifyWeb/Imagenes/albumReproductor.jpg">

@@ -45,6 +45,7 @@
         <title>Espotify: Crear Album</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body >
         <% ArrayList<String> generos = (ArrayList<String>) session.getAttribute("Generos");%>

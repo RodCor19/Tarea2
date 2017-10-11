@@ -133,6 +133,11 @@ public class ServletArchivos extends HttpServlet {
                 }
             }
         }
+        
+        if(request.getParameter("cerrarReproductor") != null){
+            request.getSession().removeAttribute("temasAReproducir");
+            request.getSession().removeAttribute("reproducirTema");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

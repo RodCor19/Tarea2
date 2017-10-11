@@ -10,6 +10,7 @@
         <title>Resultados</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <% DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
             DtCliente dt = null;
             boolean controlSeguir = false;

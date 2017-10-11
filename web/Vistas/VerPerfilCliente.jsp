@@ -39,6 +39,7 @@
         <title>Espotify: Cliente</title>
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>

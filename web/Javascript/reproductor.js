@@ -119,4 +119,21 @@ function reproducirTemaLista(tema, lista, creador, genero){
     }
 }
 
+function cerrarRep(rep){
+    var audioRep = $("#aurepr")[0];
+    audioRep.pause();
+    rep.style.display = 'none';
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : '/EspotifyWeb/ServletArchivos',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+            cerrarReproductor : true
+        },
+        success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+            
+        }
+    });
+}
+
 

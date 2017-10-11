@@ -25,6 +25,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <title>Espotify: Lista de Reproduccion</title>
         <%if (dt == null) {
 
@@ -92,7 +93,7 @@
                             %>
                             <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%></h4>
                             <%}else{%>
-                            <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%> <button id="btnPublicar" class="btn" onclick="publicarLista('<%= dtp.getNombre()%>')">Publicar</button></h4>
+                            <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%> <button style="font-size: 15px; margin-left: 5px;" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= dtp.getNombre()%>')">Publicar</button></h4>
                             <%}}%>
                         </div>
                         <br>

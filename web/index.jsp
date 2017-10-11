@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="CSS/estilos.css">
+        <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <title>Espotify</title>        
     </head>
     <body>

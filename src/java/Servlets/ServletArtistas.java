@@ -198,7 +198,6 @@ public class ServletArtistas extends HttpServlet {
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {
             String nombreArt = request.getParameter("artista");
             String nombreAlb = request.getParameter("verAlbum");
-            ArrayList<DtTema> albumes = Fabrica.getArtista().obtenerTema(nombreArt, nombreAlb);
             DtAlbum album = Fabrica.getArtista().ElegirAlbum(nombreArt, nombreAlb);
             request.getSession().setAttribute("Album", album);
 

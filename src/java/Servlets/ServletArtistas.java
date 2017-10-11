@@ -256,7 +256,6 @@ public class ServletArtistas extends HttpServlet {
                 imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                 im.delete();
                 }
-            
              DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
              boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
              if (!x)

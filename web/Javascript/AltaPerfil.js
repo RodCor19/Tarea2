@@ -61,12 +61,18 @@ $(document).ready(function () {
                     }
                     if (data==='no'){
                     alert("El Cliente ha sido registrado");
-//                    $('#nickname').val("");
-//                    $('#contrasenia').val(contrasenia);
-//                    $('#nombre').val("");   
-//                    $('#apellido').val(""); 
-//                    $('#fechanac').val("");
-//                    $('#correo').val("");
+                        $.ajax({
+                            type: 'POST', //tipo de request
+                            url: '/EspotifyWeb/ServletArtistas',
+                            dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                            data: {// Parametros que se pasan en el request
+                                Join: $('#nickname').val(),
+                                Contrasenia: contrasenia
+                            },
+                            success: function (data) {
+                                window.location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
+                            }
+                        });
                     }
                 }
             });
@@ -91,16 +97,20 @@ $(document).ready(function () {
                     if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
                         alert("el nickname y/o correo ya esta en uso");
                     }
-               if (data==='no'){
-                   alert("El Artista ha sido registrado");
-//                    $('#nickname').val("");
-//                    $('#contrasenia').val(contrasenia); 
-//                    $('#nombre').val("");   
-//                    $('#apellido').val(""); 
-//                    $('#fechanac').val("");
-//                    $('#correo').val("");
-//                    $('#biografia').val("");     
-//                    $('#paginaweb').val("");
+                    if (data==='no'){
+                        alert("El Artista ha sido registrado");          
+                        $.ajax({
+                            type: 'POST', //tipo de request
+                            url: '/EspotifyWeb/ServletArtistas',
+                            dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                            data: {// Parametros que se pasan en el request
+                                Join: $('#nickname').val(),
+                                Contrasenia: contrasenia
+                            },
+                            success: function (data) {
+                                window.location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
+                            }
+                        });
                     }
                 }
             });

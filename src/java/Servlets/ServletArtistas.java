@@ -22,10 +22,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +39,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +76,138 @@ public class ServletArtistas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
                    
-            
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                String  rutaArchivo = null, nickname = null, contrasenia = null, nombre = null, apellido = null, fechanac = null, correo = null, 
+                        tipoUsuario = null, biografia = null, paginaweb = null;
+                
+                /*FileItemFactory es una interfaz para crear FileItem*/
+                FileItemFactory file_factory = new DiskFileItemFactory();
+                /*ServletFileUpload esta clase convierte los input file a FileItem*/
+                ServletFileUpload servlet_up = new ServletFileUpload(file_factory);
+                /*sacando los FileItem del ServletFileUpload en una lista */
+                List items = servlet_up.parseRequest(request);
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = "Z:/";
+                for(int i=0;i<items.size();i++){
+                    /*FileItem es un input enviado dentro del form multipart, puede ser un archivo o un parametro nomrnal(string)*/
+                    FileItem item = (FileItem) items.get(i);
+                    
+                    /*item.isFormField() false=input file; true=text field*/
+                    //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
+                    if (item.isFormField() == false && item.getName().isEmpty() == false){
+                        File archivo_server = new File(path + item.getName());
+                        item.write(archivo_server);
+                        rutaArchivo = path+ item.getName();
+                    }else{
+                        String nombreInput = item.getFieldName();
+                        
+                        switch(nombreInput){
+                            case "nickname":
+                                nickname = item.getString("UTF-8");
+                                break;
+                            case "contrasenia":
+                                contrasenia = item.getString("UTF-8");
+                                break;
+                            case "nombre":
+                                nombre = item.getString("UTF-8");
+                                break;
+                            case "apellido":
+                                apellido = item.getString("UTF-8");
+                                break;
+                            case "fechanac":
+                                fechanac = item.getString("UTF-8");
+                                break;
+                            case "correo":
+                                correo = item.getString("UTF-8");
+                                break;
+                            case "tipoUsr":
+                                tipoUsuario = item.getString("UTF-8");
+                                break;
+                            case "biografia":
+                                biografia = item.getString("UTF-8");
+                                break;
+                            case "paginaweb":
+                                paginaweb = item.getString("UTF-8");
+                                break;                            
+                        }
+                    }
+                }
+                
+                //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
+                if(contrasenia != null){
+                    SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
+                    byte[] imagen = null;
+                    if (rutaArchivo != null){
+                        File im = new File(rutaArchivo);
+                        imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                        im.delete();
+                    }
+                    if(tipoUsuario != null && tipoUsuario.equals("Artista")){
+                        DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
+                        boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
+                        if (x){
+                           HttpSession sesion = request.getSession();
+                            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+                            sesion.setAttribute("Usuario", dt);
+                            sesion.removeAttribute("error");
+                            sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
+                            response.sendRedirect("ServletArtistas?Inicio=true");
+                        }else{
+                           response.getWriter().write("Error al llamar la funcion de la logica");
+                        }
+                    }else{
+                        DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, formato.parse(fechanac), correo, null, null, null, null, null, null, null, null);
+                        boolean x = Fabrica.getCliente().IngresarCliente(cli,imagen);
+                        if (x){
+                            HttpSession sesion = request.getSession();
+                            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+                            sesion.setAttribute("Usuario", dt);
+                            sesion.removeAttribute("error");
+                            sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
+                            
+                            response.sendRedirect("ServletArtistas?Inicio=true");
+                        } else{
+                            response.getWriter().write("Error al llamar la funcion de la logica");
+                        }
+                    }
+                }else{ // Crear Album
+                    
+                }
+//                
+//                //se crea un array de bytes con la codificación que se envía en los parametros
+//                byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+//                // "normaliza" el texto
+//                nLista = new String(bytes, StandardCharsets.UTF_8);
+//                sesion.removeAttribute("cLista");
+//                DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
+//                Fabrica.getCliente().crearListaP(c.getNickname(), nLista, imagen);
+//                try {
+//                    Fabrica.getCliente().confirmar();
+//                    c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
+//                    sesion.setAttribute("Usuario", c);
+//                    sesion.setAttribute("Mensaje", "Lista creada");
+//                    if(imagen!=null){
+//                        File fichero = new File(imagen);
+//                        if (fichero.delete()) {
+//                            System.out.println("El fichero ha sido borrado satisfactoriamente");
+//                        } else {
+//                            System.out.println("El fichero no puede ser borrado");
+//                        }
+//                    }
+//                    response.sendRedirect("ServletArtistas?Inicio=true");
+//                } catch (Exception ex) {
+//                    sesion.setAttribute("Mensaje", ex.getMessage());
+//                    response.sendRedirect("ServletArtistas?Inicio=true");
+//                }
+                
+            } catch (FileUploadException ex) {
+                Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
 
         if(request.getParameter("listarGeneros") != null){    
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
@@ -126,7 +264,7 @@ public class ServletArtistas extends HttpServlet {
                     File im = new File(img);
                     imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                     im.delete();
-                    }
+                }
                 //org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path +"hola.jpg"), bs);
                 HashMap<String,DtTema> temasenviar = new HashMap();
                 for (int i = 0; i < n; ++i) {
@@ -412,6 +550,10 @@ public class ServletArtistas extends HttpServlet {
                 cad = cad + " " + palabras[i];
         }
         return cad;
+    }
+    
+    void registrarse(){
+        
     }
     
 }

@@ -9,20 +9,20 @@ $(document).ready(function () {
     var glo0 = 1;
 
     $('#radioA').click(function () {
-        $('#formArt').show();
+        $('#opcionesArt').show();
     });
     $('#radioC').click(function () {
-        $('#formArt').hide();
+        $('#opcionesArt').hide();
     });
     
-    $('#bntAceptar').click(function () {
-        var photo = document.getElementById("elegirimagen");
-        if (photo.value !== "")
-            $("#formcrear").submit();
-    });
+//    $('#bntAceptar').click(function () {
+//        var photo = document.getElementById("elegirimagen");
+//        if (photo.value !== "")
+//            $("#formcrear").submit();
+//    });
     
 
-    $('#bntAceptar').click(function () {
+    $('#formRegistrarse').on("submit", function (e) {
         var nickname = $('#nickname').val(),
                     contrasenia = sha1($('#contrasenia').val()),
                     vcontrasenia = sha1($('#vcontrasenia').val()),
@@ -37,90 +37,17 @@ $(document).ready(function () {
             photo = document.getElementById("elegirimagen").files[0].name;
         }
         if (contrasenia === vcontrasenia){
-        if(nickname !== "" && $('#contrasenia').val() !== "" && nombre!== "" && apellido !== "" && fechanac !== "" && correo !== ""){
-//        if (photo.value !== "")
-//            $("#formcrear").submit();
-        if ($('#radioC').is(':checked')) {
-            $.ajax({
-                type: 'POST', //tipo de request
-                url: '/EspotifyWeb/ServletClientes',
-                dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-                data: {// Parametros que se pasan en el request
-                    Registrarse: true,
-                    nickname: nickname,
-                    contrasenia: contrasenia,
-                    nombre: nombre,
-                    apellido: apellido,
-                    fechanac: fechanac,
-                    correo: correo,
-                    foto: photo
-                },
-                success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                    if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
-                        alert("el nickname y/o correo ya esta en uso");
-                    }
-                    if (data==='no'){
-                    alert("El Cliente ha sido registrado");
-                        $.ajax({
-                            type: 'POST', //tipo de request
-                            url: '/EspotifyWeb/ServletArtistas',
-                            dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-                            data: {// Parametros que se pasan en el request
-                                Join: $('#nickname').val(),
-                                Contrasenia: contrasenia
-                            },
-                            success: function (data) {
-                                window.location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
-                            }
-                        });
-                    }
-                }
-            });
-        } else {
-            $.ajax({
-                type: 'POST', //tipo de request
-                url: '/EspotifyWeb/ServletArtistas',
-                dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-                data: {// Parametros que se pasan en el request
-                    Registrarse: true,
-                    nickname: $('#nickname').val(),
-                    contrasenia: contrasenia,
-                    nombre: $('#nombre').val(),
-                    apellido: $('#apellido').val(),
-                    fechanac: $('#fechanac').val(),
-                    correo: $('#correo').val(),
-                    biografia: $('#biografia').val(),
-                    paginaweb: $('#paginaweb').val(),
-                    foto: photo
-                },
-                success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                    if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
-                        alert("el nickname y/o correo ya esta en uso");
-                    }
-                    if (data==='no'){
-                        alert("El Artista ha sido registrado");          
-                        $.ajax({
-                            type: 'POST', //tipo de request
-                            url: '/EspotifyWeb/ServletArtistas',
-                            dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-                            data: {// Parametros que se pasan en el request
-                                Join: $('#nickname').val(),
-                                Contrasenia: contrasenia
-                            },
-                            success: function (data) {
-                                window.location.href = "/EspotifyWeb/ServletArtistas?Inicio=true";
-                            }
-                        });
-                    }
-                }
-            });
+            if(nickname !== "" && $('#contrasenia').val() !== "" && nombre!== "" && apellido !== "" && fechanac !== "" && correo !== ""){
+                $('#contrasenia').val(contrasenia);
+                $('#vcontrasenia').val(contrasenia);
+        }else{
+            alert("No debe haber campos vacios");
+            e.preventDefault();
         }
     }else{
-        alert("No debe haber campos vacios");
+        alert("Las contraseñas no coinciden");
+        e.preventDefault();
     }
-        }
-        else
-            alert("Las contraseñas no coinciden");
     });
 
     $('#correo').focusout(function () {
@@ -137,7 +64,7 @@ $(document).ready(function () {
             console.log(correo);
         }}
     });
-        $('#fechanac').focusout(function () {
+    $('#fechanac').focusout(function () {
         console.log(fechanac);
         var fechanac = $('#fechanac').val();
         if(fechanac !== ""){
@@ -178,7 +105,7 @@ $(document).ready(function () {
         }
     });
     
-    $('#correo').focusout(function () {
+    $('#correo').on("input", function () {
         var nick = document.getElementById("correo");
         var boton = document.getElementById("bntAceptar");
         $.ajax({
@@ -190,25 +117,23 @@ $(document).ready(function () {
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                     if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
-                        nick.style.backgroundColor = "red";
-                        nick.style.color = "white";
                         boton.disabled = true;
                         glo1 = 0;
+                        $('#correo').parent().addClass("input-group has-error has-feedback");               
                     }
                     if (data==='no'){
-                        nick.style.backgroundColor = "white";
-                        nick.style.color = "black";
                         glo1 = 1;
                         if (glo0===1 && glo1===1){
                             boton.disabled = false;
                         }
+                        $('#correo').parent().removeClass("has-error has-feedback");     
                     }
                }
             });
         
     });
     
-    $('#nickname').focusout(function () {
+    $('#nickname').on("input", function () {
         var nick = document.getElementById("nickname");
         var boton = document.getElementById("bntAceptar");
         $.ajax({
@@ -220,10 +145,11 @@ $(document).ready(function () {
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                     if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
-                        nick.style.backgroundColor = "red";
-                        nick.style.color = "white";
+//                        nick.style.backgroundColor = "red";
+//                        nick.style.color = "white";
                         boton.disabled = true;
                         glo0 = 0;
+                        $('#nickname').parent().addClass("input-group has-error has-feedback");
                     }
                     if (data==='no'){
                         nick.style.backgroundColor = "white";
@@ -232,6 +158,7 @@ $(document).ready(function () {
                         if (glo0===1 && glo1===1){
                             boton.disabled = false;
                         }
+                        $('#nickname').parent().removeClass("has-error has-feedback");
                     }
                }
             });
@@ -239,20 +166,19 @@ $(document).ready(function () {
     });
     
     $('#vcontrasenia').focusout(function () {
+        var boton = document.getElementById("bntAceptar");
         var contrasenia = sha1($('#contrasenia').val());
         var vcontrasenia = sha1($('#vcontrasenia').val());
-        var boton = document.getElementById("bntAceptar");
         if(vcontrasenia !== ""){
         if(contrasenia !== vcontrasenia){
-             boton.disabled = true;
             $('#error').show();
-            $('#vcontrasenia').val(vcontrasenia);
+            $('#vcontrasenia').val("");
             $('#vcontrasenia').parent().addClass("input-group has-error has-feedback");
+            boton.disabled = true;
         }else{
-            boton.disabled = false;
             $('#vcontrasenia').parent().removeClass("has-error has-feedback");
             $('#error').hide();
-            
+            boton.disabled = false;
         }
         }
     });

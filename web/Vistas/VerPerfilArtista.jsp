@@ -96,7 +96,7 @@
                                 <% if (request.getSession().getAttribute("Usuario") != null) {
                                         DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("Usuario");
                                         if (artista.getNickname().equals(dtu.getNickname())) {%>
-                                <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp" class="btn btn-success btn-lg" role="button" >Crear Album</a>
+                                <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp"  class="btn boton" style="font-size: 15px; margin-top: 10px;" role="button" >Crear Album</a>
                                 <%}}%>
                                 <%if(artista.getAlbumes().isEmpty()){%>
                                     <h4 class="lineaAbajo"><i>No tiene álbumes</i></h4>

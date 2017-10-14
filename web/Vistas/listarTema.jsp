@@ -75,11 +75,12 @@
                         </div>
                         <div class="col-sm-8 text-left">
                             <br> <br>
-                            <a class="link" onclick="reproducirAlbum('<%= album.getNombre()%>', '<%= album.getNombreArtista()%>')" href="#"><h3 class="tituloAlbum"><%= album.getNombre()%></h3></a> 
+                            <h3 class="tituloAlbum"><%= album.getNombre()%></h3>
                             <a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>">  <h3><%= artista.getNombre() + " " + artista.getApellido()%></h3></a>                            
                             <h3 class="anio"><%= album.getAnio()%></h3>
+                            <a onclick="reproducirAlbum('<%= album.getNombre().replace("\'", "\\'")%>', '<%= album.getNombreArtista()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                             <%if (cliente && control2) {%>
-                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px;">Guardar</a>
+                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px; margin-left: 5px;">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -131,7 +132,7 @@
                                             </div>
                                         </td>
                                         <%}%>
-                                        <td onclick="reproducirTema('<%= tem.getNombre()%>', '<%= tem.getAlbum()%>', '<%= tem.getArtista()%>')"><%= nombre%></td>
+                                        <td onclick="reproducirTema('<%= tem.getNombre().replace("\'", "\\'") %>', '<%= tem.getAlbum().replace("\'", "\\'")%>', '<%= tem.getArtista()%>')"><%= nombre%></td>
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>

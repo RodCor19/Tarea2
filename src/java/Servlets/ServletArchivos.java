@@ -100,6 +100,7 @@ public class ServletArchivos extends HttpServlet {
                     String path = this.getClass().getClassLoader().getResource("").getPath();
                     path = path.replace("build/web/WEB-INF/classes/","temporales/");
                     path = path + album + "REPRODUCTOR.jpg";
+                    path = path.replace( "%20", " ");
                     File f = new File(path);
                     org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
                     request.getSession().setAttribute("ImagenAlbumReproductor", path);

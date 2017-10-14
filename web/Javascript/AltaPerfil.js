@@ -46,6 +46,7 @@ $(document).ready(function () {
         }
     }else{
         alert("Las contraseñas no coinciden");
+        $('#vcontrasenia').focus();
         e.preventDefault();
     }
     });
@@ -165,7 +166,7 @@ $(document).ready(function () {
         
     });
     
-    $('#vcontrasenia').focusout(function () {
+    $('#vcontrasenia').focusout(function (e) {
         var boton = document.getElementById("bntAceptar");
         var contrasenia = sha1($('#contrasenia').val());
         var vcontrasenia = sha1($('#vcontrasenia').val());

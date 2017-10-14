@@ -32,7 +32,7 @@
             /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
             FileItem item = (FileItem) items.get(i);
             /*item.isFormField() false=input file; true=text field*/
-            if (! item.isFormField()){
+            if (! item.isFormField() && item.getName().isEmpty() == false){
                 /*cual sera la ruta al archivo en el servidor*/
                 
                 File archivo_server = new File(path + item.getName());

@@ -256,7 +256,7 @@
     <table id="myTable2">
 
 <script>
-function sortTable(n, th) {
+function sortTable(columna, th) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   switching = true;
   table = th.parentElement.parentElement.parentElement;
@@ -275,8 +275,8 @@ function sortTable(n, th) {
       shouldSwitch = false;
       /* Get the two elements you want to compare,
       one from current row and one from the next: */
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
+      x = rows[i].getElementsByTagName("TD")[columna];
+      y = rows[i + 1].getElementsByTagName("TD")[columna];
       /* Check if the two rows should switch place,
       based on the direction, asc or desc: */
       if (dir === "asc") {

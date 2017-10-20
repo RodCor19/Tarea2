@@ -29,6 +29,7 @@
         HttpSession sesion = request.getSession();
         DtUsuario usuario = (DtUsuario) sesion.getAttribute("Usuario");
         DtCliente cli = (DtCliente) sesion.getAttribute("Cli"), dt = null;
+        
 
         Boolean cliente = false;
         if (usuario != null && usuario instanceof DtCliente) {
@@ -142,7 +143,7 @@
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
                                         <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>
@@ -173,10 +174,32 @@
                 </div>
             </div> 
         </div>
+                    
+                                
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+         <script>
+                     function nuevaDescarga (artista, album, tema) {
+                          alert("no andaaaaaaaa");
+                      $.ajax({
+                           type : 'POST', //tipo de request
+                           url : '/EspotifyWeb/ServletArtistas',
+                           dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                           data:{ // Parametros que se pasan en el request
+                               artista : artista,
+                               album : album,
+                               tema : tema,
+                               nuevadescarga : true
+                           },
+                           success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+                             alert("si andaaaaaaaa"+data);
+                           }
+                       }); 
+                   }
+                        
+         </script>
         <script>
 //            function hover(elemento, esHover){
 //                if(esHover){

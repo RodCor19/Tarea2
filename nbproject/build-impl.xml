@@ -1011,6 +1011,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.commons-io-1.4.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.json-20090211.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
+    
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
     </target>

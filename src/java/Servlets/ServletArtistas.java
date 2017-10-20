@@ -321,18 +321,28 @@ public class ServletArtistas extends HttpServlet {
                     String nomtema = person.getString("nombre");
                     String duracion = person.getString("duracion");
                     String arch_url = person.getString("Archivo_Url");
+                    int cantDescarga = person.getInt("cantDescarga");
+                    int cantReproduccion = person.getInt("cantReproduccion");
                     
-                    DtTema dtt;
+                    DtTema dtt = new DtTema();
+                    dtt.setNombre(nomtema);
+                    dtt.setDuracion(duracion);
+                    dtt.setOrden(orden);
+                    dtt.setArchivo(null);
                     if (arch_url.contains(".mp3")){
                         arch_url = (path + arch_url);
                         File audio =new File(arch_url);
                         byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
 //                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
+                        dtt.setDireccion(null);
+                        dtt.setArchivobyte(arch);
                         audio.delete();    
                     }else{
 //                        dtt = new DtTema(nomtema,duracion,orden,arch_url, null, null);
+                        dtt.setDireccion(arch_url);
+                        dtt.setArchivobyte(null);
                     }
-//                    temasAlbum.add(dtt);
+                    temasAlbum.add(dtt);
                 }
                 
                 response.getWriter().write("<br>Temas:<br>");
@@ -417,7 +427,19 @@ public class ServletArtistas extends HttpServlet {
 
             response.getWriter().write("temas cargados");
         }
-
+        
+        if (request.getParameter("nuevadescarga") != null) {
+//            response.getWriter().write("nuevadescarga");
+            String artista = request.getParameter("artista");
+           String album = request.getParameter("album");
+            String tema = request.getParameter("tema");
+            
+            //Poner la funcion en webservice aertistas
+//           Fabrica.getArtista().nuevaDescargaTema(artista, album, tema);
+            //Redirecciona a la pagina indicada 
+            
+        }
+        
         if (request.getParameter("listarGeneros") != null) {
             List<DtGenero> generos = wsart.buscarGenero("").getGeneros();
             request.getSession().setAttribute("Generos", generos);

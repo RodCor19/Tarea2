@@ -4,7 +4,6 @@
     Author     : Kevin
 --%>
 
-<%@page import="Logica.DtCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <footer class="container-fluid text-center" style="margin-bottom: 5px; margin-top: 5px;">

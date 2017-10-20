@@ -4,12 +4,12 @@
     Author     : Admin
 --%>
 
+<%@page import="webservices.DtGenero"%>
+<%@page import="java.util.List"%>
+<%@page import="webservices.DtAlbum"%>
+<%@page import="webservices.DtArtista"%>
+<%@page import="webservices.DtUsuario"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
-<%@page import="Logica.DtUsuario"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtArtista"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%  DtArtista artista = null;
@@ -39,7 +39,7 @@
             background-color: #dddddd;
         }
     </style>
-    <%  ArrayList<DtAlbum> alb = artista.getAlbumes(); %>
+    <%  List<DtAlbum> alb = artista.getAlbumes(); %>
     <head >
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Espotify: Crear Album</title>
@@ -48,7 +48,7 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body >
-        <% ArrayList<String> generos = (ArrayList<String>) session.getAttribute("Generos");%>
+        <% List<DtGenero> generos = (List<DtGenero>) session.getAttribute("Generos");%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <div class="container">
             <div class="row">
@@ -71,8 +71,8 @@
                     <div align="left">
                         <select id="selectgenero" name="Sabe">
                             <option style=" font-family:Helvetica ; background-color: black; color:white">Géneros</option>
-                            <%for (String gen : generos) {%>
-                            <option><%=gen%></option>
+                            <%for (DtGenero gen : generos) {%>
+                            <option><%=gen.getNombre()%></option>
                             <%}%>
                         </select>
                         <button type="button" class="btn btn-danger" id="eliminargen" >Eliminar Generos</button>

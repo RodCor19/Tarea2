@@ -3,11 +3,11 @@
     Created on : 12/09/2017, 10:01:57 PM
     Author     : Kevin
 --%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtArtista"%>
+<%@page import="webservices.DtArtista"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%  ArrayList<DtArtista> artistas = (ArrayList<DtArtista>) session.getAttribute("Artistas"); %>
+<%  List<DtArtista> artistas = (List<DtArtista>) session.getAttribute("Artistas"); %>
 
 <div class="row">
     <%for(DtArtista art: artistas){ %>

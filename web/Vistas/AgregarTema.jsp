@@ -4,27 +4,40 @@
     Author     : Admin
 --%>
 
-<%@page import="Logica.DtUsuario"%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtListaPD"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtListaP"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtCliente"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.net.URL"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="webservices.DtListaPD"%>
+<%@page import="webservices.DtAlbum"%>
+<%@page import="java.util.List"%>
+<%@page import="webservices.DtListaP"%>
+<%@page import="webservices.DtCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli"); 
-            ArrayList<DtListaP> listascliente = cliente.getListas();
-            ArrayList<DtAlbum> albumes = (ArrayList<DtAlbum>)session.getAttribute("todosalbumes");
-            ArrayList<DtListaPD> listaspd = (ArrayList<DtListaPD>)session.getAttribute("todaslistaspd");
-            ArrayList<DtListaP> listasp = (ArrayList<DtListaP>)session.getAttribute("todaslistasp");
+            List<DtListaP> listascliente = cliente.getListas();
+            List<DtAlbum> albumes = (List<DtAlbum>)session.getAttribute("todosalbumes");
+            List<DtListaPD> listaspd = (List<DtListaPD>)session.getAttribute("todaslistaspd");
+            List<DtListaP> listasp = (List<DtListaP>)session.getAttribute("todaslistasp");
+            
+            Properties propiedades = new Properties();
+            InputStream entrada = new FileInputStream("webservices.properties");
+            propiedades.load(entrada);// cargamos el archivo de propiedades
+            
+//            URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+            WSClientesService wsclis = new WSClientesService();
+            WSClientes wscli = wsclis.getWSClientesPort();
             %>   
             <%  DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
                 boolean controlSeguir = false;
                 if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-                    if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
+                    if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
                         controlSeguir = true;
                     }
                 }

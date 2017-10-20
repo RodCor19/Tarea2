@@ -1,7 +1,19 @@
-<%@page import="Logica.*"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="webservices.DtListaPD"%>
+<%@page import="webservices.DtListaP"%>
+<%@page import="webservices.DtAlbum"%>
+<%@page import="webservices.DtLista"%>
+<%@page import="webservices.DtTema"%>
+<%@page import="webservices.DtCliente"%>
+<%@page import="webservices.DtUsuario"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,20 +26,23 @@
         <title>Espotify: Resultados</title>
     </head>
     <body>
-        <% String palabra = request.getParameter("busqueda");%>
-        <%DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
+        <% String palabra = request.getParameter("busqueda");
+        
+        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+        
+        DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
             DtCliente dt = null;
             boolean control = false;
             if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-                if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
+                if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
                     control = true;
-                    dt = Fabrica.getCliente().verPerfilCliente(perfilUsr.getNickname());
+                    dt = wscli.verPerfilCliente(perfilUsr.getNickname());
                     session.setAttribute("Usuario", dt);
                 }
             }
-            ArrayList<DtTema> temas = Fabrica.getCliente().resultadosT(palabra);
-            ArrayList<DtLista> listas = Fabrica.getCliente().resultadosL(palabra);
-            ArrayList<DtAlbum> albumes = Fabrica.getCliente().resultadosA(palabra);
+            List<DtTema> temas = wscli.resultadosT(palabra).getTemas();
+            List<DtLista> listas = wscli.resultadosL(palabra).getListas();
+            List<DtAlbum> albumes = wscli.resultadosA(palabra).getAlbumes();
         %>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
@@ -64,7 +79,7 @@
                                             boolean control2 = true;
                                             if (dt != null) {
                                                 for (DtTema t : dt.getFavTemas()) {
-                                                    if (t.getNombre().equals(nombre) && t.getArtista().equals(tem.getArtista()) && t.getAlbum().equals(tem.getAlbum())) {
+                                                    if (t.getNombre().equals(nombre) && t.getNomartista().equals(tem.getNomartista()) && t.getNomalbum().equals(tem.getNomalbum())) {
                                                         control2 = false;
                                                     }
                                                 }
@@ -74,7 +89,7 @@
                                 <td>
                                     <div class="row">
                                         <div class="span">
-                                            <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getArtista() + "&album=" + tem.getAlbum() + "&tema=" + nombre%>">
+                                            <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
                                                 <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                             </a>
                                             <div class="span" ><%= nombre%></div>
@@ -84,8 +99,8 @@
                                 <%} else {%>
                                 <td><%= nombre%></td>
                                 <%}%>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getAlbum() + "&artista=" + tem.getArtista()%>"><%= tem.getAlbum()%></a></td>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getArtista()%>"><%= tem.getNomartista()%></td>
+                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
+                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= tem.getNomartista()%></td>
                                 <%if (control) {%>
                                 <%if (tem.getArchivo() != null) {%>
                                 <td><%= duracion%> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>">Descargar</a></td>

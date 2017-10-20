@@ -4,16 +4,15 @@
     Author     : Kevin
 --%>
 
+<%@page import="webservices.DtArtista"%>
+<%@page import="webservices.DtCliente"%>
+<%@page import="webservices.DtListaPD"%>
+<%@page import="webservices.DtListaP"%>
+<%@page import="webservices.DtLista"%>
+<%@page import="webservices.DtTema"%>
+<%@page import="webservices.DtAlbum"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtListaPD"%>
-<%@page import="Logica.DtListaP"%>
-<%@page import="Logica.DtLista"%>
-<%@page import="Logica.DtTema"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="Logica.DtArtista"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%if(session.getAttribute("Usuario") == null || session.getAttribute("Usuario") instanceof DtArtista ){ %>
@@ -86,8 +85,8 @@
                                         <%for (DtTema tema : cliente.getFavTemas()) {%>
                                         <tr>
                                             <td><h4><%= tema.getNombre()%></h4></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tema.getAlbum()+ "&artista=" + tema.getArtista() %>"><h4><%= tema.getAlbum() %></h4></a></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getArtista()%>"><h4><%= tema.getArtista()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tema.getNomalbum()+ "&artista=" + tema.getNomartista() %>"><h4><%= tema.getNomalbum() %></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getNomartista()%>"><h4><%= tema.getNomartista()%></h4></a></td>
                                         </tr>
                                         <%}%>
                                     </tbody>

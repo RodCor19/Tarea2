@@ -4,10 +4,10 @@
     Author     : Admin
 --%>
 
-<%@page import="Logica.DtListaPD"%>
-<%@page import="Logica.DtListaP"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="webservices.DtListaPD"%>
+<%@page import="webservices.DtListaP"%>
+<%@page import="webservices.DtAlbum"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -53,9 +53,9 @@
                 <%for (int i=0;i<aux.getTemas().size();i++){%>
                 <tr>
                     <td><%=aux.getTemas().get(i).getNombre()%></td>
-                    <td><%=aux.getTemas().get(i).getAlbum()%></td>
-                    <td><%=aux.getTemas().get(i).getArtista()%></td>
-                    <td><input type="radio" name="opt" value="<%=aux.getTemas().get(i).getNombre()+" - "+aux.getTemas().get(i).getAlbum()+" - "+aux.getTemas().get(i).getArtista()%>" onclick="chooser();"></td>
+                    <td><%=aux.getTemas().get(i).getNomalbum()%></td>
+                    <td><%=aux.getTemas().get(i).getNomartista()%></td>
+                    <td><input type="radio" name="opt" value="<%=aux.getTemas().get(i).getNombre()+" - "+aux.getTemas().get(i).getNomalbum()+" - "+aux.getTemas().get(i).getNomartista()%>" onclick="chooser();"></td>
                 </tr>
                 <%}%>
             </tbody>
@@ -75,11 +75,11 @@
                 </tr>
             </thead>
             <tbody>
-                <%for (int i=0;i<aux.getTema().size();i++){%>
+                <%for (int i=0;i<aux.getTemas().size();i++){%>
                 <tr>
-                    <td><%=aux.getTema().get(i).getNombre()%></td>
+                    <td><%=aux.getTemas().get(i).getNombre()%></td>
                     <td><%=aux.getUsuario()%></td>
-                    <td><input type="radio" name="opt" value="<%=aux.getTema().get(i).getNombre()+" - "+aux.getUsuario()+" - "+aux.getNombre()+" - "+aux.getTema().get(i).getAlbum()+" - "+aux.getTema().get(i).getNomartista()%>" onclick="chooser();"></td>
+                    <td><input type="radio" name="opt" value="<%=aux.getTemas().get(i).getNombre()+" - "+aux.getUsuario()+" - "+aux.getNombre()+" - "+aux.getTemas().get(i).getNomalbum()+" - "+aux.getTemas().get(i).getNomartista()%>" onclick="chooser();"></td>
                 </tr>
                 <%}%>
             </tbody>
@@ -99,11 +99,11 @@
                 </tr>
             </thead>
             <tbody>
-                <%for (int i=0;i<aux.getTema().size();i++){%>
+                <%for (int i=0;i<aux.getTemas().size();i++){%>
                 <tr>
-                    <td><%=aux.getTema().get(i).getNombre()%></td>
+                    <td><%=aux.getTemas().get(i).getNombre()%></td>
                     <td><%=aux.getGenero()%></td>
-                    <td><input type="radio" name="opt" value="<%=aux.getTema().get(i).getNombre()+" - "+aux.getNombre()+" - "+aux.getTema().get(i).getAlbum()+" - "+aux.getTema().get(i).getNomartista()%>"  onclick="chooser();"></td>
+                    <td><input type="radio" name="opt" value="<%=aux.getTemas().get(i).getNombre()+" - "+aux.getNombre()+" - "+aux.getTemas().get(i).getNomalbum()+" - "+aux.getTemas().get(i).getNomartista()%>"  onclick="chooser();"></td>
                 </tr>
                 <%}%>
             </tbody>

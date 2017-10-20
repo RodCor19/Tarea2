@@ -4,19 +4,18 @@
     Author     : usuario
 --%>
 
+<%@page import="webservices.DtListaPD"%>
+<%@page import="webservices.DtAlbum"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="java.net.URLEncoder"%>
-<%@page import="Logica.DtListaPD"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtGenero"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <% 
     String nomgen = request.getParameter("nomgen");
-    ArrayList<DtAlbum> albumes = (ArrayList<DtAlbum>) session.getAttribute("Album");
-    ArrayList<DtListaPD> listas = (ArrayList<DtListaPD>) session.getAttribute("Listas");
+    List<DtAlbum> albumes = (List<DtAlbum>) session.getAttribute("Album");
+    List<DtListaPD> listas = (List<DtListaPD>) session.getAttribute("Listas");
     %>
     
     <head>

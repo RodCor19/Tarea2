@@ -4,9 +4,13 @@
     Author     : Kevin
 --%>
 
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="Logica.DtUsuario"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="webservices.DtCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%-- navegador, cabecera - color #1ED760 --%>
@@ -30,6 +34,13 @@
             </div>
             <div class="col-md-4 text-right" >
                 <%
+//                    Properties propiedades = new Properties();
+//                    InputStream entrada = new FileInputStream("webservices.properties");
+//                    propiedades.load(entrada);// cargamos el archivo de propiedades
+
+        //            URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+                    WSClientesService wsclis = new WSClientesService();
+                    WSClientes wscli = wsclis.getWSClientesPort();
                     HttpSession sesion = request.getSession();
                     if (sesion.getAttribute("Usuario") == null) {
                 %>
@@ -61,7 +72,7 @@
                     <!-- Solo muestra el mensaje si es un cliente el que inicio sesion -->
                     <% if (dt != null && dt instanceof DtCliente) { %>
                     <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/ServletClientes?VerFavoritos=true">Ver Favoritos</a></h5>
-                        <% if (Fabrica.getCliente().SuscripcionVigente(dt.getNickname()) == false) { %>
+                        <% if (wscli.suscripcionVigente(dt.getNickname()) == false) { %>
                     <!-- SOlo muestra el lik de contratar suscripcion si no tiene una vigente -->
                     <h5 style="color:white"><a class="linkCabecera" href="/EspotifyWeb/ServletClientes?contratarSuscripcion=true">Obtener Suscripcion</a></h5>
                     <%}}%>

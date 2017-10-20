@@ -4,31 +4,37 @@
     Author     : usuario
 --%>
 
+<%@page import="webservices.WSArtistasService"%>
+<%@page import="webservices.WSArtistas"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="java.util.List"%>
+<%@page import="webservices.DtTema"%>
+<%@page import="webservices.DtArtista"%>
+<%@page import="webservices.DtAlbum"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="webservices.DtCliente"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.Collections"%>
-<%@page import="Logica.DtSuscripcion"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="Logica.DtUsuario"%>
-<%@page import="Logica.DtGenero"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtArtista"%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtTema"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%  DtAlbum album = (DtAlbum) session.getAttribute("Album");
-        DtArtista artista = Fabrica.getArtista().ElegirArtista(album.getNombreArtista());
+    <%  WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+        
+        DtAlbum album = (DtAlbum) session.getAttribute("Album");
+        DtArtista artista = (DtArtista) session.getAttribute("ArtistaAlbum");
         HttpSession sesion = request.getSession();
         DtUsuario usuario = (DtUsuario) sesion.getAttribute("Usuario");
         DtCliente cli = (DtCliente) sesion.getAttribute("Cli"), dt = null;
 
         Boolean cliente = false;
         if (usuario != null && usuario instanceof DtCliente) {
-            if (Fabrica.getCliente().SuscripcionVigente(usuario.getNickname())) {
+            if (wscli.suscripcionVigente(usuario.getNickname())) {
                 cliente = true;
-                dt = Fabrica.getCliente().verPerfilCliente(usuario.getNickname());
+                dt = wscli.verPerfilCliente(usuario.getNickname());
             }
         }
 
@@ -93,7 +99,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% ArrayList<DtTema> arr = album.getTemas();
+                                    <% List<DtTema> arr = album.getTemas();
                                         Collections.reverse(arr);
                                         for (DtTema tem : arr) {
                                             int orden = tem.getOrden();
@@ -102,7 +108,7 @@
                                             control2 = true;
                                             if (dt != null) {
                                                 for (DtTema t : dt.getFavTemas()) {
-                                                    if (t.getNombre().equals(nombre) && t.getArtista().equals(tem.getArtista()) && t.getAlbum().equals(tem.getAlbum())) {
+                                                    if (t.getNombre().equals(nombre) && t.getNomartista().equals(tem.getNomartista()) && t.getNomalbum().equals(tem.getNomalbum())) {
                                                         control2 = false;
                                                     }
                                                 }
@@ -132,7 +138,7 @@
                                             </div>
                                         </td>
                                         <%}%>
-                                        <td onclick="reproducirTema('<%= tem.getNombre().replace("\'", "\\'") %>', '<%= tem.getAlbum().replace("\'", "\\'")%>', '<%= tem.getArtista()%>')"><%= nombre%></td>
+                                        <td onclick="reproducirTema('<%= tem.getNombre().replace("\'", "\\'") %>', '<%= tem.getNomalbum().replace("\'", "\\'")%>', '<%= tem.getNomartista()%>')"><%= nombre%></td>
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>

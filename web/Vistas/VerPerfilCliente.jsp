@@ -4,30 +4,33 @@
     Author     : Kevin
 --%>
 
+<%@page import="webservices.DtSuscripcion"%>
+<%@page import="webservices.DtListaP"%>
+<%@page import="java.util.List"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="webservices.DtCliente"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="java.net.URLEncoder"%>
-<%@page import="Logica.DtSuscripcion"%>
-<%@page import="Logica.DtListaPD"%>
-<%@page import="Logica.DtLista"%>
-<%@page import="Logica.DtTema"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtUsuario"%>
-<%@page import="Logica.DtListaP"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli"); %>   
-    <% ArrayList<DtCliente> seguidores = Fabrica.getCliente().getSeguidores(cliente.getNickname());
+    <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli"); 
+        
+        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+        
+        List<DtUsuario> seguidores = wscli.getSeguidores(cliente.getNickname()).getUsuarios();
         DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
         DtCliente dt = null;
         boolean controlSeguir = false;
         if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-            if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
+            if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
                 controlSeguir = true;
-                dt = Fabrica.getCliente().verPerfilCliente(perfilUsr.getNickname());
+                dt = wscli.verPerfilCliente(perfilUsr.getNickname());
                 session.setAttribute("Usuario", dt);
             }
         }
@@ -172,7 +175,8 @@
                                 <% if (seguidores.isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene seguidores</i></h4>
                                 <%} else {%>
-                                <%  for (DtCliente seguidor : seguidores) {%>
+                                <%  for (DtUsuario seguidorAux : seguidores) {
+                                    DtCliente seguidor = (DtCliente) seguidorAux; %>
                                 <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
                                     <div class="col-sm-8 text-left">
 

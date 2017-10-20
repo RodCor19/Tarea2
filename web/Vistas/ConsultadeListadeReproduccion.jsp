@@ -3,22 +3,30 @@
     Created on : 02/10/2017, 01:25:29 AM
     Author     : ninoh
 --%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="Logica.DtUsuario"%>
-<%@page import="Logica.DtTema"%>
-<%@page import="Logica.DtLista"%>
-<%@page import="Logica.DtArtista"%>
-<%@page import="Logica.DtListaP"%>
+<%@page import="webservices.WSArtistas"%>
+<%@page import="webservices.WSArtistasService"%>
+<%@page import="webservices.DtTema"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="webservices.DtArtista"%>
+<%@page import="webservices.DtCliente"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="webservices.DtLista"%>
+<%@page import="webservices.DtListaP"%>
+<%@page import="webservices.DtListaPD"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtGenero"%>
-<%@page import="Logica.DtListaPD"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <%
         DtLista dt = (DtLista) session.getAttribute("Lista");
         session.removeAttribute("temasAReproducir");
+        
+        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+        WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
     %>
 
     <head>
@@ -37,7 +45,7 @@
             DtCliente dtcontrol = null;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
-                if (aux.isPrivada() && ((aux2==null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
+        if (aux.isPrivada() && ((aux2==null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
             if (aux2 instanceof DtCliente) {
@@ -46,9 +54,9 @@
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%}
-                        if (aux2 != null && Fabrica.getCliente().SuscripcionVigente(aux2.getNickname())) {
+                        if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
                             cliente = true;
-                            dtcontrol=Fabrica.getCliente().verPerfilCliente(aux2.getNickname());
+                            dtcontrol=wscli.verPerfilCliente(aux2.getNickname());
                         }
                     }
                 }
@@ -63,7 +71,7 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <%if ( dt.getImagen() != null) {%>
+                        <%if ( dt.getRutaImagen() != null) {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
@@ -100,7 +108,7 @@
                         </div>
                         <br>
                         <div class="tab-pane">
-                            <% if (dt.getTema() == null || dt.getTema().isEmpty()) { %>
+                            <% if (dt.getTemas() == null || dt.getTemas().isEmpty()) { %>
                             <h4 class="lineaAbajo"><i>No tiene temas</i></h4>
                             <%} else {%>
                             <table class="table text-left">
@@ -113,14 +121,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%for (DtTema tem : dt.getTema()) {
+                                    <%for (DtTema tem : dt.getTemas()) {
                                             String nombre = tem.getNombre();
                                             String durac = tem.getDuracion();
-                                            DtArtista a = Fabrica.getArtista().ElegirArtista(tem.getArtista());
+                                            DtArtista a = wsart.elegirArtista(tem.getNomartista());
                                             boolean control2 = true;
                                             if (dtcontrol != null) {
                                                 for (DtTema t : dtcontrol.getFavTemas()) {
-                                                    if (t.getNombre().equals(nombre) && t.getArtista().equals(tem.getArtista()) && t.getAlbum().equals(tem.getAlbum())) {
+                                                    if (t.getNombre().equals(nombre) && t.getNomartista().equals(tem.getNomartista()) && t.getNomalbum().equals(tem.getNomalbum())) {
                                                         control2 = false;
                                                     }
                                                 }
@@ -137,7 +145,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getArtista() + "&album=" + tem.getAlbum() + "&tema=" + nombre%>">
+                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>
@@ -147,8 +155,8 @@
                                         <%} else {%>
                                         <td><%= nombre%></td>
                                         <%}%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getAlbum() + "&artista=" + tem.getArtista()%>"><%= tem.getAlbum()%></a></td>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getArtista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                         <%if (cliente) {%>
                                         <%if (tem.getArchivo() != null) {%>
                                         <td><%= durac%> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>">Descargar</a></td>

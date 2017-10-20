@@ -4,24 +4,39 @@
     Author     : Kevin
 --%>
 
-<%@page import="Logica.DtUsuario"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtArtista"%>
+<%@page import="webservices.DataUsuarios"%>
+<%@page import="webservices.DtAlbum"%>
+<%@page import="java.util.List"%>
+<%@page import="webservices.WSArtistas"%>
+<%@page import="webservices.WSArtistasService"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="webservices.DtCliente"%>
+<%@page import="webservices.DtArtista"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <%  DtArtista artista = (DtArtista) session.getAttribute("PerfilArt"); %>   
-    <% ArrayList<DtCliente> seguidores = Fabrica.getArtista().listarSeguidores(artista.getNickname());
+    <%
+//        WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
+        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+        
+        List<DtCliente> seguidores = (List<DtCliente>) session.getAttribute("SeguidoresArt");
+        
+//        List<DtUsuario> seguidores = wsart.listarSeguidores(artista.getNickname()).getUsuarios();
+        
+//        DataUsuarios seguidores = wsart.listarSeguidores(artista.getNickname());
         DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
         DtCliente dt = null;
         boolean controlSeguir = false;
         if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-            if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
+            if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
                 controlSeguir = true;
-                dt = Fabrica.getCliente().verPerfilCliente(perfilUsr.getNickname());
+                dt = wscli.verPerfilCliente(perfilUsr.getNickname());
                 session.setAttribute("Usuario", dt);
             }
         }
@@ -68,7 +83,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Álbumes</b></h4></a></li>
-                            <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size()%>)</b></h4></a></li>
+                            <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size() %>)</b></h4></a></li>
                         </ul>
 
                         <div class="tab-content text-left">

@@ -4,22 +4,23 @@
     Author     : usuario
 --%>
 
+<%@page import="webservices.DtGenero"%>
 <%@page import="java.net.URLEncoder"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<%  ArrayList<String> generos = (ArrayList<String>) session.getAttribute("Generos"); %>
+<%  List<DtGenero> generos = (List<DtGenero>) session.getAttribute("Generos"); %>
 
 <div class="row">
-    <%for(String gen: generos){
+    <%for(DtGenero gen: generos){
         
     %>
     <div class="col-md-4" style="padding: 2px;">
-        <% String generoCodificado = URLEncoder.encode(gen, "UTF-8"); %>
+        <% String generoCodificado = URLEncoder.encode(gen.getNombre(), "UTF-8"); %>
         <a href="ServletArtistas?consultarAlbum=<%= generoCodificado %>">
             <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
-            <h4 class="img-text" onmouseover="artSeleccionado(this, true)" onmouseout="artSeleccionado(this, false)"><%=gen%></h4>
+            <h4 class="img-text" onmouseover="artSeleccionado(this, true)" onmouseout="artSeleccionado(this, false)"><%=gen.getNombre() %></h4>
         </a>  
     </div>
     <%}%>

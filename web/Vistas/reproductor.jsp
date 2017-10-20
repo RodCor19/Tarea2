@@ -4,17 +4,17 @@
     Author     : Kevin
 --%>
 
-<%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtTema"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="webservices.DtTema"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%  //DtAlbum album = (DtAlbum) session.getAttribute("Album");
-    ArrayList<DtTema> temas = (ArrayList<DtTema>) session.getAttribute("temasAReproducir"); 
+    List<DtTema> temas = (List<DtTema>) session.getAttribute("temasAReproducir"); 
     DtTema repTema = (DtTema) session.getAttribute("reproducirTema");
     String ImagenReproductor = null;
     if (session.getAttribute("ImagenAlbumReproductor")!=null){
-        ImagenReproductor = (String) session.getAttribute("ImagenAlbumReproductor");}
+        ImagenReproductor = (String) session.getAttribute("ImagenAlbumReproductor");
+    }
 %>
 <style>
     contenedorReproductor{

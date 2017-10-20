@@ -5,30 +5,25 @@
  */
 package Servlets;
 
-import Logica.DtArtista;
-import Logica.DtCliente;
-import Logica.DtAlbum;
-import Logica.DtArtista;
-import Logica.DtGenero;
-import Logica.DtListaP;
-import Logica.DtListaPD;
-import Logica.DtTema;
-import Logica.DtUsuario;
-import Logica.Fabrica;
+//import Logica.DtArtista;
+//import Logica.DtCliente;
+//import Logica.DtAlbum;
+//import Logica.DtArtista;
+//import Logica.DtGenero;
+//import Logica.DtListaP;
+//import Logica.DtListaPD;
+//import Logica.DtTema;
+//import Logica.DtUsuario;
+//import Logica.Fabrica;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -45,8 +40,23 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import webservices.DataGeneros;
+import webservices.DtAlbum;
+import webservices.DtArtista;
+import webservices.DtCliente;
+import webservices.DtGenero;
+import webservices.DtLista;
+import webservices.DtListaP;
+import webservices.DtListaPD;
+import webservices.DtTema;
+import webservices.DtUsuario;
+import webservices.WSArchivos;
+import webservices.WSArchivosService;
+import webservices.WSArtistas;
+import webservices.WSArtistasService;
+import webservices.WSClientes;
+import webservices.WSClientesService;
 
 /**
  *
@@ -57,10 +67,6 @@ import org.json.JSONObject;
 @MultipartConfig
 public class ServletArtistas extends HttpServlet {
 
-    @Override
-    public void init() throws ServletException {
-        Fabrica.getInstance(); //crea los controladores y carga los datos de la bd
-    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -76,6 +82,24 @@ public class ServletArtistas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
         HttpSession sesion = request.getSession();
+        
+        Properties propiedades = new Properties();
+        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
+        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/","webservices.properties");
+        rutaConfWS = rutaConfWS.replace( "%20", " ");
+        InputStream entrada = new FileInputStream(rutaConfWS);
+        propiedades.load(entrada);// cargamos el archivo de propiedades
+		
+        URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArt")+"/"+propiedades.getProperty("nombreWSArt"));
+        WSArtistasService wsarts = new WSArtistasService(/*url*/);
+        WSArtistas wsart = wsarts.getWSArtistasPort();
+        
+//        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+        WSClientesService wsclis = new WSClientesService();
+        WSClientes wscli = wsclis.getWSClientesPort();
+        
+        request.getSession().setAttribute("WSArtistas", wsart);
+        request.getSession().setAttribute("WSClientes", wscli);
         
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
@@ -136,20 +160,33 @@ public class ServletArtistas extends HttpServlet {
                     }
                 }
                 
+                if(fechanac != null){
+                    fechanac = fechanac.replace("-", "/"); //cambiar el formato a dd/mm/yyyy
+                }
+                
                 //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
                 if(contrasenia != null){
-                    SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
-                    byte[] imagen = null;
+                    byte[] imagen = new byte[0];
                     if (rutaArchivo != null){
                         File im = new File(rutaArchivo);
                         imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                         im.delete();
                     }
                     if(tipoUsuario != null && tipoUsuario.equals("Artista")){
-                        DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
-                        boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
+//                        DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,fechanac,biografia,paginaweb,0,null,null,null);
+                        DtArtista art=new DtArtista();
+                        art.setNickname(nickname);
+                        art.setContrasenia(contrasenia);
+                        art.setNombre(nombre);
+                        art.setApellido(apellido);
+                        art.setCorreo(correo);
+                        art.setFechaNac(fechanac);
+                        art.setBiografia(biografia);
+                        art.setPagWeb(paginaweb);
+                        art.setCantSeguidores(0);
+                        boolean x = wsart.ingresarArtista(art, imagen);
                         if (x){
-                            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+                            DtUsuario dt = wsart.verificarLoginArtista(nickname, contrasenia);
                             sesion.setAttribute("Usuario", dt);
                             sesion.removeAttribute("error");
                             sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
@@ -158,10 +195,18 @@ public class ServletArtistas extends HttpServlet {
                            response.getWriter().write("Error al llamar la funcion de la logica");
                         }
                     }else{
-                        DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, formato.parse(fechanac), correo, null, null, null, null, null, null, null, null);
-                        boolean x = Fabrica.getCliente().IngresarCliente(cli,imagen);
+//                        DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, fechanac, correo, null, null, null, null, null, null, null, null);
+                        DtCliente cli=new DtCliente();
+                        cli.setNickname(nickname);
+                        cli.setContrasenia(contrasenia);
+                        cli.setNombre(nombre);
+                        cli.setApellido(apellido);
+                        cli.setCorreo(correo);
+                        cli.setFechaNac(fechanac);
+                        cli.setRutaImagen(null);
+                        boolean x = wscli.ingresarCliente(cli,imagen);
                         if (x){
-                            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+                            DtUsuario dt = wsart.verificarLoginArtista(nickname, contrasenia);
                             sesion.setAttribute("Usuario", dt);
                             sesion.removeAttribute("error");
                             sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
@@ -175,9 +220,8 @@ public class ServletArtistas extends HttpServlet {
                     response.getWriter().write("Entró a crear album"+"<br>");
                     DtArtista artista = (DtArtista) sesion.getAttribute("Usuario");
                     String nomAlbum = (String) sesion.getAttribute("nombreAlb");
-                    HashMap<String,DtTema> temasAlbum = (HashMap<String,DtTema>) sesion.getAttribute("temasAlbum");
-                    HashMap<String,DtGenero> generosAlbum = new HashMap<>();
-                    generosAlbum = (HashMap<String,DtGenero>) sesion.getAttribute("generosAlbum");
+                    ArrayList<DtTema> temasAlbum = (ArrayList<DtTema>) sesion.getAttribute("temasAlbum");
+                    ArrayList<DtGenero> generosAlbum = (ArrayList<DtGenero>) sesion.getAttribute("generosAlbum");
                     String anioAlbum = (String) sesion.getAttribute("anioAlb");
                     
                     response.getWriter().write("Artista: "+artista.getNickname()+"<br>");
@@ -185,12 +229,12 @@ public class ServletArtistas extends HttpServlet {
                     response.getWriter().write("Año: "+anioAlbum+"<br>");
                     
                     response.getWriter().write("Temas: size="+temasAlbum.size()+"<br>");
-                    for (DtTema tema : temasAlbum.values()) {
+                    for (DtTema tema : temasAlbum) {
                         response.getWriter().write("->"+tema.getNombre()+"<br>");
                     }
                     
                     response.getWriter().write("<br>");
-                    for (DtGenero gen : generosAlbum.values()) {
+                    for (DtGenero gen : generosAlbum) {
                         response.getWriter().write(gen.getNombre()+"<br>");
                     }
                     
@@ -202,7 +246,7 @@ public class ServletArtistas extends HttpServlet {
                         im.delete();
                     }
                     
-                    Fabrica.getArtista().IngresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
+//                    wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
                     response.getWriter().write("FIN crear album"+"<br>");
                     
                     //Borar atributos de sesion usados durante la creacion del nuevo album
@@ -220,16 +264,17 @@ public class ServletArtistas extends HttpServlet {
         }
 
         if(request.getParameter("listarGeneros") != null){    
-            ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
+            DataGeneros datag = wsart.buscarGenero("");
+            List<DtGenero> generos =  wsart.buscarGenero("").getGeneros();
             request.getSession().setAttribute("Generos", generos);
-            ArrayList<DtTema> temas = Fabrica.getArtista().listarTodosTemas();
+            List<DtTema> temas = wsart.listarTodosTemas().getTemas();
             request.getSession().setAttribute("temas", temas);
         }    
         
         /* TODO output your page here. You may use following sample code. */
 
         if (request.getParameter("Inicio") != null) {
-            ArrayList<DtArtista> artistas = Fabrica.getArtista().ListarArtistas();
+            List<DtUsuario> artistas = wsart.listarArtistas().getUsuarios();
             request.getSession().removeAttribute("temasAReproducir");
             request.getSession().setAttribute("Artistas", artistas);
             
@@ -240,7 +285,7 @@ public class ServletArtistas extends HttpServlet {
 
         //Si se pasó el parametro "listarArtistas", entocnes reconoce que tiene que listarlos
         if (request.getParameter("listarArtistas") != null) {
-            ArrayList<DtArtista> artistas = Fabrica.getArtista().ListarArtistas();
+            List<DtUsuario> artistas = wsart.listarArtistas().getUsuarios();
             request.getSession().setAttribute("Artistas", artistas);
 //          
             response.getWriter().write("artistas listados correctamente");// es para que mostrar un mensaje en la consola del navegador, es opcional
@@ -251,7 +296,7 @@ public class ServletArtistas extends HttpServlet {
             String anio = request.getParameter("anioalbum");
             nom = ConvertirString(nom);
             DtArtista artista = (DtArtista) request.getSession().getAttribute("PerfilArt");
-            boolean x = Fabrica.getArtista().estaAlbum(artista.getNickname(),nom);
+            boolean x = wsart.estaAlbum(artista.getNickname(),nom);
             if (x == true)
                 response.getWriter().write("nomRepetido");
             else{
@@ -269,7 +314,7 @@ public class ServletArtistas extends HttpServlet {
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
                 path = path.replace( "%20", " ");
                 path= path.substring(1);
-                HashMap<String,DtTema> temasAlbum = new HashMap();
+                ArrayList<DtTema> temasAlbum = new ArrayList();
                 for (int i = 0; i < n; ++i) {
                     JSONObject person = temas.getJSONObject(i);
                     int orden = person.getInt("orden");
@@ -282,16 +327,16 @@ public class ServletArtistas extends HttpServlet {
                         arch_url = (path + arch_url);
                         File audio =new File(arch_url);
                         byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
-                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
+//                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
                         audio.delete();    
                     }else{
-                        dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
+//                        dtt = new DtTema(nomtema,duracion,orden,arch_url, null, null);
                     }
-                    temasAlbum.put(dtt.getNombre(), dtt);
+//                    temasAlbum.add(dtt);
                 }
                 
                 response.getWriter().write("<br>Temas:<br>");
-                for (DtTema tema : temasAlbum.values()) {
+                for (DtTema tema : temasAlbum) {
                     response.getWriter().write("->"+tema.getNombre()+"<br>");
                     if(tema.getArchivobyte() != null){
                         response.getWriter().write("-> Tiene archivo en bytes"+"<br>");
@@ -299,13 +344,18 @@ public class ServletArtistas extends HttpServlet {
                 }
                 sesion.setAttribute("temasAlbum", temasAlbum);
                 
-                Map<String,DtGenero> gen = Fabrica.getArtista().GetDataGeneros();
-                HashMap<String,DtGenero> generosAlbum = new HashMap();
+                List<DtGenero> gen = wsart.getDataGeneros().getGeneros();
+                List<DtGenero> generosAlbum = new ArrayList();
                 for (String genero : generos) {
-                    if (genero.contains("Rock") && genero.contains("Roll"))
+                    if (genero.contains("Rock") && genero.contains("Roll")){
                         genero = genero.substring(0, 6) + genero.substring(10);
-                    DtGenero dt = gen.get(genero);
-                    generosAlbum.put(dt.getNombre(), dt);
+                    }
+                    for (DtGenero dtG : gen) {
+                        if(dtG.getNombre().equals(genero)){
+                            generosAlbum.add(dtG);
+                            break;
+                        }
+                    }
                 }
                 sesion.setAttribute("generosAlbum", generosAlbum);
                 }
@@ -315,28 +365,30 @@ public class ServletArtistas extends HttpServlet {
         }
         if(request.getParameter("verPerfilArt") != null){
             String nickname = request.getParameter("verPerfilArt");
-            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
+            DtArtista datosArtista = wsart.elegirArtista(nickname);
             request.getSession().setAttribute("PerfilArt", datosArtista);
+            List<DtUsuario> seguidores = wsart.listarSeguidores(nickname).getUsuarios();
+            request.getSession().setAttribute("SeguidoresArt", seguidores);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
             requestDispatcher.forward(request, response);
 
             response.getWriter().write("perfil del artista cargado");
         }
-        if (request.getParameter("verPerfilArt") != null) {
-            String nickname = request.getParameter("verPerfilArt");
-            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
-            request.getSession().setAttribute("PerfilArt", datosArtista);
-
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
-            requestDispatcher.forward(request, response);
-
-            response.getWriter().write("perfil del artista cargado");
-        }
+//        if(request.getParameter("verPerfilArt") != null){
+//            String nickname = request.getParameter("verPerfilArt");
+//            DtArtista datosArtista = Fabrica.getArtista().ElegirArtista(nickname);
+//            request.getSession().setAttribute("PerfilArt", datosArtista);
+//
+//            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilArtista.jsp");
+//            requestDispatcher.forward(request, response);
+//
+//            response.getWriter().write("perfil del artista cargado");
+//        }
         if (request.getParameter("consultarAlbum") != null) {
             String nombre = request.getParameter("consultarAlbum");
-            ArrayList<DtAlbum> albumnes = Fabrica.getArtista().listarAlbumGenero(nombre);
-            ArrayList<DtListaPD> listas = Fabrica.getArtista().getListasGenero(nombre);
+            List<DtAlbum> albumnes = wsart.listarAlbumGenero(nombre).getAlbumes();
+            List<DtLista> listas = wsart.getListasGenero(nombre).getListas();
             request.getSession().setAttribute("Album", albumnes);
             request.getSession().setAttribute("Listas", listas);
             if (nombre.contains("&"))
@@ -349,8 +401,13 @@ public class ServletArtistas extends HttpServlet {
         if (request.getParameter("verAlbum") != null && request.getParameter("artista") != null) {
             String nombreArt = request.getParameter("artista");
             String nombreAlb = request.getParameter("verAlbum");
-            DtAlbum album = Fabrica.getArtista().ElegirAlbum(nombreArt, nombreAlb);
+            
+            DtAlbum album = wsart.elegirAlbum(nombreArt, nombreAlb);
             request.getSession().setAttribute("Album", album);
+            
+            DtArtista artista =  wsart.elegirArtista(album.getNombreArtista());
+            request.getSession().setAttribute("ArtistaAlbum", artista);
+            
             request.getSession().removeAttribute("temasAReproducir");
 
             //Redirecciona a la pagina indicada 
@@ -362,13 +419,13 @@ public class ServletArtistas extends HttpServlet {
         }
 
         if (request.getParameter("listarGeneros") != null) {
-            ArrayList<String> generos = Fabrica.getArtista().BuscarGenero("");
+            List<DtGenero> generos = wsart.buscarGenero("").getGeneros();
             request.getSession().setAttribute("Generos", generos);
         }
         
         if (request.getParameter("nickenuso") != null) {
             String nick = request.getParameter("nickenuso");
-            if (((Fabrica.getArtista().verificarDatos(nick, null))==false) || (Fabrica.getCliente().verificarDatos(nick, null))==false){
+            if (((wsart.verificarDatosArt(nick, ""))==false) || (wscli.verificarDatosCli(nick, ""))==false){
                 response.getWriter().write("si");
             }
             else
@@ -376,48 +433,51 @@ public class ServletArtistas extends HttpServlet {
         }
         if (request.getParameter("correoenuso") != null) {
             String mail = request.getParameter("correoenuso");
-            if (((Fabrica.getArtista().verificarDatos(null, mail))==false) || (Fabrica.getCliente().verificarDatos(null, mail))==false){
+            if (((wsart.verificarDatosArt("", mail))==false) || (wsart.verificarDatosArt("", mail))==false){
                 response.getWriter().write("si");
             }
             else
                 response.getWriter().write("no");
         }
         
-        if (request.getParameter("Registrarse") != null) {
-            try {
-                String nickname = request.getParameter("nickname");
-                String contrasenia = request.getParameter("contrasenia");
-                String nombre = request.getParameter("nombre");
-                String apellido = request.getParameter("apellido");
-                String fechanac = request.getParameter("fechanac");
-                String correo = request.getParameter("correo");
-                String biografia = request.getParameter("biografia");
-                String paginaweb = request.getParameter("paginaweb");
-
-            SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
-            String path = this.getClass().getClassLoader().getResource("").getPath();
-            path = path.replace("build/web/WEB-INF/classes/","temporales/");
-            path = path.replace( "%20", " ");
-            path= path.substring(1);
-            byte[] imagen = null;
-            if (request.getParameter("foto")!=""){
-                String img = request.getParameter("foto");
-                img = (path + img);
-                File im = new File(img);
-                imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
-                im.delete();
-                }
-             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
-             boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
-             if (!x)
-                response.getWriter().write("si");
-             else
-                response.getWriter().write("no");
-
-           }catch (ParseException ex) {
-                  Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
-                }
-        }
+//        if (request.getParameter("Registrarse") != null) {
+//            try {
+//                String nickname = request.getParameter("nickname");
+//                String contrasenia = request.getParameter("contrasenia");
+//                String nombre = request.getParameter("nombre");
+//                String apellido = request.getParameter("apellido");
+//                String fechanac = request.getParameter("fechanac");
+//                String correo = request.getParameter("correo");
+//                String biografia = request.getParameter("biografia");
+//                String paginaweb = request.getParameter("paginaweb");
+//
+//            if(fechanac != null){
+//                fechanac = fechanac.replace("-", "/"); //cambiar el formato a dd/mm/yyyy
+//            }
+//                
+//            String path = this.getClass().getClassLoader().getResource("").getPath();
+//            path = path.replace("build/web/WEB-INF/classes/","temporales/");
+//            path = path.replace( "%20", " ");
+//            path= path.substring(1);
+//            byte[] imagen = null;
+//            if (request.getParameter("foto")!=""){
+//                String img = request.getParameter("foto");
+//                img = (path + img);
+//                File im = new File(img);
+//                imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+//                im.delete();
+//                }
+//             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
+//             boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
+//             if (!x)
+//                response.getWriter().write("si");
+//             else
+//                response.getWriter().write("no");
+//
+//           }catch (ParseException ex) {
+//                  Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex); 
+//                }
+//        }
         
         if (request.getParameter("TipoAgregarTema")!=null){
             String tipo = (String) request.getParameter("TipoAgregarTema");
@@ -459,13 +519,15 @@ public class ServletArtistas extends HttpServlet {
         }
         
         if (request.getParameter("agregartemalista") != null) {
-            ArrayList<DtAlbum> todosalbumes = Fabrica.getArtista().listarTodosAlbumes();
-            ArrayList<DtListaPD> todaslistaspd = Fabrica.getArtista().ListarListaPD();
-            ArrayList<DtListaP> auxiliar = Fabrica.getCliente().ListarListaP();
-            ArrayList<DtListaP> todaslistasp = new ArrayList();
-            for (int i=0;i<auxiliar.size();i++){
-                if (!(auxiliar.get(i).isPrivada()))
-                    todaslistasp.add(auxiliar.get(i));
+            List<DtAlbum> todosalbumes = wsart.listarTodosAlbumes().getAlbumes();
+            List<DtLista> todaslistaspd = wsart.listarListaPD().getListas();
+            List<DtLista> auxiliar = wscli.listarListaP().getListas();
+            List<DtLista> todaslistasp = new ArrayList();
+            for (DtLista listaAux : auxiliar) {
+                DtListaP listapd = (DtListaP) listaAux;
+                if (!listapd.isPrivada()){
+                    todaslistasp.add(listapd);
+                }
             }
             request.getSession().setAttribute("todosalbumes", todosalbumes);
             request.getSession().setAttribute("todaslistaspd", todaslistaspd);
@@ -477,7 +539,7 @@ public class ServletArtistas extends HttpServlet {
         if (request.getParameter("Join") != null) {
             String nickname = request.getParameter("Join");
             String contrasenia = request.getParameter("Contrasenia");
-            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+            DtUsuario dt = wsart.verificarLoginArtista(nickname, contrasenia);
             if (dt != null) {
                 sesion.setAttribute("Usuario", dt);
                 sesion.removeAttribute("error");
@@ -485,12 +547,12 @@ public class ServletArtistas extends HttpServlet {
                 
                 if(dt instanceof DtCliente){
                     //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
-                    Fabrica.getCliente().actualizarVigenciaSuscripciones(dt.getNickname());
+                    wscli.actualizarVigenciaSuscripciones(dt.getNickname());
                 }
                 
                 response.sendRedirect("ServletArtistas?Inicio=true");
             } else {
-                if (!(Fabrica.getCliente().verificarDatos(nickname, nickname) && Fabrica.getArtista().verificarDatos(nickname, nickname))) {
+                if (!(wscli.verificarDatosCli(nickname, nickname) && wsart.verificarDatosArt(nickname, nickname))) {
                     sesion.setAttribute("error", "Contraseña incorrecta");
                 } else {
                     sesion.setAttribute("error", "Usuario y contraseña incorrectos");
@@ -505,7 +567,7 @@ public class ServletArtistas extends HttpServlet {
             response.sendRedirect("ServletArtistas?Inicio=true");
 
         }
-
+//            response.getWriter().write("hola wolrd");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

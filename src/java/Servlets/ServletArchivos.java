@@ -5,29 +5,31 @@
  */
 package Servlets;
 
-import Logica.DtLista;
-import Logica.DtTema;
-import Logica.Fabrica;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import webservices.DtLista;
+import webservices.DtTema;
+import webservices.IOException_Exception;
+import webservices.WSArchivos;
+import webservices.WSArchivosService;
 
 /**
  *
@@ -49,8 +51,21 @@ public class ServletArchivos extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        Properties propiedades = new Properties();
+        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
+        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/","webservices.properties");
+        rutaConfWS = rutaConfWS.replace( "%20", " ");
+        InputStream entrada = new FileInputStream(rutaConfWS);
+        propiedades.load(entrada);// cargamos el archivo de propiedades
+		
+        URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArch")+"/"+propiedades.getProperty("nombreWSArch"));
+        WSArchivosService wsarchs = new WSArchivosService();
+        WSArchivos wsarch = wsarchs.getWSArchivosPort();
+        
+        request.getSession().setAttribute("WSArchivos", wsarch);
+        
         if (request.getParameter("cargarDatosPrueba") != null) {
-            Fabrica.getCliente().CargadeDatos();
+            wsarch.cargadeDatos();
             request.getSession().removeAttribute("Usuario");
             request.getSession().removeAttribute("Album");
             request.getSession().removeAttribute("temasAReproducir");
@@ -62,28 +77,51 @@ public class ServletArchivos extends HttpServlet {
         
         if(tipoArchivo != null){
             if (tipoArchivo.equals("audio")) {
-                String ruta = request.getParameter("ruta");
-                response.setContentType("audio/mpeg");
-                response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
-
-                BufferedInputStream buf = Fabrica.getArtista().cargarTema(ruta);
-
-                OutputStream out = response.getOutputStream();     
-                int readBytes = 0;
-                //read from the file; write to the ServletOutputStream
-                while ((readBytes = buf.read()) != -1)
+                try {
+                    String ruta = request.getParameter("ruta");
+                    response.setContentType("audio/mpeg");
+                    response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
+                    
+                    byte[] audio = wsarch.cargarArchivo(ruta);
+                    System.out.println(audio.length);
+                    
+                    response.setContentType("audio/mpeg");
+                    response.setContentLength((int) audio.length);
+                    
+                    OutputStream out = response.getOutputStream();
+                    out.write(audio);
+                    out.close();
+                    
+                    /*
+                    BufferedInputStream buf = wsarch.cargarTema(ruta);
+                    
+                    OutputStream out = response.getOutputStream();
+                    int readBytes = 0;
+                    //read from the file; write to the ServletOutputStream
+                    while ((readBytes = buf.read()) != -1)
                     out.write(readBytes);
-
-                out.close();
-                buf.close();
+                    
+                    out.close();
+                    buf.close();
+                    */
+                } catch (IOException_Exception ex) {
+                    Logger.getLogger(ServletArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
-                // tipo == "imagen"
-                String img = request.getParameter("ruta");
-                response.setContentType("image/jpeg");
-                BufferedImage bi = Fabrica.getCliente().cargarImagen(img);
-                OutputStream out = response.getOutputStream();
-                ImageIO.write(bi, "png", out);
-                out.close();
+                try {
+                    // tipo == "imagen"
+                    String ruta = request.getParameter("ruta");
+                    
+                    byte[] img = wsarch.cargarArchivo(ruta);
+                    response.setContentType("image/jpg");
+                    response.setContentLength((int) img.length);
+                    OutputStream out = response.getOutputStream();
+                    //ImageIO.write(img, "png", out);
+                    out.write(img);
+                    out.close();
+                } catch (IOException_Exception ex) {
+                    Logger.getLogger(ServletArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         
@@ -92,9 +130,9 @@ public class ServletArchivos extends HttpServlet {
             String artista = request.getParameter("artista");
             String temaSeleccionado = request.getParameter("tema");
 //            response.getWriter().write(temaSeleccionado);
-            ArrayList<DtTema> temas = Fabrica.getArtista().reproducirAlbum(artista, album);
+            List<DtTema> temas = wsarch.reproducirAlbum(artista, album).getTemas();
             request.getSession().setAttribute("temasAReproducir", temas);
-            byte[] imagen = Fabrica.getArtista().getImagenAlbum(artista, album);
+            byte[] imagen = wsarch.getImagenAlbum(artista, album);
             if (imagen!=null){
                 try {
                     String path = this.getClass().getClassLoader().getResource("").getPath();
@@ -134,17 +172,17 @@ public class ServletArchivos extends HttpServlet {
             String genero = request.getParameter("genero");
             String temaSeleccionado = request.getParameter("tema");
             
-            ArrayList<DtTema> temas;
+            List<DtTema> temas;
             
             //Si tiene creador es una lista particular, sino por defecto
             if(creador != null){
-                temas = Fabrica.getCliente().reproducirListaP(creador, lista);
+                temas = wsarch.reproducirListaP(creador, lista).getTemas();
             }else{
-                temas = Fabrica.getArtista().reproducirListaPD(genero, lista);
+                temas = wsarch.reproducirListaPD(genero, lista).getTemas();
             }
             
             DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
-            if (dt.getImagen()!=null){
+            if (dt.getRutaImagen()!=null){
                 request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());    
             }
             else

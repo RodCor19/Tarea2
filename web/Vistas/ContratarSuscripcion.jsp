@@ -4,9 +4,8 @@
     Author     : Kevin
 --%>
 
-<%@page import="Logica.DtTipoSuscripcion"%>
-<%@page import="Logica.Fabrica"%>
-<%@page import="Logica.DtArtista"%>
+<%@page import="webservices.DtTipoSuscripcion"%>
+<%@page import="webservices.DtArtista"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

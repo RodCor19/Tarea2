@@ -1,7 +1,11 @@
-<%@page import="Logica.Fabrica"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Logica.DtCliente"%>
-<%@page import="Logica.DtUsuario"%>
+<%@page import="webservices.WSClientes"%>
+<%@page import="webservices.WSClientesService"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.util.Properties"%>
+<%@page import="webservices.DtCliente"%>
+<%@page import="webservices.DtUsuario"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,12 +16,15 @@
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <% DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
+            
+            WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+
             DtCliente dt = null;
             boolean controlSeguir = false;
             if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-                if (Fabrica.getCliente().SuscripcionVigente(perfilUsr.getNickname())) {
+                if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
                     controlSeguir = true;
-                    dt = Fabrica.getCliente().verPerfilCliente(perfilUsr.getNickname());
+                    dt = wscli.verPerfilCliente(perfilUsr.getNickname());
                     session.setAttribute("Usuario", dt);
                 }
             }
@@ -25,7 +32,7 @@
     </head>
     <body>
         <%
-            ArrayList<DtUsuario> usus = Fabrica.getCliente().BuscarUsuarios(request.getParameter("BusquedaUsuarios"));
+            List<DtUsuario> usus = wscli.buscarUsuarios(request.getParameter("BusquedaUsuarios")).getUsuarios();
 
         %>
         <jsp:include page="Cabecera.jsp" />

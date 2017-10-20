@@ -5,18 +5,12 @@
  */
 package Servlets;
 
-import Logica.DtCliente;
-import Logica.DtLista;
-import Logica.DtListaP;
-import Logica.DtListaPD;
-import Logica.DtTipoSuscripcion;
-import Logica.DtUsuario;
-import Logica.Fabrica;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +26,18 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.FileItemFactory;
 import java.util.List;
+import java.util.Properties;
 import org.apache.commons.fileupload.FileUploadException;
+import webservices.DtCliente;
+import webservices.DtLista;
+import webservices.DtListaP;
+import webservices.DtListaPD;
+import webservices.DtTipoSuscripcion;
+import webservices.DtUsuario;
+import webservices.WSArtistas;
+import webservices.WSArtistasService;
+import webservices.WSClientes;
+import webservices.WSClientesService;
 
 /**
  *
@@ -55,9 +60,27 @@ public class ServletClientes extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
 
+        Properties propiedades = new Properties();
+        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
+        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/","webservices.properties");
+        rutaConfWS = rutaConfWS.replace( "%20", " ");
+        InputStream entrada = new FileInputStream(rutaConfWS);
+        propiedades.load(entrada);// cargamos el archivo de propiedades
+        
+        URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArt")+"/"+propiedades.getProperty("nombreWSArt"));
+        WSArtistasService wsarts = new WSArtistasService(/*url*/);
+        WSArtistas wsart = wsarts.getWSArtistasPort();
+        
+        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+        WSClientesService wsclis = new WSClientesService();
+        WSClientes wscli = wsclis.getWSClientesPort();
+        
+        request.getSession().setAttribute("WSArchivos", wsart);
+        request.getSession().setAttribute("WSClientes", wscli);
+        
         if (request.getParameter("verPerfilCli") != null) {
             String nickname = request.getParameter("verPerfilCli");
-            DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(nickname);
+            DtCliente datosClientes = wscli.verPerfilCliente(nickname);
             sesion.setAttribute("PerfilCli", datosClientes);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
@@ -73,7 +96,7 @@ public class ServletClientes extends HttpServlet {
             String artista = request.getParameter("AgregarTemaNombreArtista");
             String listaelegida = request.getParameter("AgregarTemaListaElegida");
             DtCliente cliente = (DtCliente) request.getSession().getAttribute("PerfilCli");
-            boolean x = Fabrica.getArtista().AgregarTemaListaWeb(tema, album, artista, listaelegida, cliente.getNickname());
+            boolean x = wsart.agregarTemaListaWeb(tema, album, artista, listaelegida, cliente.getNickname());
             if (x==true){
                 response.getWriter().write("si");
             }
@@ -86,7 +109,7 @@ public class ServletClientes extends HttpServlet {
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            Fabrica.getCliente().DejarSeguir(dt.getNickname(), nickname);
+            wscli.dejarSeguir(dt.getNickname(), nickname);
             response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
             //response.getWriter().write("ok");
         }
@@ -97,8 +120,8 @@ public class ServletClientes extends HttpServlet {
             nickname = new String(bytes, StandardCharsets.UTF_8);
             DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
             try {
-                Fabrica.getCliente().seguir(dt.getNickname(), nickname);
-                sesion.setAttribute("Usuario", Fabrica.getCliente().verPerfilCliente(dt.getNickname()));
+                wscli.seguir(dt.getNickname(), nickname);
+                sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
                 response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
                 //response.getWriter().write("ok");
             } catch (Exception ex) {
@@ -113,7 +136,7 @@ public class ServletClientes extends HttpServlet {
             String alb = request.getParameter("album");
             String tem = request.getParameter("tema");
             DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
-            Fabrica.getCliente().agregarTemaFavorito(dc.getNickname(), art, alb, tem);
+            wscli.agregarTemaFavorito(dc.getNickname(), art, alb, tem);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
         }
@@ -122,14 +145,14 @@ public class ServletClientes extends HttpServlet {
             String albu = request.getParameter("alb");
 
             DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
-            Fabrica.getCliente().agregarAlbumFavorito(dc.getNickname(), arti, albu);
+            wscli.agregarAlbumFavorito(dc.getNickname(), arti, albu);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
             requestDispatcher.forward(request, response);
         }
 
         if (request.getParameter("contratarSuscripcion") != null) {
-            ArrayList<DtTipoSuscripcion> tiposSus = Fabrica.getCliente().listarTipoDeSus();
+            List<DtTipoSuscripcion> tiposSus = wscli.listarTipoDeSus().getTiposDeSus();
             sesion.setAttribute("TiposDeSus", tiposSus);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ContratarSuscripcion.jsp");
@@ -140,7 +163,7 @@ public class ServletClientes extends HttpServlet {
             DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
             int idTipoSus = Integer.valueOf(request.getParameter("nuevaSuscripcion"));
 
-            if (Fabrica.getCliente().contratarSuscripcion(dc.getNickname(), idTipoSus)) {
+            if (wscli.contratarSuscripcion(dc.getNickname(), idTipoSus)) {
                 response.getWriter().write("ok");
             } else {
                 response.getWriter().write("error: " + dc.getNickname() + " " + idTipoSus);
@@ -149,7 +172,7 @@ public class ServletClientes extends HttpServlet {
 
         if (request.getParameter("VerFavoritos") != null) {
             DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
-            DtCliente datosClientes = Fabrica.getCliente().verPerfilCliente(dtCli.getNickname());
+            DtCliente datosClientes = wscli.verPerfilCliente(dtCli.getNickname());
 
             sesion.setAttribute("PerfilCli", datosClientes);
 
@@ -191,10 +214,18 @@ public class ServletClientes extends HttpServlet {
                 nLista = new String(bytes, StandardCharsets.UTF_8);
                 sesion.removeAttribute("cLista");
                 DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
-                Fabrica.getCliente().crearListaP(c.getNickname(), nLista, imagen);
+                
+                byte[] imagenBytes = null;
+                if (imagen != null){
+                    File im = new File(imagen);
+                    imagenBytes = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                    im.delete();
+                }
+                
+                wscli.crearListaP(c.getNickname(), nLista, imagenBytes, "jpg");
                 try {
-                    Fabrica.getCliente().confirmar();
-                    c = Fabrica.getCliente().verPerfilCliente(c.getNickname());
+                    wscli.confirmar();
+                    c = wscli.verPerfilCliente(c.getNickname());
                     sesion.setAttribute("Usuario", c);
                     sesion.setAttribute("Mensaje", "Lista creada");
                     if(imagen!=null){
@@ -225,17 +256,19 @@ public class ServletClientes extends HttpServlet {
             if (request.getParameter("Usuario") != null) {
                 String nick = request.getParameter("Usuario");
                 DtListaP aux = null;
-                ArrayList<DtListaP> dt = Fabrica.getCliente().ListarListaP();
-                for (DtListaP p : dt) {
-                    if (p.getNombre().equals(nLista) && p.getUsuario().equals(nick)) {
-                        aux = p;
+                List<DtLista> dt = wscli.listarListaP().getListas();
+                for (DtLista l : dt) {
+                    DtListaP lp = (DtListaP) l;
+                    if (lp.getNombre().equals(nLista) && lp.getUsuario().equals(nick)) {
+                        aux = lp;
                     }
                 }
                 sesion.setAttribute("Lista", (DtLista) aux);
                 response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
             } else {
                 DtListaPD aux = null;
-                for (DtListaPD pd : Fabrica.getArtista().ListarListaPD()) {
+                for (DtLista l : wsart.listarListaPD().getListas()) {
+                    DtListaPD pd = (DtListaPD) l;
                     if (pd.getNombre().equals(nLista)) {
                         aux = pd;
                     }
@@ -247,7 +280,7 @@ public class ServletClientes extends HttpServlet {
         if (request.getParameter("publicarLista") != null) {
             DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
             String nLista = request.getParameter("publicarLista");
-            Fabrica.getCliente().publicarLista(dtCli.getNickname(), nLista);
+            wscli.publicarLista(dtCli.getNickname(), nLista);
         }
         
         if (request.getParameter("favLista") != null) {
@@ -256,9 +289,9 @@ public class ServletClientes extends HttpServlet {
             byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
             nLista = new String(bytes, StandardCharsets.UTF_8);
             if(request.getParameter("cliente") != null){
-                Fabrica.getCliente().agregarListaFavorito(dtCli.getNickname() , (String)request.getParameter("cliente"), nLista);
+                wscli.agregarListaPFavorito(dtCli.getNickname() , (String)request.getParameter("cliente"), nLista);
             }else{
-                Fabrica.getCliente().agregarListaFavorito(dtCli.getNickname() , nLista);
+                wscli.agregarListaPDFavorito(dtCli.getNickname() , nLista);
             }
             response.sendRedirect("ServletArtistas?Inicio=true");
             

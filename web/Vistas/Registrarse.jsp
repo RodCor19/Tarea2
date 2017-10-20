@@ -23,14 +23,16 @@
                 <div class="btn-group-vertical col-sm-2">
                     
                 </div>
+                <form name="formRegistrarse" action="/EspotifyWeb/ServletArtistas" id="formRegistrarse" enctype="multipart/form-data" method="post">
                 <div class="col-sm-7 text-left">
                     <div class="row">
 <!--                        <h3><b>Ingrese sus datos:</b></h3>-->
                         <ul class="list-group">
-                            <form>
+<!--                            <form>-->
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input id="nickname" type="text" class="form-control" name="nickname" placeholder="Nickname">
+                                    <label class="form-control-feedback" hidden="" id="errorN"></label>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -51,21 +53,22 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon ">Fecha de Nacimiento: </span>
-                                    <input id="fechanac" type="text" class="form-control" name="fecha" placeholder="dd-mm-aaaa">
+                                    <input id="fechanac" type="text" class="form-control" name="fechanac" placeholder="dd-mm-aaaa">
                                     <label class="glyphicon form-control-feedback" hidden="" id="error"></label>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon">Email: </span>
                                     <input id="correo" type="text" class="form-control" name="correo" placeholder="">
+                                    <label class="form-control-feedback" hidden="" id="errorC"></label>
                                 </div>
 
-                            </form>
+                            <!--</form>-->
 
                         </ul>
-                        <label class="radio-inline"><input type="radio" name="optradio" value="Cliente" id="radioC" checked>Cliente</label>
-                        <label class="radio-inline"><input type="radio" name="optradio" value="Artista" id="radioA">Artista</label>
+                        <label class="radio-inline"><input type="radio" name="tipoUsr" value="Cliente" id="radioC" checked>Cliente</label>
+                        <label class="radio-inline"><input type="radio" name="tipoUsr" value="Artista" id="radioA">Artista</label>
                         <ul class="list-group">
-                            <form hidden="" id="formArt">
+                            <div hidden="" id="opcionesArt">
                                 <div class="input-group" >
                                     <span  class="input-group-addon">Biografia: </span>
                                     <input id="biografia" type="text" class="form-control" name="biografia" placeholder="">
@@ -74,24 +77,26 @@
                                     <span class="input-group-addon">Pagina Web: </span>
                                     <input id="paginaweb" type="text" class="form-control" name="paginaweb" placeholder="">
                                 </div>
-                            </form>
+                            </div>
                         </ul>
 
-                        <button type="button" class="boton btn-block" id="bntAceptar" >Aceptar</button>
+                        <!--<button type="button" class="boton btn-block" id="bntAceptar" >Aceptar</button>-->
+                        <input id="bntAceptar"  name="aceptar" type="submit" value="Aceptar"  class="boton btn-block">
 
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <h3>Elegir Imagen Perfil</h3>        
                     <img id="imgalbum" src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" width="200" height="200" class="imgAlbum" />
-                    <form  target="iframe" action="subir.jsp" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">
+<!--                    <form  target="iframe" action="subir.jsp" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">-->
                         <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
                         <br><br><div class="form-group">
-                            <input name="aceptar" type="submit" value="subirfoto" id="subirfoto" class="hidden">
+                            <!--<input name="aceptar" type="submit" value="subirfoto" id="subirfoto" class="hidden">-->
                         </div>
-                    </form>
-                    <iframe style="display:none" id="iframe" name="iframe"></iframe>
+                    <!--</form>-->
+<!--                    <iframe style="display:none" id="iframe" name="iframe"></iframe>-->
                 </div>
+                </form>
             </div>
         </div>
         

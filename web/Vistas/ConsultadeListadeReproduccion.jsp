@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <%if ( dt.getImagen() != null) {%>
+                        <%if ( dt.getRutaImagen() != null) {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->

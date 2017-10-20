@@ -23,6 +23,7 @@
         HttpSession sesion = request.getSession();
         DtUsuario usuario = (DtUsuario) sesion.getAttribute("Usuario");
         DtCliente cli = (DtCliente) sesion.getAttribute("Cli"), dt = null;
+        
 
         Boolean cliente = false;
         if (usuario != null && usuario instanceof DtCliente) {
@@ -75,11 +76,12 @@
                         </div>
                         <div class="col-sm-8 text-left">
                             <br> <br>
-                            <a class="link" onclick="reproducirAlbum('<%= album.getNombre()%>', '<%= album.getNombreArtista()%>')" href="#"><h3 class="tituloAlbum"><%= album.getNombre()%></h3></a> 
+                            <h3 class="tituloAlbum"><%= album.getNombre()%></h3>
                             <a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>">  <h3><%= artista.getNombre() + " " + artista.getApellido()%></h3></a>                            
                             <h3 class="anio"><%= album.getAnio()%></h3>
+                            <a onclick="reproducirAlbum('<%= album.getNombre().replace("\'", "\\'")%>', '<%= album.getNombreArtista()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                             <%if (cliente && control2) {%>
-                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px;">Guardar</a>
+                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px; margin-left: 5px;">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -131,11 +133,11 @@
                                             </div>
                                         </td>
                                         <%}%>
-                                        <td onclick="reproducirTema('<%= tem.getNombre()%>', '<%= tem.getAlbum()%>', '<%= tem.getArtista()%>')"><%= nombre%></td>
+                                        <td onclick="reproducirTema('<%= tem.getNombre().replace("\'", "\\'") %>', '<%= tem.getAlbum().replace("\'", "\\'")%>', '<%= tem.getArtista()%>')"><%= nombre%></td>
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
                                         <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>
@@ -166,10 +168,32 @@
                 </div>
             </div> 
         </div>
+                    
+                                
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+         <script>
+                     function nuevaDescarga (artista, album, tema) {
+                          alert("no andaaaaaaaa");
+                      $.ajax({
+                           type : 'POST', //tipo de request
+                           url : '/EspotifyWeb/ServletArtistas',
+                           dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                           data:{ // Parametros que se pasan en el request
+                               artista : artista,
+                               album : album,
+                               tema : tema,
+                               nuevadescarga : true
+                           },
+                           success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+                             alert("si andaaaaaaaa"+data);
+                           }
+                       }); 
+                   }
+                        
+         </script>
         <script>
 //            function hover(elemento, esHover){
 //                if(esHover){

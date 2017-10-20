@@ -83,7 +83,7 @@
                     <br><p style="color:green">------------------------------------</p><br>
 
                     <div class="container">
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal">Agregar Tema</button>
+                        <button type="button"  class="btn boton" style="font-size: 15px;" data-toggle="modal" data-target="#modal">Agregar Tema</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id="modal" role="dialog" >
@@ -164,10 +164,10 @@
                 <div class="col-sm-3">
                     <h3>Elegir Imagen Album</h3>        
                     <img id="imgalbum" src="/EspotifyWeb/Imagenes/iconoMusica.jpg" width="230" height="230" class="imgAlbum" />
-                    <form  target="iframe" action="subir.jsp" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">
+                    <form  target="iframe" action="/EspotifyWeb/ServletArtistas" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">
                         <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
                         <br><br><div class="form-group">
-                            <input name="aceptar" type="submit" value="Crear Album" id="aceptar" style="width: 40%;background-color:dodgerblue;color:white">
+                            <input class="boton" name="aceptar" type="submit" value="Crear Album" id="aceptar" style="font-size: 15px">
                         </div>
                     </form>
                     <iframe style="display:none" id="iframe" name="iframe"></iframe>

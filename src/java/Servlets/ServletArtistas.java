@@ -22,10 +22,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +39,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,8 +75,149 @@ public class ServletArtistas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
-                   
-            
+        HttpSession sesion = request.getSession();
+        
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                String  rutaArchivo = null, nickname = null, contrasenia = null, nombre = null, apellido = null, fechanac = null, correo = null, 
+                        tipoUsuario = null, biografia = null, paginaweb = null;
+                
+                /*FileItemFactory es una interfaz para crear FileItem*/
+                FileItemFactory file_factory = new DiskFileItemFactory();
+                /*ServletFileUpload esta clase convierte los input file a FileItem*/
+                ServletFileUpload servlet_up = new ServletFileUpload(file_factory);
+                /*sacando los FileItem del ServletFileUpload en una lista */
+                List items = servlet_up.parseRequest(request);
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = path.replace( "%20", " ");
+                for(int i=0;i<items.size();i++){
+                    /*FileItem es un input enviado dentro del form multipart, puede ser un archivo o un parametro nomrnal(string)*/
+                    FileItem item = (FileItem) items.get(i);
+                    
+                    /*item.isFormField() false=input file; true=text field*/
+                    //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
+                    if (item.isFormField() == false && item.getName().isEmpty() == false){
+                        File archivo_server = new File(path + item.getName());
+                        item.write(archivo_server);
+                        rutaArchivo = path+ item.getName();
+                    }else{
+                        String nombreInput = item.getFieldName();
+                        
+                        switch(nombreInput){
+                            case "nickname":
+                                nickname = item.getString("UTF-8");
+                                break;
+                            case "contrasenia":
+                                contrasenia = item.getString("UTF-8");
+                                break;
+                            case "nombre":
+                                nombre = item.getString("UTF-8");
+                                break;
+                            case "apellido":
+                                apellido = item.getString("UTF-8");
+                                break;
+                            case "fechanac":
+                                fechanac = item.getString("UTF-8");
+                                break;
+                            case "correo":
+                                correo = item.getString("UTF-8");
+                                break;
+                            case "tipoUsr":
+                                tipoUsuario = item.getString("UTF-8");
+                                break;
+                            case "biografia":
+                                biografia = item.getString("UTF-8");
+                                break;
+                            case "paginaweb":
+                                paginaweb = item.getString("UTF-8");
+                                break;                            
+                        }
+                    }
+                }
+                
+                //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
+                if(contrasenia != null){
+                    SimpleDateFormat formato= new SimpleDateFormat("dd-MM-yyyy");
+                    byte[] imagen = null;
+                    if (rutaArchivo != null){
+                        File im = new File(rutaArchivo);
+                        imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                        im.delete();
+                    }
+                    if(tipoUsuario != null && tipoUsuario.equals("Artista")){
+                        DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),biografia,paginaweb,0,null,null,null);
+                        boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
+                        if (x){
+                            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+                            sesion.setAttribute("Usuario", dt);
+                            sesion.removeAttribute("error");
+                            sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
+                            response.sendRedirect("ServletArtistas?Inicio=true");
+                        }else{
+                           response.getWriter().write("Error al llamar la funcion de la logica");
+                        }
+                    }else{
+                        DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, formato.parse(fechanac), correo, null, null, null, null, null, null, null);
+                        boolean x = Fabrica.getCliente().IngresarCliente(cli,imagen);
+                        if (x){
+                            DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+                            sesion.setAttribute("Usuario", dt);
+                            sesion.removeAttribute("error");
+                            sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
+                            
+                            response.sendRedirect("ServletArtistas?Inicio=true");
+                        } else{
+                            response.getWriter().write("Error al llamar la funcion de la logica");
+                        }
+                    }
+                }else{ // Crear Album
+                    response.getWriter().write("Entró a crear album"+"<br>");
+                    DtArtista artista = (DtArtista) sesion.getAttribute("Usuario");
+                    String nomAlbum = (String) sesion.getAttribute("nombreAlb");
+                    HashMap<String,DtTema> temasAlbum = (HashMap<String,DtTema>) sesion.getAttribute("temasAlbum");
+                    HashMap<String,DtGenero> generosAlbum = new HashMap<>();
+                    generosAlbum = (HashMap<String,DtGenero>) sesion.getAttribute("generosAlbum");
+                    String anioAlbum = (String) sesion.getAttribute("anioAlb");
+                    
+                    response.getWriter().write("Artista: "+artista.getNickname()+"<br>");
+                    response.getWriter().write("Album: "+nomAlbum+"<br>");
+                    response.getWriter().write("Año: "+anioAlbum+"<br>");
+                    
+                    response.getWriter().write("Temas: size="+temasAlbum.size()+"<br>");
+                    for (DtTema tema : temasAlbum.values()) {
+                        response.getWriter().write("->"+tema.getNombre()+"<br>");
+                    }
+                    
+                    response.getWriter().write("<br>");
+                    for (DtGenero gen : generosAlbum.values()) {
+                        response.getWriter().write(gen.getNombre()+"<br>");
+                    }
+                    
+                    byte[] imagen = null;
+                    if (rutaArchivo != null){
+                        response.getWriter().write("Ruta archivo != null"+"<br>");
+                        File im = new File(rutaArchivo);
+                        imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                        im.delete();
+                    }
+                    
+                    Fabrica.getArtista().IngresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
+                    response.getWriter().write("FIN crear album"+"<br>");
+                    
+                    //Borar atributos de sesion usados durante la creacion del nuevo album
+                    sesion.removeAttribute("nombreAlb");
+                    sesion.removeAttribute("anioAlb");
+                    sesion.removeAttribute("temasAlbum");
+                    sesion.removeAttribute("generosAlbum");
+                }
+                
+            } catch (FileUploadException ex) {
+                Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
 
         if(request.getParameter("listarGeneros") != null){    
             ArrayList<String> generos =  Fabrica.getArtista().BuscarGenero("");
@@ -105,9 +253,11 @@ public class ServletArtistas extends HttpServlet {
             DtArtista artista = (DtArtista) request.getSession().getAttribute("PerfilArt");
             boolean x = Fabrica.getArtista().estaAlbum(artista.getNickname(),nom);
             if (x == true)
-                response.getWriter().write("si");
+                response.getWriter().write("nomRepetido");
             else{
-                response.getWriter().write("no");
+                sesion.setAttribute("nombreAlb", nom);
+                sesion.setAttribute("anioAlb", anio);
+                response.getWriter().write("ok");
                 String JSON_data = request.getParameter("json");
                 JSON_data = "{" + "  \"temas\": "+ JSON_data + "}";
                 String[] generos = request.getParameterValues("generos[]");
@@ -119,46 +269,47 @@ public class ServletArtistas extends HttpServlet {
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
                 path = path.replace( "%20", " ");
                 path= path.substring(1);
-                byte[] imagen = null;
-                if (request.getParameter("foto")!=""){
-                    String img = request.getParameter("foto");
-                    img = (path + img);
-                    File im = new File(img);
-                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
-                    im.delete();
-                    }
-                //org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(path +"hola.jpg"), bs);
-                HashMap<String,DtTema> temasenviar = new HashMap();
+                HashMap<String,DtTema> temasAlbum = new HashMap();
                 for (int i = 0; i < n; ++i) {
                     JSONObject person = temas.getJSONObject(i);
                     int orden = person.getInt("orden");
                     String nomtema = person.getString("nombre");
                     String duracion = person.getString("duracion");
                     String arch_url = person.getString("Archivo_Url");
+                    int cantDescarga = person.getInt("cantDescarga");
+                    int cantReproduccion = person.getInt("cantReproduccion");
                     
                     DtTema dtt;
                     if (arch_url.contains(".mp3")){
                         arch_url = (path + arch_url);
                         File audio =new File(arch_url);
                         byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
-                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
-                        audio.delete();
-                        
+                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch,cantDescarga,cantReproduccion);
+                        audio.delete();    
+                    }else{
+                        dtt = new DtTema(nomtema,duracion,orden,arch_url,null,null,cantDescarga,cantReproduccion);
                     }
-                    else
-                        dtt = new DtTema(nomtema,duracion,orden,arch_url,null);
-                    temasenviar.put(dtt.getNombre(), dtt);
+                    temasAlbum.put(dtt.getNombre(), dtt);
+                }
+                
+                response.getWriter().write("<br>Temas:<br>");
+                for (DtTema tema : temasAlbum.values()) {
+                    response.getWriter().write("->"+tema.getNombre()+"<br>");
+                    if(tema.getArchivobyte() != null){
+                        response.getWriter().write("-> Tiene archivo en bytes"+"<br>");
                     }
-                Map<String,DtGenero> gen = new HashMap();
-                HashMap<String,DtGenero> generosenviar = new HashMap();
-                gen = Fabrica.getArtista().GetDataGeneros();
+                }
+                sesion.setAttribute("temasAlbum", temasAlbum);
+                
+                Map<String,DtGenero> gen = Fabrica.getArtista().GetDataGeneros();
+                HashMap<String,DtGenero> generosAlbum = new HashMap();
                 for (String genero : generos) {
                     if (genero.contains("Rock") && genero.contains("Roll"))
                         genero = genero.substring(0, 6) + genero.substring(10);
                     DtGenero dt = gen.get(genero);
-                    generosenviar.put(dt.getNombre(), dt);
-                    }
-                Fabrica.getArtista().IngresarAlbumWeb(artista.getNickname(),anio,nom,imagen,temasenviar,generosenviar);
+                    generosAlbum.put(dt.getNombre(), dt);
+                }
+                sesion.setAttribute("generosAlbum", generosAlbum);
                 }
                 catch (Exception e){e.getMessage();}
             }
@@ -211,7 +362,18 @@ public class ServletArtistas extends HttpServlet {
 
             response.getWriter().write("temas cargados");
         }
-
+        
+        if (request.getParameter("nuevadescarga") != null) {
+//            response.getWriter().write("nuevadescarga");
+            String artista = request.getParameter("artista");
+           String album = request.getParameter("album");
+            String tema = request.getParameter("tema");
+            
+           Fabrica.getArtista().nuevaDescargaTema(artista, album, tema);
+            //Redirecciona a la pagina indicada 
+            
+        }
+        
         if (request.getParameter("listarGeneros") != null) {
             ArrayList<String> generos = Fabrica.getArtista().BuscarGenero("");
             request.getSession().setAttribute("Generos", generos);
@@ -258,7 +420,7 @@ public class ServletArtistas extends HttpServlet {
                 imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                 im.delete();
                 }
-             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),null,biografia,paginaweb,0,null,null,null);
+             DtArtista art=new DtArtista(nickname,contrasenia,nombre,apellido,correo,formato.parse(fechanac),biografia,paginaweb,0,null,null,null);
              boolean x = Fabrica.getArtista().IngresarArtista(art,imagen);
              if (!x)
                 response.getWriter().write("si");
@@ -326,7 +488,6 @@ public class ServletArtistas extends HttpServlet {
         }
 
         if (request.getParameter("Join") != null) {
-            HttpSession sesion = request.getSession();
             String nickname = request.getParameter("Join");
             String contrasenia = request.getParameter("Contrasenia");
             DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
@@ -412,6 +573,10 @@ public class ServletArtistas extends HttpServlet {
                 cad = cad + " " + palabras[i];
         }
         return cad;
+    }
+    
+    void registrarse(){
+        
     }
     
 }

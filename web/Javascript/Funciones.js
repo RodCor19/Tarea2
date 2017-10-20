@@ -22,32 +22,35 @@ $('#aceptar').click(function(e) {
         var listagen = $("#listageneros li");
         var tabla = document.getElementById("mitabla");
         var nombre = document.getElementById("nombrealbum").value;
-        var año = document.getElementById("anioalbum").value;
-        if(año < 1800 || año >2017)
+        var anio = document.getElementById("anioalbum").value;
+        if(anio < 1800 || anio >2017)
             alert("Año Inválido");
         else{
-            if (tabla.rows.length === 1)
+            if (tabla.rows.length === 1){
                 alert("No se ha agregado ningun tema");
-            else{
-                if (listagen.length === 0)
+                e.preventDefault();
+            }else{
+                if (listagen.length === 0){
                     alert("No se ha agregagado ningun género");
-                else{
-                    if (nombre ==="")
+                    e.preventDefault();
+                }else{
+                    if (nombre ===""){
                         alert("Nombre vacío");
-                    else{
-                        if (photo.value !== ""){
-                            $("#formcrear").submit();
-                            photo = photo.files[0].name;
-                        }else{
-                            photo = "";
-                        }
-                        alert(photo);
+                        e.preventDefault();
+                    }else{
+//                        if (photo.value !== ""){
+//                            $("#formcrear").submit();
+//                            photo = photo.files[0].name;
+//                        }else{
+//                            photo = "";
+//                        }
+//                        alert(photo);
                         var temas = [];
                         var generos = [];
                         for (var x=1, n = tabla.rows.length; x<n; x++){
                             var person = {nombre:tabla.rows[x].cells[0].innerHTML,orden:tabla.rows[x].cells[1].innerHTML,duracion:tabla.rows[x].cells[2].innerHTML,Archivo_Url:tabla.rows[x].cells[3].innerHTML};
                             temas.push(person); 
-                            }
+                        }
                         var x = document.getElementsByTagName("li");
                         var i;
                         for (i = 0; i < x.length; i++){
@@ -56,23 +59,25 @@ $('#aceptar').click(function(e) {
                          
                         $.ajax({
                         type : 'POST', //tipo de request
-                        url : '../ServletArtistas',
+                        url : '/EspotifyWeb/ServletArtistas',
                         dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
                         data:{ // Parametros que se pasan en el request
                             //NombreAlbum : $('#nombrealbum').val()
                             //NombreAlbum : hola,
                             NombreAlbum : nombre,
-                            anioalbum: año,
+                            anioalbum: anio,
                             json:JSON.stringify(temas),
-                            generos: generos,
-                            foto : photo
+                            generos: generos
+//                            foto : photo
                         },
                         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                           if (data==='si'){
+                           if (data==='nomRepetido'){
                                alert("Este Artista ya tiene un album con ese nombre");
+//                               e.preventDefault();
                            }
                            else{
-                                window.location.replace('/EspotifyWeb/Vistas/AlbumIngresado.jsp');
+                               window.location.replace('/EspotifyWeb/Vistas/AlbumIngresado.jsp');
+                               $("#formcrear").submit();                               
                            }
                         }
                         });
@@ -137,11 +142,11 @@ $('#aceptartema').click(function(e){
                         cell3.innerHTML = min + ":" + sec;
                         if (document.getElementById("checkurl").checked === true){
                             cell4.innerHTML = url;
-                            alert("url");}
-                        else{
+//                            alert("url");
+                        }else{
                             cell4.innerHTML = archivo;
                             $("#myForm").submit();
-                            alert("arch");
+//                            alert("arch");
                         }
                         $('#modal').modal('hide');
                         document.getElementById("elegircancion").value = "";

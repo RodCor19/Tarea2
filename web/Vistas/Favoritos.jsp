@@ -111,20 +111,14 @@
                                             <% if (lista instanceof DtListaP) {
                                                 DtListaP listaP = (DtListaP) lista;
                                                 String nLista = lista.getNombre();
-                                                //se crea un array de bytes con la codificación que se envía en los parametros
-                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                                // "normaliza" el texto
-                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);%>
+                                                nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");%>
                                                 
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
                                                         <%} else {
                                                 DtListaPD listaPD = (DtListaPD) lista;
-                                                        String nLista = lista.getNombre();
-                                                //se crea un array de bytes con la codificación que se envía en los parametros
-                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                                // "normaliza" el texto
-                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);%>
+                                                String nLista = lista.getNombre();
+                                                nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");%>
                                             <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>"><h4><%= listaPD.getNombre()%></h4></a></td>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8"); %>
                                             <td><a class="link" href="ServletArtistas?consultarAlbum=<%= generoCodificado %>"><h4><%= listaPD.getGenero() %></h4></a></td>

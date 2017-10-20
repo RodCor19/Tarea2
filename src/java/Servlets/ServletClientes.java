@@ -81,43 +81,6 @@ public class ServletClientes extends HttpServlet {
                 response.getWriter().write("no");
         }
         
-        if (request.getParameter("Registrarse") != null) {
-            try {
-                String nickname = request.getParameter("nickname");
-                String contrasenia = request.getParameter("contrasenia");
-                String nombre = request.getParameter("nombre");
-                String apellido = request.getParameter("apellido");
-                String fechanac = request.getParameter("fechanac");
-                String correo = request.getParameter("correo");
-                String foto = request.getParameter("foto");
-
-                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-
-                String path = this.getClass().getClassLoader().getResource("").getPath();
-                path = path.replace("build/web/WEB-INF/classes/","temporales/");
-                path = path.replace( "%20", " ");
-                path= path.substring(1);
-                byte[] imagen = null;
-                if (request.getParameter("foto")!=""){
-                    String img = request.getParameter("foto");
-                    img = (path + img);
-                    File im = new File(img);
-                    imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
-                    im.delete();
-                    }
-                
-                DtCliente cli = new DtCliente(nickname, contrasenia, nombre, apellido, formato.parse(fechanac), correo, null, null, null, null, null, null, null, null);
-                boolean x = Fabrica.getCliente().IngresarCliente(cli,imagen);
-                if (!x) {
-                    response.getWriter().write("si");
-                } else {
-                    response.getWriter().write("no");
-                }
-
-            } catch (ParseException ex) {
-                Logger.getLogger(ServletArtistas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
         if (request.getParameter("dejarSeguir") != null) {
             String nickname = request.getParameter("dejarSeguir");
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);

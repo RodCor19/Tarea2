@@ -71,9 +71,9 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>"></a>
+                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>"> Dejar de seguir</a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>"></a>
+                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>"> Seguir</a>
                         <%}
                             }%>
 
@@ -193,9 +193,9 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"></a>
+                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"> Dejar de seguir</a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"></a>
+                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"> Seguir</a>
                                         <%}
                                             }%>
                                     </div>
@@ -241,11 +241,20 @@
                                             <td><h4><%= tipo%></h4></td> 
                                             <td>
                                                 <%
-                                                    if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-
-                                                %>
-                                                <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"></a>
-                                                <%}%>
+                                            if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
+                                                boolean control = false;
+                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
+                                                        control = true;
+                                                    }
+                                                }
+                                                if (control) {
+                                        %>
+                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> Dejar de seguir</a>
+                                        <%} else {%>
+                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> Seguir</a>
+                                        <%}
+                                            }%>
                                             </td> 
                                         </tr>
                                         <%}%>

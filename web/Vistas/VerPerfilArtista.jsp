@@ -75,9 +75,9 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"></a>
+                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"> Dejar de seguir</a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>"></a>
+                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>"> Seguir</a>
                         <%}
                             }%>
                         <ul class="nav nav-tabs">
@@ -150,9 +150,9 @@
                                             }
                                             if (control) {
                                     %>
-                                    <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"></a>
+                                    <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"> Dejar de seguir</a>
                                     <%} else {%>
-                                    <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"></a>
+                                    <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"> Seguir</a>
                                     <%}
                             }%>
                                     <br>

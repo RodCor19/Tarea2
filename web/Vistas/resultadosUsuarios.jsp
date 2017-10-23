@@ -88,9 +88,9 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"></a>
+                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"> Dejar de seguir</a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>"></a>
+                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>"> Seguir</a>
                                         <%}
                                                     }%>
                                     </td> 

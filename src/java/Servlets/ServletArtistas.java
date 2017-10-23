@@ -42,6 +42,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import webservices.DataGeneros;
+import webservices.DataTemas;
 import webservices.DtAlbum;
 import webservices.DtArtista;
 import webservices.DtCliente;
@@ -101,6 +102,8 @@ public class ServletArtistas extends HttpServlet {
         request.getSession().setAttribute("WSArtistas", wsart);
         request.getSession().setAttribute("WSClientes", wscli);
         
+        
+        //Aca se hacen los cu alta perfil(cliente y artista) y alta album(una parte) 
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 String  rutaArchivo = null, nickname = null, contrasenia = null, nombre = null, apellido = null, fechanac = null, correo = null, 
@@ -167,6 +170,9 @@ public class ServletArtistas extends HttpServlet {
                 //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
                 if(contrasenia != null){
                     byte[] imagen = new byte[0];
+                    if(imagen.length == 0){
+                        response.getWriter().write("lenght 0 == null");
+                    }
                     if (rutaArchivo != null){
                         File im = new File(rutaArchivo);
                         imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
@@ -221,7 +227,7 @@ public class ServletArtistas extends HttpServlet {
                     DtArtista artista = (DtArtista) sesion.getAttribute("Usuario");
                     String nomAlbum = (String) sesion.getAttribute("nombreAlb");
                     ArrayList<DtTema> temasAlbum = (ArrayList<DtTema>) sesion.getAttribute("temasAlbum");
-                    ArrayList<DtGenero> generosAlbum = (ArrayList<DtGenero>) sesion.getAttribute("generosAlbum");
+                    List<DtGenero> generosAlbum = (List<DtGenero>) sesion.getAttribute("generosAlbum");
                     String anioAlbum = (String) sesion.getAttribute("anioAlb");
                     
                     response.getWriter().write("Artista: "+artista.getNickname()+"<br>");
@@ -246,6 +252,7 @@ public class ServletArtistas extends HttpServlet {
                         im.delete();
                     }
                     
+//                    DataTemas temasA = new DataTemas();
 //                    wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
                     response.getWriter().write("FIN crear album"+"<br>");
                     
@@ -314,7 +321,7 @@ public class ServletArtistas extends HttpServlet {
                 path = path.replace("build/web/WEB-INF/classes/","temporales/");
                 path = path.replace( "%20", " ");
                 path= path.substring(1);
-                ArrayList<DtTema> temasAlbum = new ArrayList();
+                List<DtTema> temasAlbum = new ArrayList();
                 for (int i = 0; i < n; ++i) {
                     JSONObject person = temas.getJSONObject(i);
                     int orden = person.getInt("orden");

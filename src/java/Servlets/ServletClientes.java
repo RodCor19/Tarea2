@@ -200,7 +200,8 @@ public class ServletClientes extends HttpServlet {
                     /*item.isFormField() false=input file; true=text field*/
                     //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
                     if (item.isFormField() == false && item.getName().isEmpty() == false){
-                        File archivo_server = new File(path + item.getName());
+                        File archivo_server = new File(path + item.getName()), directorio = new File(path);
+                        directorio.mkdirs();
                         item.write(archivo_server);
                         imagen = path.substring(1) + item.getName();
                     }else{
@@ -222,7 +223,7 @@ public class ServletClientes extends HttpServlet {
                     im.delete();
                 }
                 
-                wscli.crearListaP(c.getNickname(), nLista, imagenBytes, "jpg");
+                wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
                 try {
                     wscli.confirmar();
                     c = wscli.verPerfilCliente(c.getNickname());

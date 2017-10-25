@@ -5,10 +5,14 @@
  */
 package Servlets;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import java.net.Socket;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import webservices.DataGeneros;
@@ -67,7 +72,7 @@ public class ServletArtistas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         /* TODO output your page here. You may use following sample code. */
-        HttpSession sesion = request.getSession();
+        
 
         Properties propiedades = new Properties();
         String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
@@ -75,15 +80,16 @@ public class ServletArtistas extends HttpServlet {
         rutaConfWS = rutaConfWS.replace("%20", " ");
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
-
-        URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
+        
+        try{
+        //URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
         WSArtistasService wsarts = new WSArtistasService(/*url*/);
         WSArtistas wsart = wsarts.getWSArtistasPort();
 
 //        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
         WSClientesService wsclis = new WSClientesService();
         WSClientes wscli = wsclis.getWSClientesPort();
-
+        HttpSession sesion = request.getSession();
         request.getSession().setAttribute("WSArtistas", wsart);
         request.getSession().setAttribute("WSClientes", wscli);
 
@@ -590,6 +596,11 @@ public class ServletArtistas extends HttpServlet {
             response.sendRedirect("ServletArtistas?Inicio=true");
 
         }
+        }catch(Exception ex){
+        response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+        }
+        
+        
 //            response.getWriter().write("hola wolrd");
     }
 
@@ -606,6 +617,7 @@ public class ServletArtistas extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     /**
@@ -646,10 +658,6 @@ public class ServletArtistas extends HttpServlet {
             }
         }
         return cad;
-    }
-
-    void registrarse() {
-
     }
 
 }

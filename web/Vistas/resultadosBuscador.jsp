@@ -1,3 +1,5 @@
+<%@page import="webservices.WSArtistas"%>
+<%@page import="webservices.DtArtista"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="webservices.WSClientes"%>
 <%@page import="webservices.WSClientesService"%>
@@ -27,10 +29,11 @@
     </head>
     <body>
         <% String palabra = request.getParameter("busqueda");
-        
-        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
-        
-        DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
+
+            WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+            WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
+
+            DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
             DtCliente dt = null;
             boolean control = false;
             if (perfilUsr != null && perfilUsr instanceof DtCliente) {
@@ -76,6 +79,8 @@
                                         for (DtTema tem : temas) {
                                             String nombre = tem.getNombre();
                                             String duracion = tem.getDuracion();
+                                            DtArtista a = wsart.elegirArtista(tem.getNomartista());
+
                                             boolean control2 = true;
                                             if (dt != null) {
                                                 for (DtTema t : dt.getFavTemas()) {
@@ -100,7 +105,7 @@
                                 <td><%= nombre%></td>
                                 <%}%>
                                 <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= tem.getNomartista()%></td>
+                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido() %></td>
                                 <%if (control) {%>
                                 <%if (tem.getArchivo() != null) {%>
                                 <td><%= duracion%> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>">Descargar</a></td>
@@ -136,6 +141,8 @@
                                     <%for (DtAlbum album : albumes) {
                                             String nombreAlb = album.getNombre();
                                             String nombreArt = album.getNombreArtista();
+                                            DtArtista ar = wsart.elegirArtista(album.getNombreArtista());
+
                                             boolean control2 = true;
                                             if (dt != null) {
                                                 for (DtAlbum a : dt.getFavAlbumes()) {
@@ -161,7 +168,7 @@
                                         <%} else {%>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></td>
                                             <%}%>   
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= album.getNombreArtista()%></a></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= ar.getNombre() + " " + ar.getApellido() %></a></td>
                                         <td><%=album.getAnio()%></td>
                                     </tr>
                                     <%}%>
@@ -182,24 +189,24 @@
                                 </thead>
                                 <tbody>
                                     <% for (DtLista lista : listas) { %>
-                                        <% if (lista instanceof DtListaP) {
-                                                DtListaP listaP = (DtListaP) lista;
-                                                String nLista = lista.getNombre();
-                                                byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                                nLista = new String(bytes, StandardCharsets.ISO_8859_1);
-                                                boolean control2 = true;
-                                                if (dt != null) {
-                                                    for (DtLista l : dt.getFavListas()) {
-                                                        if (l instanceof DtListaP && l.getNombre().equals(listaP.getNombre())) {
-                                                            if (((DtListaP) l).getUsuario().equals(listaP.getUsuario())) {
-                                                                control2 = false;
-                                                            }
+                                    <% if (lista instanceof DtListaP) {
+                                            DtListaP listaP = (DtListaP) lista;
+                                            String nLista = lista.getNombre();
+                                            byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
+                                            nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+                                            boolean control2 = true;
+                                            if (dt != null) {
+                                                for (DtLista l : dt.getFavListas()) {
+                                                    if (l instanceof DtListaP && l.getNombre().equals(listaP.getNombre())) {
+                                                        if (((DtListaP) l).getUsuario().equals(listaP.getUsuario())) {
+                                                            control2 = false;
                                                         }
                                                     }
                                                 }
-                                                if(!listaP.isPrivada()){
-                                        %>
-                                        <tr>
+                                            }
+                                            if (!listaP.isPrivada()) {
+                                    %>
+                                    <tr>
                                         <%if (control && control2) {%>
                                         <td>
                                             <div class="row">
@@ -215,7 +222,8 @@
                                         <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
                                             <%}%>
                                         <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= listaP.getUsuario()%></a></td>
-                                            <%}} else {
+                                            <%}
+                                            } else {
                                                 DtListaPD listaPD = (DtListaPD) lista;
                                                 String nLista = lista.getNombre();
                                                 //se crea un array de bytes con la codificación que se envía en los parametros
@@ -231,7 +239,7 @@
                                                     }
                                                 }
                                             %>
-                                        <tr>
+                                    <tr>
                                         <%if (control && control2) {%>
                                         <td>
                                             <div class="row">
@@ -270,61 +278,61 @@
     <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     <table id="myTable2">
 
-<script>
-function sortTable(columna, th) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  switching = true;
-  table = th.parentElement.parentElement.parentElement;
-  // Set the sorting direction to ascending:
-  dir = "asc";
-  /* Make a loop that will continue until
-  no switching has been done: */
-  while (switching) {
-    // Start by saying: no switching is done:
-    switching = false;
-    rows = table.getElementsByTagName("TR");
-    /* Loop through all table rows (except the
-    first, which contains table headers): */
-    for (i = 1; i < (rows.length - 1); i++) {
-      // Start by saying there should be no switching:
-      shouldSwitch = false;
-      /* Get the two elements you want to compare,
-      one from current row and one from the next: */
-      x = rows[i].getElementsByTagName("TD")[columna];
-      y = rows[i + 1].getElementsByTagName("TD")[columna];
-      /* Check if the two rows should switch place,
-      based on the direction, asc or desc: */
-      if (dir === "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          // If so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-        }
-      } else if (dir === "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          // If so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      /* If a switch has been marked, make the switch
-      and mark that a switch has been done: */
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      // Each time a switch is done, increase this count by 1:
-      switchcount ++;
-    } else {
-      /* If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again. */
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-}
-</script>
-</body>
+        <script>
+                                                            function sortTable(columna, th) {
+                                                                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                                                                switching = true;
+                                                                table = th.parentElement.parentElement.parentElement;
+                                                                // Set the sorting direction to ascending:
+                                                                dir = "asc";
+                                                                /* Make a loop that will continue until
+                                                                 no switching has been done: */
+                                                                while (switching) {
+                                                                    // Start by saying: no switching is done:
+                                                                    switching = false;
+                                                                    rows = table.getElementsByTagName("TR");
+                                                                    /* Loop through all table rows (except the
+                                                                     first, which contains table headers): */
+                                                                    for (i = 1; i < (rows.length - 1); i++) {
+                                                                        // Start by saying there should be no switching:
+                                                                        shouldSwitch = false;
+                                                                        /* Get the two elements you want to compare,
+                                                                         one from current row and one from the next: */
+                                                                        x = rows[i].getElementsByTagName("TD")[columna];
+                                                                        y = rows[i + 1].getElementsByTagName("TD")[columna];
+                                                                        /* Check if the two rows should switch place,
+                                                                         based on the direction, asc or desc: */
+                                                                        if (dir === "asc") {
+                                                                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                                                                // If so, mark as a switch and break the loop:
+                                                                                shouldSwitch = true;
+                                                                                break;
+                                                                            }
+                                                                        } else if (dir === "desc") {
+                                                                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                                                                // If so, mark as a switch and break the loop:
+                                                                                shouldSwitch = true;
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    if (shouldSwitch) {
+                                                                        /* If a switch has been marked, make the switch
+                                                                         and mark that a switch has been done: */
+                                                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                                                        switching = true;
+                                                                        // Each time a switch is done, increase this count by 1:
+                                                                        switchcount++;
+                                                                    } else {
+                                                                        /* If no switching has been done AND the direction is "asc",
+                                                                         set the direction to "desc" and run the while loop again. */
+                                                                        if (switchcount == 0 && dir == "asc") {
+                                                                            dir = "desc";
+                                                                            switching = true;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+        </script>
+    </body>
 </html>

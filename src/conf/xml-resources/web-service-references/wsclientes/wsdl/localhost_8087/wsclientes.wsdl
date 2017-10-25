@@ -48,7 +48,9 @@
 <part name="return" type="xsd:boolean"></part>
 </message>
 <message name="confirmar"></message>
-<message name="confirmarResponse"></message>
+<message name="confirmarResponse">
+<part name="return" type="xsd:boolean"></part>
+</message>
 <message name="publicarLista">
 <part name="arg0" type="xsd:string"></part>
 <part name="arg1" type="xsd:string"></part>

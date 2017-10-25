@@ -62,22 +62,23 @@ public class ServletClientes extends HttpServlet {
 
         Properties propiedades = new Properties();
         String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
-        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/","webservices.properties");
-        rutaConfWS = rutaConfWS.replace( "%20", " ");
+        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
+        rutaConfWS = rutaConfWS.replace("%20", " ");
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
         
-        URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArt")+"/"+propiedades.getProperty("nombreWSArt"));
+        try{
+        URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
         WSArtistasService wsarts = new WSArtistasService(/*url*/);
         WSArtistas wsart = wsarts.getWSArtistasPort();
-        
-        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+
+        url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSCli") + "/" + propiedades.getProperty("nombreWSCli"));
         WSClientesService wsclis = new WSClientesService();
         WSClientes wscli = wsclis.getWSClientesPort();
-        
+
         request.getSession().setAttribute("WSArchivos", wsart);
         request.getSession().setAttribute("WSClientes", wscli);
-        
+
         if (request.getParameter("verPerfilCli") != null) {
             String nickname = request.getParameter("verPerfilCli");
             DtCliente datosClientes = wscli.verPerfilCliente(nickname);
@@ -90,20 +91,20 @@ public class ServletClientes extends HttpServlet {
         }
 
         if (request.getParameter("AgregarTemaNombreTema") != null) {
-            
+
             String tema = request.getParameter("AgregarTemaNombreTema");
             String album = request.getParameter("AgregarTemaNombreAlbum");
             String artista = request.getParameter("AgregarTemaNombreArtista");
             String listaelegida = request.getParameter("AgregarTemaListaElegida");
             DtCliente cliente = (DtCliente) request.getSession().getAttribute("PerfilCli");
             boolean x = wsart.agregarTemaListaWeb(tema, album, artista, listaelegida, cliente.getNickname());
-            if (x==true){
+            if (x == true) {
                 response.getWriter().write("si");
-            }
-            else
+            } else {
                 response.getWriter().write("no");
+            }
         }
-        
+
         if (request.getParameter("dejarSeguir") != null) {
             String nickname = request.getParameter("dejarSeguir");
             byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
@@ -183,7 +184,7 @@ public class ServletClientes extends HttpServlet {
         if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
             try {
                 String nLista = "", imagen = null;
-                
+
                 /*FileItemFactory es una interfaz para crear FileItem*/
                 FileItemFactory file_factory = new DiskFileItemFactory();
                 /*ServletFileUpload esta clase convierte los input file a FileItem*/
@@ -191,61 +192,58 @@ public class ServletClientes extends HttpServlet {
                 /*sacando los FileItem del ServletFileUpload en una lista */
                 List items = servlet_up.parseRequest(request);
                 String path = this.getClass().getClassLoader().getResource("").getPath();
-                path = path.replace("build/web/WEB-INF/classes/","temporales/");
-                path = path.replace( "%20", " ");
-                for(int i=0;i<items.size();i++){
+                path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                path = path.replace("%20", " ");
+                for (int i = 0; i < items.size(); i++) {
                     /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
                     FileItem item = (FileItem) items.get(i);
-                    
+
                     /*item.isFormField() false=input file; true=text field*/
                     //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
-                    if (item.isFormField() == false && item.getName().isEmpty() == false){
+                    if (item.isFormField() == false && item.getName().isEmpty() == false) {
                         File archivo_server = new File(path + item.getName()), directorio = new File(path);
                         directorio.mkdirs();
                         item.write(archivo_server);
                         imagen = path.substring(1) + item.getName();
-                    }else{
-                        nLista= item.getString();
+                    } else {
+                        nLista = item.getString();
                     }
                 }
-                
+
                 //se crea un array de bytes con la codificación que se envía en los parametros
                 byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
                 // "normaliza" el texto
                 nLista = new String(bytes, StandardCharsets.UTF_8);
                 sesion.removeAttribute("cLista");
                 DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
-                
+
                 byte[] imagenBytes = null;
-                if (imagen != null){
+                if (imagen != null) {
                     File im = new File(imagen);
                     imagenBytes = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                     im.delete();
                 }
-                
+
                 wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
-                try {
-                    wscli.confirmar();
-                    c = wscli.verPerfilCliente(c.getNickname());
-                    sesion.setAttribute("Usuario", c);
+                if(wscli.confirmar())
                     sesion.setAttribute("Mensaje", "Lista creada");
-                    if(imagen!=null){
-                        File fichero = new File(imagen);
-                        if (fichero.delete()) {
-                            System.out.println("El fichero ha sido borrado satisfactoriamente");
-                        } else {
-                            System.out.println("El fichero no puede ser borrado");
-                        }
+                else
+                    sesion.setAttribute("Mensaje", "La lista ya existe");
+                c = wscli.verPerfilCliente(c.getNickname());
+                sesion.setAttribute("Usuario", c);
+                if (imagen != null) {
+                    File fichero = new File(imagen);
+                    if (fichero.delete()) {
+                        System.out.println("El fichero ha sido borrado satisfactoriamente");
+                    } else {
+                        System.out.println("El fichero no puede ser borrado");
                     }
-                    response.sendRedirect("ServletArtistas?Inicio=true");
-                } catch (Exception ex) {
-                    sesion.setAttribute("Mensaje", ex.getMessage());
-                    response.sendRedirect("ServletArtistas?Inicio=true");
                 }
-                
+                response.sendRedirect("ServletArtistas?Inicio=true");
+
             } catch (FileUploadException ex) {
                 Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+            }
         }
 
         if (request.getParameter("Lista") != null) {
@@ -283,19 +281,22 @@ public class ServletClientes extends HttpServlet {
             String nLista = request.getParameter("publicarLista");
             wscli.publicarLista(dtCli.getNickname(), nLista);
         }
-        
+
         if (request.getParameter("favLista") != null) {
             DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
             String nLista = request.getParameter("favLista");
             byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
             nLista = new String(bytes, StandardCharsets.UTF_8);
-            if(request.getParameter("cliente") != null){
-                wscli.agregarListaPFavorito(dtCli.getNickname() , (String)request.getParameter("cliente"), nLista);
-            }else{
-                wscli.agregarListaPDFavorito(dtCli.getNickname() , nLista);
+            if (request.getParameter("cliente") != null) {
+                wscli.agregarListaPFavorito(dtCli.getNickname(), (String) request.getParameter("cliente"), nLista);
+            } else {
+                wscli.agregarListaPDFavorito(dtCli.getNickname(), nLista);
             }
             response.sendRedirect("ServletArtistas?Inicio=true");
-            
+
+        }
+        }catch(Exception ex){
+        response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
         }
 
     }

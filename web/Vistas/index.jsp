@@ -42,7 +42,7 @@
                     <%}%>
                     <%  HttpSession sesion = request.getSession();
                         if (sesion.getAttribute("Mensaje") != null) {%>
-                    <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
+                    <h3 class="text-center label-info"><%=sesion.getAttribute("Mensaje")%></h3>
                     <%}
                         sesion.removeAttribute("Mensaje");
                     %>
@@ -57,5 +57,6 @@
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+        
     </body>
 </html>

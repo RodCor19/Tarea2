@@ -6,4 +6,5 @@
  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="mainclientconfig" 
  >
     <import location="wsartistas.xml" namespace="http://WebServices/"/>
+    <import location="wsarchivos.xml" namespace="http://WebServices/"/>
 </definitions>

@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import webservices.DtLista;
 import webservices.DtTema;
 import webservices.IOException_Exception;
@@ -55,7 +56,7 @@ public class ServletArchivos extends HttpServlet {
         propiedades.load(entrada);// cargamos el archivo de propiedades
 		
         URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArch")+"/"+propiedades.getProperty("nombreWSArch"));
-        WSArchivosService wsarchs = new WSArchivosService();
+        WSArchivosService wsarchs = new WSArchivosService(url,new QName("http://WebServices/", "WSArchivosService"));
         WSArchivos wsarch = wsarchs.getWSArchivosPort();
         
         request.getSession().setAttribute("WSArchivos", wsarch);

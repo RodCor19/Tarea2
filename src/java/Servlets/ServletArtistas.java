@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.namespace.QName;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -46,6 +47,8 @@ import webservices.WSArtistas;
 import webservices.WSArtistasService;
 import webservices.WSClientes;
 import webservices.WSClientesService;
+import webservices.WSArchivos;
+import webservices.WSArchivosService;
 
 /**
  *
@@ -78,15 +81,16 @@ public class ServletArtistas extends HttpServlet {
         propiedades.load(entrada);// cargamos el archivo de propiedades
 
         URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
-        WSArtistasService wsarts = new WSArtistasService(/*url*/);
+        WSArtistasService wsarts = new WSArtistasService(url,new QName("http://WebServices/", "WSArtistasService"));
         WSArtistas wsart = wsarts.getWSArtistasPort();
 
-//        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
-        WSClientesService wsclis = new WSClientesService();
+        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+        WSClientesService wsclis = new WSClientesService(url,new QName("http://WebServices/", "WSClientesService"));
         WSClientes wscli = wsclis.getWSClientesPort();
 
         request.getSession().setAttribute("WSArtistas", wsart);
         request.getSession().setAttribute("WSClientes", wscli);
+        
         
         
         //Aca se hacen los cu alta perfil(cliente y artista) y alta album(una parte) 
@@ -246,8 +250,9 @@ public class ServletArtistas extends HttpServlet {
                         im.delete();
                     }
                     
-//                    DataTemas temasA = new DataTemas();
-//                    wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
+                    DataTemas temasA = new DataTemas();
+                    Object[] obj = temasAlbum.toArray();
+                    //wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
                     response.getWriter().write("FIN crear album" + "<br>");
 
                     //Borar atributos de sesion usados durante la creacion del nuevo album

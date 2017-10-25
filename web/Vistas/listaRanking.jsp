@@ -27,13 +27,12 @@
 <body>
     <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
     <center>
-        <h1>Ranking</h1>
+        <h1>Ranking de Usuarios</h1>
             <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" ></div>
                 <div class="btn-group-vertical col-sm-8" >
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#menu1"><h4><b>Usuarios</b></h4></a></li>
                         <div class="tab-content text-left">
                         <div id="menu1" class="tab-pane fade in active">
                             <table class="table text-left">

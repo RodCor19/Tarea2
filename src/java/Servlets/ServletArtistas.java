@@ -36,6 +36,7 @@ import java.net.Socket;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import webservices.DataGeneros;
+import webservices.DataTemas;
 import webservices.DataUsuarios;
 import webservices.DtAlbum;
 import webservices.DtArtista;
@@ -92,7 +93,9 @@ public class ServletArtistas extends HttpServlet {
         HttpSession sesion = request.getSession();
         request.getSession().setAttribute("WSArtistas", wsart);
         request.getSession().setAttribute("WSClientes", wscli);
-
+        
+        
+        //Aca se hacen los cu alta perfil(cliente y artista) y alta album(una parte) 
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 String rutaArchivo = null, nickname = null, contrasenia = null, nombre = null, apellido = null, fechanac = null, correo = null,
@@ -159,7 +162,10 @@ public class ServletArtistas extends HttpServlet {
                 //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
                 if (contrasenia != null) {
                     byte[] imagen = new byte[0];
-                    if (rutaArchivo != null) {
+                    if(imagen.length == 0){
+                        response.getWriter().write("lenght 0 == null");
+                    }
+                    if (rutaArchivo != null){
                         File im = new File(rutaArchivo);
                         imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                         im.delete();
@@ -220,33 +226,34 @@ public class ServletArtistas extends HttpServlet {
                     response.getWriter().write("Entró a crear album" + "<br>");
                     DtArtista artista = (DtArtista) sesion.getAttribute("Usuario");
                     String nomAlbum = (String) sesion.getAttribute("nombreAlb");
-                    ArrayList<DtTema> temasAlbum = (ArrayList<DtTema>) sesion.getAttribute("temasAlbum");
-                    ArrayList<DtGenero> generosAlbum = (ArrayList<DtGenero>) sesion.getAttribute("generosAlbum");
+                    DataTemas temasAlbum = (DataTemas) sesion.getAttribute("temasAlbum");
+                    DataGeneros generosAlbum = (DataGeneros) sesion.getAttribute("generosAlbum");
                     String anioAlbum = (String) sesion.getAttribute("anioAlb");
 
                     response.getWriter().write("Artista: " + artista.getNickname() + "<br>");
                     response.getWriter().write("Album: " + nomAlbum + "<br>");
                     response.getWriter().write("Año: " + anioAlbum + "<br>");
 
-                    response.getWriter().write("Temas: size=" + temasAlbum.size() + "<br>");
-                    for (DtTema tema : temasAlbum) {
+                    response.getWriter().write("Temas: size=" + temasAlbum.getTemas().size() + "<br>");
+                    for (DtTema tema : temasAlbum.getTemas()) {
                         response.getWriter().write("->" + tema.getNombre() + "<br>");
                     }
 
                     response.getWriter().write("<br>");
-                    for (DtGenero gen : generosAlbum) {
+                    for (DtGenero gen : generosAlbum.getGeneros()) {
                         response.getWriter().write(gen.getNombre() + "<br>");
                     }
 
-                    byte[] imagen = null;
+                    byte[] imagen = new byte[0]; //se interpreta como null en el servidor
                     if (rutaArchivo != null) {
                         response.getWriter().write("Ruta archivo != null" + "<br>");
                         File im = new File(rutaArchivo);
                         imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                         im.delete();
                     }
-
-//                    wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
+                    
+//                    DataTemas temasA = new DataTemas();
+                    wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
                     response.getWriter().write("FIN crear album" + "<br>");
 
                     //Borar atributos de sesion usados durante la creacion del nuevo album
@@ -305,34 +312,36 @@ public class ServletArtistas extends HttpServlet {
                 String JSON_data = request.getParameter("json");
                 JSON_data = "{" + "  \"temas\": " + JSON_data + "}";
                 String[] generos = request.getParameterValues("generos[]");
-                try {
-                    JSONObject obj = new JSONObject(JSON_data);
-                    JSONArray temas = obj.getJSONArray("temas");
-                    int n = temas.length();
-                    String path = this.getClass().getClassLoader().getResource("").getPath();
-                    path = path.replace("build/web/WEB-INF/classes/", "temporales/");
-                    path = path.replace("%20", " ");
-                    path = path.substring(1);
-                    ArrayList<DtTema> temasAlbum = new ArrayList();
-                    for (int i = 0; i < n; ++i) {
-                        JSONObject person = temas.getJSONObject(i);
-                        int orden = person.getInt("orden");
-                        String nomtema = person.getString("nombre");
-                        String duracion = person.getString("duracion");
-                        String arch_url = person.getString("Archivo_Url");
-                        int cantDescarga = person.getInt("cantDescarga");
-                        int cantReproduccion = person.getInt("cantReproduccion");
-
-                        DtTema dtt = new DtTema();
-                        dtt.setNombre(nomtema);
-                        dtt.setDuracion(duracion);
-                        dtt.setOrden(orden);
-                        dtt.setArchivo(null);
-                        if (arch_url.contains(".mp3")) {
-                            arch_url = (path + arch_url);
-                            File audio = new File(arch_url);
-                            byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
-//                        dtt = new DtTema(nomtema,duracion,orden,null,null,arch);
+//<<<<<<< HEAD
+                try{
+                JSONObject obj = new JSONObject(JSON_data);
+                JSONArray temas = obj.getJSONArray("temas");
+                int n = temas.length();
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                path = path.replace( "%20", " ");
+                path= path.substring(1);
+                
+//                List<DtTema> temasAlbum = new ArrayList();
+                DataTemas temasA = new DataTemas();
+                for (int i = 0; i < n; ++i) {
+                    JSONObject person = temas.getJSONObject(i);
+                    int orden = person.getInt("orden");
+                    String nomtema = person.getString("nombre");
+                    String duracion = person.getString("duracion");
+                    String arch_url = person.getString("Archivo_Url");
+                    int cantDescarga = person.getInt("cantDescarga");
+                    int cantReproduccion = person.getInt("cantReproduccion");
+                    
+                    DtTema dtt = new DtTema();
+                    dtt.setNombre(nomtema);
+                    dtt.setDuracion(duracion);
+                    dtt.setOrden(orden);
+                    dtt.setArchivo(null);
+                    if (arch_url.contains(".mp3")){
+                        arch_url = (path + arch_url);
+                        File audio =new File(arch_url);
+                        byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);
                             dtt.setDireccion(null);
                             dtt.setArchivobyte(arch);
                             audio.delete();
@@ -341,32 +350,35 @@ public class ServletArtistas extends HttpServlet {
                             dtt.setDireccion(arch_url);
                             dtt.setArchivobyte(null);
                         }
-                        temasAlbum.add(dtt);
+                        temasA.getTemas().add(dtt);
                     }
 
                     response.getWriter().write("<br>Temas:<br>");
-                    for (DtTema tema : temasAlbum) {
+                    for (DtTema tema : temasA.getTemas()) {
                         response.getWriter().write("->" + tema.getNombre() + "<br>");
                         if (tema.getArchivobyte() != null) {
                             response.getWriter().write("-> Tiene archivo en bytes" + "<br>");
                         }
                     }
-                    sesion.setAttribute("temasAlbum", temasAlbum);
+                    sesion.setAttribute("temasAlbum", temasA);
 
                     List<DtGenero> gen = wsart.getDataGeneros().getGeneros();
-                    List<DtGenero> generosAlbum = new ArrayList();
+                    DataGeneros generosA = new DataGeneros();
+//                    List<DtGenero> generosAlbum = new ArrayList();
                     for (String genero : generos) {
                         if (genero.contains("Rock") && genero.contains("Roll")) {
                             genero = genero.substring(0, 6) + genero.substring(10);
                         }
+                        
                         for (DtGenero dtG : gen) {
                             if (dtG.getNombre().equals(genero)) {
-                                generosAlbum.add(dtG);
+//                                generosAlbum.add(dtG);
+                                generosA.getGeneros().add(dtG);
                                 break;
                             }
                         }
                     }
-                    sesion.setAttribute("generosAlbum", generosAlbum);
+                    sesion.setAttribute("generosAlbum", generosA);
                 } catch (Exception e) {
                     e.getMessage();
                 }

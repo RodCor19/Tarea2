@@ -64,6 +64,10 @@
 <message name="verificarLoginArtistaResponse">
 <part name="return" type="tns:dataUsuarios"></part>
 </message>
+<message name="RankingDesendente"></message>
+<message name="RankingDesendenteResponse">
+<part name="return" type="tns:dataUsuarios"></part>
+</message>
 <message name="ElegirAlbum">
 <part name="arg0" type="xsd:string"></part>
 <part name="arg1" type="xsd:string"></part>
@@ -80,8 +84,8 @@
 <part name="arg1" type="xsd:string"></part>
 <part name="arg2" type="xsd:string"></part>
 <part name="arg3" type="xsd:base64Binary"></part>
-<part name="arg4" type="tns:arrayList"></part>
-<part name="arg5" type="tns:arrayList"></part>
+<part name="arg4" type="tns:dataTemas"></part>
+<part name="arg5" type="tns:dataGeneros"></part>
 </message>
 <message name="IngresarAlbumWebResponse"></message>
 <message name="listarTodosTemas"></message>
@@ -148,6 +152,10 @@
 <operation name="verificarLoginArtista" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArtistas/verificarLoginArtistaRequest" message="tns:verificarLoginArtista"></input>
 <output wsam:Action="http://WebServices/WSArtistas/verificarLoginArtistaResponse" message="tns:verificarLoginArtistaResponse"></output>
+</operation>
+<operation name="RankingDesendente">
+<input wsam:Action="http://WebServices/WSArtistas/RankingDesendenteRequest" message="tns:RankingDesendente"></input>
+<output wsam:Action="http://WebServices/WSArtistas/RankingDesendenteResponse" message="tns:RankingDesendenteResponse"></output>
 </operation>
 <operation name="ElegirAlbum" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArtistas/ElegirAlbumRequest" message="tns:ElegirAlbum"></input>
@@ -262,6 +270,15 @@
 </output>
 </operation>
 <operation name="verificarLoginArtista">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="RankingDesendente">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

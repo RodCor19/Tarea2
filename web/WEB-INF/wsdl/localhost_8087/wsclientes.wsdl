@@ -29,17 +29,6 @@
 <message name="getSeguidoresResponse">
 <part name="return" type="tns:dataUsuarios"></part>
 </message>
-<message name="BuscarUsuarios">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="BuscarUsuariosResponse">
-<part name="return" type="tns:dataUsuarios"></part>
-</message>
-<message name="DejarSeguir">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-</message>
-<message name="DejarSeguirResponse"></message>
 <message name="IngresarCliente">
 <part name="arg0" type="tns:dtCliente"></part>
 <part name="arg1" type="xsd:base64Binary"></part>
@@ -62,6 +51,17 @@
 <part name="arg2" type="xsd:base64Binary"></part>
 </message>
 <message name="crearListaPResponse"></message>
+<message name="BuscarUsuarios">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="BuscarUsuariosResponse">
+<part name="return" type="tns:dataUsuarios"></part>
+</message>
+<message name="DejarSeguir">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+</message>
+<message name="DejarSeguirResponse"></message>
 <message name="actualizarVigenciaSuscripciones">
 <part name="arg0" type="xsd:string"></part>
 </message>
@@ -161,14 +161,6 @@
 <input wsam:Action="http://WebServices/WSClientes/getSeguidoresRequest" message="tns:getSeguidores"></input>
 <output wsam:Action="http://WebServices/WSClientes/getSeguidoresResponse" message="tns:getSeguidoresResponse"></output>
 </operation>
-<operation name="BuscarUsuarios">
-<input wsam:Action="http://WebServices/WSClientes/BuscarUsuariosRequest" message="tns:BuscarUsuarios"></input>
-<output wsam:Action="http://WebServices/WSClientes/BuscarUsuariosResponse" message="tns:BuscarUsuariosResponse"></output>
-</operation>
-<operation name="DejarSeguir" parameterOrder="arg0 arg1">
-<input wsam:Action="http://WebServices/WSClientes/DejarSeguirRequest" message="tns:DejarSeguir"></input>
-<output wsam:Action="http://WebServices/WSClientes/DejarSeguirResponse" message="tns:DejarSeguirResponse"></output>
-</operation>
 <operation name="IngresarCliente" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSClientes/IngresarClienteRequest" message="tns:IngresarCliente"></input>
 <output wsam:Action="http://WebServices/WSClientes/IngresarClienteResponse" message="tns:IngresarClienteResponse"></output>
@@ -184,6 +176,14 @@
 <operation name="crearListaP" parameterOrder="arg0 arg1 arg2">
 <input wsam:Action="http://WebServices/WSClientes/crearListaPRequest" message="tns:crearListaP"></input>
 <output wsam:Action="http://WebServices/WSClientes/crearListaPResponse" message="tns:crearListaPResponse"></output>
+</operation>
+<operation name="BuscarUsuarios">
+<input wsam:Action="http://WebServices/WSClientes/BuscarUsuariosRequest" message="tns:BuscarUsuarios"></input>
+<output wsam:Action="http://WebServices/WSClientes/BuscarUsuariosResponse" message="tns:BuscarUsuariosResponse"></output>
+</operation>
+<operation name="DejarSeguir" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSClientes/DejarSeguirRequest" message="tns:DejarSeguir"></input>
+<output wsam:Action="http://WebServices/WSClientes/DejarSeguirResponse" message="tns:DejarSeguirResponse"></output>
 </operation>
 <operation name="actualizarVigenciaSuscripciones">
 <input wsam:Action="http://WebServices/WSClientes/actualizarVigenciaSuscripcionesRequest" message="tns:actualizarVigenciaSuscripciones"></input>
@@ -281,24 +281,6 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="BuscarUsuarios">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="DejarSeguir">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
 <operation name="IngresarCliente">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -327,6 +309,24 @@
 </output>
 </operation>
 <operation name="crearListaP">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="BuscarUsuarios">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="DejarSeguir">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

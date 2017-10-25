@@ -13,6 +13,7 @@
 <message name="reproducirListaPDResponse">
 <part name="return" type="tns:dataTemas"></part>
 </message>
+<<<<<<< HEAD
 <message name="reproducirListaP">
 <part name="arg0" type="xsd:string"></part>
 <part name="arg1" type="xsd:string"></part>
@@ -20,6 +21,8 @@
 <message name="reproducirListaPResponse">
 <part name="return" type="tns:dataTemas"></part>
 </message>
+=======
+>>>>>>> origin/Desarrollo
 <message name="reproducirAlbum">
 <part name="arg0" type="xsd:string"></part>
 <part name="arg1" type="xsd:string"></part>
@@ -34,6 +37,16 @@
 <message name="getImagenAlbumResponse">
 <part name="return" type="xsd:base64Binary"></part>
 </message>
+<<<<<<< HEAD
+=======
+<message name="reproducirListaP">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+</message>
+<message name="reproducirListaPResponse">
+<part name="return" type="tns:dataTemas"></part>
+</message>
+>>>>>>> origin/Desarrollo
 <message name="cargarDatosBD"></message>
 <message name="cargarDatosBDResponse"></message>
 <message name="cargarArchivo">
@@ -53,10 +66,13 @@
 <operation name="reproducirListaPD" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArchivos/reproducirListaPDRequest" message="tns:reproducirListaPD"></input>
 <output wsam:Action="http://WebServices/WSArchivos/reproducirListaPDResponse" message="tns:reproducirListaPDResponse"></output>
+<<<<<<< HEAD
 </operation>
 <operation name="reproducirListaP" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArchivos/reproducirListaPRequest" message="tns:reproducirListaP"></input>
 <output wsam:Action="http://WebServices/WSArchivos/reproducirListaPResponse" message="tns:reproducirListaPResponse"></output>
+=======
+>>>>>>> origin/Desarrollo
 </operation>
 <operation name="reproducirAlbum" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArchivos/reproducirAlbumRequest" message="tns:reproducirAlbum"></input>
@@ -66,6 +82,13 @@
 <input wsam:Action="http://WebServices/WSArchivos/getImagenAlbumRequest" message="tns:getImagenAlbum"></input>
 <output wsam:Action="http://WebServices/WSArchivos/getImagenAlbumResponse" message="tns:getImagenAlbumResponse"></output>
 </operation>
+<<<<<<< HEAD
+=======
+<operation name="reproducirListaP" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSArchivos/reproducirListaPRequest" message="tns:reproducirListaP"></input>
+<output wsam:Action="http://WebServices/WSArchivos/reproducirListaPResponse" message="tns:reproducirListaPResponse"></output>
+</operation>
+>>>>>>> origin/Desarrollo
 <operation name="cargarDatosBD">
 <input wsam:Action="http://WebServices/WSArchivos/cargarDatosBDRequest" message="tns:cargarDatosBD"></input>
 <output wsam:Action="http://WebServices/WSArchivos/cargarDatosBDResponse" message="tns:cargarDatosBDResponse"></output>
@@ -88,6 +111,7 @@
 </output>
 </operation>
 <operation name="reproducirListaPD">
+<<<<<<< HEAD
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -97,6 +121,8 @@
 </output>
 </operation>
 <operation name="reproducirListaP">
+=======
+>>>>>>> origin/Desarrollo
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -123,6 +149,18 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
+<<<<<<< HEAD
+=======
+<operation name="reproducirListaP">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+>>>>>>> origin/Desarrollo
 <operation name="cargarDatosBD">
 <soap:operation soapAction=""></soap:operation>
 <input>

@@ -106,8 +106,13 @@
                                 <td><%= nombre%></td>
                                 <%}%>
                                 <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
+<<<<<<< HEAD
                                 <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido() %></td>
                                 <td><%=duracion%><td>
+=======
+                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= tem.getNomartista()%></td>
+                                <td><%= duracion%></td>
+>>>>>>> origin/Desarrollo
                                 <%if (control) {%>
                                 <%if (tem.getArchivo() != null) {%>
                                 <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" ></a></td>

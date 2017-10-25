@@ -62,10 +62,10 @@
                                                 }
                                         %>
                                     <td>
-                                        <a href="<%= servlet + usr.getNickname()%>"><%=usr.getNombre()%></a>
+                                        <a class="link" href="<%= servlet + usr.getNickname()%>"><%=usr.getNombre()%></a>
                                     </td>
                                     <td>
-                                        <a href="<%= servlet + usr.getNickname()%>"><%=usr.getApellido()%></a>
+                                        <a class="link" href="<%= servlet + usr.getNickname()%>"><%=usr.getApellido()%></a>
                                     </td>
                                     <td>
                                         <%= tipo %> 

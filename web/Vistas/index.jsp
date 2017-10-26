@@ -30,7 +30,7 @@
                 <div class="btn-group-vertical col-sm-2" >
                     <button id="btnArtistas" type="button" class="btn btn-default btn-block opcionSelec">Artistas</button>
                     <button id="btnGeneros" type="button" class="btn btn-default btn-block opcionNoSelec">Géneros</button><br>
-                    <button id="btnRanking" type="button" class="btn btn-default btn-block opcionNoSelec "><a style="color:#ffffff; text-decoration: none" href="/EspotifyWeb/ServletArtistas?VerRanking=true">Ver Ranking</a></button>
+                    <a class="btn btn-default btn-block opcionNoSelec " style="color:#ffffff; text-decoration: none" href="/EspotifyWeb/ServletArtistas?VerRanking=true">Ver Ranking</a>
                 </div>
                 <div class="col-sm-8 text-center">
                     <div id="listaArtGen" class="row">

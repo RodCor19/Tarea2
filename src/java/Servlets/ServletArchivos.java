@@ -211,6 +211,10 @@ public class ServletArchivos extends HttpServlet {
             }
         }catch(Exception ex){
             response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+            /*
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
+            requestDispatcher.forward(request, response);
+            */
         }
     }
 

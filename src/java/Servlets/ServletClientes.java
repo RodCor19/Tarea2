@@ -295,8 +295,9 @@ public class ServletClientes extends HttpServlet {
                 response.sendRedirect("ServletArtistas?Inicio=true");
 
             }
-        }catch(Exception ex){
-            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+        }catch(Exception ex){            
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
+            requestDispatcher.forward(request, response);
         }
 
     }

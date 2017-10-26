@@ -560,7 +560,10 @@ public class ServletArtistas extends HttpServlet {
 
             }
         }catch(Exception ex){
-            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+//            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+            //Redirecciona a la pagina indicada 
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
+            requestDispatcher.forward(request, response);
         }
         
         

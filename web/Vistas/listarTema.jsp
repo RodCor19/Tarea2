@@ -115,7 +115,8 @@
                                                 }
                                             }
                                     %>
-                                    <tr class="filaTema">
+                                    <!-- <a href="#" rel="popover" data-popover-content="#myPopover"> -->
+                                    <tr class="filaTema" rel="popover" data-popover-content="#myPopover">
                                         <%if (usuario != null && usuario instanceof DtCliente && cliente && control2) {%>
                                         <td>
                                             <div>
@@ -155,7 +156,17 @@
                                         <td></td>
                                         <%}%>
                                         <%}%>
+                                        
+                                    <div id="myPopover" class="hide">
+                                        This is a popover list:
+                                        <ul>
+                                                <li>List item 1</li>
+                                                <li>List item 2</li>
+                                                <li>List item 3</li>
+                                        </ul>
+                                    </div>
                                     </tr>
+                                    
                                     <%}%>
                                 </tbody>
                             </table>
@@ -198,16 +209,29 @@
                            }
                        }); 
                    }
-                        
-         </script>
-        <script>
-//            function hover(elemento, esHover){
-//                if(esHover){
-//                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/eliminar.png'); 
-//                }else{
-//                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/guardado.png');
-//                }
-//            };
+            $(function(){
+                $('[rel="popover"]').popover({
+                    container: 'body',
+                    html: true,
+//                    trigger: 'focus',
+                    content: function () {
+                        var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
+                        return clone;
+                    }
+                }).click(function(e) {
+                    e.preventDefault();
+                    $('.filaTema').not(this).popover('hide');
+                });
+            });
         </script>
+                    <script>
+            //            function hover(elemento, esHover){
+            //                if(esHover){
+            //                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/eliminar.png'); 
+            //                }else{
+            //                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/guardado.png');
+            //                }
+            //            };
+                    </script>
     </body>
 </html>

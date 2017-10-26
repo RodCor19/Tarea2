@@ -125,26 +125,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="arrayList">
-<xs:complexContent>
-<xs:extension base="tns:abstractList">
-<xs:sequence></xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="abstractList" abstract="true">
-<xs:complexContent>
-<xs:extension base="tns:abstractCollection">
-<xs:sequence></xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="abstractCollection" abstract="true">
-<xs:sequence></xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="dataGeneros">
 <xs:sequence>
 <xs:element name="generos" type="tns:dtGenero" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>

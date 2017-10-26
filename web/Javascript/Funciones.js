@@ -76,8 +76,8 @@ $('#aceptar').click(function(e) {
 //                               e.preventDefault();
                            }
                            else{
-                               window.location.replace('/EspotifyWeb/Vistas/AlbumIngresado.jsp');
                                $("#formcrear").submit();                               
+                               window.location.replace('/EspotifyWeb/Vistas/AlbumIngresado.jsp');
                            }
                         }
                         });

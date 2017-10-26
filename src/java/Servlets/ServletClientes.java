@@ -27,6 +27,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.FileItemFactory;
 import java.util.List;
 import java.util.Properties;
+import javax.xml.namespace.QName;
 import org.apache.commons.fileupload.FileUploadException;
 import webservices.DtCliente;
 import webservices.DtLista;
@@ -62,174 +63,176 @@ public class ServletClientes extends HttpServlet {
 
         Properties propiedades = new Properties();
         String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
-        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/","webservices.properties");
-        rutaConfWS = rutaConfWS.replace( "%20", " ");
+        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
+        rutaConfWS = rutaConfWS.replace("%20", " ");
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
         
-        URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArt")+"/"+propiedades.getProperty("nombreWSArt"));
-        WSArtistasService wsarts = new WSArtistasService(/*url*/);
-        WSArtistas wsart = wsarts.getWSArtistasPort();
-        
-        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
-        WSClientesService wsclis = new WSClientesService();
-        WSClientes wscli = wsclis.getWSClientesPort();
-        
-        request.getSession().setAttribute("WSArchivos", wsart);
-        request.getSession().setAttribute("WSClientes", wscli);
-        
-        if (request.getParameter("verPerfilCli") != null) {
-            String nickname = request.getParameter("verPerfilCli");
-            DtCliente datosClientes = wscli.verPerfilCliente(nickname);
-            sesion.setAttribute("PerfilCli", datosClientes);
+        try{
+            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
+            WSArtistasService wsarts = new WSArtistasService(url,new QName("http://WebServices/", "WSArtistasService"));
+            WSArtistas wsart = wsarts.getWSArtistasPort();
 
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
-            requestDispatcher.forward(request, response);
+            url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSCli") + "/" + propiedades.getProperty("nombreWSCli"));
+            WSClientesService wsclis = new WSClientesService(url,new QName("http://WebServices/", "WSClientesService"));
+            WSClientes wscli = wsclis.getWSClientesPort();
 
-            response.getWriter().write("perfil del cliente cargado");
-        }
+            request.getSession().setAttribute("WSArchivos", wsart);
+            request.getSession().setAttribute("WSClientes", wscli);
 
-        if (request.getParameter("AgregarTemaNombreTema") != null) {
-            
-            String tema = request.getParameter("AgregarTemaNombreTema");
-            String album = request.getParameter("AgregarTemaNombreAlbum");
-            String artista = request.getParameter("AgregarTemaNombreArtista");
-            String listaelegida = request.getParameter("AgregarTemaListaElegida");
-            DtCliente cliente = (DtCliente) request.getSession().getAttribute("PerfilCli");
-            boolean x = wsart.agregarTemaListaWeb(tema, album, artista, listaelegida, cliente.getNickname());
-            if (x==true){
-                response.getWriter().write("si");
+            if (request.getParameter("verPerfilCli") != null) {
+                String nickname = request.getParameter("verPerfilCli");
+                DtCliente datosClientes = wscli.verPerfilCliente(nickname);
+                sesion.setAttribute("PerfilCli", datosClientes);
+
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/VerPerfilCliente.jsp");
+                requestDispatcher.forward(request, response);
+
+                response.getWriter().write("perfil del cliente cargado");
             }
-            else
-                response.getWriter().write("no");
-        }
-        
-        if (request.getParameter("dejarSeguir") != null) {
-            String nickname = request.getParameter("dejarSeguir");
-            byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
-            nickname = new String(bytes, StandardCharsets.UTF_8);
-            DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            wscli.dejarSeguir(dt.getNickname(), nickname);
-            response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
-            //response.getWriter().write("ok");
-        }
 
-        if (request.getParameter("seguir") != null) {
-            String nickname = request.getParameter("seguir");
-            byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
-            nickname = new String(bytes, StandardCharsets.UTF_8);
-            DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-            try {
-                wscli.seguir(dt.getNickname(), nickname);
-                sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
+            if (request.getParameter("AgregarTemaNombreTema") != null) {
+
+                String tema = request.getParameter("AgregarTemaNombreTema");
+                String album = request.getParameter("AgregarTemaNombreAlbum");
+                String artista = request.getParameter("AgregarTemaNombreArtista");
+                String listaelegida = request.getParameter("AgregarTemaListaElegida");
+                DtCliente cliente = (DtCliente) request.getSession().getAttribute("PerfilCli");
+                boolean x = wsart.agregarTemaListaWeb(tema, album, artista, listaelegida, cliente.getNickname());
+                if (x == true) {
+                    response.getWriter().write("si");
+                } else {
+                    response.getWriter().write("no");
+                }
+            }
+
+            if (request.getParameter("dejarSeguir") != null) {
+                String nickname = request.getParameter("dejarSeguir");
+                byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
+                nickname = new String(bytes, StandardCharsets.UTF_8);
+                DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
+                wscli.dejarSeguir(dt.getNickname(), nickname);
                 response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
                 //response.getWriter().write("ok");
-            } catch (Exception ex) {
-                sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
-                response.sendRedirect("ServletArtistas?Inicio=true");
-                //response.getWriter().write("ERROR : " + ex.getMessage());
             }
-        }
 
-        if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null) {
-            String art = request.getParameter("Artista");
-            String alb = request.getParameter("album");
-            String tem = request.getParameter("tema");
-            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
-            wscli.agregarTemaFavorito(dc.getNickname(), art, alb, tem);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
-            requestDispatcher.forward(request, response);
-        }
-        if (request.getParameter("art") != null && request.getParameter("alb") != null) {
-            String arti = request.getParameter("art");
-            String albu = request.getParameter("alb");
-
-            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
-            wscli.agregarAlbumFavorito(dc.getNickname(), arti, albu);
-
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
-            requestDispatcher.forward(request, response);
-        }
-
-        if (request.getParameter("contratarSuscripcion") != null) {
-            List<DtTipoSuscripcion> tiposSus = wscli.listarTipoDeSus().getTiposDeSus();
-            sesion.setAttribute("TiposDeSus", tiposSus);
-
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ContratarSuscripcion.jsp");
-            requestDispatcher.forward(request, response);
-        }
-
-        if (request.getParameter("nuevaSuscripcion") != null) {
-            DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
-            int idTipoSus = Integer.valueOf(request.getParameter("nuevaSuscripcion"));
-
-            if (wscli.contratarSuscripcion(dc.getNickname(), idTipoSus)) {
-                response.getWriter().write("ok");
-            } else {
-                response.getWriter().write("error: " + dc.getNickname() + " " + idTipoSus);
-            }
-        }
-
-        if (request.getParameter("VerFavoritos") != null) {
-            DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
-            DtCliente datosClientes = wscli.verPerfilCliente(dtCli.getNickname());
-
-            sesion.setAttribute("PerfilCli", datosClientes);
-
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Favoritos.jsp");
-            requestDispatcher.forward(request, response);
-        }
-
-        if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
-            try {
-                String nLista = "", imagen = null;
-                
-                /*FileItemFactory es una interfaz para crear FileItem*/
-                FileItemFactory file_factory = new DiskFileItemFactory();
-                /*ServletFileUpload esta clase convierte los input file a FileItem*/
-                ServletFileUpload servlet_up = new ServletFileUpload(file_factory);
-                /*sacando los FileItem del ServletFileUpload en una lista */
-                List items = servlet_up.parseRequest(request);
-                String path = this.getClass().getClassLoader().getResource("").getPath();
-                path = path.replace("build/web/WEB-INF/classes/","temporales/");
-                path = path.replace( "%20", " ");
-                for(int i=0;i<items.size();i++){
-                    /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
-                    FileItem item = (FileItem) items.get(i);
-                    
-                    /*item.isFormField() false=input file; true=text field*/
-                    //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
-                    if (item.isFormField() == false && item.getName().isEmpty() == false){
-                        File archivo_server = new File(path + item.getName()), directorio = new File(path);
-                        directorio.mkdirs();
-                        item.write(archivo_server);
-                        imagen = path.substring(1) + item.getName();
-                    }else{
-                        nLista= item.getString();
-                    }
-                }
-                
-                //se crea un array de bytes con la codificación que se envía en los parametros
-                byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-                // "normaliza" el texto
-                nLista = new String(bytes, StandardCharsets.UTF_8);
-                sesion.removeAttribute("cLista");
-                DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
-                
-                byte[] imagenBytes = null;
-                if (imagen != null){
-                    File im = new File(imagen);
-                    imagenBytes = org.apache.commons.io.FileUtils.readFileToByteArray(im);
-                    im.delete();
-                }
-                
-                wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
+            if (request.getParameter("seguir") != null) {
+                String nickname = request.getParameter("seguir");
+                byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
+                nickname = new String(bytes, StandardCharsets.UTF_8);
+                DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
                 try {
-                    wscli.confirmar();
+                    wscli.seguir(dt.getNickname(), nickname);
+                    sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
+                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                    //response.getWriter().write("ok");
+                } catch (Exception ex) {
+                    sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                    //response.getWriter().write("ERROR : " + ex.getMessage());
+                }
+            }
+
+            if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null) {
+                String art = request.getParameter("Artista");
+                String alb = request.getParameter("album");
+                String tem = request.getParameter("tema");
+                DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+                wscli.agregarTemaFavorito(dc.getNickname(), art, alb, tem);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
+                requestDispatcher.forward(request, response);
+            }
+            if (request.getParameter("art") != null && request.getParameter("alb") != null) {
+                String arti = request.getParameter("art");
+                String albu = request.getParameter("alb");
+
+                DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+                wscli.agregarAlbumFavorito(dc.getNickname(), arti, albu);
+
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
+                requestDispatcher.forward(request, response);
+            }
+
+            if (request.getParameter("contratarSuscripcion") != null) {
+                List<DtTipoSuscripcion> tiposSus = wscli.listarTipoDeSus().getTiposDeSus();
+                sesion.setAttribute("TiposDeSus", tiposSus);
+
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ContratarSuscripcion.jsp");
+                requestDispatcher.forward(request, response);
+            }
+
+            if (request.getParameter("nuevaSuscripcion") != null) {
+                DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+                int idTipoSus = Integer.valueOf(request.getParameter("nuevaSuscripcion"));
+
+                if (wscli.contratarSuscripcion(dc.getNickname(), idTipoSus)) {
+                    response.getWriter().write("ok");
+                } else {
+                    response.getWriter().write("error: " + dc.getNickname() + " " + idTipoSus);
+                }
+            }
+
+            if (request.getParameter("VerFavoritos") != null) {
+                DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
+                DtCliente datosClientes = wscli.verPerfilCliente(dtCli.getNickname());
+
+                sesion.setAttribute("PerfilCli", datosClientes);
+
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Favoritos.jsp");
+                requestDispatcher.forward(request, response);
+            }
+
+            if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
+                try {
+                    String nLista = "", imagen = null;
+
+                    /*FileItemFactory es una interfaz para crear FileItem*/
+                    FileItemFactory file_factory = new DiskFileItemFactory();
+                    /*ServletFileUpload esta clase convierte los input file a FileItem*/
+                    ServletFileUpload servlet_up = new ServletFileUpload(file_factory);
+                    /*sacando los FileItem del ServletFileUpload en una lista */
+                    List items = servlet_up.parseRequest(request);
+                    String path = this.getClass().getClassLoader().getResource("").getPath();
+                    path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                    path = path.replace("%20", " ");
+                    for (int i = 0; i < items.size(); i++) {
+                        /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/
+                        FileItem item = (FileItem) items.get(i);
+
+                        /*item.isFormField() false=input file; true=text field*/
+                        //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
+                        if (item.isFormField() == false && item.getName().isEmpty() == false) {
+                            File archivo_server = new File(path + item.getName()), directorio = new File(path);
+                            directorio.mkdirs();
+                            item.write(archivo_server);
+                            imagen = path.substring(1) + item.getName();
+                        } else {
+                            nLista = item.getString();
+                        }
+                    }
+
+                    //se crea un array de bytes con la codificación que se envía en los parametros
+                    byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+                    // "normaliza" el texto
+                    nLista = new String(bytes, StandardCharsets.UTF_8);
+                    sesion.removeAttribute("cLista");
+                    DtCliente c = (DtCliente) sesion.getAttribute("Usuario");
+
+                    byte[] imagenBytes = new byte[0];
+                    if (imagen != null) {
+                        File im = new File(imagen);
+                        imagenBytes = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                        im.delete();
+                    }
+
+                    wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
+                    if(wscli.confirmar())
+                        sesion.setAttribute("Mensaje", "Lista creada");
+                    else
+                        sesion.setAttribute("Mensaje", "La lista ya existe");
                     c = wscli.verPerfilCliente(c.getNickname());
                     sesion.setAttribute("Usuario", c);
-                    sesion.setAttribute("Mensaje", "Lista creada");
-                    if(imagen!=null){
+                    if (imagen != null) {
                         File fichero = new File(imagen);
                         if (fichero.delete()) {
                             System.out.println("El fichero ha sido borrado satisfactoriamente");
@@ -238,64 +241,63 @@ public class ServletClientes extends HttpServlet {
                         }
                     }
                     response.sendRedirect("ServletArtistas?Inicio=true");
-                } catch (Exception ex) {
-                    sesion.setAttribute("Mensaje", ex.getMessage());
-                    response.sendRedirect("ServletArtistas?Inicio=true");
-                }
-                
-            } catch (FileUploadException ex) {
-                Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-        }
 
-        if (request.getParameter("Lista") != null) {
-            String nLista = request.getParameter("Lista");
-            //se crea un array de bytes con la codificación que se envía en los parametros
-            //byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-            // "normaliza" el texto
-            //nLista = new String(bytes, StandardCharsets.UTF_8);
-            if (request.getParameter("Usuario") != null) {
-                String nick = request.getParameter("Usuario");
-                DtListaP aux = null;
-                List<DtLista> dt = wscli.listarListaP().getListas();
-                for (DtLista l : dt) {
-                    DtListaP lp = (DtListaP) l;
-                    if (lp.getNombre().equals(nLista) && lp.getUsuario().equals(nick)) {
-                        aux = lp;
-                    }
+                } catch (FileUploadException ex) {
+                    Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                sesion.setAttribute("Lista", (DtLista) aux);
-                response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
-            } else {
-                DtListaPD aux = null;
-                for (DtLista l : wsart.listarListaPD().getListas()) {
-                    DtListaPD pd = (DtListaPD) l;
-                    if (pd.getNombre().equals(nLista)) {
-                        aux = pd;
+            }
+
+            if (request.getParameter("Lista") != null) {
+                String nLista = request.getParameter("Lista");
+                //se crea un array de bytes con la codificación que se envía en los parametros
+                //byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+                // "normaliza" el texto
+                //nLista = new String(bytes, StandardCharsets.UTF_8);
+                if (request.getParameter("Usuario") != null) {
+                    String nick = request.getParameter("Usuario");
+                    DtListaP aux = null;
+                    List<DtLista> dt = wscli.listarListaP().getListas();
+                    for (DtLista l : dt) {
+                        DtListaP lp = (DtListaP) l;
+                        if (lp.getNombre().equals(nLista) && lp.getUsuario().equals(nick)) {
+                            aux = lp;
+                        }
                     }
+                    sesion.setAttribute("Lista", (DtLista) aux);
+                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+                } else {
+                    DtListaPD aux = null;
+                    for (DtLista l : wsart.listarListaPD().getListas()) {
+                        DtListaPD pd = (DtListaPD) l;
+                        if (pd.getNombre().equals(nLista)) {
+                            aux = pd;
+                        }
+                    }
+                    sesion.setAttribute("Lista", (DtLista) aux);
+                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
                 }
-                sesion.setAttribute("Lista", (DtLista) aux);
-                response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
             }
-        }
-        if (request.getParameter("publicarLista") != null) {
-            DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
-            String nLista = request.getParameter("publicarLista");
-            wscli.publicarLista(dtCli.getNickname(), nLista);
-        }
-        
-        if (request.getParameter("favLista") != null) {
-            DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
-            String nLista = request.getParameter("favLista");
-            byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-            nLista = new String(bytes, StandardCharsets.UTF_8);
-            if(request.getParameter("cliente") != null){
-                wscli.agregarListaPFavorito(dtCli.getNickname() , (String)request.getParameter("cliente"), nLista);
-            }else{
-                wscli.agregarListaPDFavorito(dtCli.getNickname() , nLista);
+            if (request.getParameter("publicarLista") != null) {
+                DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
+                String nLista = request.getParameter("publicarLista");
+                wscli.publicarLista(dtCli.getNickname(), nLista);
             }
-            response.sendRedirect("ServletArtistas?Inicio=true");
-            
+
+            if (request.getParameter("favLista") != null) {
+                DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
+                String nLista = request.getParameter("favLista");
+                byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
+                nLista = new String(bytes, StandardCharsets.UTF_8);
+                if (request.getParameter("cliente") != null) {
+                    wscli.agregarListaPFavorito(dtCli.getNickname(), (String) request.getParameter("cliente"), nLista);
+                } else {
+                    wscli.agregarListaPDFavorito(dtCli.getNickname(), nLista);
+                }
+                response.sendRedirect("ServletArtistas?Inicio=true");
+
+            }
+        }catch(Exception ex){
+            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
         }
 
     }

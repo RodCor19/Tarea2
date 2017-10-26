@@ -118,6 +118,7 @@
                                         <th><h4><b>Album</b></h4></th>
                                         <th><h4><b>Artista</b></h4></th>
                                         <th><h4><b>Duración</b></h4></th>
+                                        <td></td> <!-- es para el boton escuchar/descargar -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,17 +158,18 @@
                                         <%}%>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
+                                        <td><%= durac%></td>
                                         <%if (cliente) {%>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><%= durac%> <a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>">Descargar</a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
                                         <%} else {%>
-                                        <td><%= durac%> <a id="Link" href="http://<%= tem.getDireccion()%>">Escuchar online</a></td>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>
                                         <%} else {%>
                                         <%if (tem.getDireccion() != null) {%>
-                                        <td><%= durac%><br> <a id="Link" href="http://<%= tem.getDireccion()%>">Escuchar online</a></td>
+                                        <td><br> <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                             <%} else {%>
-                                        <td><%= durac%></td>
+                                        <td></td>
                                         <%}%>
                                         <%}%>
                                     </tr>

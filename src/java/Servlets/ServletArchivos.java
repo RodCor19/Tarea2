@@ -55,6 +55,7 @@ public class ServletArchivos extends HttpServlet {
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
 		
+        try{
         URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSArch")+"/"+propiedades.getProperty("nombreWSArch"));
         WSArchivosService wsarchs = new WSArchivosService(url,new QName("http://WebServices/", "WSArchivosService"));
         WSArchivos wsarch = wsarchs.getWSArchivosPort();
@@ -71,6 +72,89 @@ public class ServletArchivos extends HttpServlet {
         }
         
         String tipoArchivo = request.getParameter("tipo");
+        
+        if(request.getParameter("reproducirAlbum")!=null){
+                String album = request.getParameter("reproducirAlbum");
+                String artista = request.getParameter("artista");
+                String temaSeleccionado = request.getParameter("tema");
+    //            response.getWriter().write(temaSeleccionado);
+                List<DtTema> temas = wsarch.reproducirAlbum(artista, album).getTemas();
+                request.getSession().setAttribute("temasAReproducir", temas);
+                byte[] imagen = wsarch.getImagenAlbum(artista, album);
+                if (imagen!=null){
+                    try {
+                        String path = this.getClass().getClassLoader().getResource("").getPath();
+                        path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                        path = path + album + "REPRODUCTOR.jpg";
+                        path = path.replace( "%20", " ");
+                        File f = new File(path);
+                        org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                        request.getSession().setAttribute("ImagenAlbumReproductor", path);
+                    } catch (FileNotFoundException ex) {ex.getMessage();
+                    } catch (IOException ex) {ex.getMessage();}
+                }
+                else
+                    if (request.getSession().getAttribute("ImagenAlbumReproductor")!=null)
+                        request.getSession().removeAttribute("ImagenAlbumReproductor");
+
+                //Si es el rquest que se envia al seleccionar un tema
+                if(temaSeleccionado != null){
+                    //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
+                    for (DtTema tema : temas) {
+                        if(tema.getNombre().equals(temaSeleccionado)){
+                            request.getSession().setAttribute("reproducirTema", tema);
+                            break;
+                        }
+                    }
+                }else{
+                    //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
+                    if(temas.isEmpty() == false){
+                        request.getSession().setAttribute("reproducirTema", temas.get(0));
+                    }
+                }
+            }
+        
+        if(request.getParameter("reproducirLista")!=null){
+                String lista = request.getParameter("reproducirLista");
+                String creador = request.getParameter("creador");
+                String genero = request.getParameter("genero");
+                String temaSeleccionado = request.getParameter("tema");
+
+                List<DtTema> temas;
+
+                //Si tiene creador es una lista particular, sino por defecto
+                if(creador != null){
+                    temas = wsarch.reproducirListaP(creador, lista).getTemas();
+                }else{
+                    temas = wsarch.reproducirListaPD(genero, lista).getTemas();
+                }
+
+                DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
+                if (dt.getRutaImagen()!=null){
+                    request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());    
+                }
+                else
+                    if (request.getSession().getAttribute("ImagenAlbumReproductor")!=null)
+                        request.getSession().removeAttribute("ImagenAlbumReproductor");
+
+                request.getSession().setAttribute("temasAReproducir", temas);
+
+                //Si es el rquest que se envia al seleccionar un tema
+                if(temaSeleccionado != null){
+                    //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
+                    for (DtTema tema : temas) {
+                        if(tema.getNombre().equals(temaSeleccionado)){
+                            request.getSession().setAttribute("reproducirTema", tema);
+                            break;
+                        }
+                    }
+                }else{
+                    //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
+                    if(temas.isEmpty() == false){
+                        request.getSession().setAttribute("reproducirTema", temas.get(0));
+                    }
+                }
+            }
         
         if(tipoArchivo != null){
             if (tipoArchivo.equals("audio")) {
@@ -120,94 +204,16 @@ public class ServletArchivos extends HttpServlet {
                     Logger.getLogger(ServletArchivos.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }
-        
-        if(request.getParameter("reproducirAlbum")!=null){
-            String album = request.getParameter("reproducirAlbum");
-            String artista = request.getParameter("artista");
-            String temaSeleccionado = request.getParameter("tema");
-//            response.getWriter().write(temaSeleccionado);
-            List<DtTema> temas = wsarch.reproducirAlbum(artista, album).getTemas();
-            request.getSession().setAttribute("temasAReproducir", temas);
-            byte[] imagen = wsarch.getImagenAlbum(artista, album);
-            if (imagen!=null){
-                try {
-                    String path = this.getClass().getClassLoader().getResource("").getPath();
-                    path = path.replace("build/web/WEB-INF/classes/","temporales/");
-                    path = path + album + "REPRODUCTOR.jpg";
-                    path = path.replace( "%20", " ");
-                    File f = new File(path);
-                    org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
-                    request.getSession().setAttribute("ImagenAlbumReproductor", path);
-                } catch (FileNotFoundException ex) {ex.getMessage();
-                } catch (IOException ex) {ex.getMessage();}
-            }
-            else
-                if (request.getSession().getAttribute("ImagenAlbumReproductor")!=null)
-                    request.getSession().removeAttribute("ImagenAlbumReproductor");
-                
-            //Si es el rquest que se envia al seleccionar un tema
-            if(temaSeleccionado != null){
-                //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
-                for (DtTema tema : temas) {
-                    if(tema.getNombre().equals(temaSeleccionado)){
-                        request.getSession().setAttribute("reproducirTema", tema);
-                        break;
-                    }
-                }
-            }else{
-                //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
-                if(temas.isEmpty() == false){
-                    request.getSession().setAttribute("reproducirTema", temas.get(0));
-                }
+
+            
+
+            if(request.getParameter("cerrarReproductor") != null){
+                request.getSession().removeAttribute("temasAReproducir");
+                request.getSession().removeAttribute("reproducirTema");
             }
         }
-        
-        if(request.getParameter("reproducirLista")!=null){
-            String lista = request.getParameter("reproducirLista");
-            String creador = request.getParameter("creador");
-            String genero = request.getParameter("genero");
-            String temaSeleccionado = request.getParameter("tema");
-            
-            List<DtTema> temas;
-            
-            //Si tiene creador es una lista particular, sino por defecto
-            if(creador != null){
-                temas = wsarch.reproducirListaP(creador, lista).getTemas();
-            }else{
-                temas = wsarch.reproducirListaPD(genero, lista).getTemas();
-            }
-            
-            DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
-            if (dt.getRutaImagen()!=null){
-                request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());    
-            }
-            else
-                if (request.getSession().getAttribute("ImagenAlbumReproductor")!=null)
-                    request.getSession().removeAttribute("ImagenAlbumReproductor");
-            
-            request.getSession().setAttribute("temasAReproducir", temas);
-            
-            //Si es el rquest que se envia al seleccionar un tema
-            if(temaSeleccionado != null){
-                //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
-                for (DtTema tema : temas) {
-                    if(tema.getNombre().equals(temaSeleccionado)){
-                        request.getSession().setAttribute("reproducirTema", tema);
-                        break;
-                    }
-                }
-            }else{
-                //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
-                if(temas.isEmpty() == false){
-                    request.getSession().setAttribute("reproducirTema", temas.get(0));
-                }
-            }
-        }
-        
-        if(request.getParameter("cerrarReproductor") != null){
-            request.getSession().removeAttribute("temasAReproducir");
-            request.getSession().removeAttribute("reproducirTema");
+        }catch(Exception ex){
+            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
         }
     }
 

@@ -17,6 +17,7 @@
     }
 %>
 <style>
+    
     contenedorReproductor{
         /*height: 100%;*/
         width: 100%;
@@ -33,6 +34,7 @@
         color: #e6e6e6;
     }
 
+    
     #music {
         text-align: left;
         border-collapse: collapse;
@@ -80,6 +82,16 @@
     .btnOcultarTemas:hover{
             background:#F61F1F;
             cursor:pointer;
+    }
+    audio::-internal-media-controls-download-button {
+    display:none;
+    }
+    audio::-webkit-media-controls-enclosure {
+        overflow:hidden;
+    }
+
+    audio::-webkit-media-controls-panel {
+        width: calc(100% + 30px); /* Adjust as needed */
     }
 </style>
     <div id="contenedorReproductor" class="text-right">

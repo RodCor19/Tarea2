@@ -5,15 +5,118 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8088/wsartistas?xsd=2" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_2.xsd"/>
     <system systemId="http://localhost:8088/wsartistas?WSDL" uri="src/conf/xml-resources/web-services/WSArtista/wsdl/localhost_8088/wsartistas.wsdl"/>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
     
+=======
     
+>>>>>>> origin/Desarrollo
+    
+<<<<<<< HEAD
+    
+=======
+>>>>>>> origin/Desarrollo
 
+    
+>>>>>>> origin/Desarrollo
+    
+<<<<<<< HEAD
+    
+=======
+    
+    
+>>>>>>> origin/Desarrollo
+    
+<<<<<<< HEAD
+    
+=======
+    
+>>>>>>> origin/Desarrollo
 
     
+    
+    
+    
+    
+=======
+>>>>>>> origin/Desarrollo
+    
+    
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/Desarrollo
+<<<<<<< HEAD
+    
+<<<<<<< HEAD
+>>>>>>> origin/Desarrollo
+    
+=======
+>>>>>>> origin/Desarrollo
+>>>>>>> origin/Desarrollo
+
+    
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <system systemId="http://localhost:8089/wsarchivos?wsdl" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
     <system systemId="http://localhost:8089/wsarchivos?xsd=1" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.xsd_1.xsd"/>
+=======
+=======
+    
+<<<<<<< HEAD
+    
+=======
+>>>>>>> origin/Desarrollo
+>>>>>>> origin/Desarrollo
 
+<<<<<<< HEAD
+=======
+    
+    
+>>>>>>> f194a21ad02bb6ee22ac77ba5d9dc1fbab1c4680
+    
+    
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    
+>>>>>>> f194a21ad02bb6ee22ac77ba5d9dc1fbab1c4680
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
+    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
+>>>>>>> origin/Desarrollo
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
+    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
+    <system systemId="http://localhost:8089/wsarchivos?wsdl" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
+    <system systemId="http://localhost:8089/wsarchivos?xsd=1" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.xsd_1.xsd"/>
+<<<<<<< HEAD
+    <system systemId="http://localhost:8089/wsarchivos?wsdl" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
+    <system systemId="http://localhost:8089/wsarchivos?xsd=1" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.xsd_1.xsd"/>
+=======
+>>>>>>> origin/Desarrollo
+
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
     <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
     <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
     <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
+>>>>>>> origin/Desarrollo
+    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
+    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
+<<<<<<< HEAD
+=======
+    <system systemId="http://localhost:8087/wsclientes?wsdl" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.wsdl"/>
+    <system systemId="http://localhost:8087/wsclientes?xsd=1" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.xsd_1.xsd"/>
+    <system systemId="http://localhost:8089/wsarchivos?wsdl" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
+    <system systemId="http://localhost:8089/wsarchivos?xsd=1" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.xsd_1.xsd"/>
+    <system systemId="http://localhost:8087/wsclientes?wsdl" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.wsdl"/>
+    <system systemId="http://localhost:8087/wsclientes?xsd=1" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.xsd_1.xsd"/>
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
+    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
+</catalog>
+>>>>>>> origin/Desarrollo

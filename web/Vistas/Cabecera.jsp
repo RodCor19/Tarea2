@@ -39,9 +39,10 @@
 //                    propiedades.load(entrada);// cargamos el archivo de propiedades
 
         //            URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
-                    WSClientesService wsclis = new WSClientesService();
-                    WSClientes wscli = wsclis.getWSClientesPort();
+//                    WSClientesService wsclis = new WSClientesService();
+//                    WSClientes wscli = wsclis.getWSClientesPort();
                     HttpSession sesion = request.getSession();
+                    WSClientes wscli = (WSClientes)sesion.getAttribute("WSClientes");
                     if (sesion.getAttribute("Usuario") == null) {
                 %>
                 <div class="col-md-8 text-right" style="padding-right: 0px; padding-bottom: 5px; opacity: 0;">

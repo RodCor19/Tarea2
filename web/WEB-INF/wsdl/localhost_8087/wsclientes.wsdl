@@ -9,6 +9,13 @@
 <part name="arg1" type="xsd:string"></part>
 </message>
 <message name="seguirResponse"></message>
+<message name="IngresarCliente">
+<part name="arg0" type="tns:dtCliente"></part>
+<part name="arg1" type="xsd:base64Binary"></part>
+</message>
+<message name="IngresarClienteResponse">
+<part name="return" type="xsd:boolean"></part>
+</message>
 <message name="verPerfilCliente">
 <part name="arg0" type="xsd:string"></part>
 </message>
@@ -29,6 +36,15 @@
 <message name="ListarListaPResponse">
 <part name="return" type="tns:dataListas"></part>
 </message>
+<message name="confirmar"></message>
+<message name="confirmarResponse">
+<part name="return" type="xsd:boolean"></part>
+</message>
+<message name="publicarLista">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+</message>
+<message name="publicarListaResponse"></message>
 <message name="BuscarUsuarios">
 <part name="arg0" type="xsd:string"></part>
 </message>
@@ -40,22 +56,6 @@
 <part name="arg1" type="xsd:string"></part>
 </message>
 <message name="DejarSeguirResponse"></message>
-<message name="IngresarCliente">
-<part name="arg0" type="tns:dtCliente"></part>
-<part name="arg1" type="xsd:base64Binary"></part>
-</message>
-<message name="IngresarClienteResponse">
-<part name="return" type="xsd:boolean"></part>
-</message>
-<message name="confirmar"></message>
-<message name="confirmarResponse">
-<part name="return" type="xsd:boolean"></part>
-</message>
-<message name="publicarLista">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-</message>
-<message name="publicarListaResponse"></message>
 <message name="crearListaP">
 <part name="arg0" type="xsd:string"></part>
 <part name="arg1" type="xsd:string"></part>
@@ -96,27 +96,27 @@
 <message name="contratarSuscripcionResponse">
 <part name="return" type="xsd:boolean"></part>
 </message>
-<message name="listarTipoDeSus"></message>
-<message name="listarTipoDeSusResponse">
-<part name="return" type="tns:dataTiposDeSus"></part>
-</message>
-<message name="resultadosT">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="resultadosTResponse">
-<part name="return" type="tns:dataTemas"></part>
-</message>
 <message name="resultadosA">
 <part name="arg0" type="xsd:string"></part>
 </message>
 <message name="resultadosAResponse">
 <part name="return" type="tns:dataAlbumes"></part>
 </message>
+<message name="listarTipoDeSus"></message>
+<message name="listarTipoDeSusResponse">
+<part name="return" type="tns:dataTiposDeSus"></part>
+</message>
 <message name="resultadosL">
 <part name="arg0" type="xsd:string"></part>
 </message>
 <message name="resultadosLResponse">
 <part name="return" type="tns:dataListas"></part>
+</message>
+<message name="resultadosT">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="resultadosTResponse">
+<part name="return" type="tns:dataTemas"></part>
 </message>
 <message name="agregarListaPDFavorito">
 <part name="arg0" type="xsd:string"></part>
@@ -145,6 +145,10 @@
 <input wsam:Action="http://WebServices/WSClientes/seguirRequest" message="tns:seguir"></input>
 <output wsam:Action="http://WebServices/WSClientes/seguirResponse" message="tns:seguirResponse"></output>
 </operation>
+<operation name="IngresarCliente" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSClientes/IngresarClienteRequest" message="tns:IngresarCliente"></input>
+<output wsam:Action="http://WebServices/WSClientes/IngresarClienteResponse" message="tns:IngresarClienteResponse"></output>
+</operation>
 <operation name="verPerfilCliente">
 <input wsam:Action="http://WebServices/WSClientes/verPerfilClienteRequest" message="tns:verPerfilCliente"></input>
 <output wsam:Action="http://WebServices/WSClientes/verPerfilClienteResponse" message="tns:verPerfilClienteResponse"></output>
@@ -161,18 +165,6 @@
 <input wsam:Action="http://WebServices/WSClientes/ListarListaPRequest" message="tns:ListarListaP"></input>
 <output wsam:Action="http://WebServices/WSClientes/ListarListaPResponse" message="tns:ListarListaPResponse"></output>
 </operation>
-<operation name="BuscarUsuarios">
-<input wsam:Action="http://WebServices/WSClientes/BuscarUsuariosRequest" message="tns:BuscarUsuarios"></input>
-<output wsam:Action="http://WebServices/WSClientes/BuscarUsuariosResponse" message="tns:BuscarUsuariosResponse"></output>
-</operation>
-<operation name="DejarSeguir" parameterOrder="arg0 arg1">
-<input wsam:Action="http://WebServices/WSClientes/DejarSeguirRequest" message="tns:DejarSeguir"></input>
-<output wsam:Action="http://WebServices/WSClientes/DejarSeguirResponse" message="tns:DejarSeguirResponse"></output>
-</operation>
-<operation name="IngresarCliente" parameterOrder="arg0 arg1">
-<input wsam:Action="http://WebServices/WSClientes/IngresarClienteRequest" message="tns:IngresarCliente"></input>
-<output wsam:Action="http://WebServices/WSClientes/IngresarClienteResponse" message="tns:IngresarClienteResponse"></output>
-</operation>
 <operation name="confirmar">
 <input wsam:Action="http://WebServices/WSClientes/confirmarRequest" message="tns:confirmar"></input>
 <output wsam:Action="http://WebServices/WSClientes/confirmarResponse" message="tns:confirmarResponse"></output>
@@ -180,6 +172,14 @@
 <operation name="publicarLista" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSClientes/publicarListaRequest" message="tns:publicarLista"></input>
 <output wsam:Action="http://WebServices/WSClientes/publicarListaResponse" message="tns:publicarListaResponse"></output>
+</operation>
+<operation name="BuscarUsuarios">
+<input wsam:Action="http://WebServices/WSClientes/BuscarUsuariosRequest" message="tns:BuscarUsuarios"></input>
+<output wsam:Action="http://WebServices/WSClientes/BuscarUsuariosResponse" message="tns:BuscarUsuariosResponse"></output>
+</operation>
+<operation name="DejarSeguir" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSClientes/DejarSeguirRequest" message="tns:DejarSeguir"></input>
+<output wsam:Action="http://WebServices/WSClientes/DejarSeguirResponse" message="tns:DejarSeguirResponse"></output>
 </operation>
 <operation name="crearListaP" parameterOrder="arg0 arg1 arg2">
 <input wsam:Action="http://WebServices/WSClientes/crearListaPRequest" message="tns:crearListaP"></input>
@@ -205,21 +205,21 @@
 <input wsam:Action="http://WebServices/WSClientes/contratarSuscripcionRequest" message="tns:contratarSuscripcion"></input>
 <output wsam:Action="http://WebServices/WSClientes/contratarSuscripcionResponse" message="tns:contratarSuscripcionResponse"></output>
 </operation>
-<operation name="listarTipoDeSus">
-<input wsam:Action="http://WebServices/WSClientes/listarTipoDeSusRequest" message="tns:listarTipoDeSus"></input>
-<output wsam:Action="http://WebServices/WSClientes/listarTipoDeSusResponse" message="tns:listarTipoDeSusResponse"></output>
-</operation>
-<operation name="resultadosT">
-<input wsam:Action="http://WebServices/WSClientes/resultadosTRequest" message="tns:resultadosT"></input>
-<output wsam:Action="http://WebServices/WSClientes/resultadosTResponse" message="tns:resultadosTResponse"></output>
-</operation>
 <operation name="resultadosA">
 <input wsam:Action="http://WebServices/WSClientes/resultadosARequest" message="tns:resultadosA"></input>
 <output wsam:Action="http://WebServices/WSClientes/resultadosAResponse" message="tns:resultadosAResponse"></output>
 </operation>
+<operation name="listarTipoDeSus">
+<input wsam:Action="http://WebServices/WSClientes/listarTipoDeSusRequest" message="tns:listarTipoDeSus"></input>
+<output wsam:Action="http://WebServices/WSClientes/listarTipoDeSusResponse" message="tns:listarTipoDeSusResponse"></output>
+</operation>
 <operation name="resultadosL">
 <input wsam:Action="http://WebServices/WSClientes/resultadosLRequest" message="tns:resultadosL"></input>
 <output wsam:Action="http://WebServices/WSClientes/resultadosLResponse" message="tns:resultadosLResponse"></output>
+</operation>
+<operation name="resultadosT">
+<input wsam:Action="http://WebServices/WSClientes/resultadosTRequest" message="tns:resultadosT"></input>
+<output wsam:Action="http://WebServices/WSClientes/resultadosTResponse" message="tns:resultadosTResponse"></output>
 </operation>
 <operation name="agregarListaPDFavorito" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSClientes/agregarListaPDFavoritoRequest" message="tns:agregarListaPDFavorito"></input>
@@ -237,6 +237,15 @@
 <binding name="WSClientesPortBinding" type="tns:WSClientes">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"></soap:binding>
 <operation name="seguir">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="IngresarCliente">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -281,33 +290,6 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="BuscarUsuarios">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="DejarSeguir">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="IngresarCliente">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
 <operation name="confirmar">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -318,6 +300,24 @@
 </output>
 </operation>
 <operation name="publicarLista">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="BuscarUsuarios">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="DejarSeguir">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -380,24 +380,6 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="listarTipoDeSus">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="resultadosT">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
 <operation name="resultadosA">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -407,7 +389,25 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
+<operation name="listarTipoDeSus">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
 <operation name="resultadosL">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="resultadosT">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

@@ -27,6 +27,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.FileItemFactory;
 import java.util.List;
 import java.util.Properties;
+import javax.xml.namespace.QName;
 import org.apache.commons.fileupload.FileUploadException;
 import webservices.DtArtista;
 import webservices.DtCliente;
@@ -67,17 +68,17 @@ public class ServletClientes extends HttpServlet {
         rutaConfWS = rutaConfWS.replace("%20", " ");
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
-
-        try {
+        
+        try{
             URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
-            WSArtistasService wsarts = new WSArtistasService(/*url*/);
+            WSArtistasService wsarts = new WSArtistasService(url,new QName("http://WebServices/", "WSArtistasService"));
             WSArtistas wsart = wsarts.getWSArtistasPort();
 
             url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSCli") + "/" + propiedades.getProperty("nombreWSCli"));
-            WSClientesService wsclis = new WSClientesService();
+            WSClientesService wsclis = new WSClientesService(url,new QName("http://WebServices/", "WSClientesService"));
             WSClientes wscli = wsclis.getWSClientesPort();
 
-            request.getSession().setAttribute("WSArtistas", wsart);
+            request.getSession().setAttribute("WSArchivos", wsart);
             request.getSession().setAttribute("WSClientes", wscli);
 
             if (request.getParameter("verPerfilCli") != null) {
@@ -295,10 +296,7 @@ public class ServletClientes extends HttpServlet {
 
             if (request.getParameter("Lista") != null) {
                 String nLista = request.getParameter("Lista");
-                //se crea un array de bytes con la codificación que se envía en los parametros
-                //byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-                // "normaliza" el texto
-                //nLista = new String(bytes, StandardCharsets.UTF_8);
+                nLista = nLista.trim();
                 if (request.getParameter("Usuario") != null) {
                     String nick = request.getParameter("Usuario");
                     DtListaP aux = null;

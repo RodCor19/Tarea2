@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlets;
 
 import java.io.DataOutputStream;
@@ -33,6 +28,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import java.net.Socket;
+import javax.xml.namespace.QName;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import webservices.DataGeneros;
@@ -83,13 +79,14 @@ public class ServletArtistas extends HttpServlet {
         propiedades.load(entrada);// cargamos el archivo de propiedades
         
         try{
-            //URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
-            WSArtistasService wsarts = new WSArtistasService(/*url*/);
+            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
+            WSArtistasService wsarts = new WSArtistasService(url,new QName("http://WebServices/", "WSArtistasService"));
             WSArtistas wsart = wsarts.getWSArtistasPort();
 
-    //        url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
-            WSClientesService wsclis = new WSClientesService();
+            url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+            WSClientesService wsclis = new WSClientesService(url,new QName("http://WebServices/", "WSClientesService"));
             WSClientes wscli = wsclis.getWSClientesPort();
+            
             HttpSession sesion = request.getSession();
             request.getSession().setAttribute("WSArtistas", wsart);
             request.getSession().setAttribute("WSClientes", wscli);
@@ -230,31 +227,32 @@ public class ServletArtistas extends HttpServlet {
                         DataGeneros generosAlbum = (DataGeneros) sesion.getAttribute("generosAlbum");
                         String anioAlbum = (String) sesion.getAttribute("anioAlb");
 
-                        response.getWriter().write("Artista: " + artista.getNickname() + "<br>");
-                        response.getWriter().write("Album: " + nomAlbum + "<br>");
-                        response.getWriter().write("Año: " + anioAlbum + "<br>");
-
-                        response.getWriter().write("Temas: size=" + temasAlbum.getTemas().size() + "<br>");
-                        for (DtTema tema : temasAlbum.getTemas()) {
-                            response.getWriter().write("->" + tema.getNombre() + "<br>");
-                        }
-
-                        response.getWriter().write("<br>");
-                        for (DtGenero gen : generosAlbum.getGeneros()) {
-                            response.getWriter().write(gen.getNombre() + "<br>");
-                        }
+//                        response.getWriter().write("Artista: " + artista.getNickname() + "<br>");
+//                        response.getWriter().write("Album: " + nomAlbum + "<br>");
+//                        response.getWriter().write("Año: " + anioAlbum + "<br>");
+//
+//                        response.getWriter().write("Temas: size=" + temasAlbum.getTemas().size() + "<br>");
+//                        for (DtTema tema : temasAlbum.getTemas()) {
+//                            response.getWriter().write("->" + tema.getNombre() + "<br>");
+//                        }
+//
+//                        response.getWriter().write("<br>");
+//                        for (DtGenero gen : generosAlbum.getGeneros()) {
+//                            response.getWriter().write(gen.getNombre() + "<br>");
+//                        }
 
                         byte[] imagen = new byte[0]; //se interpreta como null en el servidor
                         if (rutaArchivo != null) {
-                            response.getWriter().write("Ruta archivo != null" + "<br>");
+//                            response.getWriter().write("Ruta archivo != null" + "<br>");
                             File im = new File(rutaArchivo);
                             imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                             im.delete();
                         }
 
     //                    DataTemas temasA = new DataTemas();
+                        System.out.println("enviandoalbum");
                         wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
-                        response.getWriter().write("FIN crear album" + "<br>");
+                        System.out.println("albumenviado");
 
                         //Borar atributos de sesion usados durante la creacion del nuevo album
                         sesion.removeAttribute("nombreAlb");
@@ -312,7 +310,6 @@ public class ServletArtistas extends HttpServlet {
                     String JSON_data = request.getParameter("json");
                     JSON_data = "{" + "  \"temas\": " + JSON_data + "}";
                     String[] generos = request.getParameterValues("generos[]");
-    //<<<<<<< HEAD
                     try{
                     JSONObject obj = new JSONObject(JSON_data);
                     JSONArray temas = obj.getJSONArray("temas");
@@ -330,14 +327,14 @@ public class ServletArtistas extends HttpServlet {
                         String nomtema = person.getString("nombre");
                         String duracion = person.getString("duracion");
                         String arch_url = person.getString("Archivo_Url");
-                        int cantDescarga = person.getInt("cantDescarga");
-                        int cantReproduccion = person.getInt("cantReproduccion");
 
                         DtTema dtt = new DtTema();
                         dtt.setNombre(nomtema);
                         dtt.setDuracion(duracion);
                         dtt.setOrden(orden);
                         dtt.setArchivo(null);
+                        dtt.setCantDescarga(0);
+                        dtt.setCantReproduccion(0);
                         if (arch_url.contains(".mp3")){
                             arch_url = (path + arch_url);
                             File audio =new File(arch_url);
@@ -574,7 +571,6 @@ public class ServletArtistas extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
             requestDispatcher.forward(request, response);
         }
-        
         
         
 //            response.getWriter().write("hola wolrd");

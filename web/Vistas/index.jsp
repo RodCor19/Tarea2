@@ -29,7 +29,8 @@
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" >
                     <button id="btnArtistas" type="button" class="btn btn-default btn-block opcionSelec">Artistas</button>
-                    <button id="btnGeneros" type="button" class="btn btn-default btn-block opcionNoSelec">Géneros</button>
+                    <button id="btnGeneros" type="button" class="btn btn-default btn-block opcionNoSelec">Géneros</button><br>
+                    <a class="btn btn-default btn-block opcionNoSelec " style="color:#ffffff; text-decoration: none" href="/EspotifyWeb/ServletArtistas?VerRanking=true">Ver Ranking</a>
                 </div>
                 <div class="col-sm-8 text-center">
                     <div id="listaArtGen" class="row">
@@ -42,7 +43,7 @@
                     <%}%>
                     <%  HttpSession sesion = request.getSession();
                         if (sesion.getAttribute("Mensaje") != null) {%>
-                    <h3 class="text-center text-primary"><%=sesion.getAttribute("Mensaje")%></h3>
+                    <h3 class="text-center label-info"><%=sesion.getAttribute("Mensaje")%></h3>
                     <%}
                         sesion.removeAttribute("Mensaje");
                     %>
@@ -57,5 +58,6 @@
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+        
     </body>
 </html>

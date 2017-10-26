@@ -29,21 +29,28 @@ $(document).ready(function () {
                     nombre = $('#nombre').val(),
                     apellido = $('#apellido').val(),
                     fechanac = $('#fechanac').val(),
-                    correo = $('#correo').val(),
+                    correo = $('#correo').val();//,
                     //biografia = $('#biografia').val(),
                     //paginaweb = $('#paginaweb').val(),
-                    photo = "";
-        if(document.getElementById("elegirimagen").value !== ""){
-            photo = document.getElementById("elegirimagen").files[0].name;
-        }
+//                    photo = "";
+//        if(document.getElementById("elegirimagen").value !== ""){
+//            photo = document.getElementById("elegirimagen").files[0].name;
+//        }
         if (contrasenia === vcontrasenia){
             if(nickname !== "" && $('#contrasenia').val() !== "" && nombre!== "" && apellido !== "" && fechanac !== "" && correo !== ""){
-                $('#contrasenia').val(contrasenia);
-                $('#vcontrasenia').val(contrasenia);
-        }else{
-            alert("No debe haber campos vacios");
-            e.preventDefault();
-        }
+                //Si alguno de los campos estan en rojo, con error
+                if($('#correo').parent().hasClass("input-group has-error has-feedback") || 
+                   $('#nickname').parent().hasClass("input-group has-error has-feedback") ||
+                   $('#vcontrasenia').parent().hasClass("input-group has-error has-feedback")){
+                    e.preventDefault();
+                }else{
+                    $('#contrasenia').val(contrasenia);
+                    $('#vcontrasenia').val(contrasenia);
+                }
+            }else{
+                alert("No debe haber campos vacios");
+                e.preventDefault();
+            }
     }else{
         alert("Las contraseñas no coinciden");
         $('#vcontrasenia').focus();

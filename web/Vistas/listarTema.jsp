@@ -105,6 +105,7 @@
                                 <tbody>
                                     <% List<DtTema> arr = album.getTemas();
                                         Collections.reverse(arr);
+                                        int indice=0;
                                         for (DtTema tem : arr) {
                                             int orden = tem.getOrden();
                                             String nombre = tem.getNombre();
@@ -118,7 +119,9 @@
                                                 }
                                             }
                                     %>
-                                    <tr class="filaTema">
+                                    <!-- <a href="#" rel="popover" data-popover-content="#myPopover"> -->
+                                    <!--<tr class="filaTema" rel="popover" data-popover-content="#myPopover" data-toggle="popover" >-->
+                                    <tr class="filaTema" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0">
                                         <%if (usuario != null && usuario instanceof DtCliente && cliente && control2) {%>
                                         <td>
                                             <div>
@@ -146,7 +149,7 @@
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
                                         <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%}%>
@@ -158,8 +161,22 @@
                                         <td></td>
                                         <%}%>
                                         <%}%>
-                                    </tr>
-                                    <%}%>
+                                        
+                                        <div class="hidden" id="<%=indice %>">
+                                            <div class="popover-heading">
+                                                Información
+                                            </div>
+                                            <div class="popover-body">
+                                                <ul style="padding: 0px; margin: 0px;">
+                                                    <li class="list-group-item"><%=tem.getNombre()%></li>
+                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: "Numero"</li>
+                                                    <li class="list-group-item">Descargas: "Numero"</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                
+                                    </tr>                                    
+                                    <%indice++;}%>
                                 </tbody>
                             </table>
 
@@ -183,14 +200,48 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-         <script>            
-//            function hover(elemento, esHover){
-//                if(esHover){
-//                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/eliminar.png'); 
-//                }else{
-//                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/guardado.png');
-//                }
-//            };
+         <script>
+                     function nuevaDescarga (artista, album, tema) {
+                          alert("no andaaaaaaaa");
+                      $.ajax({
+                           type : 'POST', //tipo de request
+                           url : '/EspotifyWeb/ServletArtistas',
+                           dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                           data:{ // Parametros que se pasan en el request
+                               artista : artista,
+                               album : album,
+                               tema : tema,
+                               nuevadescarga : true
+                           },
+                           success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+                             alert("si andaaaaaaaa"+data);
+                           }
+                        }); 
+                   }
+                   
+            $(function(){
+                $("[data-toggle=popover]").popover({
+                    html : true,
+                    placement: 'auto',
+                    content: function() {
+                      var content = $(this).attr("data-popover-content");
+                      return $(content).children(".popover-body").html();
+                    },
+                    title: function() {
+                      var title = $(this).attr("data-popover-content");
+                      return $(title).children(".popover-heading").html();
+                    }
+                });
+            });
         </script>
+                    <script>
+            //            function hover(elemento, esHover){
+            //                if(esHover){
+            //                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/eliminar.png'); 
+            //                }else{
+            //                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/guardado.png');
+            //                }
+            //            };
+                    </script>
     </body>
 </html>

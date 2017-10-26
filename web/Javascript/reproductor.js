@@ -135,6 +135,42 @@ function cerrarRep(rep){
         }
     });
 }
+
+function reproducirListaP(lista, cliente){
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : '/EspotifyWeb/ServletArchivos',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+            reproducirLista : lista,
+            creador: cliente
+        },
+        success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+            $('#divReproductor').load("/EspotifyWeb/Vistas/reproductor.jsp");
+//            $('.reproducirTema').click(); //reproducir el tema seleccionaro, click
+//            location.href = "/EspotifyWeb/Vistas/reproductor.jsp";
+        }
+    });
+}
+
+function reproducirListaPD(lista, genero){
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : '/EspotifyWeb/ServletArchivos',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+            reproducirLista : lista,
+            creador: genero
+        },
+        success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+            $('#divReproductor').load("/EspotifyWeb/Vistas/reproductor.jsp");
+//            $('.reproducirTema').click(); //reproducir el tema seleccionaro, click
+//            location.href = "/EspotifyWeb/Vistas/reproductor.jsp";
+        }
+    });
+}
+
+
 function nuevaDescarga (artista, album, tema) {
     $.ajax({
         type : 'POST', //tipo de request

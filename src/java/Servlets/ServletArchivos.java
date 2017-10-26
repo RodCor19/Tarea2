@@ -238,7 +238,7 @@ public class ServletArchivos extends HttpServlet {
                             if (dt == null) {
                                 request.getSession().setAttribute("Mensaje", "Inicie sesión");
                             } else if (dt instanceof DtArtista) {
-                                request.getSession().setAttribute("Mensaje", "Los artistas no pueden agregar a favoritos");
+                                request.getSession().setAttribute("Mensaje", "Los artistas no pueden descargar temas");
                             } else {
                                 request.getSession().setAttribute("Mensaje", "No tiene suscripción vigente");
                             }

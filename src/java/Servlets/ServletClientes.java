@@ -295,10 +295,7 @@ public class ServletClientes extends HttpServlet {
 
             if (request.getParameter("Lista") != null) {
                 String nLista = request.getParameter("Lista");
-                //se crea un array de bytes con la codificación que se envía en los parametros
-                //byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
-                // "normaliza" el texto
-                //nLista = new String(bytes, StandardCharsets.UTF_8);
+                nLista = nLista.trim();
                 if (request.getParameter("Usuario") != null) {
                     String nick = request.getParameter("Usuario");
                     DtListaP aux = null;

@@ -355,7 +355,8 @@ public class ServletClientes extends HttpServlet {
                 }
 
             }
-        }catch(Exception ex){            
+        }catch(Exception ex){       
+            
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
             requestDispatcher.forward(request, response);
         }

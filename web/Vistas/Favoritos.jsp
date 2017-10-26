@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="webservices.WSClientes"%>
 <%@page import="webservices.DtArtista"%>
 <%@page import="webservices.DtCliente"%>
 <%@page import="webservices.DtListaPD"%>
@@ -20,6 +21,7 @@
     <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
 <%}else{
     DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli");
+    WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
 %>
 <html>
     <head>
@@ -105,20 +107,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% for (DtLista lista : cliente.getFavListas()) { %>
+                                        <% for (DtLista lista : cliente.getFavListas()) {
+                                        String nombre = lista.getNombre();
+                                        nombre = nombre.replace("á", "&aacute;");
+                                        nombre = nombre.replace("é", "&eacute;");
+                                        nombre = nombre.replace("í", "&iacute;");
+                                        nombre = nombre.replace("ó", "&oacute;");
+                                        nombre = nombre.replace("ú", "&uacute;");
+                                        nombre = nombre.replace("Á", "&Aacute;");
+                                        nombre = nombre.replace("É", "&Eacute;");
+                                        nombre = nombre.replace("Í", "&Iacute;");
+                                        nombre = nombre.replace("Ó", "&Oacute;");
+                                        nombre = nombre.replace("Ú", "&Uacute;");
+                                        nombre = nombre.replace("ñ", "&ntilde;");
+                                        nombre = nombre.replace("Ñ", "&Ntilde;");    
+                                        %>
                                         <tr>
                                             <% if (lista instanceof DtListaP) {
                                                 DtListaP listaP = (DtListaP) lista;
-                                                String nLista = lista.getNombre();
-                                                nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");%>
+                                                DtCliente cli= wscli.verPerfilCliente(listaP.getUsuario());
+                                            %>
                                                 
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= listaP.getUsuario()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= cli.getNombre()+" "+cli.getApellido() %></h4></a></td>
                                                         <%} else {
-                                                DtListaPD listaPD = (DtListaPD) lista;
-                                                String nLista = lista.getNombre();
-                                                nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");%>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nLista %>"><h4><%= listaPD.getNombre()%></h4></a></td>
+                                                DtListaPD listaPD = (DtListaPD) lista;%>
+                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>"><h4><%= listaPD.getNombre()%></h4></a></td>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8"); %>
                                             <td><a class="link" href="ServletArtistas?consultarAlbum=<%= generoCodificado %>"><h4><%= listaPD.getGenero() %></h4></a></td>
                                              <%}%>

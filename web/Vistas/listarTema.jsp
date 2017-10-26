@@ -143,7 +143,7 @@
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
                                         <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>

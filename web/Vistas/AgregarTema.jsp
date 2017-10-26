@@ -26,15 +26,7 @@
             List<DtListaPD> listaspd = (List<DtListaPD>)session.getAttribute("todaslistaspd");
             List<DtListaP> listasp = (List<DtListaP>)session.getAttribute("todaslistasp");
             
-            Properties propiedades = new Properties();
-            InputStream entrada = new FileInputStream("webservices.properties");
-            propiedades.load(entrada);// cargamos el archivo de propiedades
-            
-//            URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
-//            WSClientesService wsclis = new WSClientesService();
-//            WSClientes wscli = wsclis.getWSClientesPort();
-            HttpSession sesion = request.getSession();
-            WSClientes wscli = (WSClientes)sesion.getAttribute("WSClientes");
+            WSClientes wscli = (WSClientes)session.getAttribute("WSClientes"); 
             %>   
             <%  DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
                 boolean controlSeguir = false;

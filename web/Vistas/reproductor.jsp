@@ -90,7 +90,7 @@
             </div>
             <div id="nowPlay" class="text-center" >
                 <div id="auTitle" style="padding-bottom: 5px; background: #1ED760; color: whitesmoke">---</div>
-                <audio id="aurepr" preload="auto" controls onended="get_next(1)"></audio>
+                <audio id="aurepr" preload="auto" controls controlsList="nodownload" onended="get_next(1)"></audio>
             </div>            
             <div id="auExtraControls" style="background: red">
                 <div  class="col-sm-6 text-center" style="padding: 0px;">

@@ -9,14 +9,6 @@
 <part name="arg1" type="xsd:string"></part>
 </message>
 <message name="seguirResponse"></message>
-<message name="ListarListaPD"></message>
-<message name="ListarListaPDResponse">
-<part name="return" type="tns:dataListas"></part>
-</message>
-<message name="ListarListaP"></message>
-<message name="ListarListaPResponse">
-<part name="return" type="tns:dataListas"></part>
-</message>
 <message name="verPerfilCliente">
 <part name="arg0" type="xsd:string"></part>
 </message>
@@ -29,6 +21,25 @@
 <message name="getSeguidoresResponse">
 <part name="return" type="tns:dataUsuarios"></part>
 </message>
+<message name="ListarListaPD"></message>
+<message name="ListarListaPDResponse">
+<part name="return" type="tns:dataListas"></part>
+</message>
+<message name="ListarListaP"></message>
+<message name="ListarListaPResponse">
+<part name="return" type="tns:dataListas"></part>
+</message>
+<message name="BuscarUsuarios">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="BuscarUsuariosResponse">
+<part name="return" type="tns:dataUsuarios"></part>
+</message>
+<message name="DejarSeguir">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+</message>
+<message name="DejarSeguirResponse"></message>
 <message name="IngresarCliente">
 <part name="arg0" type="tns:dtCliente"></part>
 <part name="arg1" type="xsd:base64Binary"></part>
@@ -51,17 +62,6 @@
 <part name="arg2" type="xsd:base64Binary"></part>
 </message>
 <message name="crearListaPResponse"></message>
-<message name="BuscarUsuarios">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="BuscarUsuariosResponse">
-<part name="return" type="tns:dataUsuarios"></part>
-</message>
-<message name="DejarSeguir">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-</message>
-<message name="DejarSeguirResponse"></message>
 <message name="actualizarVigenciaSuscripciones">
 <part name="arg0" type="xsd:string"></part>
 </message>
@@ -145,6 +145,14 @@
 <input wsam:Action="http://WebServices/WSClientes/seguirRequest" message="tns:seguir"></input>
 <output wsam:Action="http://WebServices/WSClientes/seguirResponse" message="tns:seguirResponse"></output>
 </operation>
+<operation name="verPerfilCliente">
+<input wsam:Action="http://WebServices/WSClientes/verPerfilClienteRequest" message="tns:verPerfilCliente"></input>
+<output wsam:Action="http://WebServices/WSClientes/verPerfilClienteResponse" message="tns:verPerfilClienteResponse"></output>
+</operation>
+<operation name="getSeguidores">
+<input wsam:Action="http://WebServices/WSClientes/getSeguidoresRequest" message="tns:getSeguidores"></input>
+<output wsam:Action="http://WebServices/WSClientes/getSeguidoresResponse" message="tns:getSeguidoresResponse"></output>
+</operation>
 <operation name="ListarListaPD">
 <input wsam:Action="http://WebServices/WSClientes/ListarListaPDRequest" message="tns:ListarListaPD"></input>
 <output wsam:Action="http://WebServices/WSClientes/ListarListaPDResponse" message="tns:ListarListaPDResponse"></output>
@@ -153,13 +161,13 @@
 <input wsam:Action="http://WebServices/WSClientes/ListarListaPRequest" message="tns:ListarListaP"></input>
 <output wsam:Action="http://WebServices/WSClientes/ListarListaPResponse" message="tns:ListarListaPResponse"></output>
 </operation>
-<operation name="verPerfilCliente">
-<input wsam:Action="http://WebServices/WSClientes/verPerfilClienteRequest" message="tns:verPerfilCliente"></input>
-<output wsam:Action="http://WebServices/WSClientes/verPerfilClienteResponse" message="tns:verPerfilClienteResponse"></output>
+<operation name="BuscarUsuarios">
+<input wsam:Action="http://WebServices/WSClientes/BuscarUsuariosRequest" message="tns:BuscarUsuarios"></input>
+<output wsam:Action="http://WebServices/WSClientes/BuscarUsuariosResponse" message="tns:BuscarUsuariosResponse"></output>
 </operation>
-<operation name="getSeguidores">
-<input wsam:Action="http://WebServices/WSClientes/getSeguidoresRequest" message="tns:getSeguidores"></input>
-<output wsam:Action="http://WebServices/WSClientes/getSeguidoresResponse" message="tns:getSeguidoresResponse"></output>
+<operation name="DejarSeguir" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSClientes/DejarSeguirRequest" message="tns:DejarSeguir"></input>
+<output wsam:Action="http://WebServices/WSClientes/DejarSeguirResponse" message="tns:DejarSeguirResponse"></output>
 </operation>
 <operation name="IngresarCliente" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSClientes/IngresarClienteRequest" message="tns:IngresarCliente"></input>
@@ -176,14 +184,6 @@
 <operation name="crearListaP" parameterOrder="arg0 arg1 arg2">
 <input wsam:Action="http://WebServices/WSClientes/crearListaPRequest" message="tns:crearListaP"></input>
 <output wsam:Action="http://WebServices/WSClientes/crearListaPResponse" message="tns:crearListaPResponse"></output>
-</operation>
-<operation name="BuscarUsuarios">
-<input wsam:Action="http://WebServices/WSClientes/BuscarUsuariosRequest" message="tns:BuscarUsuarios"></input>
-<output wsam:Action="http://WebServices/WSClientes/BuscarUsuariosResponse" message="tns:BuscarUsuariosResponse"></output>
-</operation>
-<operation name="DejarSeguir" parameterOrder="arg0 arg1">
-<input wsam:Action="http://WebServices/WSClientes/DejarSeguirRequest" message="tns:DejarSeguir"></input>
-<output wsam:Action="http://WebServices/WSClientes/DejarSeguirResponse" message="tns:DejarSeguirResponse"></output>
 </operation>
 <operation name="actualizarVigenciaSuscripciones">
 <input wsam:Action="http://WebServices/WSClientes/actualizarVigenciaSuscripcionesRequest" message="tns:actualizarVigenciaSuscripciones"></input>
@@ -245,6 +245,24 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
+<operation name="verPerfilCliente">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="getSeguidores">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
 <operation name="ListarListaPD">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -263,7 +281,7 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="verPerfilCliente">
+<operation name="BuscarUsuarios">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -272,7 +290,7 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="getSeguidores">
+<operation name="DejarSeguir">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -309,24 +327,6 @@
 </output>
 </operation>
 <operation name="crearListaP">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="BuscarUsuarios">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="DejarSeguir">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

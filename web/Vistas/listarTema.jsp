@@ -102,6 +102,7 @@
                                 <tbody>
                                     <% List<DtTema> arr = album.getTemas();
                                         Collections.reverse(arr);
+                                        int indice=0;
                                         for (DtTema tem : arr) {
                                             int orden = tem.getOrden();
                                             String nombre = tem.getNombre();
@@ -116,7 +117,8 @@
                                             }
                                     %>
                                     <!-- <a href="#" rel="popover" data-popover-content="#myPopover"> -->
-                                    <tr class="filaTema" rel="popover" data-popover-content="#myPopover">
+                                    <!--<tr class="filaTema" rel="popover" data-popover-content="#myPopover" data-toggle="popover" >-->
+                                    <tr class="filaTema" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0">
                                         <%if (usuario != null && usuario instanceof DtCliente && cliente && control2) {%>
                                         <td>
                                             <div>
@@ -144,7 +146,7 @@
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
                                         <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>
@@ -157,17 +159,21 @@
                                         <%}%>
                                         <%}%>
                                         
-                                    <div id="myPopover" class="hide">
-                                        This is a popover list:
-                                        <ul>
-                                                <li>List item 1</li>
-                                                <li>List item 2</li>
-                                                <li>List item 3</li>
-                                        </ul>
-                                    </div>
-                                    </tr>
-                                    
-                                    <%}%>
+                                        <div class="hidden" id="<%=indice %>">
+                                            <div class="popover-heading">
+                                                Información
+                                            </div>
+                                            <div class="popover-body">
+                                                <ul style="padding: 0px; margin: 0px;">
+                                                    <li class="list-group-item"><%=tem.getNombre()%></li>
+                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: "Numero"</li>
+                                                    <li class="list-group-item">Descargas: "Numero"</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                
+                                    </tr>                                    
+                                    <%indice++;}%>
                                 </tbody>
                             </table>
 
@@ -207,20 +213,21 @@
                            success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                              alert("si andaaaaaaaa"+data);
                            }
-                       }); 
+                        }); 
                    }
+                   
             $(function(){
-                $('[rel="popover"]').popover({
-                    container: 'body',
-                    html: true,
-//                    trigger: 'focus',
-                    content: function () {
-                        var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
-                        return clone;
+                $("[data-toggle=popover]").popover({
+                    html : true,
+                    placement: 'auto',
+                    content: function() {
+                      var content = $(this).attr("data-popover-content");
+                      return $(content).children(".popover-body").html();
+                    },
+                    title: function() {
+                      var title = $(this).attr("data-popover-content");
+                      return $(title).children(".popover-heading").html();
                     }
-                }).click(function(e) {
-                    e.preventDefault();
-                    $('.filaTema').not(this).popover('hide');
                 });
             });
         </script>

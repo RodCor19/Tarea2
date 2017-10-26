@@ -79,9 +79,11 @@
                             if (dt instanceof DtListaPD) {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Por Defecto</h4>
+                        <a onclick="reproducirListaPD('<%= dt.getNombre() %>', '<%= ((DtListaPD)dt).getGenero() %>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%} else {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Particular</h4>
+                        <a onclick="reproducirListaP('<%= dt.getNombre() %>', '<%= ((DtListaP)dt).getUsuario() %>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%}%>
                         <br>
                         <div class="tab-pane">
@@ -96,8 +98,9 @@
                                 <%} else {
                                     DtListaP dtp = (DtListaP) dt;
                                     String tipo = "Privada";
+                                    DtCliente cli= wscli.verPerfilCliente(dtp.getUsuario());
                                 %>
-                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= dtp.getUsuario()%></a></h4>
+                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= cli.getNombre()+" "+cli.getApellido() %></a></h4>
                             <%if (!dtp.isPrivada()) {
                                     tipo = "Pública";
                             %>
@@ -161,7 +164,7 @@
                                         <td><%= durac%></td>
                                         <%if (cliente) {%>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
+                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
                                         <%} else {%>
                                         <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                         <%}%>
@@ -192,9 +195,7 @@
         </div>
                     
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/ListaReproduccion.js"></script>        
-        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>  
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
     </body>
 </html>

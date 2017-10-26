@@ -17,6 +17,7 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <% DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
             
+        try{
             WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
 
             DtCliente dt = null;
@@ -109,4 +110,7 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
+    <%} catch (Exception ex){
+          response.sendRedirect("Error.html");
+     }%>
 </html>

@@ -28,6 +28,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import java.util.List;
 import java.util.Properties;
 import org.apache.commons.fileupload.FileUploadException;
+import webservices.DtArtista;
 import webservices.DtCliente;
 import webservices.DtLista;
 import webservices.DtListaP;
@@ -66,8 +67,8 @@ public class ServletClientes extends HttpServlet {
         rutaConfWS = rutaConfWS.replace("%20", " ");
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
-        
-        try{
+
+        try {
             URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
             WSArtistasService wsarts = new WSArtistasService(/*url*/);
             WSArtistas wsart = wsarts.getWSArtistasPort();
@@ -76,7 +77,7 @@ public class ServletClientes extends HttpServlet {
             WSClientesService wsclis = new WSClientesService();
             WSClientes wscli = wsclis.getWSClientesPort();
 
-            request.getSession().setAttribute("WSArchivos", wsart);
+            request.getSession().setAttribute("WSArtistas", wsart);
             request.getSession().setAttribute("WSClientes", wscli);
 
             if (request.getParameter("verPerfilCli") != null) {
@@ -110,8 +111,23 @@ public class ServletClientes extends HttpServlet {
                 byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
                 nickname = new String(bytes, StandardCharsets.UTF_8);
                 DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-                wscli.dejarSeguir(dt.getNickname(), nickname);
-                response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
+                    wscli.dejarSeguir(dt.getNickname(), nickname);
+                    sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
+                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                    //response.getWriter().write("ok");
+                } else {
+                    if (dt == null) {
+                        sesion.setAttribute("Mensaje", "Inicie sesión");
+                    } else if (dt instanceof DtArtista) {
+                        sesion.setAttribute("Mensaje", "Los artistas no pueden seguir usuarios");
+                    } else {
+                        sesion.setAttribute("Mensaje", "No tiene suscripción vigente");
+                    }
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                    //response.getWriter().write("ERROR : " + ex.getMessage());
+                }
                 //response.getWriter().write("ok");
             }
 
@@ -120,36 +136,66 @@ public class ServletClientes extends HttpServlet {
                 byte[] bytes = nickname.getBytes(StandardCharsets.ISO_8859_1);
                 nickname = new String(bytes, StandardCharsets.UTF_8);
                 DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
-                try {
+                if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                     wscli.seguir(dt.getNickname(), nickname);
                     sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
                     response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
                     //response.getWriter().write("ok");
-                } catch (Exception ex) {
-                    sesion.setAttribute("Mensaje", "Hubo error al seguir al usuario " + nickname);
+                } else {
+                    if (dt == null) {
+                        sesion.setAttribute("Mensaje", "Inicie sesión");
+                    } else if (dt instanceof DtArtista) {
+                        sesion.setAttribute("Mensaje", "Los artistas no pueden seguir usuarios");
+                    } else {
+                        sesion.setAttribute("Mensaje", "No tiene suscripción vigente");
+                    }
                     response.sendRedirect("ServletArtistas?Inicio=true");
                     //response.getWriter().write("ERROR : " + ex.getMessage());
                 }
             }
 
             if (request.getParameter("Artista") != null && request.getParameter("album") != null && request.getParameter("tema") != null) {
+                DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
+                if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                 String art = request.getParameter("Artista");
                 String alb = request.getParameter("album");
                 String tem = request.getParameter("tema");
-                DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+                DtCliente dc = (DtCliente) dt;
                 wscli.agregarTemaFavorito(dc.getNickname(), art, alb, tem);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
                 requestDispatcher.forward(request, response);
             }
+                if (dt == null) {
+                        sesion.setAttribute("Mensaje", "Inicie sesión");
+                    } else if (dt instanceof DtArtista) {
+                        sesion.setAttribute("Mensaje", "Los artistas no pueden agregar a favoritos");
+                    } else {
+                        sesion.setAttribute("Mensaje", "No tiene suscripción vigente");
+                    }
+                response.sendRedirect("ServletArtistas?Inicio=true");
+            }
             if (request.getParameter("art") != null && request.getParameter("alb") != null) {
+                DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
+                if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                 String arti = request.getParameter("art");
                 String albu = request.getParameter("alb");
 
-                DtCliente dc = (DtCliente) request.getSession().getAttribute("Usuario");
+                DtCliente dc = (DtCliente)dt;
                 wscli.agregarAlbumFavorito(dc.getNickname(), arti, albu);
 
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
                 requestDispatcher.forward(request, response);
+                } else {
+                    if (dt == null) {
+                        sesion.setAttribute("Mensaje", "Inicie sesión");
+                    } else if (dt instanceof DtArtista) {
+                        sesion.setAttribute("Mensaje", "Los artistas no pueden agregar a favoritos");
+                    } else {
+                        sesion.setAttribute("Mensaje", "No tiene suscripción vigente");
+                    }
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                    //response.getWriter().write("ERROR : " + ex.getMessage());
+                }
             }
 
             if (request.getParameter("contratarSuscripcion") != null) {
@@ -225,10 +271,11 @@ public class ServletClientes extends HttpServlet {
                     }
 
                     wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
-                    if(wscli.confirmar())
+                    if (wscli.confirmar()) {
                         sesion.setAttribute("Mensaje", "Lista creada");
-                    else
+                    } else {
                         sesion.setAttribute("Mensaje", "La lista ya existe");
+                    }
                     c = wscli.verPerfilCliente(c.getNickname());
                     sesion.setAttribute("Usuario", c);
                     if (imagen != null) {
@@ -283,7 +330,9 @@ public class ServletClientes extends HttpServlet {
             }
 
             if (request.getParameter("favLista") != null) {
-                DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
+                DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
+                if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
+                DtCliente dtCli = (DtCliente) dt;
                 String nLista = request.getParameter("favLista");
                 byte[] bytes = nLista.getBytes(StandardCharsets.ISO_8859_1);
                 nLista = new String(bytes, StandardCharsets.UTF_8);
@@ -293,6 +342,17 @@ public class ServletClientes extends HttpServlet {
                     wscli.agregarListaPDFavorito(dtCli.getNickname(), nLista);
                 }
                 response.sendRedirect("ServletArtistas?Inicio=true");
+                } else {
+                    if (dt == null) {
+                        sesion.setAttribute("Mensaje", "Inicie sesión");
+                    } else if (dt instanceof DtArtista) {
+                        sesion.setAttribute("Mensaje", "Los artistas no pueden agregar a favoritos");
+                    } else {
+                        sesion.setAttribute("Mensaje", "No tiene suscripción vigente");
+                    }
+                    response.sendRedirect("ServletArtistas?Inicio=true");
+                    //response.getWriter().write("ERROR : " + ex.getMessage());
+                }
 
             }
         }catch(Exception ex){            

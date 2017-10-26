@@ -289,3 +289,7 @@ textarea{
 .tituloFila:hover{
     cursor: pointer;
 }
+
+.popover-content {
+    padding: 0px;
+}

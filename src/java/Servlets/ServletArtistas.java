@@ -559,12 +559,22 @@ public class ServletArtistas extends HttpServlet {
                 response.sendRedirect("ServletArtistas?Inicio=true");
 
             }
+            
+            if (request.getParameter("VerRanking") != null) {
+                List<DtUsuario> usr = wsart.rankingDesendente().getUsuarios();
+                request.getSession().setAttribute("RankingUsuarios", usr);
+
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/listaRanking.jsp");
+                requestDispatcher.forward(request, response);
+            }
+                    
         }catch(Exception ex){
 //            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
             requestDispatcher.forward(request, response);
         }
+        
         
         
 //            response.getWriter().write("hola wolrd");

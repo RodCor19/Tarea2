@@ -19,10 +19,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli"); 
-        
+    <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli");
+
         WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
-        
+
         List<DtUsuario> seguidores = wscli.getSeguidores(cliente.getNickname()).getUsuarios();
         DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
         DtCliente dt = null;
@@ -111,27 +111,27 @@
                                         <input id="cLista" name="cListaAux" placeholder="Nombre de lista" type="text" class="form-control"/>
                                     </div> 
                                     <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/ServletClientes" enctype="multipart/form-data" method="post">
-                                            <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
-                                            <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
+                                        <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
+                                        <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
                                     </form>
                                     <br><br>
-                                    <%if (!(cliente.getListas().isEmpty())){%>
-                                    <button type="button" class="btn btn-success btn-lg" onclick = "window.location.href='/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar Tema A Lista</button>
+                                    <%if (!(cliente.getListas().isEmpty())) {%>
+                                    <button type="button" class="btn btn-success btn-lg" onclick = "window.location.href = '/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar Tema A Lista</button>
                                     <%}%>
                                 </h4>
                                 <br class="x">
                                 <% }%>
                                 <% int cantLPub = 0;
-                                   for (DtListaP lista : cliente.getListas()) {
-                                    if (lista.isPrivada() == false) {
-                                        cantLPub++;
-                                    }
-                                } %>
+                                    for (DtListaP lista : cliente.getListas()) {
+                                        if (lista.isPrivada() == false) {
+                                            cantLPub++;
+                                        }
+                                    } %>
                                 <% if (cliente.getListas().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene listas creadas</i></h4>
                                 <%} else {
-                                        if(cantLPub == 0 && perfilUsr.getNickname().equals(cliente.getNickname()) == false){%>
-                                            <h4 class="lineaAbajo"><i>No tiene listas públicas</i></h4>
+                                    if (cantLPub == 0 && perfilUsr.getNickname().equals(cliente.getNickname()) == false) {%>
+                                <h4 class="lineaAbajo"><i>No tiene listas públicas</i></h4>
                                 <%      } else { %>
                                 <br>
                                 <table class="table text-left">
@@ -145,38 +145,50 @@
                                     <tbody>
                                         <%for (DtListaP lista : cliente.getListas()) {
                                                 String tipo;
+                                                String nombre = lista.getNombre();
+                                                nombre = nombre.replace("á", "&aacute;");
+                                                nombre = nombre.replace("é", "&eacute;");
+                                                nombre = nombre.replace("í", "&iacute;");
+                                                nombre = nombre.replace("ó", "&oacute;");
+                                                nombre = nombre.replace("ú", "&uacute;");
+                                                nombre = nombre.replace("Á", "&Aacute;");
+                                                nombre = nombre.replace("É", "&Eacute;");
+                                                nombre = nombre.replace("Í", "&Iacute;");
+                                                nombre = nombre.replace("Ó", "&Oacute;");
+                                                nombre = nombre.replace("Ú", "&Uacute;");
+                                                nombre = nombre.replace("ñ", "&ntilde;");
+                                                nombre = nombre.replace("Ñ", "&Ntilde;");
                                                 if (lista.isPrivada()) {
                                                     tipo = "Privada";
                                                 } else {
                                                     tipo = "Pública";
                                                 }
-                                                byte[] bytes = lista.getNombre().getBytes(StandardCharsets.UTF_8);
-                                                // "normaliza" el texto
-                                                String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                                         %>
                                         <!-- Si es publica o es privada pero el perfil es del cliente que inicio sesion -->
-                                        <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) { %>
+                                        <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) {%>
                                         <tr>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                             <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
-                                            <% if (lista.isPrivada() && controlSeguir) {%>
+                                                    <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
 
                                             <%} else {%> 
                                             <td> </td>
                                             <%}%>
                                         </tr>
-                                        <%}}%>
+                                        <%}
+                                            }%>
                                     </tbody>
                                 </table>
-                                <%}}%>
+                                <%}
+                                    }%>
                             </div>
                             <div id="menu2" class="tab-pane fade">
                                 <% if (seguidores.isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No tiene seguidores</i></h4>
                                 <%} else {%>
                                 <%  for (DtUsuario seguidorAux : seguidores) {
-                                    DtCliente seguidor = (DtCliente) seguidorAux; %>
+                                        DtCliente seguidor = (DtCliente) seguidorAux;%>
                                 <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
                                     <div class="col-sm-8 text-left">
 
@@ -241,19 +253,19 @@
                                             <td><h4><%= tipo%></h4></td> 
                                             <td>
                                                 <%
-                                            if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
-                                                boolean control = false;
-                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
-                                                        control = true;
-                                                    }
-                                                }
-                                                if (control) {
-                                        %>
-                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> Dejar de seguir</a>
-                                        <%} else {%>
-                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> Seguir</a>
-                                        <%}
+                                                    if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
+                                                        boolean control = false;
+                                                        for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                            if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguido.getNickname())) {
+                                                                control = true;
+                                                            }
+                                                        }
+                                                        if (control) {
+                                                %>
+                                                <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> Dejar de seguir</a>
+                                                <%} else {%>
+                                                <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> Seguir</a>
+                                                <%}
                                             }%>
                                             </td> 
                                         </tr>
@@ -264,7 +276,7 @@
                             </div>
                             <% if (perfilUsr != null && perfilUsr.getNickname().equals(cliente.getNickname())) { %>
                             <div id="menu4" class="tab-pane fade">
-                                <% if(cliente.getSuscripciones().isEmpty() == false){ %>
+                                <% if (cliente.getSuscripciones().isEmpty() == false) { %>
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
@@ -285,7 +297,7 @@
                                         <%}%>
                                     </tbody>
                                 </table>
-                                <%}else{%>
+                                <%} else {%>
                                 <h4 class="lineaAbajo"><i>No tiene suscripciones</i></h4>
                                 <%}%>
                                 <br>
@@ -317,7 +329,7 @@
                 </div>
             </div>
         </div>
-                        
+
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>

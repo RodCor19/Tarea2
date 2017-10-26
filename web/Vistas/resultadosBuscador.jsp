@@ -1,3 +1,6 @@
+<%@page import="Servlets.ServletClientes"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
 <%@page import="webservices.WSArtistas"%>
 <%@page import="webservices.DtArtista"%>
 <%@page import="java.io.InputStream"%>
@@ -191,7 +194,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for (DtLista lista : listas) { %>
+                                    <% for (DtLista lista : listas) { 
+                                        String nombre = lista.getNombre();
+                                        nombre = nombre.replace("á", "&aacute;");
+                                        nombre = nombre.replace("é", "&eacute;");
+                                        nombre = nombre.replace("í", "&iacute;");
+                                        nombre = nombre.replace("ó", "&oacute;");
+                                        nombre = nombre.replace("ú", "&uacute;");
+                                        nombre = nombre.replace("Á", "&Aacute;");
+                                        nombre = nombre.replace("É", "&Eacute;");
+                                        nombre = nombre.replace("Í", "&Iacute;");
+                                        nombre = nombre.replace("Ó", "&Oacute;");
+                                        nombre = nombre.replace("Ú", "&Uacute;");
+                                        nombre = nombre.replace("ñ", "&ntilde;");
+                                        nombre = nombre.replace("Ñ", "&Ntilde;");
+                                    %>
                                     <% if (lista instanceof DtListaP) {
                                             DtListaP listaP = (DtListaP) lista;
                                             DtCliente cli= wscli.verPerfilCliente(listaP.getUsuario());
@@ -218,12 +235,12 @@
                                                     <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre() + "&cliente=" + listaP.getUsuario()%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                                     </a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
+                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
                                             <%}%>
                                         <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= cli.getNombre()+" "+cli.getApellido() %></a></td>
                                             <%}
@@ -251,12 +268,12 @@
                                                     <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre()%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                                     </a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>"><%= listaPD.getNombre()%></a></div>
+                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>"><%= listaPD.getNombre()%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre()%>"><%= listaPD.getNombre()%></a></td>
+                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>"><%= listaPD.getNombre()%></a></td>
                                             <%}%>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8");%>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= listaPD.getGenero()%></a></td>
@@ -336,6 +353,7 @@
         </script>
     </body>
     <%} catch (Exception ex){
+          Logger.getLogger(ServletClientes.class.getName()).log(Level.SEVERE, null, ex);
           response.sendRedirect("Error.html");
      }%>
 </html>

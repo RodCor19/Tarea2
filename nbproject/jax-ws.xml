@@ -80,6 +80,7 @@
       <local-wsdl-file>localhost_8088/wsartistas.wsdl</local-wsdl-file>
       <package-name>webservices</package-name>
       <catalog-file>catalog.xml</catalog-file>
+      <use-dispatch>true</use-dispatch>
       <wsimport-options>
         <wsimport-option>
           <wsimport-option-name>extension</wsimport-option-name>
@@ -104,6 +105,10 @@
         <wsimport-option>
           <wsimport-option-name>xendorsed</wsimport-option-name>
           <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>target</wsimport-option-name>
+          <wsimport-option-value>2.1</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>

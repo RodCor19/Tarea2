@@ -135,5 +135,33 @@ function cerrarRep(rep){
         }
     });
 }
-
-
+function nuevaDescarga (artista, album, tema) {
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : '/EspotifyWeb/ServletArtistas',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+           artista : artista,
+           album : album,
+           tema : tema,
+           nuevadescarga : true
+        },
+        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+        }
+    }); 
+}
+function nuevaReproduccion (artista, album, tema) {
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : '/EspotifyWeb/ServletArtistas',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+           artista : artista,
+           album : album,
+           tema : tema,
+           nuevareproduccion : true
+        },
+        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+        }
+    }); 
+}

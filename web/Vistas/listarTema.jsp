@@ -96,6 +96,9 @@
                                         <th>Orden</th>
                                         <th>Nombre</th>
                                         <th>Duración</th>
+                                        <th>            </th>
+                                        <th>Rep</th>
+                                        <th>Dur</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -145,12 +148,12 @@
                                         <%if (tem.getArchivo() != null) {%>
                                         <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%}%>
                                         <%} else {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getDireccion() != null) {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%} else {%>
                                         <td></td>
                                         <%}%>
@@ -180,27 +183,7 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-         <script>
-                     function nuevaDescarga (artista, album, tema) {
-                          alert("no andaaaaaaaa");
-                      $.ajax({
-                           type : 'POST', //tipo de request
-                           url : '/EspotifyWeb/ServletArtistas',
-                           dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-                           data:{ // Parametros que se pasan en el request
-                               artista : artista,
-                               album : album,
-                               tema : tema,
-                               nuevadescarga : true
-                           },
-                           success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                             alert("si andaaaaaaaa"+data);
-                           }
-                       }); 
-                   }
-                        
-         </script>
-        <script>
+         <script>            
 //            function hover(elemento, esHover){
 //                if(esHover){
 //                    elemento.setAttribute('src', '/EspotifyWeb/Imagenes/eliminar.png'); 

@@ -430,7 +430,18 @@ public class ServletArtistas extends HttpServlet {
             String tema = request.getParameter("tema");
 
             //Poner la funcion en webservice aertistas
-//           Fabrica.getArtista().nuevaDescargaTema(artista, album, tema);
+            wsart.nuevaDescargaTema(artista, album, tema);
+            //Redirecciona a la pagina indicada 
+        }
+        
+        if (request.getParameter("nuevareproduccion") != null) {
+//            response.getWriter().write("nuevadescarga");
+            String artista = request.getParameter("artista");
+            String album = request.getParameter("album");
+            String tema = request.getParameter("tema");
+
+            //Poner la funcion en webservice aertistas
+            wsart.nuevaReproduccionTema(artista, album, tema);
             //Redirecciona a la pagina indicada 
         }
 

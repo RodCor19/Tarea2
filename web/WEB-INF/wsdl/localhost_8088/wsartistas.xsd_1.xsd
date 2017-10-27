@@ -56,6 +56,7 @@
 <xs:sequence>
 <xs:element name="biografia" type="xs:string" minOccurs="0"></xs:element>
 <xs:element name="pagWeb" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="fechaD" type="xs:string" minOccurs="0"></xs:element>
 <xs:element name="cantSeguidores" type="xs:int"></xs:element>
 <xs:element name="nickSeguidores" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
 <xs:element name="albumes" type="tns:dtAlbum" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>

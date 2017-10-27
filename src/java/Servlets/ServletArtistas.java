@@ -589,6 +589,22 @@ public class ServletArtistas extends HttpServlet {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/listaRanking.jsp");
                 requestDispatcher.forward(request, response);
             }
+            
+            if(request.getParameter("desactivar") != null){
+                DtUsuario usu = (DtUsuario)sesion.getAttribute("Usuario");
+                if(usu!= null && usu instanceof DtArtista){
+                DtArtista a = (DtArtista)usu;
+                wsart.desactivarArtista(a.getNickname());
+                request.getSession().removeAttribute("Usuario");
+                request.getSession().removeAttribute("PerfilArt");
+                request.getSession().setAttribute("Mensaje", "Desactivación exitosa");
+                response.sendRedirect("ServletArtistas?Inicio=true");
+                }else{
+                request.getSession().setAttribute("Mensaje", "Solo los artistas pueden desactivar su cuenta");
+                response.sendRedirect("ServletArtistas?Inicio=true");
+                }
+            
+            }
                     
         }catch(Exception ex){
 //            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");

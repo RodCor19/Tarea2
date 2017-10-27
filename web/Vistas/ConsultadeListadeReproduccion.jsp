@@ -22,6 +22,7 @@
 <!DOCTYPE html>
 <html>
     <%
+        try{
         DtLista dt = (DtLista) session.getAttribute("Lista");
         session.removeAttribute("temasAReproducir");
         
@@ -45,6 +46,7 @@
             DtCliente dtcontrol = null;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
+                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
         if (aux.isPrivada() && ((aux2==null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
@@ -197,5 +199,10 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>  
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
+        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
     </body>
+    <%} catch (Exception ex) {
+
+            response.sendRedirect("Error.html");
+        }%>
 </html>

@@ -23,23 +23,24 @@
     <%  DtArtista artista = (DtArtista) session.getAttribute("PerfilArt"); %>   
     <%
 //        WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
-        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
-        
-        List<DtCliente> seguidores = (List<DtCliente>) session.getAttribute("SeguidoresArt");
-        
+        if (artista != null) {
+            try {
+                WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+
+                List<DtCliente> seguidores = (List<DtCliente>) session.getAttribute("SeguidoresArt");
+
 //        List<DtUsuario> seguidores = wsart.listarSeguidores(artista.getNickname()).getUsuarios();
-        
 //        DataUsuarios seguidores = wsart.listarSeguidores(artista.getNickname());
-        DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
-        DtCliente dt = null;
-        boolean controlSeguir = false;
-        if (perfilUsr != null && perfilUsr instanceof DtCliente) {
-            if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
-                controlSeguir = true;
-                dt = wscli.verPerfilCliente(perfilUsr.getNickname());
-                session.setAttribute("Usuario", dt);
-            }
-        }
+                DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
+                DtCliente dt = null;
+                boolean controlSeguir = false;
+                if (perfilUsr != null && perfilUsr instanceof DtCliente) {
+                    if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
+                        controlSeguir = true;
+                        dt = wscli.verPerfilCliente(perfilUsr.getNickname());
+                        session.setAttribute("Usuario", dt);
+                    }
+                }
     %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -79,11 +80,14 @@
                         <%} else {%>
                         <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>"> Seguir</a>
                         <%}
-                            }%>
+                            }
+                            if (perfilUsr!=null && artista.getNickname().equals(perfilUsr.getNickname())) {%>
+                        <button id="btn" class="text-primary btn glyphicon btn-danger glyphicon-remove" > Darse de baja</button>
+                        <%}%>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Álbumes</b></h4></a></li>
-                            <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size() %>)</b></h4></a></li>
+                            <li><a data-toggle="tab" href="#menu2"><h4><b>Seguidores(<%= seguidores.size()%>)</b></h4></a></li>
                         </ul>
 
                         <div class="tab-content text-left">
@@ -112,9 +116,10 @@
                                         DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("Usuario");
                                         if (artista.getNickname().equals(dtu.getNickname())) {%>
                                 <a  href="/EspotifyWeb/Vistas/AltaAlbum.jsp"  class="btn boton" style="font-size: 15px; margin-top: 10px;" role="button" >Crear Album</a>
-                                <%}}%>
-                                <%if(artista.getAlbumes().isEmpty()){%>
-                                    <h4 class="lineaAbajo"><i>No tiene álbumes</i></h4>
+                                <%}
+                                    }%>
+                                <%if (artista.getAlbumes().isEmpty()) {%>
+                                <h4 class="lineaAbajo"><i>No tiene álbumes</i></h4>
                                 <%} else { %>
                                 <table class="table text-left">
                                     <thead>
@@ -124,13 +129,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                <%for (DtAlbum album : artista.getAlbumes()) {
-                                        String albumCod = java.net.URLEncoder.encode(album.getNombre(), "UTF-8");%>
+                                        <%for (DtAlbum album : artista.getAlbumes()) {
+                                                String albumCod = java.net.URLEncoder.encode(album.getNombre(), "UTF-8");%>
                                         <tr>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= albumCod + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4></td>
-                                            <td><h4><%= album.getAnio() %></h4></td>
+                                            <td><h4><%= album.getAnio()%></h4></td>
                                         </tr>
-                                <%}%>
+                                        <%}%>
                                     </tbody>
                                 </table>
                                 <%}%>
@@ -154,7 +159,7 @@
                                     <%} else {%>
                                     <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"> Seguir</a>
                                     <%}
-                            }%>
+                                        }%>
                                     <br>
                                     <%}%>
                                     </div>
@@ -165,9 +170,26 @@
                         </div>
                     </div>
                 </div>
-        </div>
-                <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
-                <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
-                <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
-                </body>
-                </html>
+            </div>
+            <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+            <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
+            <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+            <script>
+                            $(document).ready(function(){
+                                $('#btn').click(function() {
+                                var confirmar = confirm("¿Está seguro de darse de baja?");
+                                console.log(confirmar)
+                                if (confirmar){
+                                    location.replace("/EspotifyWeb/ServletArtistas?desactivar=true")
+                                }
+                            });});
+            </script>
+    </body>
+</html><%
+        } catch (Exception ex) {
+            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+        }
+    } else {
+        response.sendRedirect("/EspotifyWeb/ServletArtistas?Inicio=true");
+    }
+%>

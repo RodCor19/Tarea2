@@ -43,7 +43,7 @@
                     <%}%>
                     <%  HttpSession sesion = request.getSession();
                         if (sesion.getAttribute("Mensaje") != null) {%>
-                    <h3 class="text-center label-info"><%=sesion.getAttribute("Mensaje")%></h3>
+                    <h3 class="text-center text-info"><%=sesion.getAttribute("Mensaje")%></h3>
                     <%}
                         sesion.removeAttribute("Mensaje");
                     %>

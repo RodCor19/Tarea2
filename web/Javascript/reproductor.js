@@ -160,7 +160,7 @@ function reproducirListaPD(lista, genero){
         dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
         data:{ // Parametros que se pasan en el request
             reproducirLista : lista,
-            creador: genero
+            genero: genero
         },
         success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
             $('#divReproductor').load("/EspotifyWeb/Vistas/reproductor.jsp");

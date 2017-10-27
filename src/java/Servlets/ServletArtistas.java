@@ -1,5 +1,6 @@
 package Servlets;
 
+import Clases.Configuraciones;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,6 +71,19 @@ public class ServletArtistas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         /* TODO output your page here. You may use following sample code. */
         
+//        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
+//        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
+//        rutaConfWS = rutaConfWS.replace("%20", " ");
+//        
+////        InputStream entrada = this.getClass().getResourceAsStream("webservices.properties");
+////        Properties propiedades = new Properties();
+////        propiedades.load(entrada);// cargamos el archivo de propiedades
+//        
+//        Configuraciones conf = new Configuraciones();
+//        
+//        response.getWriter().write("Path: "+conf.getPath());
+//        response.getWriter().write("<br>");
+//        response.getWriter().write("WSArtistas: "+conf.getUrlWSArtistas());
 
         Properties propiedades = new Properties();
         String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
@@ -584,7 +598,7 @@ public class ServletArtistas extends HttpServlet {
         }
         
         
-//            response.getWriter().write("hola wolrd");
+            response.getWriter().write("hola wolrd");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

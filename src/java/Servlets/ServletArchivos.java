@@ -217,8 +217,9 @@ public class ServletArchivos extends HttpServlet {
                 request.getSession().removeAttribute("temasAReproducir");
                 request.getSession().removeAttribute("reproducirTema");
             }
+            
             if (request.getParameter("descargar") != null) {
-                if (tipoArchivo.equals("audio")) {
+//                if (tipoArchivo.equals("audio")) {
                     try {
                         DtUsuario dt = (DtUsuario) request.getSession().getAttribute("Usuario");
                         if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
@@ -249,7 +250,7 @@ public class ServletArchivos extends HttpServlet {
                     } catch (IOException_Exception ex) {
                         Logger.getLogger(ServletArchivos.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+//                }
             }
 //        } catch (Exception ex) {
 //            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");

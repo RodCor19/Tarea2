@@ -3,10 +3,10 @@
     <system systemId="http://localhost:8088/wsartistas?xsd=2" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_2.xsd"/>
     <system systemId="http://localhost:8087/wsclientes?xsd=2" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.xsd_2.xsd"/>
     <system systemId="http://localhost:8088/wsartistas?WSDL" uri="src/conf/xml-resources/web-services/WSArtista/wsdl/localhost_8088/wsartistas.wsdl"/>
-    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
-    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
     <system systemId="http://localhost:8089/wsarchivos?wsdl" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
     <system systemId="http://localhost:8089/wsarchivos?xsd=1" uri="src/conf/xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.xsd_1.xsd"/>
     <system systemId="http://localhost:8087/wsclientes?wsdl" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.wsdl"/>
     <system systemId="http://localhost:8087/wsclientes?xsd=1" uri="src/conf/xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.xsd_1.xsd"/>
+    <system systemId="http://localhost:8088/wsartistas?wsdl" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
+    <system systemId="http://localhost:8088/wsartistas?xsd=1" uri="src/conf/xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.xsd_1.xsd"/>
 </catalog>

@@ -20,7 +20,7 @@
 <!DOCTYPE html>
 <html>
     <%  DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli");
-
+        try{
         WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
 
         List<DtUsuario> seguidores = wscli.getSeguidores(cliente.getNickname()).getUsuarios();
@@ -348,3 +348,7 @@
         <script src="/EspotifyWeb/Javascript/lista.js"></script>
     </body>
 </html>
+<%}catch (Exception ex) {
+
+            response.sendRedirect("Error.html");
+        }%>

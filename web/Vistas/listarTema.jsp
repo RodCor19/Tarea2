@@ -95,10 +95,7 @@
                                     <tr>
                                         <th>Orden</th>
                                         <th>Nombre</th>
-                                        <th>Duración</th>
-                                        <th>            </th>
-                                        <th>Rep</th>
-                                        <th>Dur</th>
+                                        <th>Duración</th> 
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -169,8 +166,8 @@
                                             <div class="popover-body">
                                                 <ul style="padding: 0px; margin: 0px;">
                                                     <li class="list-group-item"><%=tem.getNombre()%></li>
-                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: "Numero"</li>
-                                                    <li class="list-group-item">Descargas: "Numero"</li>
+                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
+                                                    <li class="list-group-item"style="background-color: #343333; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -200,25 +197,7 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-         <script>
-                     function nuevaDescarga (artista, album, tema) {
-                          alert("no andaaaaaaaa");
-                      $.ajax({
-                           type : 'POST', //tipo de request
-                           url : '/EspotifyWeb/ServletArtistas',
-                           dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
-                           data:{ // Parametros que se pasan en el request
-                               artista : artista,
-                               album : album,
-                               tema : tema,
-                               nuevadescarga : true
-                           },
-                           success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                             alert("si andaaaaaaaa"+data);
-                           }
-                        }); 
-                   }
-                   
+         <script>        
             $(function(){
                 $("[data-toggle=popover]").popover({
                     html : true,

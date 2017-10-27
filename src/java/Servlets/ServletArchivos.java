@@ -60,7 +60,7 @@ public class ServletArchivos extends HttpServlet {
         InputStream entrada = new FileInputStream(rutaConfWS);
         propiedades.load(entrada);// cargamos el archivo de propiedades
 
-        try {
+//        try {
             URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArch") + "/" + propiedades.getProperty("nombreWSArch"));
             WSArchivosService wsarchs = new WSArchivosService(url,new QName("http://WebServices/", "WSArchivosService"));
             WSArchivos wsarch = wsarchs.getWSArchivosPort();
@@ -251,13 +251,13 @@ public class ServletArchivos extends HttpServlet {
                     }
                 }
             }
-        } catch (Exception ex) {
-            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
-            /*
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
-            requestDispatcher.forward(request, response);
-            */
-        }
+//        } catch (Exception ex) {
+//            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
+//            /*
+//            RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
+//            requestDispatcher.forward(request, response);
+//            */
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

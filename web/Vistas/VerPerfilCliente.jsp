@@ -71,9 +71,13 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>"> Dejar de seguir</a>
+                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">
+                           <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
+                        </a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>"> Seguir</a>
+                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>">
+                            <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                        </a>
                         <%}
                             }%>
 
@@ -205,9 +209,13 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"> Dejar de seguir</a>
+                                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
+                                           <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
+                                        </a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"> Seguir</a>
+                                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
+                                            <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                        </a>
                                         <%}
                                             }%>
                                     </div>
@@ -262,9 +270,13 @@
                                                         }
                                                         if (control) {
                                                 %>
-                                                <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> Dejar de seguir</a>
+                                                <a class="text-primary btn btn-danger " href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> 
+                                                    <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
+                                                </a>
                                                 <%} else {%>
-                                                <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> Seguir</a>
+                                                <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> 
+                                                    <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                                </a>
                                                 <%}
                                             }%>
                                             </td> 
@@ -290,7 +302,7 @@
                                         <%for (DtSuscripcion suscripcion : cliente.getSuscripciones()) {%>
                                         <tr>
                                             <td><h4><%= suscripcion.getTipo()%></h4></td>
-                                            <td><h4><%= suscripcion.getMonto()%></h4></td>
+                                            <td><h4>$<%= suscripcion.getMonto()%></h4></td>
                                             <td><h4><%= suscripcion.getFecha()%></h4></td>
                                             <td><h4><%= suscripcion.getEstado()%></h4></td>
                                         </tr>

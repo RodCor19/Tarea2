@@ -16,27 +16,30 @@ if (document.getElementById("checkurl").checked === false){
         document.getElementById("url").disabled = true;
     }    
     
-$('#aceptar').click(function(e) {
-        e.preventDefault();
-        var photo = document.getElementById("elegirimagen");
+$("#formcrear").submit(function(e) {
         var listagen = $("#listageneros li");
         var tabla = document.getElementById("mitabla");
         var nombre = document.getElementById("nombrealbum").value;
         var anio = document.getElementById("anioalbum").value;
-        if(anio < 1800 || anio >2017)
+        if(anio < 1800 || anio >2017){
             alert("Año Inválido");
-        else{
+            e.preventDefault();
+            return false;
+        }else{
             if (tabla.rows.length === 1){
                 alert("No se ha agregado ningun tema");
                 e.preventDefault();
+                return false;
             }else{
                 if (listagen.length === 0){
                     alert("No se ha agregagado ningun género");
                     e.preventDefault();
+                    return false;
                 }else{
                     if (nombre ===""){
                         alert("Nombre vacío");
                         e.preventDefault();
+                        return false;
                     }else{
 //                        if (photo.value !== ""){
 //                            $("#formcrear").submit();
@@ -60,7 +63,8 @@ $('#aceptar').click(function(e) {
                         $.ajax({
                         type : 'POST', //tipo de request
                         url : '/EspotifyWeb/ServletArtistas',
-                        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+                        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)}
+                        async: false,
                         data:{ // Parametros que se pasan en el request
                             //NombreAlbum : $('#nombrealbum').val()
                             //NombreAlbum : hola,
@@ -73,12 +77,12 @@ $('#aceptar').click(function(e) {
                         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                            if (data==='nomRepetido'){
                                alert("Este Artista ya tiene un album con ese nombre");
-//                               e.preventDefault();
+                               e.preventDefault();
+                               return false;
                            }
-                           else{
-                                                             
+                           else{ 
                                window.location.replace('/EspotifyWeb/Vistas/AlbumIngresado.jsp');
-                               $("#formcrear").submit(); 
+                               return true; // con return true se envia el submit de la imagen
                            }
                         }
                         });

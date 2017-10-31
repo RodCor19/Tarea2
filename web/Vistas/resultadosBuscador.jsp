@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="webservices.DataTemas"%>
 <%@page import="webservices.WSArtistasService"%>
 <%@page import="javax.xml.namespace.QName"%>
@@ -34,17 +35,17 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <title>Espotify: Resultados</title>
         <% String palabra = request.getParameter("busqueda");
-            try {
+            //try {
             WSClientes wscli = (WSClientes)request.getSession().getAttribute("WSClientes");
             WSArtistas wsart = (WSArtistas)request.getSession().getAttribute("WSArtistas");
 
             DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
             DtCliente dt = null;
             boolean control = false;
-            
-                List<DtTema> temas = wscli.resultadosT(palabra).getTemas();
+                DataTemas data = wscli.resultadosT(palabra);
                 List<DtLista> listas = wscli.resultadosL(palabra).getListas();
                 List<DtAlbum> albumes = wscli.resultadosA(palabra).getAlbumes();
+                List<DtTema> temas = data.getTemas();
 
                 if (perfilUsr != null && perfilUsr instanceof DtCliente) {
                     if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
@@ -356,8 +357,8 @@
                                                             }
         </script>
     </body>
-    <%} catch (Exception ex) {
+    <% /**} catch (Exception ex) {
             System.out.println(ex.getMessage());
             response.sendRedirect("Error.html");
-        }%>
+        }**/ %>
 </html>

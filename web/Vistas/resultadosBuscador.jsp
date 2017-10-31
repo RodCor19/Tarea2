@@ -35,7 +35,7 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
         <title>Espotify: Resultados</title>
         <% String palabra = request.getParameter("busqueda");
-            //try {
+            try {
             WSClientes wscli = (WSClientes)request.getSession().getAttribute("WSClientes");
             WSArtistas wsart = (WSArtistas)request.getSession().getAttribute("WSArtistas");
 
@@ -357,8 +357,8 @@
                                                             }
         </script>
     </body>
-    <% /**} catch (Exception ex) {
+    <% } catch (Exception ex) {
             System.out.println(ex.getMessage());
             response.sendRedirect("Error.html");
-        }**/ %>
+        }%>
 </html>

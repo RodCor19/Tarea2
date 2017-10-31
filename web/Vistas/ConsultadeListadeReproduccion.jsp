@@ -187,9 +187,9 @@
                                             </div>
                                             <div class="popover-body">
                                                 <ul style="padding: 0px; margin: 0px;">
-                                                    <li class="list-group-item"><%=tem.getNombre()%></li>
-                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
-                                                    <li class="list-group-item"style="background-color: #343333; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
+                                                    <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
+                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
+                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -224,11 +224,11 @@
                     content: function() {
                       var content = $(this).attr("data-popover-content");
                       return $(content).children(".popover-body").html();
-                    },
+                    }/*,
                     title: function() {
                       var title = $(this).attr("data-popover-content");
                       return $(title).children(".popover-heading").html();
-                    }
+                    }*/
                 });
             });
         </script>

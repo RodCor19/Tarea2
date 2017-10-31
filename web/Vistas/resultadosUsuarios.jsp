@@ -97,7 +97,7 @@
                                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                         </a>
                                         <%}
-                                                    }%>
+                                            }%>
                                     </td> 
                                 </tr>
                                 <%}%>

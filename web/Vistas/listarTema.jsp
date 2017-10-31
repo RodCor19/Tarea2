@@ -117,8 +117,8 @@
                                             }
                                     %>
                                     <!-- <a href="#" rel="popover" data-popover-content="#myPopover"> -->
-                                    <!--<tr class="filaTema" rel="popover" data-popover-content="#myPopover" data-toggle="popover" >-->
-                                    <tr class="filaTema" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0">
+                                    <tr class="filaTema">
+                                    <%--<tr class="filaTema" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0">--%>
                                         <%if (usuario != null && usuario instanceof DtCliente && cliente && control2) {%>
                                         <td>
                                             <div>
@@ -146,16 +146,25 @@
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td class="text-right">
+                                            <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
+                                            <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%} else {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td class="text-right">
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
+                                            <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%}%>
                                         <%} else {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getDireccion() != null) {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td class="text-right">
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
+                                            <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%} else {%>
-                                        <td></td>
+                                        <td class="text-right"><a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a></td>
                                         <%}%>
                                         <%}%>
                                         
@@ -165,9 +174,9 @@
                                             </div>
                                             <div class="popover-body">
                                                 <ul style="padding: 0px; margin: 0px;">
-                                                    <li class="list-group-item"><%=tem.getNombre()%></li>
-                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
-                                                    <li class="list-group-item"style="background-color: #343333; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
+                                                    <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
+                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Reproducciones: <br> <%=tem.getCantReproduccion()%></b></li>
+                                                    <li class="list-group-item"style="border-color: #1ED760; color: #1ED760"><b>Descargas: <br> <%=tem.getCantDescarga()%></b></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -201,15 +210,15 @@
             $(function(){
                 $("[data-toggle=popover]").popover({
                     html : true,
-                    placement: 'auto',
+                    placement: 'right',
                     content: function() {
                       var content = $(this).attr("data-popover-content");
                       return $(content).children(".popover-body").html();
-                    },
+                    }/*,
                     title: function() {
                       var title = $(this).attr("data-popover-content");
                       return $(title).children(".popover-heading").html();
-                    }
+                    }*/
                 });
             });
         </script>

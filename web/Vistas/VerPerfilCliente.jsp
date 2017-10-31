@@ -225,13 +225,16 @@
 
                                 <br>
                             </div>
-                            <div id="menu3" class="tab-pane fade">
+                                    <div id="menu3" class="tab-pane fade"> <% if(perfilUsr.getNickname().equals(cliente.getNickname())){
+                                    %>
                                 <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
                                         <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
                                         <button class="btn" type="submit">
                                             <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
                                         </button>
                                     </form> </h3>
+                                        <% }
+                                    %>
                                     <%if (cliente.getUsuariosSeguidos().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
                                 <%} else {%>
@@ -320,13 +323,24 @@
                         <div id="home" class="tab-pane fade in active">
                             <%  int cantListPub = 0;
                                 for (DtListaP lista : cliente.getListas()) {
+                                    String nombre = lista.getNombre();
+                                                nombre = nombre.replace("á", "&aacute;");
+                                                nombre = nombre.replace("é", "&eacute;");
+                                                nombre = nombre.replace("í", "&iacute;");
+                                                nombre = nombre.replace("ó", "&oacute;");
+                                                nombre = nombre.replace("ú", "&uacute;");
+                                                nombre = nombre.replace("Á", "&Aacute;");
+                                                nombre = nombre.replace("É", "&Eacute;");
+                                                nombre = nombre.replace("Í", "&Iacute;");
+                                                nombre = nombre.replace("Ó", "&Oacute;");
+                                                nombre = nombre.replace("Ú", "&Uacute;");
+                                                nombre = nombre.replace("ñ", "&ntilde;");
+                                                nombre = nombre.replace("Ñ", "&Ntilde;");
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
-                                        byte[] bytes = lista.getNombre().getBytes(StandardCharsets.UTF_8);
-                                        // "normaliza" el texto
-                                        String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
+                                        
                             %>    
-                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
+                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
                                 <%}
                                     }
                                     if (cantListPub == 0) {%>

@@ -76,9 +76,13 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"> Dejar de seguir</a>
+                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"> 
+                                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
+                                        </a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>"> Seguir</a>
+                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>">
+                                            <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                        </a>
                         <%}
                             }
                             if (perfilUsr!=null && artista.getNickname().equals(perfilUsr.getNickname())) {%>
@@ -155,9 +159,13 @@
                                             }
                                             if (control) {
                                     %>
-                                    <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"> Dejar de seguir</a>
+                                    <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
+                                        <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de Seguir</b>
+                                    </a>
                                     <%} else {%>
-                                    <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"> Seguir</a>
+                                    <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
+                                        <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                    </a>
                                     <%}
                                         }%>
                                     <br>

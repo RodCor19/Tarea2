@@ -32,7 +32,7 @@
 <part name="arg1" type="xsd:string"></part>
 </message>
 <message name="getImagenAlbumResponse">
-<part name="return" type="xsd:base64Binary"></part>
+<part name="return" type="tns:dataBytes"></part>
 </message>
 <message name="cargarDatosBD"></message>
 <message name="cargarDatosBDResponse"></message>
@@ -40,7 +40,7 @@
 <part name="rutaArchivo" type="xsd:string"></part>
 </message>
 <message name="cargarArchivoResponse">
-<part name="return" type="xsd:base64Binary"></part>
+<part name="return" type="tns:dataBytes"></part>
 </message>
 <message name="IOException">
 <part name="fault" element="tns:IOException"></part>

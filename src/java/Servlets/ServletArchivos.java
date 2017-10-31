@@ -83,7 +83,7 @@ public class ServletArchivos extends HttpServlet {
                         response.setContentType("audio/mpeg");
                         response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
 
-                        byte[] audio = wsarch.cargarArchivo(ruta);
+                        byte[] audio = wsarch.cargarArchivo(ruta).getByteArray();
                         System.out.println(audio.length);
 
                         response.setContentType("audio/mpeg");
@@ -113,7 +113,7 @@ public class ServletArchivos extends HttpServlet {
                         // tipo == "imagen"
                         String ruta = request.getParameter("ruta");
 
-                        byte[] img = wsarch.cargarArchivo(ruta);
+                        byte[] img = wsarch.cargarArchivo(ruta).getByteArray();
                         response.setContentType("image/jpg");
                         response.setContentLength((int) img.length);
                         OutputStream out = response.getOutputStream();
@@ -133,7 +133,7 @@ public class ServletArchivos extends HttpServlet {
                 //            response.getWriter().write(temaSeleccionado);
                 List<DtTema> temas = wsarch.reproducirAlbum(artista, album).getTemas();
                 request.getSession().setAttribute("temasAReproducir", temas);
-                byte[] imagen = wsarch.getImagenAlbum(artista, album);
+                byte[] imagen = wsarch.getImagenAlbum(artista, album).getByteArray();
                 if (imagen != null) {
                     try {
                         String path = this.getClass().getClassLoader().getResource("").getPath();
@@ -224,7 +224,7 @@ public class ServletArchivos extends HttpServlet {
                             response.setContentType("audio/mpeg");
                             response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
 
-                            byte[] audio = wsarch.cargarArchivo(ruta);
+                            byte[] audio = wsarch.cargarArchivo(ruta).getByteArray();
                             System.out.println(audio.length);
 
                             response.setContentType("audio/mpeg");

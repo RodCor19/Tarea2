@@ -2,6 +2,12 @@
 
 <xs:element name="IOException" type="tns:IOException"></xs:element>
 
+<xs:complexType name="dataBytes">
+<xs:sequence>
+<xs:element name="byteArray" type="xs:base64Binary" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="dataTemas">
 <xs:sequence>
 <xs:element name="temas" type="tns:dtTema" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>

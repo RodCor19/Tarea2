@@ -88,6 +88,7 @@
                             if (perfilUsr!=null && artista.getNickname().equals(perfilUsr.getNickname())) {%>
                         <button id="btn" class="text-primary btn glyphicon btn-danger glyphicon-remove" > Darse de baja</button>
                         <%}%>
+                        <br><br>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Álbumes</b></h4></a></li>

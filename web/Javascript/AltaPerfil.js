@@ -5,8 +5,8 @@
  */
 
 $(document).ready(function () {
-    var glo1 = 1;
-    var glo0 = 1;
+//    var glo1 = 1;
+//    var glo0 = 1;
 
     $('#radioA').click(function () {
         $('#opcionesArt').show();
@@ -125,15 +125,15 @@ $(document).ready(function () {
                 },
                 success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                     if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
-                        boton.disabled = true;
-                        glo1 = 0;
+//                        boton.disabled = true;
+//                        glo1 = 0;
                         $('#correo').parent().addClass("input-group has-error has-feedback");               
                     }
                     if (data==='no'){
-                        glo1 = 1;
-                        if (glo0===1 && glo1===1){
-                            boton.disabled = false;
-                        }
+//                        glo1 = 1;
+//                        if (glo0===1 && glo1===1){
+//                            boton.disabled = false;
+//                        }
                         $('#correo').parent().removeClass("has-error has-feedback");     
                     }
                }
@@ -155,17 +155,17 @@ $(document).ready(function () {
                     if (data==='si'){	//aca con el data que devuelve compruebo si existe o no y muestro el alert en la página
 //                        nick.style.backgroundColor = "red";
 //                        nick.style.color = "white";
-                        boton.disabled = true;
-                        glo0 = 0;
+//                        boton.disabled = true;
+//                        glo0 = 0;
                         $('#nickname').parent().addClass("input-group has-error has-feedback");
                     }
                     if (data==='no'){
                         nick.style.backgroundColor = "white";
                         nick.style.color = "black";
-                        glo0 = 1;
-                        if (glo0===1 && glo1===1){
-                            boton.disabled = false;
-                        }
+//                        glo0 = 1;
+//                        if (glo0===1 && glo1===1){
+//                            boton.disabled = false;
+//                        }
                         $('#nickname').parent().removeClass("has-error has-feedback");
                     }
                }

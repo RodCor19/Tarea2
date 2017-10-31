@@ -34,8 +34,6 @@
 <message name="reproducirListaPResponse">
 <part name="return" type="tns:dataTemas"></part>
 </message>
-<message name="cargarDatosBD"></message>
-<message name="cargarDatosBDResponse"></message>
 <message name="cargarArchivo">
 <part name="rutaArchivo" type="xsd:string"></part>
 </message>
@@ -45,6 +43,8 @@
 <message name="IOException">
 <part name="fault" element="tns:IOException"></part>
 </message>
+<message name="cargarDatosBD"></message>
+<message name="cargarDatosBDResponse"></message>
 <portType name="WSArchivos">
 <operation name="CargadeDatos">
 <input wsam:Action="http://WebServices/WSArchivos/CargadeDatosRequest" message="tns:CargadeDatos"></input>
@@ -66,14 +66,14 @@
 <input wsam:Action="http://WebServices/WSArchivos/reproducirListaPRequest" message="tns:reproducirListaP"></input>
 <output wsam:Action="http://WebServices/WSArchivos/reproducirListaPResponse" message="tns:reproducirListaPResponse"></output>
 </operation>
-<operation name="cargarDatosBD">
-<input wsam:Action="http://WebServices/WSArchivos/cargarDatosBDRequest" message="tns:cargarDatosBD"></input>
-<output wsam:Action="http://WebServices/WSArchivos/cargarDatosBDResponse" message="tns:cargarDatosBDResponse"></output>
-</operation>
 <operation name="cargarArchivo">
 <input wsam:Action="http://WebServices/WSArchivos/cargarArchivoRequest" message="tns:cargarArchivo"></input>
 <output wsam:Action="http://WebServices/WSArchivos/cargarArchivoResponse" message="tns:cargarArchivoResponse"></output>
 <fault message="tns:IOException" name="IOException" wsam:Action="http://WebServices/WSArchivos/cargarArchivo/Fault/IOException"></fault>
+</operation>
+<operation name="cargarDatosBD">
+<input wsam:Action="http://WebServices/WSArchivos/cargarDatosBDRequest" message="tns:cargarDatosBD"></input>
+<output wsam:Action="http://WebServices/WSArchivos/cargarDatosBDResponse" message="tns:cargarDatosBDResponse"></output>
 </operation>
 </portType>
 <binding name="WSArchivosPortBinding" type="tns:WSArchivos">
@@ -123,15 +123,6 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="cargarDatosBD">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
 <operation name="cargarArchivo">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -143,6 +134,15 @@
 <fault name="IOException">
 <soap:fault name="IOException" use="literal"></soap:fault>
 </fault>
+</operation>
+<operation name="cargarDatosBD">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
 </operation>
 </binding>
 <service name="WSArchivosService">

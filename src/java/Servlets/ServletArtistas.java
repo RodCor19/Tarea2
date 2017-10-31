@@ -29,7 +29,9 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import java.net.Socket;
+import java.net.URLEncoder;
 import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import webservices.DataGeneros;
@@ -71,34 +73,26 @@ public class ServletArtistas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         /* TODO output your page here. You may use following sample code. */
         
-//        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
-//        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
-//        rutaConfWS = rutaConfWS.replace("%20", " ");
-//        
-////        InputStream entrada = this.getClass().getResourceAsStream("webservices.properties");
-////        Properties propiedades = new Properties();
-////        propiedades.load(entrada);// cargamos el archivo de propiedades
-//        
-//        Configuraciones conf = new Configuraciones();
-//        
-//        response.getWriter().write("Path: "+conf.getPath());
-//        response.getWriter().write("<br>");
-//        response.getWriter().write("WSArtistas: "+conf.getUrlWSArtistas());
+            Configuraciones conf = new Configuraciones();
+//            String path = conf.getPath();
+//            response.getWriter().write(path+"<br>");
+//            path = path.replace("WEB-INF/classes/", "webservices.properties");
+//            response.getWriter().write(path+"<br>");
+//            
+//            response.getWriter().write(conf.getUrlWSArtistas()+"<br>");
+//            response.getWriter().write(conf.getUrlWSArtistas().toString()+"<br>"+"<br>");
+//            WSArtistasService wsarts = new WSArtistasService(conf.getUrlWSArtistas(),new QName("http://WebServices/", "WSArtistasService"));
+//            WSArtistas wsart = wsarts.getWSArtistasPort();
+//            
+//            for(DtGenero g: wsart.buscarGenero("").getGeneros()){
+//                response.getWriter().write(g.getNombre()+"<br>");
+//            }
 
-        Properties propiedades = new Properties();
-        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
-        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
-        rutaConfWS = rutaConfWS.replace("%20", " ");
-        InputStream entrada = new FileInputStream(rutaConfWS);
-        propiedades.load(entrada);// cargamos el archivo de propiedades
-        
         try{
-            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
-            WSArtistasService wsarts = new WSArtistasService(url,new QName("http://WebServices/", "WSArtistasService"));
+            WSArtistasService wsarts = new WSArtistasService(conf.getUrlWSArtistas(),new QName("http://WebServices/", "WSArtistasService"));
             WSArtistas wsart = wsarts.getWSArtistasPort();
 
-            url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
-            WSClientesService wsclis = new WSClientesService(url,new QName("http://WebServices/", "WSClientesService"));
+            WSClientesService wsclis = new WSClientesService(conf.getUrlWSClientes(),new QName("http://WebServices/", "WSClientesService"));
             WSClientes wscli = wsclis.getWSClientesPort();
             
             HttpSession sesion = request.getSession();
@@ -119,7 +113,12 @@ public class ServletArtistas extends HttpServlet {
                     /*sacando los FileItem del ServletFileUpload en una lista */
                     List items = servlet_up.parseRequest(request);
                     String path = this.getClass().getClassLoader().getResource("").getPath();
+                    
+                    // EN NETBEANS
                     path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                    // EN TOMCAT
+                    path = path.replace("WEB-INF/classes/", "temporales/");
+                    
                     path = path.replace("%20", " ");
                     for (int i = 0; i < items.size(); i++) {
                         /*FileItem es un input enviado dentro del form multipart, puede ser un archivo o un parametro nomrnal(string)*/
@@ -263,16 +262,16 @@ public class ServletArtistas extends HttpServlet {
                             im.delete();
                         }
 
-    //                    DataTemas temasA = new DataTemas();
-                        System.out.println("enviandoalbum");
                         wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
-                        System.out.println("albumenviado");
 
                         //Borar atributos de sesion usados durante la creacion del nuevo album
                         sesion.removeAttribute("nombreAlb");
                         sesion.removeAttribute("anioAlb");
                         sesion.removeAttribute("temasAlbum");
                         sesion.removeAttribute("generosAlbum");
+                        
+                        RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/AlbumIngresado.jsp");
+                        requestDispatcher.forward(request, response);
                     }
 
                 } catch (FileUploadException ex) {
@@ -557,7 +556,7 @@ public class ServletArtistas extends HttpServlet {
                 if (dt != null) {
                     sesion.setAttribute("Usuario", dt);
                     sesion.removeAttribute("error");
-                    sesion.setAttribute("Mensaje", "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido());
+                    String mensaje = "Bienvenido/a " + dt.getNombre() + " " + dt.getApellido();
 
                     if (dt instanceof DtCliente) {
                         //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
@@ -606,15 +605,13 @@ public class ServletArtistas extends HttpServlet {
             
             }
                     
-        }catch(Exception ex){
+        }catch(WebServiceException ex){
 //            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");
             //Redirecciona a la pagina indicada 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
             requestDispatcher.forward(request, response);
         }
         
-        
-            response.getWriter().write("hola wolrd");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

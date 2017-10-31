@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Clases.Configuraciones;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import java.util.List;
 import java.util.Properties;
 import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceException;
 import org.apache.commons.fileupload.FileUploadException;
 import webservices.DtArtista;
 import webservices.DtCliente;
@@ -61,21 +63,14 @@ public class ServletClientes extends HttpServlet {
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
-
-        Properties propiedades = new Properties();
-        String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
-        rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
-        rutaConfWS = rutaConfWS.replace("%20", " ");
-        InputStream entrada = new FileInputStream(rutaConfWS);
-        propiedades.load(entrada);// cargamos el archivo de propiedades
-
+        
+        Configuraciones conf = new Configuraciones();
+        
         try {
-            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
-            WSArtistasService wsarts = new WSArtistasService(url, new QName("http://WebServices/", "WSArtistasService"));
+            WSArtistasService wsarts = new WSArtistasService(conf.getUrlWSArtistas(), new QName("http://WebServices/", "WSArtistasService"));
             WSArtistas wsart = wsarts.getWSArtistasPort();
 
-            url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSCli") + "/" + propiedades.getProperty("nombreWSCli"));
-            WSClientesService wsclis = new WSClientesService(url, new QName("http://WebServices/", "WSClientesService"));
+            WSClientesService wsclis = new WSClientesService(conf.getUrlWSClientes(), new QName("http://WebServices/", "WSClientesService"));
             WSClientes wscli = wsclis.getWSClientesPort();
 
             request.getSession().setAttribute("WSArchivos", wsart);
@@ -341,7 +336,7 @@ public class ServletClientes extends HttpServlet {
                 }
 
             }
-        } catch (Exception ex) {
+        } catch (WebServiceException ex) {
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/Error.html");
             requestDispatcher.forward(request, response);

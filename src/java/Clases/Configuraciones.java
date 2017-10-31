@@ -28,9 +28,14 @@ public class Configuraciones {
         try {
             propiedades = new Properties();
             String rutaConfWS = this.getClass().getClassLoader().getResource("").getPath();
+            
+            // EN NETBEANS
             rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
+            // EN TOMCAT
+            //rutaConfWS = rutaConfWS.replace("WEB-INF/classes/", "webservices.properties");
+            
             rutaConfWS = rutaConfWS.replace("%20", " ");
-            InputStream entrada = new FileInputStream("webservices.properties");
+            InputStream entrada = new FileInputStream(rutaConfWS);
             propiedades.load(entrada);// cargamos el archivo de propiedades
         } catch (IOException ex) {
             Logger.getLogger(Configuraciones.class.getName()).log(Level.SEVERE, null, ex);
@@ -39,7 +44,7 @@ public class Configuraciones {
     
     public URL getUrlWSArtistas(){
         try {
-            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt"));
+            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArt") + "/" + propiedades.getProperty("nombreWSArt")+"?wsdl");
             return url;
         } catch (Exception ex) {
             Logger.getLogger(Configuraciones.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,7 +55,7 @@ public class Configuraciones {
     
     public URL getUrlWSClientes(){
         try {
-            URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli"));
+            URL url = new URL("http://"+ propiedades.getProperty("ipServidor") +":"+ propiedades.getProperty("puertoWSCli")+"/"+propiedades.getProperty("nombreWSCli")+"?wsdl");
             return url;
         } catch (Exception ex) {
             Logger.getLogger(Configuraciones.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +66,7 @@ public class Configuraciones {
     
     public URL getUrlWSArchivos(){
         try {
-            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArch") + "/" + propiedades.getProperty("nombreWSArch"));
+            URL url = new URL("http://" + propiedades.getProperty("ipServidor") + ":" + propiedades.getProperty("puertoWSArch") + "/" + propiedades.getProperty("nombreWSArch")+"?wsdl");
             return url;
         } catch (Exception ex) {
             Logger.getLogger(Configuraciones.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,7 +76,10 @@ public class Configuraciones {
     }
     
     public String getPath(){
-        String path = this.getClass().getResource("").getPath();
+//        String path = this.getClass().getResource("").getPath();
+        String path = this.getClass().getClassLoader().getResource("").getPath();
+        path = path.replace("%20", " ");
+//            rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
         return path;
     }
         

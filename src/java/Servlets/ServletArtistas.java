@@ -113,7 +113,12 @@ public class ServletArtistas extends HttpServlet {
                     /*sacando los FileItem del ServletFileUpload en una lista */
                     List items = servlet_up.parseRequest(request);
                     String path = this.getClass().getClassLoader().getResource("").getPath();
+                    
+                    // EN NETBEANS
                     path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                    // EN TOMCAT
+                    path = path.replace("WEB-INF/classes/", "temporales/");
+                    
                     path = path.replace("%20", " ");
                     for (int i = 0; i < items.size(); i++) {
                         /*FileItem es un input enviado dentro del form multipart, puede ser un archivo o un parametro nomrnal(string)*/
@@ -257,16 +262,16 @@ public class ServletArtistas extends HttpServlet {
                             im.delete();
                         }
 
-    //                    DataTemas temasA = new DataTemas();
-                        System.out.println("enviandoalbum");
                         wsart.ingresarAlbumWeb(artista.getNickname(),anioAlbum,nomAlbum,imagen,temasAlbum,generosAlbum);
-                        System.out.println("albumenviado");
 
                         //Borar atributos de sesion usados durante la creacion del nuevo album
                         sesion.removeAttribute("nombreAlb");
                         sesion.removeAttribute("anioAlb");
                         sesion.removeAttribute("temasAlbum");
                         sesion.removeAttribute("generosAlbum");
+                        
+                        RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/AlbumIngresado.jsp");
+                        requestDispatcher.forward(request, response);
                     }
 
                 } catch (FileUploadException ex) {

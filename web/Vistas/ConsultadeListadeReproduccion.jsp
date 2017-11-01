@@ -3,6 +3,7 @@
     Created on : 02/10/2017, 01:25:29 AM
     Author     : ninoh
 --%>
+<%@page import="java.util.List"%>
 <%@page import="webservices.WSArtistas"%>
 <%@page import="webservices.WSArtistasService"%>
 <%@page import="webservices.DtTema"%>
@@ -127,7 +128,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%for (DtTema tem : dt.getTemas()) {
+                                     
+                                    <%  List<DtTema> arr = dt.getTemas();
+                                        int indic=0;
+                                        for (DtTema tem : arr) {
                                             String nombre = tem.getNombre();
                                             String durac = tem.getDuracion();
                                             DtArtista a = wsart.elegirArtista(tem.getNomartista());
@@ -142,10 +146,10 @@
                                             if (dt instanceof DtListaP) {
                                                 DtListaP aux = (DtListaP) dt;
                                     %>
-                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>','<%= aux.getUsuario() %>',null)">
+                                    <tr class="filaTema" data-popover-content="#<%= indic %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>','<%= aux.getUsuario() %>',null)">
                                     <%      }else{
                                             DtListaPD aux = (DtListaPD) dt;%>
-                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>',null,'<%= aux.getGenero()%>')">
+                                    <tr class="filaTema" data-popover-content="#<%= indic %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>',null,'<%= aux.getGenero()%>')" >
                                     <%      }%>
                                         <%if (cliente && control2) {%>
                                         <td>
@@ -168,17 +172,29 @@
                                         <%if (tem.getArchivo() != null) {%>
                                         <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
                                         <%} else {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                         <%}%>
                                         <%} else {%>
                                         <%if (tem.getDireccion() != null) {%>
-                                        <td><br> <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
+                                        <td><br> <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
                                             <%} else {%>
                                         <td></td>
                                         <%}%>
                                         <%}%>
+                                        <div class="hidden" id="<%=indic%>">
+                                            <div class="popover-heading">
+                                                Información
+                                            </div>
+                                            <div class="popover-body">
+                                                <ul style="padding: 0px; margin: 0px;">
+                                                    <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
+                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
+                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </tr>
-                                    <%}%>
+                                    <%indic++;}%>
                                 </tbody>
                             </table>
                             <%}%>
@@ -200,6 +216,22 @@
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>  
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+        <script>        
+            $(function(){
+                $("[data-toggle=popover]").popover({
+                    html : true,
+                    placement: 'auto',
+                    content: function() {
+                      var content = $(this).attr("data-popover-content");
+                      return $(content).children(".popover-body").html();
+                    }/*,
+                    title: function() {
+                      var title = $(this).attr("data-popover-content");
+                      return $(title).children(".popover-heading").html();
+                    }*/
+                });
+            });
+        </script>
     </body>
     <%} catch (Exception ex) {
 

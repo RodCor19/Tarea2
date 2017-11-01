@@ -86,7 +86,9 @@
                         <%}
                             }
                             if (perfilUsr!=null && artista.getNickname().equals(perfilUsr.getNickname())) {%>
-                        <button id="btn" class="text-primary btn glyphicon btn-danger glyphicon-remove" > Darse de baja</button>
+                        <button id="btn" class="text-primary btn btn-danger" >
+                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span>
+                            <b> Darse de baja</b></button>
                         <%}%>
                         <br><br>
                         <ul class="nav nav-tabs">

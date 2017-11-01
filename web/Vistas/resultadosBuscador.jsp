@@ -299,6 +299,7 @@
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabla.js"></script>
 
         <script>
                                                             function sortTable(columna, th) {

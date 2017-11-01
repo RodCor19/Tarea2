@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <% 
-    String nomgen = request.getParameter("nomgen");
+    String nomgen = (String) session.getAttribute("NomGenero");
     List<DtAlbum> albumes = (List<DtAlbum>) session.getAttribute("Album");
     List<DtListaPD> listas = (List<DtListaPD>) session.getAttribute("Listas");
     %>
@@ -57,7 +57,10 @@
                                 <%}%>
                             </tbody>
                         </table>
-                        <h4 class="text-left"><b>Listas: </b></h4>
+                        <h4 class="text-left"><b>Listas Por Defecto: </b></h4>
+                        <% if(listas.isEmpty()){ %>
+                        <h5 class="text-left lineaAbajo"><i>No tiene listas asociadas</i></h5>
+                        <%}else{%>
                         <table class="table text-left">
                             <thead>
                                 <tr>
@@ -77,6 +80,7 @@
                                 <%}%>
                             </tbody>
                         </table>
+                        <%}%>
                     </div>
                 </div>
                 <div class="btn-group-vertical col-sm-2">

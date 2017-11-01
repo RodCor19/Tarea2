@@ -413,11 +413,10 @@ public class ServletArtistas extends HttpServlet {
                 List<DtLista> listas = wsart.getListasGenero(nombre).getListas();
                 request.getSession().setAttribute("Album", albumnes);
                 request.getSession().setAttribute("Listas", listas);
-                if (nombre.contains("&")) {
-                    nombre = java.net.URLEncoder.encode(nombre, "UTF-8");
-                }
+                request.getSession().setAttribute("NomGenero", nombre);
+                
                 //Redirecciona a la pagina indicada 
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen=" + nombre);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp");
                 requestDispatcher.forward(request, response);
             }
 

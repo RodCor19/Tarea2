@@ -40,7 +40,7 @@
 <body>
     <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
     <center>
-        <h1>Ranking de Usuarios</h1>
+        <h1><b>Ranking de Usuarios</b></h1>
             <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" ></div>
@@ -54,7 +54,7 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Nombre y Apellido</b></h4></th>
+                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
                                         <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
                                         <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
                                         <th></th> <!-- Es para el boton seguir/dejar de seguir -->

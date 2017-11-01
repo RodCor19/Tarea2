@@ -56,9 +56,9 @@
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th><h4><b>Nickname</b></h4></th>
-                                    <th><h4><b>Usuario</b></h4></th>
-                                    <th><h4><b>Tipo</b></h4></th>
+                                    <th onclick="ordenarTabla(0, this)"><h4><b>Nickname</b></h4></th>
+                                    <th onclick="ordenarTabla(1, this)"><h4><b>Usuario</b></h4></th>
+                                    <th onclick="ordenarTabla(2, this)"><h4><b>Tipo</b></h4></th>
                                     <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                 </tr>
                             </thead>
@@ -113,6 +113,7 @@
         <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabla.js"></script>
     </body>
     <%} catch (Exception ex){
           response.sendRedirect("Error.html");

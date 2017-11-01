@@ -292,7 +292,6 @@ public class ServletArtistas extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             if (request.getParameter("Inicio") != null) {
                 List<DtUsuario> artistas = wsart.listarArtistas().getUsuarios();
-                request.getSession().removeAttribute("temasAReproducir");
                 request.getSession().setAttribute("Artistas", artistas);
 
                 //Redirecciona a la pagina indicada 
@@ -562,7 +561,7 @@ public class ServletArtistas extends HttpServlet {
                         //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
                         wscli.actualizarVigenciaSuscripciones(dt.getNickname());
                     }
-
+                    sesion.setAttribute("Mensaje", mensaje);
                     response.sendRedirect("ServletArtistas?Inicio=true");
                 } else {
                     if (!(wscli.verificarDatosCli(nickname, nickname) && wsart.verificarDatosArt(nickname, nickname))) {

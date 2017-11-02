@@ -225,14 +225,17 @@ public class ServletArchivos extends HttpServlet {
                             response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
 
                             byte[] audio = wsarch.cargarArchivo(ruta).getByteArray();
-                            System.out.println(audio.length);
 
                             response.setContentType("audio/mpeg");
                             response.setContentLength((int) audio.length);
 
-                            OutputStream out = response.getOutputStream();
-                            out.write(audio);
-                            out.close();
+                            try (OutputStream out = response.getOutputStream()) {
+                                out.write(audio);
+                                out.flush();
+                            }catch(IOException ex){
+                                //Si salta la excepcion el usuario cancelo la descarga
+                                request.getSession().setAttribute("Mensaje", "cancelo la descarga");
+                            }
                         } else {
                             if (dt == null) {
                                 request.getSession().setAttribute("Mensaje", "Inicie sesión");

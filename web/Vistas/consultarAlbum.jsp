@@ -89,10 +89,8 @@
             </div> 
         </div>
                     
-        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
-        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>

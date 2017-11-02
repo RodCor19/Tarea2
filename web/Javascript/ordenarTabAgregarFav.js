@@ -58,5 +58,30 @@ function ordenarTabla(columna, th) {
         }
     }
 }
+$(document).ready(function () {
+
+    $("#mostrarmodal").modal("show");
+    
+    $(".agregarFavorito").on("click", function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'GET', //tipo de request
+            url: $(this).attr("href"),
+            dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+            data: {// Parametros que se pasan en el request
+            },
+            success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+                if(data === "ok"){
+//                                alert("Se ha agregado el tema correctamente");
+                    location.reload();
+                }else{
+                    alert("Error");
+                }
+            }
+        });
+    });
+
+});
 
 

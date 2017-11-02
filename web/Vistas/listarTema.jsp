@@ -58,6 +58,23 @@
          <title>Espotify: Ver Álbum </title>
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+        <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #E6FFEF; border-bottom-color: #1ED760; padding: 5px">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 style="margin-left: 40%"><b>Mensaje</b></h3>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h4><%=session.getAttribute("Mensaje")%></h4>   
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%}
+            session.removeAttribute("Mensaje");
+        %>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <div class="container">
             <div class="row">
@@ -87,7 +104,7 @@
                             <h3 class="anio"><%= album.getAnio()%></h3>
                             <a onclick="reproducirAlbum('<%= album.getNombre().replace("\'", "\\'")%>', '<%= album.getNombreArtista()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                             <%if (cliente && control2) {%>
-                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px; margin-left: 5px;">Guardar</a>
+                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton agregarFavorito" style="font-size: 15px; margin-left: 5px;">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -123,7 +140,7 @@
                                         <td>
                                             <div>
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
+                                                    <a class="agregarFavorito" style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
                                                         <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= orden%></div>
@@ -206,7 +223,8 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-         <script>        
+        <script src="/EspotifyWeb/Javascript/ordenarTabAgregarFav.js"></script>
+        <script>        
             $(function(){
                 $("[data-toggle=popover]").popover({
                     html : true,
@@ -222,6 +240,7 @@
                 });
             });
         </script>
+            
                     <script>
             //            function hover(elemento, esHover){
             //                if(esHover){

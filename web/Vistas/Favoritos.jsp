@@ -33,7 +33,6 @@
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
-
         <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2">
@@ -151,12 +150,9 @@
                 </div>
             </div>
         </div>
-        
-        <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
                                     
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
     </body>
 </html>
 <%}%>

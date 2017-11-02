@@ -23,12 +23,12 @@
 <!DOCTYPE html>
 <html>
     <%
-        try{
-        DtLista dt = (DtLista) session.getAttribute("Lista");
-        session.removeAttribute("temasAReproducir");
-        
-        WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
-        WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
+        try {
+            DtLista dt = (DtLista) session.getAttribute("Lista");
+            session.removeAttribute("temasAReproducir");
+
+            WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+            WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
     %>
 
     <head>
@@ -48,7 +48,7 @@
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
                 dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
-        if (aux.isPrivada() && ((aux2==null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
+                if (aux.isPrivada() && ((aux2 == null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
             if (aux2 instanceof DtCliente) {
@@ -59,7 +59,7 @@
         <%}
                         if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
                             cliente = true;
-                            dtcontrol=wscli.verPerfilCliente(aux2.getNickname());
+                            dtcontrol = wscli.verPerfilCliente(aux2.getNickname());
                         }
                     }
                 }
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <%if ( dt.getRutaImagen() != null) {%>
+                        <%if (dt.getRutaImagen() != null) {%>
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
@@ -82,11 +82,11 @@
                             if (dt instanceof DtListaPD) {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Por Defecto</h4>
-                        <a onclick="reproducirListaPD('<%= dt.getNombre() %>', '<%= ((DtListaPD)dt).getGenero() %>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
+                        <a onclick="reproducirListaPD('<%= dt.getNombre()%>', '<%= ((DtListaPD) dt).getGenero()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%} else {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
                         <h4 class="text-center">Lista Particular</h4>
-                        <a onclick="reproducirListaP('<%= dt.getNombre() %>', '<%= ((DtListaP)dt).getUsuario() %>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
+                        <a onclick="reproducirListaP('<%= dt.getNombre()%>', '<%= ((DtListaP) dt).getUsuario()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%}%>
                         <br>
                         <div class="tab-pane">
@@ -97,20 +97,21 @@
                                         gen = java.net.URLEncoder.encode(gen, "UTF-8");
                                     }
                             %>
-                            <h4 class="lineaAbajo"><b>Género:</b> <a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= gen %>"><%= dtpd.getGenero()%></a></h4>
+                            <h4 class="lineaAbajo"><b>Género:</b> <a href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= gen%>"><%= dtpd.getGenero()%></a></h4>
                                 <%} else {
                                     DtListaP dtp = (DtListaP) dt;
                                     String tipo = "Privada";
-                                    DtCliente cli= wscli.verPerfilCliente(dtp.getUsuario());
+                                    DtCliente cli = wscli.verPerfilCliente(dtp.getUsuario());
                                 %>
-                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= cli.getNombre()+" "+cli.getApellido() %></a></h4>
-                            <%if (!dtp.isPrivada()) {
-                                    tipo = "Pública";
-                            %>
+                            <h4 class="lineaAbajo"><b>Cliente:</b> <a href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= dtp.getUsuario()%>"><%= cli.getNombre() + " " + cli.getApellido()%></a></h4>
+                                <%if (!dtp.isPrivada()) {
+                                        tipo = "Pública";
+                                %>
                             <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%></h4>
-                            <%}else{%>
+                            <%} else {%>
                             <h4 class="lineaAbajo"><b>Tipo: </b><%= tipo%> <button style="font-size: 15px; margin-left: 5px;" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= dtp.getNombre()%>')">Publicar</button></h4>
-                            <%}}%>
+                            <%}
+                                }%>
                         </div>
                         <br>
                         <div class="tab-pane">
@@ -128,9 +129,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     
+
                                     <%  List<DtTema> arr = dt.getTemas();
-                                        int indic=0;
+                                        int indic = 0;
                                         for (DtTema tem : arr) {
                                             String nombre = tem.getNombre();
                                             String durac = tem.getDuracion();
@@ -146,11 +147,11 @@
                                             if (dt instanceof DtListaP) {
                                                 DtListaP aux = (DtListaP) dt;
                                     %>
-                                    <tr class="filaTema" data-popover-content="#<%= indic %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>','<%= aux.getUsuario() %>',null)">
-                                    <%      }else{
+                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">
+                                        <%      } else {
                                             DtListaPD aux = (DtListaPD) dt;%>
-                                    <tr class="filaTema" data-popover-content="#<%= indic %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0" onclick="reproducirTemaLista('<%= tem.getNombre()%>','<%= aux.getNombre() %>',null,'<%= aux.getGenero()%>')" >
-                                    <%      }%>
+                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')" >
+                                        <%      }%>
                                         <%if (cliente && control2) {%>
                                         <td>
                                             <div class="row">
@@ -170,31 +171,42 @@
                                         <td><%= durac%></td>
                                         <%if (cliente) {%>
                                         <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download"></a></td>
+                                        <td class="text-right">
+                                            <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%} else {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td class="text-right">
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%}%>
                                         <%} else {%>
+                                        <td><%= durac%></td>
                                         <%if (tem.getDireccion() != null) {%>
-                                        <td><br> <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
-                                            <%} else {%>
-                                        <td></td>
+                                        <td class="text-right">
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
+                                        <%} else {%>
+                                        <td class="text-right"><a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a></td>
                                         <%}%>
                                         <%}%>
-                                        <div class="hidden" id="<%=indic%>">
-                                            <div class="popover-heading">
-                                                Información
-                                            </div>
-                                            <div class="popover-body">
-                                                <ul style="padding: 0px; margin: 0px;">
-                                                    <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
-                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
-                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </tr>
-                                    <%indic++;}%>
+                                <div class="hidden" id="<%=indic%>">
+                                    <div class="popover-heading">
+                                        Información
+                                    </div>
+                                    <div class="popover-body">
+                                        <ul style="padding: 0px; margin: 0px;">
+                                            <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </tr>
+                                <%indic++;
+                                    }%>
                                 </tbody>
                             </table>
                             <%}%>
@@ -204,9 +216,9 @@
                 </div>
                 <div class="btn-group-vertical col-sm-2">
                     <div id="divReproductor">
-                    <% if(session.getAttribute("temasAReproducir") != null){ %>
+                        <% if (session.getAttribute("temasAReproducir") != null) { %>
                         <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
-                    <%}%>
+                        <%}%>
                     </div>
                 </div>
             </div> 

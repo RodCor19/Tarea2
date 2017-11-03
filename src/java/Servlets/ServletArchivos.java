@@ -137,7 +137,12 @@ public class ServletArchivos extends HttpServlet {
                 if (imagen != null) {
                     try {
                         String path = this.getClass().getClassLoader().getResource("").getPath();
+                        
+                        // EN NETBEANS
                         path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                        // EN TOMCAT
+                        path = path.replace("WEB-INF/classes/", "temporales/");
+                        
                         path = path + album + "REPRODUCTOR.jpg";
                         path = path.replace("%20", " ");
                         File f = new File(path);

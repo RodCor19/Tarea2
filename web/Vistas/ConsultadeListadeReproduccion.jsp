@@ -144,27 +144,28 @@
                                                     }
                                                 }
                                             }
-                                            if (dt instanceof DtListaP) {
-                                                DtListaP aux = (DtListaP) dt;
                                     %>
-                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">
-                                        <%      } else {
+                                    <tr class="filaTema">
+                                        <%if (dt instanceof DtListaP) {
+                                                    DtListaP aux = (DtListaP) dt;%>
+                                        <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">
+                                        <%} else {
                                             DtListaPD aux = (DtListaPD) dt;%>
-                                    <tr class="filaTema" onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')" >
-                                        <%      }%>
+                                        <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
+                                        <%}%>
                                         <%if (cliente && control2) {%>
-                                        <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
+                                                        <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><%= nombre%></td>
+                                            <%= nombre%>
+                                            </td>
                                         <%}%>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
@@ -182,7 +183,6 @@
                                         </td>
                                         <%}%>
                                         <%} else {%>
-                                        <td><%= durac%></td>
                                         <%if (tem.getDireccion() != null) {%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
@@ -194,13 +194,13 @@
                                         <%}%>
                                 <div class="hidden" id="<%=indic%>">
                                     <div class="popover-heading">
-                                        Información
+                                        Titulo
                                     </div>
                                     <div class="popover-body">
                                         <ul style="padding: 0px; margin: 0px;">
                                             <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <br> <%=tem.getCantReproduccion()%></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <br> <%=tem.getCantDescarga()%></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -232,7 +232,7 @@
             $(function(){
                 $("[data-toggle=popover]").popover({
                     html : true,
-                    placement: 'auto',
+                    placement: 'right',
                     content: function() {
                       var content = $(this).attr("data-popover-content");
                       return $(content).children(".popover-body").html();

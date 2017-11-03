@@ -257,20 +257,6 @@ textarea{
 	min-height:100px;
 }
 
-#boton{/**/
-    margin-bottom:0;
-    background:#1ED760;
-    color:#fff;
-    border:none;
-    width:30%;
-    height:30px;
-}
-
-#boton[type="submit"]:hover{
-	background:#0EBF4C;
-	cursor:pointer;
-}
-
 .x{
     margin-bottom: 30px;
 }

@@ -42,11 +42,11 @@
                             %>
                             <label> <%=sesion.getAttribute("error")%></label><br>
                             <%}%>
-                            <br class="x"><center><input type="submit" value="Iniciar sesión" id="boton" /></center>
+                            <br class="x"><center><input type="submit" value="Iniciar sesión" id="boton" class="boton" style="font-size: 20px" /></center>
                             </form>
                         </ul>
                         <br>
-                        <center>¿No tienes una cuenta?<a href="/EspotifyWeb/Vistas/Registrarse.jsp"> Registrarse</a></center>
+                        <center><h4>¿No tienes una cuenta?<a href="/EspotifyWeb/Vistas/Registrarse.jsp"> Registrarse</a></h4></center>
                     </div>
                     <div class="col-sm-2">
                    

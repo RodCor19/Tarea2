@@ -104,7 +104,7 @@
                             <h3 class="anio"><%= album.getAnio()%></h3>
                             <a onclick="reproducirAlbum('<%= album.getNombre().replace("\'", "\\'")%>', '<%= album.getNombreArtista()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                             <%if (cliente && control2) {%>
-                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton agregarFavorito" style="font-size: 15px; margin-left: 5px;">Guardar</a>
+                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -140,8 +140,7 @@
                                         <td>
                                             <div>
                                                 <div class="span">
-                                                    <a class="agregarFavorito" style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
+                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
                                                     </a>
                                                     <div class="span" ><%= orden%></div>
                                                 </div>
@@ -151,15 +150,17 @@
                                         <td>
                                             <div>
                                                 <div class="span">
-                                                    <!--<a style="float:left; margin-right: 5px; opacity: 0" href="#">-->
-                                                        <img style="float:left; margin-right: 5px; opacity: 0" src="/EspotifyWeb/Imagenes/eliminar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    <!--</a>-->
+                                                    <a class="glyphicon glyphicon-minus" style="float:left; margin-right: 5px; opacity: 0" href="#"></a>
                                                     <div class="span" ><%= orden%></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%}%>
+                                        <%if (tem.getArchivo() != null) {%>
                                         <td onclick="reproducirTema('<%= tem.getNombre().replace("\'", "\\'") %>', '<%= tem.getNomalbum().replace("\'", "\\'")%>', '<%= tem.getNomartista()%>')"><%= nombre%></td>
+                                        <%} else {%>
+                                        <td><%= nombre%></td>
+                                        <%}%>
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getArchivo() != null) {%>
@@ -223,7 +224,7 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/ordenarTabAgregarFav.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
         <script>        
             $(function(){
                 $("[data-toggle=popover]").popover({

@@ -250,7 +250,12 @@ public class ServletClientes extends HttpServlet {
                     /*sacando los FileItem del ServletFileUpload en una lista */
                     List items = servlet_up.parseRequest(request);
                     String path = this.getClass().getClassLoader().getResource("").getPath();
+                    
+                    // EN NETBEANS
                     path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                    // EN TOMCAT
+                    path = path.replace("WEB-INF/classes/", "temporales/");
+                    
                     path = path.replace("%20", " ");
                     for (int i = 0; i < items.size(); i++) {
                         /*FileItem representa un archivo en memoria que puede ser pasado al disco duro*/

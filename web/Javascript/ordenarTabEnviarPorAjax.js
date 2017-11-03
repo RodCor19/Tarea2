@@ -62,7 +62,7 @@ $(document).ready(function () {
 
     $("#mostrarmodal").modal("show");
     
-    $(".agregarFavorito").on("click", function(e){
+    $(".enviarPorAjax").on("click", function(e){
         e.preventDefault();
 
         $.ajax({
@@ -72,16 +72,10 @@ $(document).ready(function () {
             data: {// Parametros que se pasan en el request
             },
             success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-                if(data === "ok"){
-//                                alert("Se ha agregado el tema correctamente");
-                    location.reload();
-                }else{
-                    alert("Error");
-                }
+                location.reload(); // se recarga la pantalla para mostrar el mensaje( en el modal)
             }
         });
     });
-
 });
 
 

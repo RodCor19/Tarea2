@@ -122,9 +122,7 @@
                                 <td>
                                     <div class="row">
                                         <div class="span">
-                                            <a class="agregarFavorito" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
-                                                <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                            </a>
+                                            <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>"></a>
                                             <div class="span" ><%= nombre%></div>
                                         </div>
                                     </div>
@@ -186,9 +184,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    </a>
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>"></a>
                                                     <div class="span" ><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></div>
                                                 </div>
                                             </div>
@@ -252,9 +248,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=nLista + "&cliente=" + listaP.getUsuario()%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    </a>
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=nLista + "&cliente=" + listaP.getUsuario()%>"></a>
                                                     <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
                                                 </div>
                                             </div>
@@ -285,9 +279,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre()%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    </a>
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre()%>"></a>
                                                     <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></div>
                                                 </div>
                                             </div>
@@ -314,7 +306,7 @@
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-        <script src="/EspotifyWeb/Javascript/ordenarTabAgregarFav.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
 
     </body>
     <% } catch (Exception ex) {

@@ -8,4 +8,10 @@
     <system systemId="http://localhost:8087/wsclientes?wsdl" uri="wsdl/localhost_8087/wsclientes.wsdl"/>
     <system systemId="http://localhost:8087/wsclientes?xsd=1" uri="wsdl/localhost_8087/wsclientes.xsd_1.xsd"/>
     <system systemId="http://localhost:8087/wsclientes?xsd=2" uri="wsdl/localhost_8087/wsclientes.xsd_2.xsd"/>
+    <system systemId="http://192.168.43.119:8087/wsclientes?wsdl" uri="wsdl/192.168.43.119_8087/wsclientes.wsdl"/>
+    <system systemId="http://192.168.43.119:8087/wsclientes?xsd=1" uri="wsdl/192.168.43.119_8087/wsclientes.xsd_1.xsd"/>
+    <system systemId="http://192.168.43.119:8088/wsartistas?wsdl" uri="wsdl/192.168.43.119_8088/wsartistas.wsdl"/>
+    <system systemId="http://192.168.43.119:8088/wsartistas?xsd=1" uri="wsdl/192.168.43.119_8088/wsartistas.xsd_1.xsd"/>
+    <system systemId="http://192.168.43.119:8089/wsarchivos?wsdl" uri="wsdl/192.168.43.119_8089/wsarchivos.wsdl"/>
+    <system systemId="http://192.168.43.119:8089/wsarchivos?xsd=1" uri="wsdl/192.168.43.119_8089/wsarchivos.xsd_1.xsd"/>
 </catalog>

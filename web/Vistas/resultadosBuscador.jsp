@@ -59,22 +59,9 @@
     </head>
     <body>
         <%  if (session.getAttribute("Mensaje") != null) {%>
-        <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #E6FFEF; border-bottom-color: #1ED760; padding: 5px">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 style="margin-left: 40%"><b>Mensaje</b></h3>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h4><%=session.getAttribute("Mensaje")%></h4>   
-                    </div>
-                </div>
-            </div>
-        </div>
-        <%}
-            session.removeAttribute("Mensaje");
-        %>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
+        
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <div class="container text-center">
@@ -95,10 +82,10 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Tema</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Album</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
-                                        <th onclick="sortTable(3, this)" class="tituloFila"><h4><b>Duración</b></h4></th>
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Tema</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Album</b></h4></th>
+                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
+                                        <th onclick="ordenarTabla(3, this)" class="tituloFila"><h4><b>Duración</b></h4></th>
                                         <th><!-- Titulo vacio, es para el link escuchar/descargar --></th>
                                     </tr>
                                 </thead>
@@ -123,15 +110,15 @@
                                     <div class="row">
                                         <div class="span">
                                             <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>"></a>
-                                            <div class="span" ><%= nombre%></div>
+                                            <div class="span textoAcomparar" ><%= nombre%></div>
                                         </div>
                                     </div>
                                 </td>
                                 <%} else {%>
                                 <td><%= nombre%></td>
                                 <%}%>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
+                                <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
+                                <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                 <td><%=duracion%><td>
 
                                     <%if (control) {%>
@@ -158,9 +145,9 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Álbum</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Año</b></h4></th>                        
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Álbum</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
+                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Año</b></h4></th>                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,14 +172,14 @@
                                             <div class="row">
                                                 <div class="span">
                                                     <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>"></a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></div>
+                                                    <div class="span" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></td>
                                             <%}%>   
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= ar.getNombre() + " " + ar.getApellido()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= ar.getNombre() + " " + ar.getApellido()%></a></td>
                                         <td><%=album.getAnio()%></td>
                                     </tr>
                                     <%}%>
@@ -207,8 +194,8 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Lista</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Creador/Género</b></h4></th>
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Lista</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Creador/Género</b></h4></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -249,14 +236,14 @@
                                             <div class="row">
                                                 <div class="span">
                                                     <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=nLista + "&cliente=" + listaP.getUsuario()%>"></a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
+                                                    <div class="span" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
                                             <%}%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= cli.getNombre() + " " + cli.getApellido()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= cli.getNombre() + " " + cli.getApellido()%></a></td>
                                             <%}
                                             } else {
                                                 DtListaPD listaPD = (DtListaPD) lista;
@@ -280,15 +267,15 @@
                                             <div class="row">
                                                 <div class="span">
                                                     <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre()%>"></a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></div>
+                                                    <div class="span" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></td>
                                             <%}%>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8");%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= listaPD.getGenero()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= listaPD.getGenero()%></a></td>
                                             <%}%>
                                     </tr>
                                     <%}%>
@@ -307,7 +294,6 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
-
     </body>
     <% } catch (Exception ex) {
             System.out.println(ex.getMessage());

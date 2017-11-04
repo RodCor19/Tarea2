@@ -45,6 +45,9 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <div class="container">
@@ -60,7 +63,6 @@
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
                         <%}%>
                         <h3 class="tituloPerfil text-primary"><b><%= cliente.getNombre() + " " + cliente.getApellido()%></b></h3>
-                        <br>
                         <%
                             if (controlSeguir && !perfilUsr.getNickname().equals(cliente.getNickname())) {
                                 boolean control = false;
@@ -71,16 +73,16 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">
+                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">
                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                         </a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>">
+                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>">
                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                         </a>
                         <%}
                             }%>
-
+                            <br><br>
                         <ul class="nav nav-tabs">
                             <!-- Si inicio sesión -->
                             <%if (perfilUsr != null) {%>
@@ -209,11 +211,11 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
+                                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
                                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                                         </a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
+                                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
                                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                         </a>
                                         <%}
@@ -273,11 +275,11 @@
                                                         }
                                                         if (control) {
                                                 %>
-                                                <a class="text-primary btn btn-danger " href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> 
+                                                <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> 
                                                     <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                                                 </a>
                                                 <%} else {%>
-                                                <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> 
+                                                <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> 
                                                     <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                                 </a>
                                                 <%}
@@ -360,6 +362,7 @@
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/lista.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
 </html>
 <%}catch (Exception ex) {

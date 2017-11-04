@@ -27,14 +27,29 @@ function ordenarTabla(columna, th) {
             y = rows[i + 1].getElementsByTagName("TD")[columna];
             /* Check if the two rows should switch place,
              based on the direction, asc or desc: */
+            
+            var textoAcomparar1 =  $(x).find(".textoAcomparar");
+            if(textoAcomparar1.length === 0){
+                textoAcomparar1 = x.innerHTML.toLowerCase();
+            }else{
+                textoAcomparar1 = $(textoAcomparar1).html().toLowerCase();
+            }
+            
+            var textoAcomparar2 = $(y).find(".textoAcomparar");
+            if(textoAcomparar2.length === 0){
+                textoAcomparar2 = y.innerHTML.toLowerCase();
+            }else{
+                textoAcomparar2 = $(textoAcomparar2).html().toLowerCase();
+            }
+            
             if (dir === "asc") {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (textoAcomparar1 > textoAcomparar2) {
                     // If so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
                 }
             } else if (dir === "desc") {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (textoAcomparar1 < textoAcomparar2) {
                     // If so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;

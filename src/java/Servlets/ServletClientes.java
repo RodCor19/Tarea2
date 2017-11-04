@@ -110,7 +110,10 @@ public class ServletClientes extends HttpServlet {
                 if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                     wscli.dejarSeguir(dt.getNickname(), nickname);
                     sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
-                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+//                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+                    
+                    sesion.setAttribute("Mensaje", "Ha dejado de seguir al usuario '"+nickname+"'");
+                    response.getWriter().write("ok");
                     //response.getWriter().write("ok");
                 } else {
                     if (dt == null) {
@@ -135,8 +138,10 @@ public class ServletClientes extends HttpServlet {
                 if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                     wscli.seguir(dt.getNickname(), nickname);
                     sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
-                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
+//                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
                     //response.getWriter().write("ok");
+                    sesion.setAttribute("Mensaje", "Ahora sigue al usuario '"+nickname+"'");
+                    response.getWriter().write("ok");
                 } else {
                     if (dt == null) {
                         sesion.setAttribute("Mensaje", "Inicie sesión");

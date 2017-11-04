@@ -17,22 +17,8 @@
     </head>
     <body>
         <%  if (session.getAttribute("Mensaje") != null) {%>
-        <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #E6FFEF; border-bottom-color: #1ED760; padding: 5px">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 style="margin-left: 40%"><b>Mensaje</b></h3>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h4><%=session.getAttribute("Mensaje")%></h4>   
-                    </div>
-                </div>
-            </div>
-        </div>
-        <%}
-            session.removeAttribute("Mensaje");
-        %>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <div class="container"><div class="btn-group-vertical col-sm-2" ></div>
             <div class="col-sm-8 text-center"><h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">

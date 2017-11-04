@@ -172,9 +172,7 @@ public class ServletArtistas extends HttpServlet {
                     //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
                     if (contrasenia != null) {
                         byte[] imagen = new byte[0];
-                        if(imagen.length == 0){
-                            response.getWriter().write("lenght 0 == null");
-                        }
+                        
                         if (rutaArchivo != null){
                             File im = new File(rutaArchivo);
                             imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
@@ -327,7 +325,12 @@ public class ServletArtistas extends HttpServlet {
                     JSONArray temas = obj.getJSONArray("temas");
                     int n = temas.length();
                     String path = this.getClass().getClassLoader().getResource("").getPath();
-                    path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                    
+                    // EN NETBEANS
+                    path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                    // EN TOMCAT
+                    path = path.replace("WEB-INF/classes/", "temporales/");
+                    
                     path = path.replace( "%20", " ");
                     path= path.substring(1);
 

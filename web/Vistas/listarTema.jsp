@@ -163,9 +163,13 @@
                                         <%}%>
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
-                                        <%if (tem.getArchivo() != null) {%>
+                                        <%if (tem.getArchivo() != null) {
+                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
+                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
+                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
+                                        %>
                                         <td class="text-right">
-                                            <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
+                                            <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
                                             <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>

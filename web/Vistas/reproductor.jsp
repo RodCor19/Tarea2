@@ -141,13 +141,13 @@
                                     controlRepTema = true;
                                 }
                     %>
-                    <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tema.getArchivo() %>|<%= cargarImagen %>" onclick="play(this)">
+                    <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tema.getArchivo() %>|<%= cargarImagen %>" onclick="play(this)" style="cursor: pointer">
                     <%}else{
                         boolean controlRepTema = false;
                         if(repTema!=null && repTema.getDireccion() != null && repTema.getDireccion().equals(tema.getDireccion())){
                             controlRepTema = true;
                         }%>
-                    <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&direccion=<%= tema.getDireccion() %>|<%= cargarImagen %>" onclick="play(this)">
+                    <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&direccion=<%= tema.getDireccion() %>|<%= cargarImagen %>" onclick="play(this)" style="cursor: pointer">
                     <%}%>
                     <td style="padding-left: 3px; color: #e6e6e6;"><%= tema.getOrden() %></td>
                         <td class="song"><%= tema.getNombre()+" - "+tema.getNomartista() %></td>

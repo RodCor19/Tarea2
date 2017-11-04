@@ -175,7 +175,8 @@ public class ServletClientes extends HttpServlet {
                     } else {
                         sesion.setAttribute("Mensaje", "No tiene suscripción vigente");
                     }
-                    response.getWriter().write("error");
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletArtistas?Inicio=true");
+                    requestDispatcher.forward(request, response);
 //                    response.sendRedirect("ServletArtistas?Inicio=true");
                 }
             }

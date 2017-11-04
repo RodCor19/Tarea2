@@ -31,6 +31,8 @@ import webservices.DtUsuario;
 import webservices.IOException_Exception;
 import webservices.WSArchivos;
 import webservices.WSArchivosService;
+import webservices.WSArtistas;
+import webservices.WSArtistasService;
 import webservices.WSClientes;
 import webservices.WSClientesService;
 
@@ -61,6 +63,8 @@ public class ServletArchivos extends HttpServlet {
             WSArchivos wsarch = wsarchs.getWSArchivosPort();
             WSClientesService wsclis = new WSClientesService(conf.getUrlWSClientes(), new QName("http://WebServices/", "WSClientesService"));
             WSClientes wscli = wsclis.getWSClientesPort();
+            WSArtistasService wsarts = new WSArtistasService(conf.getUrlWSArtistas(), new QName("http://WebServices/", "WSArtistasService"));
+            WSArtistas wsart = wsarts.getWSArtistasPort();
 
             request.getSession().setAttribute("WSArchivos", wsarch);
             request.getSession().setAttribute("WSClientes", wscli);
@@ -226,9 +230,16 @@ public class ServletArchivos extends HttpServlet {
                         DtUsuario dt = (DtUsuario) request.getSession().getAttribute("Usuario");
                         if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                             String ruta = request.getParameter("descargar");
+                            String nomTema = request.getParameter("tema");
+                            String nomAlbum = request.getParameter("album");
+                            String nickArtista = request.getParameter("artista");
+                            DtArtista dtArt = wsart.elegirArtista(nickArtista);
+                            String nomDescarga = dtArt.getNombre()+" "+dtArt.getApellido()+" - "+nomTema+".mp3";
+                            
                             response.setContentType("audio/mpeg");
-                            response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
-
+                            response.addHeader("Content-Disposition", "attachment; filename=" +"\""+nomDescarga+"\""); //indica que es un archivo para descargar
+                            //"\""+nomDescarga+"\"" --> "Artista - Tema.mp3"
+                            
                             byte[] audio = wsarch.cargarArchivo(ruta).getByteArray();
 
                             response.setContentType("audio/mpeg");
@@ -241,6 +252,9 @@ public class ServletArchivos extends HttpServlet {
                                 //Si salta la excepcion el usuario cancelo la descarga
                                 request.getSession().setAttribute("Mensaje", "cancelo la descarga");
                             }
+
+                            //Poner la funcion en webservice aertistas
+                            wsart.nuevaDescargaTema(nickArtista, nomAlbum, nomTema);
                         } else {
                             if (dt == null) {
                                 request.getSession().setAttribute("Mensaje", "Inicie sesión");

@@ -59,9 +59,9 @@
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th onclick="ordenarTabla(0, this)"><h4><b>Nickname</b></h4></th>
-                                    <th onclick="ordenarTabla(1, this)"><h4><b>Usuario</b></h4></th>
-                                    <th onclick="ordenarTabla(2, this)"><h4><b>Tipo</b></h4></th>
+                                    <th onclick="ordenarTabla(0, this)" style="cursor: pointer"><h4><b>Nickname</b></h4></th>
+                                    <th onclick="ordenarTabla(1, this)" style="cursor: pointer"><h4><b>Usuario</b></h4></th>
+                                    <th onclick="ordenarTabla(2, this)" style="cursor: pointer"><h4><b>Tipo</b></h4></th>
                                     <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                 </tr>
                             </thead>

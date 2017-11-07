@@ -118,14 +118,14 @@
                                     </div> 
                                     <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/ServletClientes" enctype="multipart/form-data" method="post">
                                         <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
-                                        <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
+                                        <input type="submit" value="Crear lista" class="btn inputImg boton" style="font-size: 15px"/>
                                     </form>
                                     <br><br>
                                     <%if (!(cliente.getListas().isEmpty())) {%>
-                                    <button type="button" class="btn btn-success btn-lg" onclick = "window.location.href = '/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar Tema A Lista</button>
+                                    <button type="button" class="btn boton" style="font-size: 20px" onclick = "window.location.href = '/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar tema a lista</button>
                                     <%}%>
                                 </h4>
-                                <br class="x">
+                                <!--<br class="x">-->
                                 <% }%>
                                 <% int cantLPub = 0;
                                     for (DtListaP lista : cliente.getListas()) {
@@ -301,6 +301,7 @@
                                             <th><h4><b>Monto</b></h4></th>
                                             <th><h4><b>Fecha</b></h4></th>
                                             <th><h4><b>Estado</b></h4></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -310,6 +311,12 @@
                                             <td><h4>$<%= suscripcion.getMonto()%></h4></td>
                                             <td><h4><%= suscripcion.getFecha()%></h4></td>
                                             <td><h4><%= suscripcion.getEstado()%></h4></td>
+                                            <td>
+                                                <% if(suscripcion.getEstado().equals("")){ %>
+                                                <button class="btn btn-success" style="font-size: 15px">Renovar</button> 
+                                                <button class="btn btn-danger" style="font-size: 15px">Cancelar</button> 
+                                                <%}%>
+                                            </td>
                                         </tr>
                                         <%}%>
                                     </tbody>

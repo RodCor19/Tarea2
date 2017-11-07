@@ -41,10 +41,11 @@
                     </div>
                 </div>
                 <div class="col-sm-2" style="padding-right: 0px;">
-                    <% if (session.getAttribute("temasAReproducir") != null) { %>
-                    <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
-                    <%}%>
                     <%--
+                    <% if (session.getAttribute("temasAReproducir") != null) { %>
+                    <jsp:include page="reproductor.jsp" />
+                    <%}%>
+                    
                     <%  if (session.getAttribute("Mensaje") != null) {%>
                     <h3 class="text-center text-info"><%=session.getAttribute("Mensaje")%></h3>
                     <%}

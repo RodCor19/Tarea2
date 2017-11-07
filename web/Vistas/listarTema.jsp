@@ -156,12 +156,12 @@
                                         %>
                                         <td class="text-right">
                                             <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
-                                            <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
-                                            <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
                                         </td>
                                         <%}%>
                                         <%} else {%>
@@ -169,10 +169,10 @@
                                         <%if (tem.getDireccion() != null) {%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
-                                            <a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
-                                        <td class="text-right"><a href="#" class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a></td>
+                                        <td class="text-right"><a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a></td>
                                         <%}%>
                                         <%}%>
                                         

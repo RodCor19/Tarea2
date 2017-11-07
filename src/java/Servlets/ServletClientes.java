@@ -324,13 +324,17 @@ public class ServletClientes extends HttpServlet {
                     String nick = request.getParameter("Usuario");
                     DtListaP aux = wscli.listaP(nick, nLista);
                     sesion.setAttribute("Lista", (DtLista) aux);
-                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+//                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
                 } else {
                     DtListaPD aux = wscli.listaPD(nLista);;
                     sesion.setAttribute("Lista", (DtLista) aux);
-                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
+//                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
                 }
+                
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/ConsultadeListadeReproduccion.jsp");
+                requestDispatcher.forward(request, response);
             }
+            
             if (request.getParameter("publicarLista") != null) {
                 DtCliente dtCli = (DtCliente) request.getSession().getAttribute("Usuario");
                 String nLista = request.getParameter("publicarLista");

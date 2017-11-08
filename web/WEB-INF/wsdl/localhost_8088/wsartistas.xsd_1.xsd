@@ -32,6 +32,12 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="dataTemas">
+<xs:sequence>
+<xs:element name="temas" type="tns:dtTema" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="dataUsuarios">
 <xs:sequence>
 <xs:element name="usuarios" type="tns:dtUsuario" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
@@ -117,12 +123,6 @@
 <xs:element name="Estado" type="xs:string" minOccurs="0"></xs:element>
 <xs:element name="Tipo" type="xs:string" minOccurs="0"></xs:element>
 <xs:element name="Monto" type="xs:int"></xs:element>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="dataTemas">
-<xs:sequence>
-<xs:element name="temas" type="tns:dtTema" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
 </xs:sequence>
 </xs:complexType>
 

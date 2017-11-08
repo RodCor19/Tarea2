@@ -66,6 +66,9 @@
             }%>
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+        <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
@@ -79,12 +82,51 @@
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%}
-                            if (dt instanceof DtListaPD) {%>
-                        <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
-                        <h4 class="text-center">Lista Por Defecto</h4>
-                        <a onclick="reproducirListaPD('<%= dt.getNombre()%>', '<%= ((DtListaPD) dt).getGenero()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
+                            if (dt instanceof DtListaPD) {
+                                boolean control2 = true;
+                                if (dtcontrol != null) {
+                                    for (DtLista l : dtcontrol.getFavListas()) {
+                                        if (l instanceof DtListaPD && l.getNombre().equals(dt.getNombre())) {
+                                            control2 = false;
+                                        }
+                                    }
+                                }
+                        %>
+                        <%if (cliente && control2) {%>
+                        <div class="row">
+                            <div class="span">
+                            <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
+                            <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                            </div>
+                        </div>                                        </td>
                         <%} else {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                                <%}%>
+                        <h4 class="text-center">Lista Por Defecto</h4>
+                        <a onclick="reproducirListaPD('<%= dt.getNombre()%>', '<%= ((DtListaPD) dt).getGenero()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
+                        <%} else {
+                            DtListaP listaP = (DtListaP) dt;
+                            boolean control2 = true;
+                            if (dt != null) {
+                                for (DtLista l : dtcontrol.getFavListas()) {
+                                    if (l instanceof DtListaP && l.getNombre().equals(listaP.getNombre())) {
+                                        if (((DtListaP) l).getUsuario().equals(listaP.getUsuario())) {
+                                            control2 = false;
+                                        }
+                                    }
+                                }
+                            }
+                        %>
+                        <%if (cliente && control2) {%>
+                        <div class="row">
+                            <div class="span">
+                                <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre() + "&cliente=" + listaP.getUsuario()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
+                                <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                            </div>
+                        </div>                                        </td>
+                        <%} else {%>
+                        <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                        <%}%>
                         <h4 class="text-center">Lista Particular</h4>
                         <a onclick="reproducirListaP('<%= dt.getNombre()%>', '<%= ((DtListaP) dt).getUsuario()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%}%>
@@ -147,16 +189,16 @@
                                     %>
                                     <tr class="filaTema">
                                         <%if (dt instanceof DtListaP) {
-                                                    DtListaP aux = (DtListaP) dt;%>
+                                                DtListaP aux = (DtListaP) dt;%>
                                         <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">
-                                        <%} else {
-                                            DtListaPD aux = (DtListaPD) dt;%>
+                                            <%} else {
+                                                DtListaPD aux = (DtListaPD) dt;%>
                                         <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
-                                        <%}%>
-                                        <%if (cliente && control2) {%>
+                                            <%}%>
+                                            <%if (cliente && control2) {%>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
+                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
                                                         <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>
@@ -164,8 +206,8 @@
                                             </div>
                                         </td>
                                         <%} else {%>
-                                            <%= nombre%>
-                                            </td>
+                                        <%= nombre%>
+                                        </td>
                                         <%}%>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
@@ -223,29 +265,30 @@
                 </div>
             </div> 
         </div>
-                    
+
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>  
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
-        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
-        <script>        
-            $(function(){
-                $("[data-toggle=popover]").popover({
-                    html : true,
-                    placement: 'right',
-                    content: function() {
-                      var content = $(this).attr("data-popover-content");
-                      return $(content).children(".popover-body").html();
-                    }/*,
-                    title: function() {
-                      var title = $(this).attr("data-popover-content");
-                      return $(title).children(".popover-heading").html();
-                    }*/
-                });
-            });
+        <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>        
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
+        <script>
+                                                $(function () {
+                                                    $("[data-toggle=popover]").popover({
+                                                        html: true,
+                                                        placement: 'right',
+                                                        content: function () {
+                                                            var content = $(this).attr("data-popover-content");
+                                                            return $(content).children(".popover-body").html();
+                                                        }/*,
+                                                         title: function() {
+                                                         var title = $(this).attr("data-popover-content");
+                                                         return $(title).children(".popover-heading").html();
+                                                         }*/
+                                                    });
+                                                });
         </script>
     </body>
-    <%} catch (Exception ex) {
+    <%}catch (Exception ex) {
 
             response.sendRedirect("Error.html");
         }%>

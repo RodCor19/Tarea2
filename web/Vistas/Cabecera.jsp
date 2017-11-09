@@ -18,13 +18,13 @@
     <div class="container-fluid">
         <div class="row">
             <%-- se divide la pantalla en 3 partes de tamaño 4(columnas) (El total de columnas de la pantalla es 12) --%>
-            <div class="col-md-4">
+            <div class="col-xs-4">
                 <a href="/EspotifyWeb/ServletArtistas?Inicio=true">
                     <img src="/EspotifyWeb/Imagenes/Espotify.png" alt="imagen de header" width="350"  style="margin-top: 17px;">
                 </a>
                
              </div>
-            <div class="col-md-4">
+            <div class="col-xs-4">
                 <form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosBuscador.jsp" method="GET" class="navbar-form navbar-left" style="margin-top: 40px;">
                     <input id="buscar" name="busqueda" placeholder="Buscar Tema, Lista, Álbum..." type="text" class="form-control">
                     <button class="btn" type="submit">
@@ -32,7 +32,7 @@
                     </button> </form>
                 
             </div>
-            <div class="col-md-4 text-right" >
+            <div class="col-xs-4 text-right" >
                 <%
 //                    Properties propiedades = new Properties();
 //                    InputStream entrada = new FileInputStream("webservices.properties");
@@ -45,10 +45,10 @@
                     WSClientes wscli = (WSClientes)sesion.getAttribute("WSClientes");
                     if (sesion.getAttribute("Usuario") == null) {
                 %>
-                <div class="col-md-8 text-right" style="padding-right: 0px; padding-bottom: 5px; opacity: 0;">
+                <div class="col-xs-8 text-right" style="padding-right: 0px; padding-bottom: 5px; opacity: 0;">
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                 </div>
-                <div class="col-md-4 text-right" style="padding-left: 0px;">
+                <div class="col-xs-4 text-right" style="padding-left: 0px;">
                     <h5 style="color:white;"><a class="linkCabecera" href="/EspotifyWeb/Vistas/Registrarse.jsp">Registrarse   </a></h5>
                     <h5><a class="iniciarCerrarSesion" href="/EspotifyWeb/Vistas/Iniciarsesion.jsp">Iniciar Sesión</a></h5>
                 </div>
@@ -61,14 +61,14 @@
                         servlet = "/EspotifyWeb/ServletArtistas?verPerfilArt=";
                     }
                 %>
-                <div class="col-md-7 text-right" style="padding-right: 0px; padding-bottom: 5px;">
+                <div class="col-xs-7 text-right" style="padding-right: 0px; padding-bottom: 5px;">
                     <%if (dt.getRutaImagen() != null) {%>
                     <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                     <%} else {%>
                     <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgPerfil" title="Usuario">
                     <%}%>
                 </div>
-                <div class="col-md-4 text-right" style="padding-left: 0px;">
+                <div class="col-xs-4 text-right" style="padding-left: 0px;">
                     <h5 style="color:white"><a class="linkCabecera" href="<%= servlet + dt.getNickname()%>"><%= dt.getNombre()+" "+dt.getApellido()%></a></h5>
                     <!-- Solo muestra el mensaje si es un cliente el que inicio sesion -->
                     <% if (dt != null && dt instanceof DtCliente) { %>

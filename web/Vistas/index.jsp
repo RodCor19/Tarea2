@@ -20,7 +20,8 @@
             <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
         <%}%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
-        <div class="container"><div class="btn-group-vertical col-sm-2" ></div>
+        <div class="container">
+            <div class="btn-group-vertical col-sm-2" ></div>
             <div class="col-sm-8 text-center"><h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
                         <input id="buscar" name="BusquedaUsuarios" style="width: 80%; margin-left:5%" placeholder="Buscar usuarios" type="text" class="form-control">
                         <button class="btn" type="submit"><i class="glyphicon glyphicon-search"></i></button>

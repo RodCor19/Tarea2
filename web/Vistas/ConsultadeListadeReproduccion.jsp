@@ -156,7 +156,19 @@
                                 }%>
                         </div>
                         <br>
-                        <div class="tab-pane">
+                        
+                    </div>
+                </div>
+                <div class="btn-group-vertical col-sm-2">
+                    <div id="divReproductor">
+                        <% if (session.getAttribute("temasAReproducir") != null) { %>
+                        <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
+                        <%}%>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="tab-pane">
                             <% if (dt.getTemas() == null || dt.getTemas().isEmpty()) { %>
                             <h4 class="lineaAbajo"><i>No tiene temas</i></h4>
                             <%} else {%>
@@ -168,6 +180,7 @@
                                         <th><h4><b>Artista</b></h4></th>
                                         <th><h4><b>Duración</b></h4></th>
                                         <td></td> <!-- es para el boton escuchar/descargar -->
+                                        <td></td> <!-- es para el boton "..." (popover) -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -196,14 +209,14 @@
                                         <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
                                             <%}%>
                                             <%if (cliente && control2) {%>
-                                            <div class="row">
+                                            <!--<div class="row">-->
                                                 <div class="span">
                                                     <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
                                                         <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>
                                                 </div>
-                                            </div>
+                                            <!--</div>-->
                                         </td>
                                         <%} else {%>
                                         <%= nombre%>
@@ -216,24 +229,27 @@
                                         <%if (tem.getArchivo() != null) {%>
                                         <td class="text-right">
                                             <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
                                         </td>
                                         <%}%>
                                         <%} else {%>
                                         <%if (tem.getDireccion() != null) {%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <!--<a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>-->
                                         </td>
                                         <%} else {%>
-                                        <td class="text-right"><a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a></td>
+                                        <td>
+                                            <!--<a class="glyphicon glyphicon-download" style="" </a>  No hace nada, es para ocupar el espacio y que queden los ... alineados -->
+                                        </td>
                                         <%}%>
                                         <%}%>
+                                        <td>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                        </td>
                                 <div class="hidden" id="<%=indic%>">
                                     <div class="popover-heading">
                                         Titulo
@@ -254,16 +270,7 @@
                             <%}%>
 
                         </div>
-                    </div>
-                </div>
-                <div class="btn-group-vertical col-sm-2">
-                    <div id="divReproductor">
-                        <% if (session.getAttribute("temasAReproducir") != null) { %>
-                        <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
-                        <%}%>
-                    </div>
-                </div>
-            </div> 
+            </div>
         </div>
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>

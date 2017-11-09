@@ -29,7 +29,7 @@
             nombre = nombre.replace("Ñ", "&Ntilde;");
     %>
     <div class="col-md-4" style="padding: 2px;">
-        <a href="ServletGeneral?consultarAlbum=<%= nombre%>">
+        <a href="ServletArtistas?consultarAlbum=<%= nombre%>">
             <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
             <h4 class="img-text"><%=nombre%></h4>
         </a>  

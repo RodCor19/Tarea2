@@ -32,7 +32,7 @@ public class Configuraciones {
             // EN NETBEANS
             rutaConfWS = rutaConfWS.replace("build/web/WEB-INF/classes/", "webservices.properties");
             // EN TOMCAT
-            //rutaConfWS = rutaConfWS.replace("WEB-INF/classes/", "webservices.properties");
+            rutaConfWS = rutaConfWS.replace("WEB-INF/classes/", "webservices.properties");
             
             rutaConfWS = rutaConfWS.replace("%20", " ");
             InputStream entrada = new FileInputStream(rutaConfWS);

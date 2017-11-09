@@ -75,6 +75,28 @@
 <part name="arg2" type="xsd:base64Binary"></part>
 </message>
 <message name="crearListaPResponse"></message>
+<message name="resultadosA">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="resultadosAResponse">
+<part name="return" type="tns:dataAlbumes"></part>
+</message>
+<message name="listarTipoDeSus"></message>
+<message name="listarTipoDeSusResponse">
+<part name="return" type="tns:dataTiposDeSus"></part>
+</message>
+<message name="resultadosL">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="resultadosLResponse">
+<part name="return" type="tns:dataListas"></part>
+</message>
+<message name="resultadosT">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="resultadosTResponse">
+<part name="return" type="tns:dataTemas"></part>
+</message>
 <message name="actualizarVigenciaSuscripciones">
 <part name="arg0" type="xsd:string"></part>
 </message>
@@ -108,28 +130,6 @@
 </message>
 <message name="contratarSuscripcionResponse">
 <part name="return" type="xsd:boolean"></part>
-</message>
-<message name="resultadosA">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="resultadosAResponse">
-<part name="return" type="tns:dataAlbumes"></part>
-</message>
-<message name="listarTipoDeSus"></message>
-<message name="listarTipoDeSusResponse">
-<part name="return" type="tns:dataTiposDeSus"></part>
-</message>
-<message name="resultadosL">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="resultadosLResponse">
-<part name="return" type="tns:dataListas"></part>
-</message>
-<message name="resultadosT">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="resultadosTResponse">
-<part name="return" type="tns:dataTemas"></part>
 </message>
 <message name="agregarListaPDFavorito">
 <part name="arg0" type="xsd:string"></part>
@@ -206,6 +206,22 @@
 <input wsam:Action="http://WebServices/WSClientes/crearListaPRequest" message="tns:crearListaP"></input>
 <output wsam:Action="http://WebServices/WSClientes/crearListaPResponse" message="tns:crearListaPResponse"></output>
 </operation>
+<operation name="resultadosA">
+<input wsam:Action="http://WebServices/WSClientes/resultadosARequest" message="tns:resultadosA"></input>
+<output wsam:Action="http://WebServices/WSClientes/resultadosAResponse" message="tns:resultadosAResponse"></output>
+</operation>
+<operation name="listarTipoDeSus">
+<input wsam:Action="http://WebServices/WSClientes/listarTipoDeSusRequest" message="tns:listarTipoDeSus"></input>
+<output wsam:Action="http://WebServices/WSClientes/listarTipoDeSusResponse" message="tns:listarTipoDeSusResponse"></output>
+</operation>
+<operation name="resultadosL">
+<input wsam:Action="http://WebServices/WSClientes/resultadosLRequest" message="tns:resultadosL"></input>
+<output wsam:Action="http://WebServices/WSClientes/resultadosLResponse" message="tns:resultadosLResponse"></output>
+</operation>
+<operation name="resultadosT">
+<input wsam:Action="http://WebServices/WSClientes/resultadosTRequest" message="tns:resultadosT"></input>
+<output wsam:Action="http://WebServices/WSClientes/resultadosTResponse" message="tns:resultadosTResponse"></output>
+</operation>
 <operation name="actualizarVigenciaSuscripciones">
 <input wsam:Action="http://WebServices/WSClientes/actualizarVigenciaSuscripcionesRequest" message="tns:actualizarVigenciaSuscripciones"></input>
 <output wsam:Action="http://WebServices/WSClientes/actualizarVigenciaSuscripcionesResponse" message="tns:actualizarVigenciaSuscripcionesResponse"></output>
@@ -225,22 +241,6 @@
 <operation name="contratarSuscripcion" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSClientes/contratarSuscripcionRequest" message="tns:contratarSuscripcion"></input>
 <output wsam:Action="http://WebServices/WSClientes/contratarSuscripcionResponse" message="tns:contratarSuscripcionResponse"></output>
-</operation>
-<operation name="resultadosA">
-<input wsam:Action="http://WebServices/WSClientes/resultadosARequest" message="tns:resultadosA"></input>
-<output wsam:Action="http://WebServices/WSClientes/resultadosAResponse" message="tns:resultadosAResponse"></output>
-</operation>
-<operation name="listarTipoDeSus">
-<input wsam:Action="http://WebServices/WSClientes/listarTipoDeSusRequest" message="tns:listarTipoDeSus"></input>
-<output wsam:Action="http://WebServices/WSClientes/listarTipoDeSusResponse" message="tns:listarTipoDeSusResponse"></output>
-</operation>
-<operation name="resultadosL">
-<input wsam:Action="http://WebServices/WSClientes/resultadosLRequest" message="tns:resultadosL"></input>
-<output wsam:Action="http://WebServices/WSClientes/resultadosLResponse" message="tns:resultadosLResponse"></output>
-</operation>
-<operation name="resultadosT">
-<input wsam:Action="http://WebServices/WSClientes/resultadosTRequest" message="tns:resultadosT"></input>
-<output wsam:Action="http://WebServices/WSClientes/resultadosTResponse" message="tns:resultadosTResponse"></output>
 </operation>
 <operation name="agregarListaPDFavorito" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSClientes/agregarListaPDFavoritoRequest" message="tns:agregarListaPDFavorito"></input>
@@ -374,6 +374,42 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
+<operation name="resultadosA">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="listarTipoDeSus">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="resultadosL">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="resultadosT">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
 <operation name="actualizarVigenciaSuscripciones">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -411,42 +447,6 @@
 </output>
 </operation>
 <operation name="contratarSuscripcion">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="resultadosA">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="listarTipoDeSus">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="resultadosL">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="resultadosT">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

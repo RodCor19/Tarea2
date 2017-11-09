@@ -172,9 +172,7 @@ public class ServletArtistas extends HttpServlet {
                     //SI la contrasenia es != null entonces el request fue enviado desde la pagina de registrarse
                     if (contrasenia != null) {
                         byte[] imagen = new byte[0];
-                        if(imagen.length == 0){
-                            response.getWriter().write("lenght 0 == null");
-                        }
+                        
                         if (rutaArchivo != null){
                             File im = new File(rutaArchivo);
                             imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
@@ -292,7 +290,6 @@ public class ServletArtistas extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             if (request.getParameter("Inicio") != null) {
                 List<DtUsuario> artistas = wsart.listarArtistas().getUsuarios();
-                request.getSession().removeAttribute("temasAReproducir");
                 request.getSession().setAttribute("Artistas", artistas);
 
                 //Redirecciona a la pagina indicada 
@@ -328,7 +325,12 @@ public class ServletArtistas extends HttpServlet {
                     JSONArray temas = obj.getJSONArray("temas");
                     int n = temas.length();
                     String path = this.getClass().getClassLoader().getResource("").getPath();
-                    path = path.replace("build/web/WEB-INF/classes/","temporales/");
+                    
+                    // EN NETBEANS
+                    path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                    // EN TOMCAT
+                    path = path.replace("WEB-INF/classes/", "temporales/");
+                    
                     path = path.replace( "%20", " ");
                     path= path.substring(1);
 
@@ -413,11 +415,10 @@ public class ServletArtistas extends HttpServlet {
                 List<DtLista> listas = wsart.getListasGenero(nombre).getListas();
                 request.getSession().setAttribute("Album", albumnes);
                 request.getSession().setAttribute("Listas", listas);
-                if (nombre.contains("&")) {
-                    nombre = java.net.URLEncoder.encode(nombre, "UTF-8");
-                }
+                request.getSession().setAttribute("NomGenero", nombre);
+                
                 //Redirecciona a la pagina indicada 
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp?nomgen=" + nombre);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vistas/consultarAlbum.jsp");
                 requestDispatcher.forward(request, response);
             }
 
@@ -456,7 +457,27 @@ public class ServletArtistas extends HttpServlet {
     //            response.getWriter().write("nuevadescarga");
                 String artista = request.getParameter("artista");
                 String album = request.getParameter("album");
-                String tema = request.getParameter("tema");
+                String tema = null;
+                DtTema dtt;
+                if (request.getParameter("tema")!=null)
+                    tema = request.getParameter("tema");
+                else{
+                    List<DtUsuario> artistas = (List<DtUsuario>) request.getSession().getAttribute("Artistas");
+                    for (int i=0;i<artistas.size();i++){
+                        if (artistas.get(i).getNickname().equals(artista)){
+                            DtArtista dtart = (DtArtista) artistas.get(i);
+                            for (int j=0;j<dtart.getAlbumes().size();j++){
+                                if (dtart.getAlbumes().get(j).getNombre().equals(album)){
+                                    dtt = dtart.getAlbumes().get(j).getTemas().get(dtart.getAlbumes().get(j).getTemas().size()-1);
+                                    if (dtt.getArchivo()!=null){
+                                        tema = dtt.getNombre();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 //Poner la funcion en webservice aertistas
                 wsart.nuevaReproduccionTema(artista, album, tema);
@@ -562,7 +583,7 @@ public class ServletArtistas extends HttpServlet {
                         //Verificar y actualizar si las suscripciones del cliente que estaban vigentes se vencieron
                         wscli.actualizarVigenciaSuscripciones(dt.getNickname());
                     }
-
+                    sesion.setAttribute("Mensaje", mensaje);
                     response.sendRedirect("ServletArtistas?Inicio=true");
                 } else {
                     if (!(wscli.verificarDatosCli(nickname, nickname) && wsart.verificarDatosArt(nickname, nickname))) {

@@ -50,6 +50,10 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
+        
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <div class="container">
@@ -76,14 +80,21 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"> Dejar de seguir</a>
+                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= artista.getNickname()%>"> 
+                                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
+                                        </a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>"> Seguir</a>
+                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%= artista.getNickname()%>">
+                                            <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                        </a>
                         <%}
                             }
                             if (perfilUsr!=null && artista.getNickname().equals(perfilUsr.getNickname())) {%>
-                        <button id="btn" class="text-primary btn glyphicon btn-danger glyphicon-remove" > Darse de baja</button>
+                        <button id="btn" class="text-primary btn btn-danger" >
+                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span>
+                            <b> Darse de baja</b></button>
                         <%}%>
+                        <br><br>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Información</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Álbumes</b></h4></a></li>
@@ -155,9 +166,13 @@
                                             }
                                             if (control) {
                                     %>
-                                    <a class="text-primary btn btn-danger glyphicon glyphicon-remove" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>"> Dejar de seguir</a>
+                                    <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
+                                        <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de Seguir</b>
+                                    </a>
                                     <%} else {%>
-                                    <a class="text-primary btn btn-success glyphicon glyphicon-ok" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>"> Seguir</a>
+                                    <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
+                                        <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                    </a>
                                     <%}
                                         }%>
                                     <br>
@@ -174,6 +189,7 @@
             <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
             <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
             <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
+            <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
             <script>
                             $(document).ready(function(){
                                 $('#btn').click(function() {

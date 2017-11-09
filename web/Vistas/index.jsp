@@ -16,6 +16,9 @@
         <title>Espotify</title>        
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <div class="container"><div class="btn-group-vertical col-sm-2" ></div>
             <div class="col-sm-8 text-center"><h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
@@ -38,26 +41,31 @@
                     </div>
                 </div>
                 <div class="col-sm-2" style="padding-right: 0px;">
-                    <% if(session.getAttribute("temasAReproducir") != null){ %>
+                    <% if (session.getAttribute("temasAReproducir") != null) { %>
                     <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
                     <%}%>
-                    <%  HttpSession sesion = request.getSession();
-                        if (sesion.getAttribute("Mensaje") != null) {%>
-                    <h3 class="text-center text-info"><%=sesion.getAttribute("Mensaje")%></h3>
+                    <%--
+                    <%  if (session.getAttribute("Mensaje") != null) {%>
+                    <h3 class="text-center text-info"><%=session.getAttribute("Mensaje")%></h3>
                     <%}
-                        sesion.removeAttribute("Mensaje");
-                    %>
+                        session.removeAttribute("Mensaje");
+                    %>--%>
                 </div>
             </div>
         </div>
 
         <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
-
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-        
+        <script>$(document).ready(function () {
+
+                 $("#mostrarmodal").modal("show");
+
+            });
+        </script>
+
     </body>
 </html>

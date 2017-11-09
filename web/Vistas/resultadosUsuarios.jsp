@@ -36,6 +36,9 @@
             List<DtUsuario> usus = wscli.buscarUsuarios(request.getParameter("BusquedaUsuarios")).getUsuarios();
 
         %>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
@@ -56,9 +59,9 @@
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th><h4><b>Nickname</b></h4></th>
-                                    <th><h4><b>Usuario</b></h4></th>
-                                    <th><h4><b>Tipo</b></h4></th>
+                                    <th onclick="ordenarTabla(0, this)"><h4><b>Nickname</b></h4></th>
+                                    <th onclick="ordenarTabla(1, this)"><h4><b>Usuario</b></h4></th>
+                                    <th onclick="ordenarTabla(2, this)"><h4><b>Tipo</b></h4></th>
                                     <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                 </tr>
                             </thead>
@@ -75,9 +78,9 @@
                                         }
                                 %>
                                 <tr>
-                                    <td><a class="link" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNickname() %></h4></a></td>
-                                    <td><a class="link" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNombre() + " " + u.getApellido()%></h4></a></td>
-                                    <td><h4><%= tipo%></h4></td> 
+                                    <td><a class="link textoAcomparar" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNickname() %></h4></a></td>
+                                    <td><a class="link textoAcomparar" href="<%= servlet + u.getNickname()%>"><h4><%= u.getNombre() + " " + u.getApellido()%></h4></a></td>
+                                    <td><h4 class="textoAcomparar"><%= tipo%></h4></td> 
                                     <td>
                                         <%
                                             if (controlSeguir && !perfilUsr.getNickname().equals(u.getNickname())) {
@@ -89,15 +92,15 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"> 
+                                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= u.getNickname()%>"> 
                                             <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                                         </a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>">
+                                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%= u.getNickname()%>">
                                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                         </a>
                                         <%}
-                                                    }%>
+                                            }%>
                                     </td> 
                                 </tr>
                                 <%}%>
@@ -113,6 +116,8 @@
         <jsp:include page="Pie.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/cargarDatos.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
     <%} catch (Exception ex){
           response.sendRedirect("Error.html");

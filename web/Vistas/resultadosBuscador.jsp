@@ -58,6 +58,10 @@
         %>
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
+        
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <div class="container text-center">
@@ -78,10 +82,10 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Tema</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Album</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
-                                        <th onclick="sortTable(3, this)" class="tituloFila"><h4><b>Duración</b></h4></th>
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Tema</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Album</b></h4></th>
+                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
+                                        <th onclick="ordenarTabla(3, this)" class="tituloFila"><h4><b>Duración</b></h4></th>
                                         <th><!-- Titulo vacio, es para el link escuchar/descargar --></th>
                                     </tr>
                                 </thead>
@@ -105,18 +109,16 @@
                                 <td>
                                     <div class="row">
                                         <div class="span">
-                                            <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
-                                                <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                            </a>
-                                            <div class="span" ><%= nombre%></div>
+                                            <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>"></a>
+                                            <div class="span textoAcomparar" ><%= nombre%></div>
                                         </div>
                                     </div>
                                 </td>
                                 <%} else {%>
                                 <td><%= nombre%></td>
                                 <%}%>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
-                                <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
+                                <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
+                                <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                 <td><%=duracion%><td>
 
                                     <%if (control) {%>
@@ -143,9 +145,9 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Álbum</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Año</b></h4></th>                        
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Álbum</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
+                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Año</b></h4></th>                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -169,17 +171,15 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    </a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></div>
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>"></a>
+                                                    <div class="span" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= nombreAlb + "&artista=" + nombreArt%>"><%= nombreAlb%></a></td>
                                             <%}%>   
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= ar.getNombre() + " " + ar.getApellido()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= ar.getNombre() + " " + ar.getApellido()%></a></td>
                                         <td><%=album.getAnio()%></td>
                                     </tr>
                                     <%}%>
@@ -194,8 +194,8 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Lista</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Creador/Género</b></h4></th>
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Lista</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Creador/Género</b></h4></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -217,9 +217,7 @@
                                     <% if (lista instanceof DtListaP) {
                                             DtListaP listaP = (DtListaP) lista;
                                             DtCliente cli = wscli.verPerfilCliente(listaP.getUsuario());
-                                            String nLista = lista.getNombre();
-                                            byte[] bytes = nLista.getBytes(StandardCharsets.UTF_8);
-                                            nLista = new String(bytes, StandardCharsets.ISO_8859_1);
+                                            String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
                                             boolean control2 = true;
                                             if (dt != null) {
                                                 for (DtLista l : dt.getFavListas()) {
@@ -237,17 +235,15 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre() + "&cliente=" + listaP.getUsuario()%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    </a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=nLista + "&cliente=" + listaP.getUsuario()%>"></a>
+                                                    <div class="span" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
                                             <%}%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= cli.getNombre() + " " + cli.getApellido()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= cli.getNombre() + " " + cli.getApellido()%></a></td>
                                             <%}
                                             } else {
                                                 DtListaPD listaPD = (DtListaPD) lista;
@@ -270,18 +266,16 @@
                                         <td>
                                             <div class="row">
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre()%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    </a>
-                                                    <div class="span" ><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></div>
+                                                    <a class="glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=lista.getNombre()%>"></a>
+                                                    <div class="span" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>"><%= listaPD.getNombre()%></a></td>
                                             <%}%>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8");%>
-                                        <td><a class="link" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= listaPD.getGenero()%></a></td>
+                                        <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= listaPD.getGenero()%></a></td>
                                             <%}%>
                                     </tr>
                                     <%}%>
@@ -299,63 +293,7 @@
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-
-        <script>
-                                                            function sortTable(columna, th) {
-                                                                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                                                                switching = true;
-                                                                table = th.parentElement.parentElement.parentElement;
-                                                                // Set the sorting direction to ascending:
-                                                                dir = "asc";
-                                                                /* Make a loop that will continue until
-                                                                 no switching has been done: */
-                                                                while (switching) {
-                                                                    // Start by saying: no switching is done:
-                                                                    switching = false;
-                                                                    rows = table.getElementsByTagName("TR");
-                                                                    /* Loop through all table rows (except the
-                                                                     first, which contains table headers): */
-                                                                    for (i = 1; i < (rows.length - 1); i++) {
-                                                                        // Start by saying there should be no switching:
-                                                                        shouldSwitch = false;
-                                                                        /* Get the two elements you want to compare,
-                                                                         one from current row and one from the next: */
-                                                                        x = rows[i].getElementsByTagName("TD")[columna];
-                                                                        y = rows[i + 1].getElementsByTagName("TD")[columna];
-                                                                        /* Check if the two rows should switch place,
-                                                                         based on the direction, asc or desc: */
-                                                                        if (dir === "asc") {
-                                                                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                                                                                // If so, mark as a switch and break the loop:
-                                                                                shouldSwitch = true;
-                                                                                break;
-                                                                            }
-                                                                        } else if (dir === "desc") {
-                                                                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                                                                                // If so, mark as a switch and break the loop:
-                                                                                shouldSwitch = true;
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    if (shouldSwitch) {
-                                                                        /* If a switch has been marked, make the switch
-                                                                         and mark that a switch has been done: */
-                                                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                                                                        switching = true;
-                                                                        // Each time a switch is done, increase this count by 1:
-                                                                        switchcount++;
-                                                                    } else {
-                                                                        /* If no switching has been done AND the direction is "asc",
-                                                                         set the direction to "desc" and run the while loop again. */
-                                                                        if (switchcount == 0 && dir == "asc") {
-                                                                            dir = "desc";
-                                                                            switching = true;
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-        </script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
     <% } catch (Exception ex) {
             System.out.println(ex.getMessage());

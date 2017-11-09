@@ -23,7 +23,12 @@
         /*sacando los FileItem del ServletFileUpload en una lista */
         List items = servlet_up.parseRequest(request);
         String path = this.getClass().getClassLoader().getResource("").getPath();
-        path = path.replace("build/web/WEB-INF/classes/","temporales/");
+        
+        // EN NETBEANS
+        path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+        // EN TOMCAT
+        path = path.replace("WEB-INF/classes/", "temporales/");
+        
         path = path.replace( "%20", " ");
         if(session.getAttribute("imagen")!=null){
             session.removeAttribute("imagen");

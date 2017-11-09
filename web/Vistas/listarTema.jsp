@@ -58,6 +58,9 @@
          <title>Espotify: Ver Álbum </title>
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <div class="container">
             <div class="row">
@@ -87,7 +90,7 @@
                             <h3 class="anio"><%= album.getAnio()%></h3>
                             <a onclick="reproducirAlbum('<%= album.getNombre().replace("\'", "\\'")%>', '<%= album.getNombreArtista()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                             <%if (cliente && control2) {%>
-                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton" style="font-size: 15px; margin-left: 5px;">Guardar</a>
+                            <a href="/EspotifyWeb/ServletClientes?art=<%=album.getNombreArtista() + "&alb=" + album.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
                             <%}%>
                             <br> <br>
                             <table class="table text-left">
@@ -117,14 +120,13 @@
                                             }
                                     %>
                                     <!-- <a href="#" rel="popover" data-popover-content="#myPopover"> -->
-                                    <!--<tr class="filaTema" rel="popover" data-popover-content="#myPopover" data-toggle="popover" >-->
-                                    <tr class="filaTema" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0">
+                                    <tr class="filaTema">
+                                    <%--<tr class="filaTema" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0">--%>
                                         <%if (usuario != null && usuario instanceof DtCliente && cliente && control2) {%>
                                         <td>
                                             <div>
                                                 <div class="span">
-                                                    <a style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
-                                                        <img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
+                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="ServletClientes?Artista=<%=album.getNombreArtista() + "&album=" + album.getNombre() + "&tema=" + nombre%>">
                                                     </a>
                                                     <div class="span" ><%= orden%></div>
                                                 </div>
@@ -134,28 +136,43 @@
                                         <td>
                                             <div>
                                                 <div class="span">
-                                                    <!--<a style="float:left; margin-right: 5px; opacity: 0" href="#">-->
-                                                        <img style="float:left; margin-right: 5px; opacity: 0" src="/EspotifyWeb/Imagenes/eliminar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar"><!--Cambiar por imagen del usuario-->
-                                                    <!--</a>-->
+                                                    <a class="glyphicon glyphicon-minus" style="float:left; margin-right: 5px; opacity: 0" href="#"></a>
                                                     <div class="span" ><%= orden%></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%}%>
+                                        <%if (tem.getArchivo() != null) {%>
                                         <td onclick="reproducirTema('<%= tem.getNombre().replace("\'", "\\'") %>', '<%= tem.getNomalbum().replace("\'", "\\'")%>', '<%= tem.getNomartista()%>')"><%= nombre%></td>
+                                        <%} else {%>
+                                        <td><%= nombre%></td>
+                                        <%}%>
                                         <%if (cliente) {%>
                                         <td><%= durac%></td>
-                                        <%if (tem.getArchivo() != null) {%>
-                                        <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <%if (tem.getArchivo() != null) {
+                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
+                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
+                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
+                                        %>
+                                        <td class="text-right">
+                                            <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%} else {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td class="text-right">
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>');"></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%}%>
                                         <%} else {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getDireccion() != null) {%>
-                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a></td>
+                                        <td class="text-right">
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
+                                            <a  class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
+                                        </td>
                                         <%} else {%>
-                                        <td></td>
+                                        <td class="text-right"><a class="link"   data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a></td>
                                         <%}%>
                                         <%}%>
                                         
@@ -165,9 +182,9 @@
                                             </div>
                                             <div class="popover-body">
                                                 <ul style="padding: 0px; margin: 0px;">
-                                                    <li class="list-group-item"><%=tem.getNombre()%></li>
-                                                    <li class="list-group-item" style="background-color: #343333; color: #1ED760">Reproducciones: <%=tem.getCantReproduccion()%></li>
-                                                    <li class="list-group-item"style="background-color: #343333; color: #1ED760">Descargas: <%=tem.getCantDescarga()%></li>
+                                                    <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
+                                                    <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Reproducciones: <br> <%=tem.getCantReproduccion()%></b></li>
+                                                    <li class="list-group-item"style="border-color: #1ED760; color: #1ED760"><b>Descargas: <br> <%=tem.getCantDescarga()%></b></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -197,22 +214,41 @@
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
-         <script>        
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
+        <script src="../Javascript/reproductor.js"></script>
+        <script>        
             $(function(){
                 $("[data-toggle=popover]").popover({
                     html : true,
-                    placement: 'auto',
+                    placement: 'right',
                     content: function() {
                       var content = $(this).attr("data-popover-content");
                       return $(content).children(".popover-body").html();
-                    },
+                    }/*,
                     title: function() {
                       var title = $(this).attr("data-popover-content");
                       return $(title).children(".popover-heading").html();
-                    }
+                    }*/
                 });
             });
+            function actualizar(id,nomart,nomalb,nomt){
+                alert(id);
+                alert(nomart);
+                alert(nomalb);
+                alert(nomt);
+//                $.ajax({
+//                type: 'POST', //tipo de request
+//                url: '/EspotifyWeb/ServletArtistas',
+//                dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+//                data: {// Parametros que se pasan en el request
+//                    publicarLista: nombLista
+//                },
+//                success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+//                    location.reload(true);
+//                }
+            }
         </script>
+            
                     <script>
             //            function hover(elemento, esHover){
             //                if(esHover){

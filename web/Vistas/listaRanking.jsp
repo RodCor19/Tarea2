@@ -15,6 +15,7 @@
 <%  List<DtUsuario> usuarios = (List<DtUsuario>) session.getAttribute("RankingUsuarios"); %>
 <%  List<DtArtista> artistas = (List<DtArtista>) session.getAttribute("Artistas"); %>
 <%  List<DtCliente> clientes = (List<DtCliente>) session.getAttribute("Clientes"); %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -22,12 +23,24 @@
         <link rel="stylesheet" href="/EspotifyWeb/Bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="/EspotifyWeb/CSS/estilos.css">
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
+        <% DtUsuario perfilUsr = (DtUsuario) session.getAttribute("Usuario");
+            
+            DtCliente dt = null;
+            boolean controlSeguir = false;
+            if (perfilUsr != null && perfilUsr instanceof DtCliente) {
+                if (wscli.suscripcionVigente(perfilUsr.getNickname())) {
+                    controlSeguir = true;
+                    dt = wscli.verPerfilCliente(perfilUsr.getNickname());
+                    session.setAttribute("Usuario", dt);
+                }
+            }
+        %>
         <title>Espotify: Resultados</title>
     </head>
 <body>
     <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
     <center>
-        <h1>Ranking de Usuarios</h1>
+        <h1><b>Ranking de Usuarios</b></h1>
             <div class="container">
             <div class="row">
                 <div class="btn-group-vertical col-sm-2" ></div>
@@ -35,13 +48,16 @@
                     <ul class="nav nav-tabs">
                         <div class="tab-content text-left">
                         <div id="menu1" class="tab-pane fade in active">
+                            <% if (usuarios.isEmpty()) { %>
+                        <h4 class="lineaAbajo">No hay ningún resultado</h4>
+                        <%} else {%>
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Nombre</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Apellido</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
-                                        <th onclick="sortTable(3, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
+                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
+                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
+                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
+                                        <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                     </tr>
                                 </thead>
                                 
@@ -61,10 +77,7 @@
                                                 }
                                         %>
                                     <td>
-                                        <a class="link" href="<%= servlet + usr.getNickname()%>"><%=usr.getNombre()%></a>
-                                    </td>
-                                    <td>
-                                        <a class="link" href="<%= servlet + usr.getNickname()%>"><%=usr.getApellido()%></a>
+                                        <a class="link" href="<%= servlet + usr.getNickname()%>"><%=usr.getNombre() + " " + usr.getApellido()%></a>
                                     </td>
                                     <td>
                                         <%= tipo %> 
@@ -73,13 +86,35 @@
                                         <%= wscli.getSeguidores(usr.getNickname()).getUsuarios().size()%>
                                         
                                     </td>
+                                     <td>
+                                        <%
+                                            if (controlSeguir && !perfilUsr.getNickname().equals(usr.getNickname())) {
+                                                boolean control = false;
+                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(usr.getNickname())) {
+                                                        control = true;
+                                                    }
+                                                }
+                                                if (control) {
+                                        %>
+                                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= usr.getNickname()%>"> 
+                                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
+                                        </a>
+                                        <%} else {%>
+                                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= usr.getNickname()%>">
+                                            <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                        </a>
+                                        <%}
+                                                    }%>
+                                    </td>
                                 </tr>
                                 <%}%>
                                 
                                 
                             </tbody>
                                 
-                                
+                            </table>
+                                <%}%>  
                                 
                             </div>
                         </div>   

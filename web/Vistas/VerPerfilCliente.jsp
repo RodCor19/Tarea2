@@ -45,6 +45,9 @@
         <link type="image/x-icon" rel="shortcut icon"  href="/EspotifyWeb/Imagenes/espotifyIcono.ico">
     </head>
     <body>
+        <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
 
         <div class="container">
@@ -60,7 +63,6 @@
                         <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= cliente.getRutaImagen()%>" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista">
                         <%}%>
                         <h3 class="tituloPerfil text-primary"><b><%= cliente.getNombre() + " " + cliente.getApellido()%></b></h3>
-                        <br>
                         <%
                             if (controlSeguir && !perfilUsr.getNickname().equals(cliente.getNickname())) {
                                 boolean control = false;
@@ -71,16 +73,16 @@
                                 }
                                 if (control) {
                         %>
-                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">
+                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= cliente.getNickname()%>">
                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                         </a>
                         <%} else {%>
-                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>">
+                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%= cliente.getNickname()%>">
                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                         </a>
                         <%}
                             }%>
-
+                            <br><br>
                         <ul class="nav nav-tabs">
                             <!-- Si inicio sesión -->
                             <%if (perfilUsr != null) {%>
@@ -209,11 +211,11 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
+                                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
                                            <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                                         </a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
+                                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
                                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                         </a>
                                         <%}
@@ -225,13 +227,16 @@
 
                                 <br>
                             </div>
-                            <div id="menu3" class="tab-pane fade">
+                                    <div id="menu3" class="tab-pane fade"> <% if(perfilUsr.getNickname().equals(cliente.getNickname())){
+                                    %>
                                 <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
                                         <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
                                         <button class="btn" type="submit">
                                             <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
                                         </button>
                                     </form> </h3>
+                                        <% }
+                                    %>
                                     <%if (cliente.getUsuariosSeguidos().isEmpty()) { %>
                                 <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
                                 <%} else {%>
@@ -270,11 +275,11 @@
                                                         }
                                                         if (control) {
                                                 %>
-                                                <a class="text-primary btn btn-danger " href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> 
+                                                <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguido.getNickname()%>"> 
                                                     <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                                                 </a>
                                                 <%} else {%>
-                                                <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> 
+                                                <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguido.getNickname()%>"> 
                                                     <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                                 </a>
                                                 <%}
@@ -320,13 +325,24 @@
                         <div id="home" class="tab-pane fade in active">
                             <%  int cantListPub = 0;
                                 for (DtListaP lista : cliente.getListas()) {
+                                    String nombre = lista.getNombre();
+                                                nombre = nombre.replace("á", "&aacute;");
+                                                nombre = nombre.replace("é", "&eacute;");
+                                                nombre = nombre.replace("í", "&iacute;");
+                                                nombre = nombre.replace("ó", "&oacute;");
+                                                nombre = nombre.replace("ú", "&uacute;");
+                                                nombre = nombre.replace("Á", "&Aacute;");
+                                                nombre = nombre.replace("É", "&Eacute;");
+                                                nombre = nombre.replace("Í", "&Iacute;");
+                                                nombre = nombre.replace("Ó", "&Oacute;");
+                                                nombre = nombre.replace("Ú", "&Uacute;");
+                                                nombre = nombre.replace("ñ", "&ntilde;");
+                                                nombre = nombre.replace("Ñ", "&Ntilde;");
                                     if (lista.isPrivada() == false) {
                                         cantListPub++;
-                                        byte[] bytes = lista.getNombre().getBytes(StandardCharsets.UTF_8);
-                                        // "normaliza" el texto
-                                        String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
+                                        
                             %>    
-                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nomCodificado%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
+                            <h4 class="lineaAbajo"><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></a></h4>
                                 <%}
                                     }
                                     if (cantListPub == 0) {%>
@@ -346,6 +362,7 @@
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
         <script src="/EspotifyWeb/Javascript/lista.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
 </html>
 <%}catch (Exception ex) {

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -31,6 +32,8 @@ import webservices.DtUsuario;
 import webservices.IOException_Exception;
 import webservices.WSArchivos;
 import webservices.WSArchivosService;
+import webservices.WSArtistas;
+import webservices.WSArtistasService;
 import webservices.WSClientes;
 import webservices.WSClientesService;
 
@@ -61,6 +64,8 @@ public class ServletArchivos extends HttpServlet {
             WSArchivos wsarch = wsarchs.getWSArchivosPort();
             WSClientesService wsclis = new WSClientesService(conf.getUrlWSClientes(), new QName("http://WebServices/", "WSClientesService"));
             WSClientes wscli = wsclis.getWSClientesPort();
+            WSArtistasService wsarts = new WSArtistasService(conf.getUrlWSArtistas(), new QName("http://WebServices/", "WSArtistasService"));
+            WSArtistas wsart = wsarts.getWSArtistasPort();
 
             request.getSession().setAttribute("WSArchivos", wsarch);
             request.getSession().setAttribute("WSClientes", wscli);
@@ -137,7 +142,12 @@ public class ServletArchivos extends HttpServlet {
                 if (imagen != null) {
                     try {
                         String path = this.getClass().getClassLoader().getResource("").getPath();
+                        
+                        // EN NETBEANS
                         path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                        // EN TOMCAT
+                        path = path.replace("WEB-INF/classes/", "temporales/");
+                        
                         path = path + album + "REPRODUCTOR.jpg";
                         path = path.replace("%20", " ");
                         File f = new File(path);
@@ -164,7 +174,7 @@ public class ServletArchivos extends HttpServlet {
                 } else {
                     //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
                     if (temas.isEmpty() == false) {
-                        request.getSession().setAttribute("reproducirTema", temas.get(0));
+                        request.getSession().setAttribute("reproducirTema", temas.get(temas.size()-1));
                     }
                 }
             }
@@ -184,6 +194,7 @@ public class ServletArchivos extends HttpServlet {
                     temas = wsarch.reproducirListaPD(genero, lista).getTemas();
                 }
 
+                Collections.reverse(temas);
                 DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
                 if (dt.getRutaImagen() != null) {
                     request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());
@@ -205,7 +216,7 @@ public class ServletArchivos extends HttpServlet {
                 } else {
                     //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
                     if (temas.isEmpty() == false) {
-                        request.getSession().setAttribute("reproducirTema", temas.get(0));
+                        request.getSession().setAttribute("reproducirTema", temas.get(temas.size()-1));
                     }
                 }
             }
@@ -221,18 +232,31 @@ public class ServletArchivos extends HttpServlet {
                         DtUsuario dt = (DtUsuario) request.getSession().getAttribute("Usuario");
                         if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
                             String ruta = request.getParameter("descargar");
+                            String nomTema = request.getParameter("tema");
+                            String nomAlbum = request.getParameter("album");
+                            String nickArtista = request.getParameter("artista");
+                            DtArtista dtArt = wsart.elegirArtista(nickArtista);
+                            String nomDescarga = dtArt.getNombre()+" "+dtArt.getApellido()+" - "+nomTema+".mp3";
+                            
                             response.setContentType("audio/mpeg");
-                            response.addHeader("Content-Disposition", "attachment; filename=" + "NombreTema.mp3"); //indica que es un archivo para descargar
-
+                            response.addHeader("Content-Disposition", "attachment; filename=" +"\""+nomDescarga+"\""); //indica que es un archivo para descargar
+                            //"\""+nomDescarga+"\"" --> "Artista - Tema.mp3"
+                            
                             byte[] audio = wsarch.cargarArchivo(ruta).getByteArray();
-                            System.out.println(audio.length);
 
                             response.setContentType("audio/mpeg");
                             response.setContentLength((int) audio.length);
 
-                            OutputStream out = response.getOutputStream();
-                            out.write(audio);
-                            out.close();
+                            try (OutputStream out = response.getOutputStream()) {
+                                out.write(audio);
+                                out.flush();
+                            }catch(IOException ex){
+                                //Si salta la excepcion el usuario cancelo la descarga
+                                request.getSession().setAttribute("Mensaje", "cancelo la descarga");
+                            }
+
+                            //Poner la funcion en webservice aertistas
+                            wsart.nuevaDescargaTema(nickArtista, nomAlbum, nomTema);
                         } else {
                             if (dt == null) {
                                 request.getSession().setAttribute("Mensaje", "Inicie sesión");
@@ -247,7 +271,6 @@ public class ServletArchivos extends HttpServlet {
                     } catch (IOException_Exception ex) {
                         Logger.getLogger(ServletArchivos.class.getName()).log(Level.SEVERE, null, ex);
                     }
-//                }
             }
 //        } catch (Exception ex) {
 //            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");

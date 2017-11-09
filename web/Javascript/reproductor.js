@@ -28,6 +28,7 @@ function play(row){
     var repr = document.getElementById("aurepr"),
         trackData = row.id.split("|"),
         label = row.getElementsByClassName("song")[0].innerText;
+    nuevaReproduccion (trackData[4], trackData[3], trackData[2]);
     repr.src = trackData[0];
     set_play(row.id, label);
     var audios = document.getElementById("music");
@@ -54,6 +55,7 @@ function mostrarOcultarTemas(boton){
 
 
 function reproducirAlbum(album, artista){
+    alert("reproduciralbum");
     $.ajax({
         type : 'POST', //tipo de request
         url : '/EspotifyWeb/ServletArchivos',
@@ -73,6 +75,7 @@ function reproducirAlbum(album, artista){
 }
 
 function reproducirTema(tema, album, artista){
+    //alert("reproducirtema");
     $.ajax({
         type : 'GET', //tipo de request
         url : '/EspotifyWeb/ServletArchivos',
@@ -84,6 +87,7 @@ function reproducirTema(tema, album, artista){
         },
         success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
             $('#divReproductor').load("/EspotifyWeb/Vistas/reproductor.jsp");
+            //nuevaReproduccion(artista, album, tema);
         }
     });
 }
@@ -189,6 +193,7 @@ function nuevaDescarga (artista, album, tema) {
     }); 
 }
 function nuevaReproduccion (artista, album, tema) {
+    alert("nuevareproduccion");
     $.ajax({
         type : 'POST', //tipo de request
         url : '/EspotifyWeb/ServletArtistas',
@@ -197,6 +202,40 @@ function nuevaReproduccion (artista, album, tema) {
            artista : artista,
            album : album,
            tema : tema,
+           nuevareproduccion : true
+        },
+        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+        }
+    }); 
+}
+
+function doSomething(e) {
+    var rightclick;
+    if (!e) var e = window.event;
+    if (e.which) rightclick = (e.which === 3);
+    else if (e.button) rightclick = (e.button === 2);
+    alert('Rightclick: ' + rightclick); // true or false
+}
+
+
+//$("#Link").on('mouseup', function(e) { 
+//   var link = document.getElementById("Link");
+//   var h = link.getAttribute("onclick");
+//   var parametros = h.split("'");
+//   if( e.which === 2 || e.which === 3) {
+//      nuevaReproduccion(parametros[1],parametros[3],parametros[5]); 
+//   }
+//});
+
+function nuevaReproduccionalbum (artista, album) {
+    alert("nuevareproduccionalbum");
+    $.ajax({
+        type : 'POST', //tipo de request
+        url : '/EspotifyWeb/ServletArtistas',
+        dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+        data:{ // Parametros que se pasan en el request
+           artista : artista,
+           album : album,
            nuevareproduccion : true
         },
         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta

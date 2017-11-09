@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -179,7 +180,7 @@ public class ServletArchivos extends HttpServlet {
                     } else {
                         //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
                         if (temas.isEmpty() == false) {
-                            request.getSession().setAttribute("reproducirTema", temas.get(0));
+                            request.getSession().setAttribute("reproducirTema", temas.get(temas.size()-1));
                         }
                     }
                     
@@ -202,6 +203,7 @@ public class ServletArchivos extends HttpServlet {
                     temas = wsarch.reproducirListaPD(genero, lista).getTemas();
                 }
 
+                Collections.reverse(temas);
                 DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
                 if (dt.getRutaImagen() != null) {
                     request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());
@@ -223,7 +225,7 @@ public class ServletArchivos extends HttpServlet {
                 } else {
                     //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
                     if (temas.isEmpty() == false) {
-                        request.getSession().setAttribute("reproducirTema", temas.get(0));
+                        request.getSession().setAttribute("reproducirTema", temas.get(temas.size()-1));
                     }
                 }
             }
@@ -278,7 +280,6 @@ public class ServletArchivos extends HttpServlet {
                     } catch (IOException_Exception ex) {
                         Logger.getLogger(ServletArchivos.class.getName()).log(Level.SEVERE, null, ex);
                     }
-//                }
             }
 //        } catch (Exception ex) {
 //            response.sendRedirect("/EspotifyWeb/Vistas/Error.html");

@@ -216,29 +216,29 @@
                                         <%if (tem.getArchivo() != null) {%>
                                         <td class="text-right">
                                             <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
                                         <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%}%>
                                         <%} else {%>
                                         <%if (tem.getDireccion() != null) {%>
                                         <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
-                                        <td class="text-right"><a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a></td>
+                                        <td class="text-right"><a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a></td>
                                         <%}%>
                                         <%}%>
                                 <div class="hidden" id="<%=indic%>">
                                     <div class="popover-heading">
                                         Titulo
                                     </div>
-                                    <div class="popover-body">
+                                    <div class="popover-body" >
                                         <ul style="padding: 0px; margin: 0px;">
                                             <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
                                             <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <br> <%=tem.getCantReproduccion()%></li>

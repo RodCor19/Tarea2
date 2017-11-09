@@ -74,6 +74,7 @@ $(document).ready(function () {
 
     });
 
+
 });
 
 function publicarLista(nombLista) {

@@ -457,7 +457,27 @@ public class ServletArtistas extends HttpServlet {
     //            response.getWriter().write("nuevadescarga");
                 String artista = request.getParameter("artista");
                 String album = request.getParameter("album");
-                String tema = request.getParameter("tema");
+                String tema = null;
+                DtTema dtt;
+                if (request.getParameter("tema")!=null)
+                    tema = request.getParameter("tema");
+                else{
+                    List<DtUsuario> artistas = (List<DtUsuario>) request.getSession().getAttribute("Artistas");
+                    for (int i=0;i<artistas.size();i++){
+                        if (artistas.get(i).getNickname().equals(artista)){
+                            DtArtista dtart = (DtArtista) artistas.get(i);
+                            for (int j=0;j<dtart.getAlbumes().size();j++){
+                                if (dtart.getAlbumes().get(j).getNombre().equals(album)){
+                                    dtt = dtart.getAlbumes().get(j).getTemas().get(dtart.getAlbumes().get(j).getTemas().size()-1);
+                                    if (dtt.getArchivo()!=null){
+                                        tema = dtt.getNombre();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 //Poner la funcion en webservice aertistas
                 wsart.nuevaReproduccionTema(artista, album, tema);

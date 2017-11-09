@@ -65,10 +65,13 @@
 <operation name="reproducirListaPD" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArchivos/reproducirListaPDRequest" message="tns:reproducirListaPD"></input>
 <output wsam:Action="http://WebServices/WSArchivos/reproducirListaPDResponse" message="tns:reproducirListaPDResponse"></output>
+<<<<<<< HEAD
 </operation>
 <operation name="cargarDatosBD">
 <input wsam:Action="http://WebServices/WSArchivos/cargarDatosBDRequest" message="tns:cargarDatosBD"></input>
 <output wsam:Action="http://WebServices/WSArchivos/cargarDatosBDResponse" message="tns:cargarDatosBDResponse"></output>
+=======
+>>>>>>> origin/Desarrollo
 </operation>
 <operation name="cargarArchivo">
 <input wsam:Action="http://WebServices/WSArchivos/cargarArchivoRequest" message="tns:cargarArchivo"></input>
@@ -115,6 +118,7 @@
 </output>
 </operation>
 <operation name="reproducirListaPD">
+<<<<<<< HEAD
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -124,6 +128,8 @@
 </output>
 </operation>
 <operation name="cargarDatosBD">
+=======
+>>>>>>> origin/Desarrollo
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

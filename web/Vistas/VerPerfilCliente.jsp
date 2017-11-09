@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="webservices.DtLista"%>
 <%@page import="webservices.DtSuscripcion"%>
 <%@page import="webservices.DtListaP"%>
 <%@page import="java.util.List"%>
@@ -118,14 +119,14 @@
                                     </div> 
                                     <form  id="formImagen" name="formImagen" onsubmit="return comprobar()" action="/EspotifyWeb/ServletClientes" enctype="multipart/form-data" method="post">
                                         <input type="file" name="imagen" value="Imagen" accept=".jpg" class="form-control inputImg" />
-                                        <input type="submit" value="Crear lista" class="btn-success btn inputImg"/>
+                                        <input type="submit" value="Crear lista" class="btn inputImg boton" style="font-size: 15px"/>
                                     </form>
                                     <br><br>
                                     <%if (!(cliente.getListas().isEmpty())) {%>
-                                    <button type="button" class="btn btn-success btn-lg" onclick = "window.location.href = '/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar Tema A Lista</button>
+                                    <button type="button" class="btn boton" style="font-size: 20px" onclick = "window.location.href = '/EspotifyWeb/ServletArtistas?agregartemalista=true'" >Agregar tema a lista</button>
                                     <%}%>
                                 </h4>
-                                <br class="x">
+                                <!--<br class="x">-->
                                 <% }%>
                                 <% int cantLPub = 0;
                                     for (DtListaP lista : cliente.getListas()) {
@@ -169,11 +170,33 @@
                                                 } else {
                                                     tipo = "Pública";
                                                 }
-                                        %>
+                                                boolean control2 = true;
+                                                if (dt != null) {
+                                                for (DtLista l : dt.getFavListas()) {
+                                                    if (l instanceof DtListaP && l.getNombre().equals(lista.getNombre())) {
+                                                        if (((DtListaP) l).getUsuario().equals(lista.getUsuario())) {
+                                                            control2 = false;
+                                                        }
+                                                    }
+                                                }
+                                                }
+                                            %>
+                                    <tr>
                                         <!-- Si es publica o es privada pero el perfil es del cliente que inicio sesion -->
                                         <% if (lista.isPrivada() == false || perfilUsr.getNickname().equals(cliente.getNickname())) {%>
                                         <tr>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                            <%if (controlSeguir && control2 && lista.isPrivada() == false) {%>
+                                        <td>
+                                            <div class="row">
+                                                <div class="span">
+                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=nombre + "&cliente=" + lista.getUsuario()%>""></a>
+                                                    <div class="span" ><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <%} else {%>
+                                        <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                        <%}%>
                                             <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
                                                     <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
@@ -301,6 +324,7 @@
                                             <th><h4><b>Monto</b></h4></th>
                                             <th><h4><b>Fecha</b></h4></th>
                                             <th><h4><b>Estado</b></h4></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -310,6 +334,12 @@
                                             <td><h4>$<%= suscripcion.getMonto()%></h4></td>
                                             <td><h4><%= suscripcion.getFecha()%></h4></td>
                                             <td><h4><%= suscripcion.getEstado()%></h4></td>
+                                            <td>
+                                                <% if(suscripcion.getEstado().equals("")){ %>
+                                                <button class="btn btn-success" style="font-size: 15px">Renovar</button> 
+                                                <button class="btn btn-danger" style="font-size: 15px">Cancelar</button> 
+                                                <%}%>
+                                            </td>
                                         </tr>
                                         <%}%>
                                     </tbody>

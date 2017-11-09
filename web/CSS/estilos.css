@@ -223,6 +223,31 @@ body{
     transform: translateY(3px);
 }
 
+.botonRojo{
+    padding: 7px 12px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #DF2D15;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 6px #999;
+}
+
+.botonRojo:hover {
+    background-color: #CF2D15;
+    color: whitesmoke;
+}
+
+.botonRojo:active {
+    background-color: #CF2D15;
+    color: whitesmoke;
+    box-shadow: 0 3px #666;
+    transform: translateY(3px);
+}
+
 .imgGuardar:hover{
     opacity: 0.5;
 }

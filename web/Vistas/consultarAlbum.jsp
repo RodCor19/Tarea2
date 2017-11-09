@@ -41,8 +41,8 @@
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th>Artista</th>
-                                    <th>Álbum</th>
+                                    <th><h4><b>Artista</b></h4></th>
+                                    <th><h4><b>Álbum</b></h4></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,20 +51,20 @@
                                 String nombreArt = album.getNombreArtista();
                                 %>
                                 <tr>
-                                    <td><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></a></td>
-                                    <td><a class="link" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></a></td>
+                                    <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
+                                    <td><h4><a class="link" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></h4></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>
                         </table>
                         <h4 class="text-left"><b>Listas Por Defecto: </b></h4>
                         <% if(listas.isEmpty()){ %>
-                        <h5 class="text-left lineaAbajo"><i>No tiene listas asociadas</i></h5>
+                        <h4 class="text-left lineaAbajo" style="margin-top: 20px"><i>No tiene listas asociadas</i></h4>
                         <%}else{%>
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th> 
+                                    <th><h4><b>Nombre</b></h4></th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,7 +75,7 @@
                                 String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                                 %>
                                 <tr>
-                                    <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre() %>"><%= nombre%></a></td> 
+                                    <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre() %>"><%= nombre%></a></h4></td> 
                                 </tr>
                                 <%}%>
                             </tbody>

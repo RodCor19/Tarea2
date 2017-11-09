@@ -64,11 +64,12 @@ function reproducirAlbum(album, artista){
             reproducirAlbum : album,
             artista: artista
         },
-        success : function(){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
-            $('#divReproductor').load("/EspotifyWeb/Vistas/reproductor.jsp");
-            //nuevaReproduccionalbum(artista, album);
-//            $('.reproducirTema').click(); //reproducir el tema seleccionaro, click
-//            location.href = "/EspotifyWeb/Vistas/reproductor.jsp";
+        success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+            if(data === "ok"){
+                $('#divReproductor').load("/EspotifyWeb/Vistas/reproductor.jsp");
+            }else{
+                location.reload();
+            }
         }
     });
 }

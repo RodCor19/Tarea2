@@ -137,45 +137,54 @@ public class ServletArchivos extends HttpServlet {
                 String temaSeleccionado = request.getParameter("tema");
                 //            response.getWriter().write(temaSeleccionado);
                 List<DtTema> temas = wsarch.reproducirAlbum(artista, album).getTemas();
-                request.getSession().setAttribute("temasAReproducir", temas);
-                byte[] imagen = wsarch.getImagenAlbum(artista, album).getByteArray();
-                if (imagen != null) {
-                    try {
-                        String path = this.getClass().getClassLoader().getResource("").getPath();
-                        
-                        // EN NETBEANS
-                        path = path.replace("build/web/WEB-INF/classes/", "temporales/");
-                        // EN TOMCAT
-                        path = path.replace("WEB-INF/classes/", "temporales/");
-                        
-                        path = path + album + "REPRODUCTOR.jpg";
-                        path = path.replace("%20", " ");
-                        File f = new File(path);
-                        org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
-                        request.getSession().setAttribute("ImagenAlbumReproductor", path);
-                    } catch (FileNotFoundException ex) {
-                        ex.getMessage();
-                    } catch (IOException ex) {
-                        ex.getMessage();
-                    }
-                } else if (request.getSession().getAttribute("ImagenAlbumReproductor") != null) {
-                    request.getSession().removeAttribute("ImagenAlbumReproductor");
-                }
+                
+                if(temas.isEmpty()){
+                    request.getSession().setAttribute("Mensaje", "Este álbum no tiene temas que puedan ser reproducidos");
+                    response.getWriter().write("no hay temas para reproducir");
+                }else{
+                
+                    request.getSession().setAttribute("temasAReproducir", temas);
+                    byte[] imagen = wsarch.getImagenAlbum(artista, album).getByteArray();
+                    if (imagen != null) {
+                        try {
+                            String path = this.getClass().getClassLoader().getResource("").getPath();
 
-                //Si es el rquest que se envia al seleccionar un tema
-                if (temaSeleccionado != null) {
-                    //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
-                    for (DtTema tema : temas) {
-                        if (tema.getNombre().equals(temaSeleccionado)) {
-                            request.getSession().setAttribute("reproducirTema", tema);
-                            break;
+                            // EN NETBEANS
+                            path = path.replace("build/web/WEB-INF/classes/", "temporales/");
+                            // EN TOMCAT
+                            path = path.replace("WEB-INF/classes/", "temporales/");
+
+                            path = path + album + "REPRODUCTOR.jpg";
+                            path = path.replace("%20", " ");
+                            File f = new File(path);
+                            org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                            request.getSession().setAttribute("ImagenAlbumReproductor", path);
+                        } catch (FileNotFoundException ex) {
+                            ex.getMessage();
+                        } catch (IOException ex) {
+                            ex.getMessage();
+                        }
+                    } else if (request.getSession().getAttribute("ImagenAlbumReproductor") != null) {
+                        request.getSession().removeAttribute("ImagenAlbumReproductor");
+                    }
+
+                    //Si es el rquest que se envia al seleccionar un tema
+                    if (temaSeleccionado != null) {
+                        //Setear ese atributo para que se repdoduzca por defecto el tema seleccionado
+                        for (DtTema tema : temas) {
+                            if (tema.getNombre().equals(temaSeleccionado)) {
+                                request.getSession().setAttribute("reproducirTema", tema);
+                                break;
+                            }
+                        }
+                    } else {
+                        //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
+                        if (temas.isEmpty() == false) {
+                            request.getSession().setAttribute("reproducirTema", temas.get(temas.size()-1));
                         }
                     }
-                } else {
-                    //Sino, si hay temas para reproducir, setear ese atributo para que se repdoduzca el primero por defecto
-                    if (temas.isEmpty() == false) {
-                        request.getSession().setAttribute("reproducirTema", temas.get(temas.size()-1));
-                    }
+                    
+                    response.getWriter().write("ok");
                 }
             }
 

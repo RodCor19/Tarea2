@@ -30,14 +30,11 @@
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-2">
-                
-                </div>
-                <div class="col-sm-8 text-center">
+                <div class="col-xs-12 text-center">
                     <div class="row">
                         <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                         <h3 class="tituloGenero text-primary"><b><%= nomgen %></b></h3>
-                        <h4 class="text-left"><b>Álbumes: </b></h4>
+                        <h4 class="text-left titulo"><b>Álbumes</b></h4>
                         <table class="table text-left">
                             <thead>
                                 <tr>
@@ -57,7 +54,7 @@
                                 <%}%>
                             </tbody>
                         </table>
-                        <h4 class="text-left"><b>Listas Por Defecto: </b></h4>
+                        <h4 class="text-left titulo"><b>Listas Por Defecto</b></h4>
                         <% if(listas.isEmpty()){ %>
                         <h4 class="text-left lineaAbajo" style="margin-top: 20px"><i>No tiene listas asociadas</i></h4>
                         <%}else{%>
@@ -82,9 +79,6 @@
                         </table>
                         <%}%>
                     </div>
-                </div>
-                <div class="btn-group-vertical col-sm-2">
-                
                 </div>
             </div> 
         </div>

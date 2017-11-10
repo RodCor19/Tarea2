@@ -58,10 +58,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-2">
-
-                </div>
-                <div class="col-sm-8 text-center">
+                <div class="col-xs-12 text-center">
                     <div class="row">
                         <% if (artista.getRutaImagen() == null) { %>
                         <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
@@ -177,9 +174,6 @@
                                         }%>
                                     <br>
                                     <%}%>
-                                    </div>
-                                    <div class="col-sm-2">
-
                                     </div>
                             </div>
                         </div>

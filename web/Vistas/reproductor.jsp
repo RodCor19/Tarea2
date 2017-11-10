@@ -4,6 +4,8 @@
     Author     : Kevin
 --%>
 
+<%@page import="webservices.WSArtistas"%>
+<%@page import="webservices.DtArtista"%>
 <%@page import="java.util.Collections"%>
 <%@page import="webservices.DtTema"%>
 <%@page import="java.util.List"%>
@@ -17,6 +19,7 @@
     if (session.getAttribute("ImagenAlbumReproductor")!=null){
         ImagenReproductor = (String) session.getAttribute("ImagenAlbumReproductor");
     }
+    WSArtistas wsart = (WSArtistas)request.getSession().getAttribute("WSArtistas");
 %>
 <style>
     
@@ -103,7 +106,9 @@
                 <img id="trackImage" src= "/EspotifyWeb/Imagenes/albumReproductor.jpg">
             </div>
             <div id="nowPlay" class="text-center" >
-                <div id="auTitle" style="padding-bottom: 5px; background: #1ED760; color: whitesmoke">---</div>
+                <div id="auTitle">
+                    <marquee direction="left" scrollamount="2" scrolldelay="60" style="background-color: #1ED760; color: whitesmoke">----</marquee>
+                </div>
                 <audio id="aurepr" preload="auto" controls controlsList="nodownload" onended="get_next(1)"></audio>
             </div>            
             <div id="auExtraControls" style="background: red">
@@ -152,7 +157,12 @@
                     <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&direccion=<%= tema.getDireccion() %>|<%= cargarImagen %>" onclick="play(this);"  style="cursor: pointer">
                     <%}%>
                     <td style="padding-left: 3px; color: #e6e6e6;"><%= tema.getOrden() %></td>
-                        <td class="song"><%= tema.getNombre()+" - "+tema.getNomartista()+" - "+tema.getNomalbum() %></td>
+                        <% DtArtista artista = wsart.elegirArtista(tema.getNomartista()); 
+                            String nomArt = artista.getNombre()+" "+artista.getApellido();
+                        %>
+                        <td class="song">
+                            <%= tema.getNombre()+" - "+tema.getNomalbum()+" - "+nomArt %>
+                        </td>
                     </tr>
                     <%       
                         }

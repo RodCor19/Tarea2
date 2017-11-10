@@ -3,6 +3,7 @@
     Created on : 02/10/2017, 01:25:29 AM
     Author     : ninoh
 --%>
+<%@page import="javax.xml.ws.WebServiceException"%>
 <%@page import="java.util.List"%>
 <%@page import="webservices.WSArtistas"%>
 <%@page import="webservices.WSArtistasService"%>
@@ -41,29 +42,24 @@
         <%if (dt == null) {
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
-        <%}
+        <%}else{
             DtUsuario aux2 = (DtUsuario) session.getAttribute("Usuario");
             boolean cliente = false;
             DtCliente dtcontrol = null;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
-                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
-                if (aux.isPrivada() && ((aux2 == null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
+//                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
+                if (aux.isPrivada() && (aux2 == null || aux2 instanceof DtArtista || !aux2.getNickname().equals(aux.getUsuario()))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
-            if (aux2 instanceof DtCliente) {
-                DtCliente dtc = (DtCliente) aux2;
-                if (!dtc.getNickname().equals(aux.getUsuario()) && aux.isPrivada()) {
-        %>
-        <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
-        <%}
-                        if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
-                            cliente = true;
-                            dtcontrol = wscli.verPerfilCliente(aux2.getNickname());
-                        }
+                if (aux2 != null && aux2 instanceof DtCliente) {
+                    if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
+                        cliente = true;
+                        dtcontrol = wscli.verPerfilCliente(aux2.getNickname());
                     }
+
                 }
-            }%>
+            }}%>
     </head>
     <body>
         <%  if (session.getAttribute("Mensaje") != null) {%>
@@ -96,18 +92,18 @@
                         <div class="row">
                             <div class="span">
                             <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
-                            <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                            <h3 class="titulo text-primary"><b><%= dt.getNombre()%></b></h3>
                             </div>
                         </div>                                        </td>
                         <%} else {%>
-                        <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                        <h3 class="titulo text-primary"><b><%= dt.getNombre()%></b></h3>
                                 <%}%>
                         <h4 class="text-center">Lista Por Defecto</h4>
                         <a onclick="reproducirListaPD('<%= dt.getNombre()%>', '<%= ((DtListaPD) dt).getGenero()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%} else {
                             DtListaP listaP = (DtListaP) dt;
                             boolean control2 = true;
-                            if (dt != null) {
+                            if (dtcontrol != null) {
                                 for (DtLista l : dtcontrol.getFavListas()) {
                                     if (l instanceof DtListaP && l.getNombre().equals(listaP.getNombre())) {
                                         if (((DtListaP) l).getUsuario().equals(listaP.getUsuario())) {
@@ -156,7 +152,19 @@
                                 }%>
                         </div>
                         <br>
-                        <div class="tab-pane">
+                        
+                    </div>
+                </div>
+                <div class="btn-group-vertical col-sm-2">
+                    <div id="divReproductor">
+                        <% if (session.getAttribute("temasAReproducir") != null) { %>
+                        <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
+                        <%}%>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="tab-pane">
                             <% if (dt.getTemas() == null || dt.getTemas().isEmpty()) { %>
                             <h4 class="lineaAbajo"><i>No tiene temas</i></h4>
                             <%} else {%>
@@ -168,6 +176,7 @@
                                         <th><h4><b>Artista</b></h4></th>
                                         <th><h4><b>Duración</b></h4></th>
                                         <td></td> <!-- es para el boton escuchar/descargar -->
+                                        <td></td> <!-- es para el boton "..." (popover) -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -196,14 +205,14 @@
                                         <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
                                             <%}%>
                                             <%if (cliente && control2) {%>
-                                            <div class="row">
+                                            <!--<div class="row">-->
                                                 <div class="span">
                                                     <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
                                                         <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>
                                                 </div>
-                                            </div>
+                                            <!--</div>-->
                                         </td>
                                         <%} else {%>
                                         <%= nombre%>
@@ -216,24 +225,27 @@
                                         <%if (tem.getArchivo() != null) {%>
                                         <td class="text-right">
                                             <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
                                         <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
                                         </td>
                                         <%}%>
                                         <%} else {%>
                                         <%if (tem.getDireccion() != null) {%>
                                         <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                            <!--<a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>-->
                                         </td>
                                         <%} else {%>
-                                        <td class="text-right"><a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a></td>
+                                        <td>
+                                            <!--<a class="glyphicon glyphicon-download" style="" </a>  No hace nada, es para ocupar el espacio y que queden los ... alineados -->
+                                        </td>
                                         <%}%>
                                         <%}%>
+                                        <td>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
+                                        </td>
                                 <div class="hidden" id="<%=indic%>">
                                     <div class="popover-heading">
                                         Titulo
@@ -241,8 +253,8 @@
                                     <div class="popover-body" >
                                         <ul style="padding: 0px; margin: 0px;">
                                             <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <br> <%=tem.getCantReproduccion()%></li>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <br> <%=tem.getCantDescarga()%></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Reproducciones: <br> <%=tem.getCantReproduccion()%></b></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Descargas: <br> <%=tem.getCantDescarga()%></b></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -254,16 +266,7 @@
                             <%}%>
 
                         </div>
-                    </div>
-                </div>
-                <div class="btn-group-vertical col-sm-2">
-                    <div id="divReproductor">
-                        <% if (session.getAttribute("temasAReproducir") != null) { %>
-                        <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
-                        <%}%>
-                    </div>
-                </div>
-            </div> 
+            </div>
         </div>
 
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
@@ -272,23 +275,24 @@
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>        
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
         <script>
-                                                $(function () {
-                                                    $("[data-toggle=popover]").popover({
-                                                        html: true,
-                                                        placement: 'right',
-                                                        content: function () {
-                                                            var content = $(this).attr("data-popover-content");
-                                                            return $(content).children(".popover-body").html();
-                                                        }/*,
-                                                         title: function() {
-                                                         var title = $(this).attr("data-popover-content");
-                                                         return $(title).children(".popover-heading").html();
-                                                         }*/
-                                                    });
-                                                });
+            $(function () {
+                $("[data-toggle=popover]").popover({
+                    html: true,
+                    placement: 'left',
+                    content: function () {
+                        var content = $(this).attr("data-popover-content");
+                        return $(content).children(".popover-body").html();
+                    }/*,
+                     title: function() {
+                     var title = $(this).attr("data-popover-content");
+                     return $(title).children(".popover-heading").html();
+                     }*/
+                });
+            });
         </script>
     </body>
-    <%}catch (Exception ex) {
+    <%}%>
+    <%}catch (WebServiceException ex) {
 
             response.sendRedirect("Error.html");
         }%>

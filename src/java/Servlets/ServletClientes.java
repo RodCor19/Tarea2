@@ -245,7 +245,7 @@ public class ServletClientes extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }
 
-            if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
+            if (ServletFileUpload.isMultipartContent(request)) {
                 try {
                     String nLista = "", imagen = null;
 
@@ -327,7 +327,7 @@ public class ServletClientes extends HttpServlet {
                     sesion.setAttribute("Lista", (DtLista) aux);
 //                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
                 } else {
-                    DtListaPD aux = wscli.listaPD(nLista);;
+                    DtListaPD aux = wscli.listaPD(nLista);
                     sesion.setAttribute("Lista", (DtLista) aux);
 //                    response.sendRedirect("/EspotifyWeb/Vistas/ConsultadeListadeReproduccion.jsp");
                 }

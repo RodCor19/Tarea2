@@ -1,3 +1,4 @@
+<%@page import="javax.xml.ws.WebServiceException"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="webservices.DataTemas"%>
 <%@page import="webservices.WSArtistasService"%>
@@ -294,7 +295,7 @@
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
-    <% } catch (Exception ex) {
+    <% } catch (WebServiceException ex) {
             System.out.println(ex.getMessage());
             response.sendRedirect("Error.html");
         }%>

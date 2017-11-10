@@ -304,3 +304,10 @@ textarea{
 .popover-content {
     padding: 0px;
 }
+
+.titulo{
+    color: white;
+    background-color: #1ED760;
+    width: 100%;
+    padding: 4px 5px 4px 5px;
+}

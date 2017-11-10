@@ -3,6 +3,7 @@
     Created on : 02/10/2017, 01:25:29 AM
     Author     : ninoh
 --%>
+<%@page import="javax.xml.ws.WebServiceException"%>
 <%@page import="java.util.List"%>
 <%@page import="webservices.WSArtistas"%>
 <%@page import="webservices.WSArtistasService"%>
@@ -41,29 +42,24 @@
         <%if (dt == null) {
         %>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
-        <%}
+        <%}else{
             DtUsuario aux2 = (DtUsuario) session.getAttribute("Usuario");
             boolean cliente = false;
             DtCliente dtcontrol = null;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
-                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
-                if (aux.isPrivada() && ((aux2 == null) || (aux2 != null && aux2 instanceof DtArtista))) {%>
+//                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
+                if (aux.isPrivada() && (aux2 == null || aux2 instanceof DtArtista || !aux2.getNickname().equals(aux.getUsuario()))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
         <%} else {
-            if (aux2 instanceof DtCliente) {
-                DtCliente dtc = (DtCliente) aux2;
-                if (!dtc.getNickname().equals(aux.getUsuario()) && aux.isPrivada()) {
-        %>
-        <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
-        <%}
-                        if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
-                            cliente = true;
-                            dtcontrol = wscli.verPerfilCliente(aux2.getNickname());
-                        }
+                if (aux2 != null && aux2 instanceof DtCliente) {
+                    if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
+                        cliente = true;
+                        dtcontrol = wscli.verPerfilCliente(aux2.getNickname());
                     }
+
                 }
-            }%>
+            }}%>
     </head>
     <body>
         <%  if (session.getAttribute("Mensaje") != null) {%>
@@ -96,18 +92,18 @@
                         <div class="row">
                             <div class="span">
                             <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
-                            <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                            <h3 class="titulo text-primary"><b><%= dt.getNombre()%></b></h3>
                             </div>
                         </div>                                        </td>
                         <%} else {%>
-                        <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
+                        <h3 class="titulo text-primary"><b><%= dt.getNombre()%></b></h3>
                                 <%}%>
                         <h4 class="text-center">Lista Por Defecto</h4>
                         <a onclick="reproducirListaPD('<%= dt.getNombre()%>', '<%= ((DtListaPD) dt).getGenero()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
                         <%} else {
                             DtListaP listaP = (DtListaP) dt;
                             boolean control2 = true;
-                            if (dt != null) {
+                            if (dtcontrol != null) {
                                 for (DtLista l : dtcontrol.getFavListas()) {
                                     if (l instanceof DtListaP && l.getNombre().equals(listaP.getNombre())) {
                                         if (((DtListaP) l).getUsuario().equals(listaP.getUsuario())) {
@@ -248,17 +244,17 @@
                                         <%}%>
                                         <%}%>
                                         <td>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>
+                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
                                         </td>
                                 <div class="hidden" id="<%=indic%>">
                                     <div class="popover-heading">
                                         Titulo
                                     </div>
-                                    <div class="popover-body">
+                                    <div class="popover-body" >
                                         <ul style="padding: 0px; margin: 0px;">
                                             <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Reproducciones: <br> <%=tem.getCantReproduccion()%></li>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760">Descargas: <br> <%=tem.getCantDescarga()%></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Reproducciones: <br> <%=tem.getCantReproduccion()%></b></li>
+                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Descargas: <br> <%=tem.getCantDescarga()%></b></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -279,23 +275,24 @@
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>        
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
         <script>
-                                                $(function () {
-                                                    $("[data-toggle=popover]").popover({
-                                                        html: true,
-                                                        placement: 'right',
-                                                        content: function () {
-                                                            var content = $(this).attr("data-popover-content");
-                                                            return $(content).children(".popover-body").html();
-                                                        }/*,
-                                                         title: function() {
-                                                         var title = $(this).attr("data-popover-content");
-                                                         return $(title).children(".popover-heading").html();
-                                                         }*/
-                                                    });
-                                                });
+            $(function () {
+                $("[data-toggle=popover]").popover({
+                    html: true,
+                    placement: 'left',
+                    content: function () {
+                        var content = $(this).attr("data-popover-content");
+                        return $(content).children(".popover-body").html();
+                    }/*,
+                     title: function() {
+                     var title = $(this).attr("data-popover-content");
+                     return $(title).children(".popover-heading").html();
+                     }*/
+                });
+            });
         </script>
     </body>
-    <%}catch (Exception ex) {
+    <%}%>
+    <%}catch (WebServiceException ex) {
 
             response.sendRedirect("Error.html");
         }%>

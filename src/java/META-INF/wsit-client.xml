@@ -7,4 +7,5 @@
  >
     <import location="wsartistas.xml" namespace="http://WebServices/"/>
     <import location="wsarchivos.xml" namespace="http://WebServices/"/>
+    <import location="wsclientes.xml" namespace="http://WebServices/"/>
 </definitions>

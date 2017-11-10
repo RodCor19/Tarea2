@@ -68,7 +68,6 @@
 
                 </div>
                 <div class="col-sm-10 text-center">
-
                     <div class="row">
                         <div class="col-sm-4 text-left">
                             <%if (album.getRutaImagen() != null) {%>
@@ -76,7 +75,7 @@
                             <%} else {%>
                             <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                             <%}%>
-                            <h3> Géneros: </h3> 
+                            <h3 class="titulo"> Géneros </h3> 
                             <%for (String genero : album.getGeneros()) {
                                     String generoCodificado = URLEncoder.encode(genero, "UTF-8");
                             %>
@@ -156,23 +155,23 @@
                                         %>
                                         <td class="text-right">
                                             <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
-                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
                                         <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
-                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>');"></a>
+                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%}%>
                                         <%} else {%>
                                         <td><%= durac%></td>
                                         <%if (tem.getDireccion() != null) {%>
                                         <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
-                                            <a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
+                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onmouseup="nuevaReproduccion('<%= tem.getNomartista() %>','<%= tem.getNomalbum() %>', '<%= tem.getNombre() %>')"></a>
+                                            <a  class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus"  tabindex="0"><b>...</b></a>
                                         </td>
                                         <%} else {%>
-                                        <td class="text-right"><a class="link" data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a></td>
+                                        <td class="text-right"><a class="link"   data-popover-content="#<%= indice %>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a></td>
                                         <%}%>
                                         <%}%>
                                         
@@ -230,6 +229,22 @@
                     }*/
                 });
             });
+            function actualizar(id,nomart,nomalb,nomt){
+                alert(id);
+                alert(nomart);
+                alert(nomalb);
+                alert(nomt);
+//                $.ajax({
+//                type: 'POST', //tipo de request
+//                url: '/EspotifyWeb/ServletArtistas',
+//                dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
+//                data: {// Parametros que se pasan en el request
+//                    publicarLista: nombLista
+//                },
+//                success: function (data) { //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
+//                    location.reload(true);
+//                }
+            }
         </script>
             
                     <script>

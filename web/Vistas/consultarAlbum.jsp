@@ -46,6 +46,7 @@
                                 <%for(DtAlbum album: albumes){ 
                                 String nombreAlb = album.getNombre();
                                 String nombreArt = album.getNombreArtista();
+                                int anio=album.getAnio();
                                 %>
                                 <tr>
                                     <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>

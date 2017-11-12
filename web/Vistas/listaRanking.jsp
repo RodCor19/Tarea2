@@ -86,6 +86,7 @@
                                         <%= wscli.getSeguidores(usr.getNickname()).getUsuarios().size()%>
                                         
                                     </td>
+                                  
                                      <td>
                                         <%
                                             if (controlSeguir && !perfilUsr.getNickname().equals(usr.getNickname())) {

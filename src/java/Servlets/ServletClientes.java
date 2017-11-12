@@ -108,7 +108,7 @@ public class ServletClientes extends HttpServlet {
                 nickname = new String(bytes, StandardCharsets.UTF_8);
                 DtUsuario dt = (DtUsuario) sesion.getAttribute("Usuario");
                 if (dt != null && dt instanceof DtCliente && wscli.suscripcionVigente(dt.getNickname())) {
-                    wscli.dejarSeguir(dt.getNickname(), nickname);
+                    wscli.dejarSeguir(dt.getNickname(), "dmode");
                     sesion.setAttribute("Usuario", wscli.verPerfilCliente(dt.getNickname()));
 //                    response.sendRedirect("ServletClientes?verPerfilCli=" + dt.getNickname());
 

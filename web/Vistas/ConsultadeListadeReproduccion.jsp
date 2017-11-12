@@ -3,6 +3,7 @@
     Created on : 02/10/2017, 01:25:29 AM
     Author     : ninoh
 --%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="javax.xml.ws.WebServiceException"%>
 <%@page import="java.util.List"%>
 <%@page import="webservices.WSArtistas"%>
@@ -222,9 +223,13 @@
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                         <td><%= durac%></td>
                                         <%if (cliente) {%>
-                                        <%if (tem.getArchivo() != null) {%>
+                                        <%if (tem.getArchivo() != null) {
+                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
+                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
+                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
+                                        %>
                                         <td class="text-right">
-                                            <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" onclick="nuevaDescarga('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
+                                             <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
                                         </td>
                                         <%} else {%>
                                         <td class="text-right">

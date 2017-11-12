@@ -122,8 +122,12 @@
                                 <td><%=duracion%><td>
 
                                     <%if (control) {%>
-                                    <%if (tem.getArchivo() != null) {%>
-                                <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" ></a></td>
+                                    <%if (tem.getArchivo() != null) {
+                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
+                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
+                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
+                                        %>
+                                    <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a></td>
                                     <%} else {%>
                                 <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                     <%}%>

@@ -34,12 +34,12 @@
                     <div class="row">
                         <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                         <h3 class="tituloGenero text-primary"><b><%= nomgen %></b></h3>
-                        <h4 class="text-left titulo"><b>Álbumes</b></h4>
+                        <h4 class="text-left titulo lineaAbajo"><b>Álbumes</b></h4>
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th><h4><b>Artista</b></h4></th>
                                     <th><h4><b>Álbum</b></h4></th>
+                                    <th><h4><b>Artista</b></h4></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,13 +48,13 @@
                                 String nombreArt = album.getNombreArtista();
                                 %>
                                 <tr>
-                                    <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
                                     <td><h4><a class="link" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></h4></a></td>
+                                    <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>
                         </table>
-                        <h4 class="text-left titulo"><b>Listas Por Defecto</b></h4>
+                        <h4 class="text-left titulo lineaAbajo"><b>Listas Por Defecto</b></h4>
                         <% if(listas.isEmpty()){ %>
                         <h4 class="text-left lineaAbajo" style="margin-top: 20px"><i>No tiene listas asociadas</i></h4>
                         <%}else{%>

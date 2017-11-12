@@ -75,7 +75,7 @@
                             <%} else {%>
                             <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                             <%}%>
-                            <h3 class="titulo"> Géneros </h3> 
+                            <h3 class="titulo lineaAbajo"> Géneros </h3> 
                             <%for (String genero : album.getGeneros()) {
                                     String generoCodificado = URLEncoder.encode(genero, "UTF-8");
                             %>

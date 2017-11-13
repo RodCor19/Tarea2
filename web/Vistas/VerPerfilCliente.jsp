@@ -144,8 +144,9 @@
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
-                                            <th><h4><b>Nombre</b></h4></th>
-                                            <th><h4><b>Tipo</b></h4></th>
+                                            <th onclick="ordenarTabla(0, this)"><h4><b>Nombre</b></h4></th>
+                                            <th onclick="ordenarTabla(1, this)"><h4><b>Tipo</b></h4></th>
+                                            <th id="FechaC" onclick="ordenarTabla(2, this)"><h4><b>Fecha</b></h4></th>
                                             <th><h4><b> </b></h4></th>
                                         </tr>
                                     </thead>
@@ -190,14 +191,15 @@
                                             <div class="row">
                                                 <div class="span">
                                                     <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?favLista=<%=nombre + "&cliente=" + lista.getUsuario()%>""></a>
-                                                    <div class="span" ><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></div>
+                                                    <div class="span" ><h4><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <%} else {%>
-                                        <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
+                                        <td><h4><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= lista.getUsuario()%>"><%= lista.getNombre()%></h4></a></td>
                                         <%}%>
                                             <td id="td<%= lista.getNombre()%>"><h4><%= tipo%></h4></td>
+                                            <td class="fechalista" id="td<%= lista.getNombre()%>"><h4><%= lista.getFechacreacion() %></h4></td>
                                                     <% if (lista.isPrivada() && controlSeguir) {%>
                                             <td><button style="font-size: 15px" id="btnPublicar" class="btn boton" onclick="publicarLista('<%= lista.getNombre()%>')">Publicar</button></td>
 
@@ -387,7 +389,8 @@
                 </div>
             </div>
         </div>
-
+           
+        <script src="/EspotifyWeb/Javascript/fecha.js"></script>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>                  
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>

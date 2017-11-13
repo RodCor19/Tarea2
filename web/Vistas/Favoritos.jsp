@@ -101,8 +101,9 @@
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
-                                            <th><h4><b>Lista</b></h4></th>
-                                            <th><h4><b>Creador/Género</b></h4></th>
+                                            <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Lista</b></h4></th>
+                                            <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Creador/Género</b></h4></th>
+                                            <th id="FechaC" onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Fecha de Creacion</b></h4></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -127,14 +128,17 @@
                                                 DtCliente cli= wscli.verPerfilCliente(listaP.getUsuario());
                                             %>
                                                 
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= cli.getNombre()+" "+cli.getApellido() %></h4></a></td>
-                                                        <%} else {
+                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= listaP.getUsuario()%>"><h4><%= listaP.getNombre()%></h4></a></td>
+                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><h4><%= cli.getNombre()+" "+cli.getApellido() %></h4></a></td>
+                                            <td class="fechalista"><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>&Usuario=<%= listaP.getNombre() %>"><h4><%= listaP.getFechacreacion() %></h4></a></td>
+                                            
+                                            <%} else {
                                                 DtListaPD listaPD = (DtListaPD) lista;%>
-                                            <td><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>"><h4><%= listaPD.getNombre()%></h4></a></td>
+                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>"><h4><%= listaPD.getNombre()%></h4></a></td>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8"); %>
-                                            <td><a class="link" href="ServletArtistas?consultarAlbum=<%= generoCodificado %>"><h4><%= listaPD.getGenero() %></h4></a></td>
-                                             <%}%>
+                                            <td><a class="link textoAcomparar" href="ServletArtistas?consultarAlbum=<%= generoCodificado %>"><h4><%= listaPD.getGenero() %></h4></a></td>
+                                            <td class="fechalista"><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre %>"><h4><%= listaPD.getFechacreacion() %></h4></a></td>
+                                            <%}%>
                                         </tr>
                                         <%}%>
                                     </tbody>
@@ -150,9 +154,11 @@
                 </div>
             </div>
         </div>
-                                    
+        
+        <script src="/EspotifyWeb/Javascript/fecha.js"></script>                    
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
 </html>
 <%}%>

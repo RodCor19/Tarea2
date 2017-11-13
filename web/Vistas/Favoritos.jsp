@@ -55,8 +55,8 @@
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
-                                            <th><h4><b>Álbum</b></h4></th>
-                                            <th><h4><b>Artista</b></h4></th>
+                                            <th onclick="ordenarTabla(0, this)"class="tituloFila"><h4><b>Álbum</b></h4></th>
+                                            <th onclick="ordenarTabla(0, this)"class="tituloFila"><h4><b>Artista</b></h4></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -77,17 +77,17 @@
                                 <table class="table text-left">
                                     <thead>
                                         <tr>
-                                            <th><h4><b>Tema</b></h4></th>
-                                            <th><h4><b>Álbum</b></h4></th>
-                                            <th><h4><b>Artista</b></h4></th>
+                                            <th onclick="ordenarTabla(0, this)"class="tituloFila"><h4><b>Tema</b></h4></th>
+                                            <th onclick="ordenarTabla(1, this)"class="tituloFila"><h4><b>Álbum</b></h4></th>
+                                            <th onclick="ordenarTabla(2, this)"class="tituloFila"><h4><b>Artista</b></h4></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <%for (DtTema tema : cliente.getFavTemas()) {%>
                                         <tr>
                                             <td><h4><%= tema.getNombre()%></h4></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tema.getNomalbum()+ "&artista=" + tema.getNomartista() %>"><h4><%= tema.getNomalbum() %></h4></a></td>
-                                            <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getNomartista()%>"><h4><%= tema.getNomartista()%></h4></a></td>
+                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tema.getNomalbum()+ "&artista=" + tema.getNomartista() %>"><h4><%= tema.getNomalbum() %></h4></a></td>
+                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getNomartista()%>"><h4><%= tema.getNomartista()%></h4></a></td>
                                         </tr>
                                         <%}%>
                                     </tbody>

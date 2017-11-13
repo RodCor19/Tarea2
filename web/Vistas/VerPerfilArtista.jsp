@@ -58,10 +58,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-2">
-
-                </div>
-                <div class="col-sm-8 text-center">
+                <div class="col-xs-12 text-center">
                     <div class="row">
                         <% if (artista.getRutaImagen() == null) { %>
                         <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->
@@ -155,31 +152,35 @@
                             <div id="menu2" class="tab-pane fade">
                                 <!--<h4 ><b>Cantidad: </b><%= seguidores.size()%></h4>-->
                                 <% for (DtCliente seguidor : seguidores) {%>
-                                <h4 class="lineaAbajo"><a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a></h>
-                                    <%
-                                        if (controlSeguir && !perfilUsr.getNickname().equals(seguidor.getNickname())) {
-                                            boolean control = false;
-                                            for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
-                                                if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname())) {
-                                                    control = true;
-                                                }
-                                            }
-                                            if (control) {
-                                    %>
-                                    <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
-                                        <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de Seguir</b>
-                                    </a>
-                                    <%} else {%>
-                                    <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
-                                        <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
-                                    </a>
-                                    <%}
-                                        }%>
-                                    <br>
-                                    <%}%>
+                                <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
+                                    <div class="col-sm-8 text-left">
+                                        <a class="link" href="ServletClientes?verPerfilCli=<%= seguidor.getNickname()%>"><%= seguidor.getNombre() + " " + seguidor.getApellido()%></a>
                                     </div>
-                                    <div class="col-sm-2">
-
+                                        <%
+                                            if (controlSeguir && !perfilUsr.getNickname().equals(seguidor.getNickname())) {
+                                                boolean control = false;
+                                                for (int i = 0; i < dt.getUsuariosSeguidos().size(); i++) {
+                                                    if (dt.getUsuariosSeguidos().get(i).getNickname().equals(seguidor.getNickname())) {
+                                                        control = true;
+                                                    }
+                                                }
+                                                if (control) {
+                                        %>
+                                        <div class="col-sm-4 text-right">
+                                            <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= seguidor.getNickname()%>">
+                                                <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de Seguir</b>
+                                            </a>
+                                        </div>
+                                        <%} else {%>
+                                        <div class="col-sm-4 text-right">
+                                            <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%=seguidor.getNickname()%>">
+                                                <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
+                                            </a>
+                                        </div>
+                                        <%}
+                                            }%>
+                                    </h4>
+                                    <%}%>
                                     </div>
                             </div>
                         </div>

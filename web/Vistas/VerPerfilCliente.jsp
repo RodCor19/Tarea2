@@ -53,10 +53,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical col-sm-2">
-
-                </div>
-                <div class="col-sm-8 text-center">
+                <div class="col-xs-12 text-center">
                     <div class="row">
                         <% if (cliente.getRutaImagen() == null) { %>
                         <img src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" alt="foto del usuario" class="img-responsive imgAlbum" title="Cliente"><!--Cambiar por imagen del usuario-->
@@ -254,12 +251,13 @@
                             </div>
                                     <div id="menu3" class="tab-pane fade"> <% if(perfilUsr.getNickname().equals(cliente.getNickname())){
                                     %>
-                                <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left">
+                                <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left" style="width: 50%">
                                         <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
                                         <button class="btn" type="submit">
                                             <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
                                         </button>
-                                    </form> </h3>
+                                    </form> 
+                                </h3>
                                         <% }
                                     %>
                                     <%if (cliente.getUsuariosSeguidos().isEmpty()) { %>
@@ -289,7 +287,7 @@
                                         <tr>
                                             <td><a class="link" href="<%= servlet + seguido.getNickname()%>"><h4><%= seguido.getNombre() + " " + seguido.getApellido()%></h4></a></td>
                                             <td><h4><%= tipo%></h4></td> 
-                                            <td>
+                                            <td class="text-right">
                                                 <%
                                                     if (controlSeguir && !perfilUsr.getNickname().equals(seguido.getNickname())) {
                                                         boolean control = false;
@@ -383,9 +381,6 @@
                                 }%>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-2">
-
                 </div>
             </div>
         </div>

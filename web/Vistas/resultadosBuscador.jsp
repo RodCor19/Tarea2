@@ -1,3 +1,4 @@
+<%@page import="javax.xml.ws.WebServiceException"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="webservices.DataTemas"%>
@@ -55,7 +56,6 @@
                         session.setAttribute("Usuario", dt);
                     }
                 }
-
         %>
     </head>
     <body>
@@ -123,8 +123,12 @@
                                 <td><%=duracion%><td>
 
                                     <%if (control) {%>
-                                    <%if (tem.getArchivo() != null) {%>
-                                <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>" class="glyphicon glyphicon-download" ></a></td>
+                                    <%if (tem.getArchivo() != null) {
+                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
+                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
+                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
+                                        %>
+                                    <td><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a></td>
                                     <%} else {%>
                                 <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window"></a></td>
                                     <%}%>
@@ -302,7 +306,7 @@
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
     </body>
-    <% } catch (Exception ex) {
+    <% } catch (WebServiceException ex) {
             System.out.println(ex.getMessage());
             response.sendRedirect("Error.html");
         }%>

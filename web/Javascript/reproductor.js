@@ -19,8 +19,12 @@ function get_next(pos){
 };
 function set_play(value,lab_title){
     var trackData = value.split("|"); 
+//    var title = document.getElementById("auTitle");
+//    title.textContent = lab_title;
+    
     var title = document.getElementById("auTitle");
-    title.textContent = lab_title;
+    title.innerHTML = '<marquee scrollamount="2" scrolldelay="60" style="background-color: #1ED760; color: whitesmoke">'+lab_title+'</marquee>';
+   
     var image = document.getElementById("trackImage");
     image.src = trackData[1];
 };

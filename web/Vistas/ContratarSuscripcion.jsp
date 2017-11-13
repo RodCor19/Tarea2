@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div id="divConSus" class="row">
-                        <h3 class="lineaAbajo">Eliga un tipo de suscripción:</h3>
+                        <h3 class="titulo lineaAbajo">Eliga un tipo de suscripción:</h3>
                         <table class="table text-left">
                             <thead>
                                 <tr>

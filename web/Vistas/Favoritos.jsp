@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-sm-8 text-center">
                     <div class="row">
-                        <h3 class="lineaAbajo"><b>Mis Favoritos</b></h3>
+                        <h3 class="titulo lineaAbajo"><b>Mis Favoritos</b></h3>
                         <ul class="nav nav-tabs" style="padding-top: 0px;">
                             <li class="active"><a data-toggle="tab" href="#home"><h4><b>Álbumes</b></h4></a></li>
                             <li><a data-toggle="tab" href="#menu1"><h4><b>Temas</b></h4></a></li>

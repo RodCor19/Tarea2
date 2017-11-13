@@ -68,7 +68,6 @@
 
                 </div>
                 <div class="col-sm-10 text-center">
-
                     <div class="row">
                         <div class="col-sm-4 text-left">
                             <%if (album.getRutaImagen() != null) {%>
@@ -76,7 +75,7 @@
                             <%} else {%>
                             <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                             <%}%>
-                            <h3> Géneros: </h3> 
+                            <h3 class="titulo lineaAbajo"> Géneros </h3> 
                             <%for (String genero : album.getGeneros()) {
                                     String generoCodificado = URLEncoder.encode(genero, "UTF-8");
                             %>
@@ -215,7 +214,6 @@
         <script src="/EspotifyWeb/Javascript/reproductor.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
-        <script src="../Javascript/reproductor.js"></script>
         <script>        
             $(function(){
                 $("[data-toggle=popover]").popover({

@@ -1,4 +1,5 @@
 <%@page import="javax.xml.ws.WebServiceException"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="webservices.DataTemas"%>
 <%@page import="webservices.WSArtistasService"%>
@@ -200,6 +201,7 @@
                                     <tr>
                                         <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Lista</b></h4></th>
                                         <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Creador/Género</b></h4></th>
+                                        <th id="FechaC" onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Fecha de Creacion</b></h4></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -219,7 +221,7 @@
                                             nombre = nombre.replace("Ñ", "&Ntilde;");
                                     %>
                                     <% if (lista instanceof DtListaP) {
-                                            DtListaP listaP = (DtListaP) lista;
+                                            DtListaP listaP = (DtListaP) lista;                                            
                                             DtCliente cli = wscli.verPerfilCliente(listaP.getUsuario());
                                             String nLista = URLEncoder.encode(lista.getNombre(), "UTF-8");
                                             boolean control2 = true;
@@ -248,7 +250,10 @@
                                         <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= nombre%>&Usuario=<%= listaP.getUsuario()%>"><%= listaP.getNombre()%></a></td>
                                             <%}%>
                                         <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= cli.getNombre() + " " + cli.getApellido()%></a></td>
-                                            <%}
+                                        
+                                        <td class="fechalista" ><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?verPerfilCli=<%= listaP.getUsuario()%>"><%= listaP.getFechacreacion() %></a></td>
+                                        
+                                        <%}
                                             } else {
                                                 DtListaPD listaPD = (DtListaPD) lista;
                                                 String nLista = lista.getNombre();
@@ -280,7 +285,9 @@
                                             <%}%>
                                             <% String generoCodificado = URLEncoder.encode(listaPD.getGenero(), "UTF-8");%>
                                         <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= generoCodificado%>"><%= listaPD.getGenero()%></a></td>
-                                            <%}%>
+                                        <td class="fechalista"><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?consultarAlbum=<%= nombre%>"><%= listaPD.getFechacreacion() %></a></td>
+                                        
+                                        <%}%>
                                     </tr>
                                     <%}%>
                                 </tbody>
@@ -294,7 +301,7 @@
             </div>
         </div>
 
-
+        <script src="/EspotifyWeb/Javascript/fecha.js"></script>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
         <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>

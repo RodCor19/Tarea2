@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -292,8 +293,12 @@ public class ServletClientes extends HttpServlet {
                         imagenBytes = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                         im.delete();
                     }
-
-                    wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
+                    Calendar fecha = Calendar.getInstance();
+                    int año = fecha.get(Calendar.YEAR);
+                    int mes = fecha.get(Calendar.MONTH);
+                    int dia = fecha.get(Calendar.DAY_OF_MONTH);
+                    String fechac = año + "-" + (mes+1) + "-" + dia; 
+                    wscli.crearListaP(c.getNickname(), nLista, imagenBytes,fechac);
                     if (wscli.confirmar()) {
                         DtListaP aux = null;
                         List<DtLista> dt = wscli.listarListaP().getListas();

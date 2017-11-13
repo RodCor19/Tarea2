@@ -28,7 +28,7 @@
         try {
             DtLista dt = (DtLista) session.getAttribute("Lista");
             session.removeAttribute("temasAReproducir");
-
+            
             WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
             WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
     %>

@@ -17,7 +17,7 @@
         <%  DtArtista artista = (DtArtista) session.getAttribute("PerfilArt"); %>
         
         <!-- Redirige despues de 5 segundos-->
-        <meta http-equiv="refresh" content="5; URL=/EspotifyWeb/ServletArtistas?verPerfilArt=<%= artista.getNickname() %>">
+        <meta http-equiv="refresh" content="; URL=/EspotifyWeb/ServletArtistas?verPerfilArt=<%= artista.getNickname() %>">
     </head>
     <body>
         <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>

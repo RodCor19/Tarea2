@@ -38,8 +38,8 @@
                         <table class="table text-left">
                             <thead>
                                 <tr>
-                                    <th><h4><b>Álbum</b></h4></th>
-                                    <th><h4><b>Artista</b></h4></th>
+                                    <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Álbum</b></h4></th>
+                                    <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Artista</b></h4></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,8 +49,8 @@
                                 int anio=album.getAnio();
                                 %>
                                 <tr>
-                                    <td><h4><a class="link" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></h4></a></td>
-                                    <td><h4><a class="link" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
+                                    <td><h4><a class="link textoAcomparar" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></h4></a></td>
+                                    <td><h4><a class="link textoAcomparar" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>
@@ -73,7 +73,7 @@
                                 String nomCodificado = new String(bytes, StandardCharsets.ISO_8859_1);
                                 %>
                                 <tr>
-                                    <td><h4><a class="link" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre() %>"><%= nombre%></a></h4></td> 
+                                    <td><h4><a class="link textoAcomparar" href="/EspotifyWeb/ServletClientes?Lista=<%= lista.getNombre() %>"><%= nombre%></a></h4></td> 
                                 </tr>
                                 <%}%>
                             </tbody>
@@ -84,7 +84,7 @@
             </div> 
         </div>
                     
-        
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
         <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
         <script src="/EspotifyWeb/Javascript/artistasGeneros.js"></script>
     </body>

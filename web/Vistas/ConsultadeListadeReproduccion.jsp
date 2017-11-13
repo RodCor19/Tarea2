@@ -176,8 +176,7 @@
                                         <th><h4><b>Album</b></h4></th>
                                         <th><h4><b>Artista</b></h4></th>
                                         <th><h4><b>Duración</b></h4></th>
-                                        <td></td> <!-- es para el boton escuchar/descargar -->
-                                        <td></td> <!-- es para el boton "..." (popover) -->
+                                        <td></td> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -187,6 +186,10 @@
                                         for (DtTema tem : arr) {
                                             String nombre = tem.getNombre();
                                             String durac = tem.getDuracion();
+                                            String desc = tem.getArchivo();
+                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
+                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
+                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
                                             DtArtista a = wsart.elegirArtista(tem.getNomartista());
                                             boolean control2 = true;
                                             if (dtcontrol != null) {
@@ -201,60 +204,64 @@
                                         <%if (dt instanceof DtListaP) {
                                                 DtListaP aux = (DtListaP) dt;%>
                                         <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">
-                                            <%} else {
-                                                DtListaPD aux = (DtListaPD) dt;%>
-                                        <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
-                                            <%}%>
-                                            <%if (cliente && control2) {%>
-                                            <!--<div class="row">-->
+                                        <%if (cliente && control2) {%>
+                                            <div class="row">
                                                 <div class="span">
                                                     <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
                                                         <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
                                                     </a>
                                                     <div class="span" ><%= nombre%></div>
                                                 </div>
-                                            <!--</div>-->
+                                            </div>
+                                        </td> 
+                                        <%}else {%>
+                                        <td><%= nombre%></td> 
+                                        <%}%>
+                                           
+                                        <%}else {
+                                                DtListaPD aux = (DtListaPD) dt;%>
+                                        <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
+                                        <%if (control2) {%>
+                                            <div class="row">
+                                                <div class="span">
+                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
+                                                        <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
+                                                    </a>
+                                                    <div class="span" ><%= nombre%></div>
+                                                </div>
+                                            </div>
                                         </td>
                                         <%} else {%>
-                                        <%= nombre%>
-                                        </td>
-                                        <%}%>
+                                        <td><%= nombre%></td>
+                                        <%}}%>
+                                        
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                         <td><%= durac%></td>
                                         <%if (cliente) {%>
-                                        <%if (tem.getArchivo() != null) {
-                                            String nomTema = URLEncoder.encode(tem.getNombre(), "UTF-8");
-                                            String nomAlbum = URLEncoder.encode(tem.getNomalbum(), "UTF-8");
-                                            String nickArt = URLEncoder.encode(tem.getNomartista(), "UTF-8");
-                                        %>
+                                        <% if(tem.getArchivo() != null) {%>
                                         <td class="text-right">
                                              <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
                                         </td>
-                                        <%} else {%>
+                                        <%}else{%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                        </td>
-                                        <%}%>
-                                        <%} else {%>
-                                        <%if (tem.getDireccion() != null) {%>
+                                        </td> 
+                                        <%}}else{%>
+                                        <% if(tem.getArchivo()!=null ){ %>
+                                        <td class="text-right"><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a></td>
+                                        <%}else{%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                            <!--<a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" href="#" tabindex="0"><b>...</b></a>-->
-                                        </td>
-                                        <%} else {%>
-                                        <td>
-                                            <!--<a class="glyphicon glyphicon-download" style="" </a>  No hace nada, es para ocupar el espacio y que queden los ... alineados -->
-                                        </td>
-                                        <%}%>
-                                        <%}%>
+                                        </td> 
+                                        <%}}%>
                                         <td>
                                             <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
                                         </td>
-                                <div class="hidden" id="<%=indic%>">
-                                    <div class="popover-heading">
-                                        Titulo
-                                    </div>
+                                    <div class="hidden" id="<%=indic%>">
+                                        <div class="popover-heading">
+                                            Titulo
+                                        </div>
                                     <div class="popover-body" >
                                         <ul style="padding: 0px; margin: 0px;">
                                             <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
@@ -263,14 +270,13 @@
                                         </ul>
                                     </div>
                                 </div>
-                                </tr>
-                                <%indic++;
-                                    }%>
-                                </tbody>
-                            </table>
+                            </tr>
+                                <%indic++;  }%>
+                        </tbody>
+                        </table>
                             <%}%>
 
-                        </div>
+                </div>
             </div>
         </div>
 

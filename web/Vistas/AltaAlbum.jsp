@@ -164,7 +164,8 @@
                 <div class="col-sm-3">
                     <h3>Elegir Imagen Album</h3>        
                     <img id="imgalbum" src="/EspotifyWeb/Imagenes/iconoMusica.jpg" width="230" height="230" class="imgAlbum" />
-                    <form  target="iframe" action="/EspotifyWeb/ServletArtistas" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">
+                    <!--target="iframe"-->
+                    <form   action="/EspotifyWeb/ServletArtistas" id="formcrear" enctype="multipart/form-data" method="post">
                         <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
                         <br><br><div class="form-group">
                             <input class="boton" name="aceptar" type="submit" value="Crear Album" id="aceptar" style="font-size: 15px">

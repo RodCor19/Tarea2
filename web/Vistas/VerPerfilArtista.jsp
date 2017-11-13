@@ -150,7 +150,9 @@
                                 <br>
                             </div>
                             <div id="menu2" class="tab-pane fade">
-                                <!--<h4 ><b>Cantidad: </b><%= seguidores.size()%></h4>-->
+                                <% if (seguidores.isEmpty()) { %>
+                                <h4 class="lineaAbajo"><i>No tiene seguidores</i></h4>
+                                <%} else {%>
                                 <% for (DtCliente seguidor : seguidores) {%>
                                 <h4 class="lineaAbajo row" style="margin-left:0px; margin-right:0px;">
                                     <div class="col-sm-8 text-left">
@@ -180,6 +182,7 @@
                                         <%}
                                             }%>
                                     </h4>
+                                    <%}%>
                                     <%}%>
                                     </div>
                             </div>

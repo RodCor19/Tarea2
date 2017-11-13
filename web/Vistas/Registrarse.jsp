@@ -44,21 +44,21 @@
                                     <label class="form-control-feedback" hidden="" id="error"></label>
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-addon">Nombre: </span>
-                                    <input id="nombre" type="text" class="form-control" name="nombre" placeholder="">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input id="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-addon">Apellido: </span>
-                                    <input id="apellido" type="text" class="form-control" name="apellido" placeholder="">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input id="apellido" type="text" class="form-control" name="apellido" placeholder="Apellido">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-addon ">Fecha de Nacimiento: </span>
-                                    <input id="fechanac" type="text" class="form-control" name="fechanac" placeholder="dd-mm-aaaa">
+                                    <span class="input-group-addon "><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <input id="fechanac" type="text" class="form-control" name="fechanac" placeholder="Fecha de Nacimiento: dd-mm-aaaa">
                                     <label class="glyphicon form-control-feedback" hidden="" id="error"></label>
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-addon">Email: </span>
-                                    <input id="correo" type="text" class="form-control" name="correo" placeholder="">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input id="correo" type="text" class="form-control" name="correo" placeholder="Email">
                                     <label class="form-control-feedback" hidden="" id="errorC"></label>
                                 </div>
 
@@ -68,14 +68,15 @@
                         <label class="radio-inline"><input type="radio" name="tipoUsr" value="Cliente" id="radioC" checked>Cliente</label>
                         <label class="radio-inline"><input type="radio" name="tipoUsr" value="Artista" id="radioA">Artista</label>
                         <ul class="list-group">
+                            <br>
                             <div hidden="" id="opcionesArt">
                                 <div class="input-group" >
-                                    <span  class="input-group-addon">Biografia: </span>
-                                    <input id="biografia" type="text" class="form-control" name="biografia" placeholder="">
+                                    <span  class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input id="biografia" type="text" class="form-control" name="biografia" placeholder="Biografia">
                                 </div>
                                 <div class="input-group" >
-                                    <span class="input-group-addon">Pagina Web: </span>
-                                    <input id="paginaweb" type="text" class="form-control" name="paginaweb" placeholder="">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input id="paginaweb" type="text" class="form-control" name="paginaweb" placeholder="Pagina Web">
                                 </div>
                             </div>
                         </ul>

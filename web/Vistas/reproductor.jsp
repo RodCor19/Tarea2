@@ -16,8 +16,8 @@
     Collections.reverse(temas);
     DtTema repTema = (DtTema) session.getAttribute("reproducirTema");
     String ImagenReproductor = null;
-    if (session.getAttribute("ImagenAlbumReproductor")!=null){
-        ImagenReproductor = (String) session.getAttribute("ImagenAlbumReproductor");
+    if (session.getAttribute("ImagenReproductor")!=null){
+        ImagenReproductor = (String) session.getAttribute("ImagenReproductor");
     }
     WSArtistas wsart = (WSArtistas)request.getSession().getAttribute("WSArtistas");
 %>

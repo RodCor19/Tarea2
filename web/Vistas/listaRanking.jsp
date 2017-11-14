@@ -38,6 +38,9 @@
         <title>Espotify: Resultados</title>
     </head>
 <body>
+     <%  if (session.getAttribute("Mensaje") != null) {%>
+            <jsp:include page="mensajeModal.jsp" /> <%-- mostrar el mensaje --%>
+        <%}%>
     <jsp:include page="Cabecera.jsp" /> <%-- Importar la cabecera desde otro archivo .jsp --%>
     <center>
         <h1><b>Ranking de Usuarios</b></h1>
@@ -98,11 +101,11 @@
                                                 }
                                                 if (control) {
                                         %>
-                                        <a class="text-primary btn btn-danger" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= usr.getNickname()%>"> 
+                                        <a class="text-primary btn btn-danger enviarPorAjax" href="/EspotifyWeb/ServletClientes?dejarSeguir=<%= usr.getNickname()%>"> 
                                             <span class="glyphicon glyphicon-remove pull-left" style="margin-right: 5px"></span><b>Dejar de seguir</b>
                                         </a>
                                         <%} else {%>
-                                        <a class="text-primary btn btn-success" href="/EspotifyWeb/ServletClientes?seguir=<%= usr.getNickname()%>">
+                                        <a class="text-primary btn btn-success enviarPorAjax" href="/EspotifyWeb/ServletClientes?seguir=<%= usr.getNickname()%>">
                                             <span class="glyphicon glyphicon-ok pull-left" style="margin-right: 5px"></span><b>Seguir</b>
                                         </a>
                                         <%}

@@ -1,0 +1,7 @@
+ipServidor=localhost
+puertoWSCli=8087
+puertoWSArt=8088
+puertoWSArch=8089
+nombreWSCli=wsclientes
+nombreWSArt=wsartistas
+nombreWSArch=wsarchivos

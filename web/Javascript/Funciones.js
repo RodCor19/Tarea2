@@ -16,38 +16,38 @@ if (document.getElementById("checkurl").checked === false){
         document.getElementById("url").disabled = true;
     }    
     
-$("#formcrear").submit(function(e) {
+
+$("#aceptar").click(function(e) {
         var listagen = $("#listageneros li");
         var tabla = document.getElementById("mitabla");
         var nombre = document.getElementById("nombrealbum").value;
         var anio = document.getElementById("anioalbum").value;
+        var photo = document.getElementById("elegirimagen");
         if(anio < 1800 || anio >2017){
             alert("Año Inválido");
-            e.preventDefault();
-            return false;
+            //e.preventDefault();
+            //return false;
         }else{
             if (tabla.rows.length === 1){
                 alert("No se ha agregado ningun tema");
-                e.preventDefault();
-                return false;
+                //e.preventDefault();
+                //return false;
             }else{
                 if (listagen.length === 0){
                     alert("No se ha agregagado ningun género");
-                    e.preventDefault();
-                    return false;
+                    //e.preventDefault();
+                    //return false;
                 }else{
                     if (nombre ===""){
                         alert("Nombre vacío");
-                        e.preventDefault();
-                        return false;
+                        //e.preventDefault();
+                        //return false;
                     }else{
-//                        if (photo.value !== ""){
-//                            $("#formcrear").submit();
-//                            photo = photo.files[0].name;
-//                        }else{
-//                            photo = "";
-//                        }
-//                        alert(photo);
+                        if (photo.value !== ""){
+                            photo = photo.files[0].name;
+                        }else{
+                            photo = "";
+                        }
                         var temas = [];
                         var generos = [];
                         for (var x=1, n = tabla.rows.length; x<n; x++){
@@ -71,18 +71,18 @@ $("#formcrear").submit(function(e) {
                             NombreAlbum : nombre,
                             anioalbum: anio,
                             json:JSON.stringify(temas),
-                            generos: generos
-//                            foto : photo
+                            generos: generos,
+                            foto : photo
                         },
                         success : function(data){ //en el success ponemos lo que queremos hacer cuando obtenemos la respuesta
                            if (data==='nomRepetido'){
                                alert("Este Artista ya tiene un album con ese nombre");
-                               e.preventDefault();
-                               return false;
+                               //e.preventDefault();
+                               //return false;
                            }
-                           else{ 
+                           else{
                                window.location.replace('/EspotifyWeb/Vistas/AlbumIngresado.jsp');
-                               return true; // con return true se envia el submit de la imagen
+                               //return true; // con return true se envia el submit de la imagen
                            }
                         }
                         });
@@ -91,7 +91,7 @@ $("#formcrear").submit(function(e) {
                 }
             }
         }
-    });
+});
     
     
 $('#aceptartema').click(function(e){
@@ -254,6 +254,7 @@ $("#elegirimagen").change(function(){
         };
         reader.readAsDataURL(x.files[0]);
     }
+    $("#formcrear").submit();
 });
 $("#elegircancion").change(function(){
     var x = document.getElementById("elegircancion");

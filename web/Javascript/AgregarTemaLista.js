@@ -97,7 +97,7 @@ function chooser() {
             if (r === true) {
                 $.ajax({
                     type: 'POST', //tipo de request
-                    url: '/ServletClientes',
+                    url: '../ServletClientes',
                     dataType: 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
                     data: {// Parametros que se pasan en el request
                         AgregarTemaNombreTema: data[0],

@@ -3,9 +3,9 @@
   <services/>
   <clients>
     <client name="wsclientes">
-      <wsdl-url>http://localhost:8087/wsclientes?WSDL</wsdl-url>
+      <wsdl-url>http://localhost:8087/wsclientes?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8087/wsclientes.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">webservices</package-name>
+      <package-name>webservices</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -22,7 +22,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8087/wsclientes?WSDL</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8087/wsclientes?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -33,17 +33,13 @@
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>webservices</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
           <wsimport-option-name>target</wsimport-option-name>
           <wsimport-option-value>2.1</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
     <client name="wsartistas">
-      <wsdl-url>http://localhost:8088/wsartistas?WSDL</wsdl-url>
+      <wsdl-url>http://localhost:8088/wsartistas?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8088/wsartistas.wsdl</local-wsdl-file>
       <package-name>webservices</package-name>
       <catalog-file>catalog.xml</catalog-file>
@@ -62,7 +58,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8088/wsartistas?WSDL</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8088/wsartistas?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -79,7 +75,7 @@
       </wsimport-options>
     </client>
     <client name="wsarchivos">
-      <wsdl-url>http://localhost:8089/wsarchivos?WSDL</wsdl-url>
+      <wsdl-url>http://localhost:8089/wsarchivos?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8089/wsarchivos.wsdl</local-wsdl-file>
       <package-name>webservices</package-name>
       <catalog-file>catalog.xml</catalog-file>
@@ -98,7 +94,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8089/wsarchivos?WSDL</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8089/wsarchivos?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

@@ -128,6 +128,7 @@ public class ServletArtistas extends HttpServlet {
                         //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
                         if (item.isFormField() == false && item.getName().isEmpty() == false) {
                             File archivo_server = new File(path + item.getName());
+                            archivo_server.getParentFile().mkdirs();
                             item.write(archivo_server);
                             rutaArchivo = path + item.getName();
                         } else {

@@ -20,4 +20,7 @@
     <system systemId="http://192.168.1.183:8088/wsartistas?xsd=1" uri="wsdl/192.168.1.183_8088/wsartistas.xsd_1.xsd"/>
     <system systemId="http://192.168.1.183:8089/wsarchivos?wsdl" uri="wsdl/192.168.1.183_8089/wsarchivos.wsdl"/>
     <system systemId="http://192.168.1.183:8089/wsarchivos?xsd=1" uri="wsdl/192.168.1.183_8089/wsarchivos.xsd_1.xsd"/>
+    <system systemId="http://localhost:8087/wsclientes?WSDL" uri="wsdl/localhost_8087/wsclientes.wsdl"/>
+    <system systemId="http://localhost:8088/wsartistas?WSDL" uri="wsdl/localhost_8088/wsartistas.wsdl"/>
+    <system systemId="http://localhost:8089/wsarchivos?WSDL" uri="wsdl/localhost_8089/wsarchivos.wsdl"/>
 </catalog>

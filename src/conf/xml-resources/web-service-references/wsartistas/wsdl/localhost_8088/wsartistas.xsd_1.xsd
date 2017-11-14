@@ -106,7 +106,6 @@
 <xs:sequence>
 <xs:element name="Usuario" type="xs:string" minOccurs="0"></xs:element>
 <xs:element name="Privada" type="xs:boolean"></xs:element>
-<xs:element name="Fechacreacion" type="xs:string" minOccurs="0"></xs:element>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -117,6 +116,7 @@
 <xs:element name="nombre" type="xs:string" minOccurs="0"></xs:element>
 <xs:element name="temas" type="tns:dtTema" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
 <xs:element name="rutaImagen" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="Fechacreacion" type="xs:string" minOccurs="0"></xs:element>
 </xs:sequence>
 </xs:complexType>
 
@@ -125,7 +125,6 @@
 <xs:extension base="tns:dtLista">
 <xs:sequence>
 <xs:element name="Genero" type="xs:string" minOccurs="0"></xs:element>
-<xs:element name="Fechacreacion" type="xs:string" minOccurs="0"></xs:element>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>

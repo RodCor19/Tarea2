@@ -293,12 +293,7 @@ public class ServletClientes extends HttpServlet {
                         imagenBytes = org.apache.commons.io.FileUtils.readFileToByteArray(im);
                         im.delete();
                     }
-                    Calendar fecha = Calendar.getInstance();
-                    int año = fecha.get(Calendar.YEAR);
-                    int mes = fecha.get(Calendar.MONTH);
-                    int dia = fecha.get(Calendar.DAY_OF_MONTH);
-                    String fechac = año + "-" + (mes+1) + "-" + dia; 
-                    wscli.crearListaP(c.getNickname(), nLista, imagenBytes,fechac);
+                    wscli.crearListaP(c.getNickname(), nLista, imagenBytes);
                     if (wscli.confirmar()) {
                         DtListaP aux = null;
                         List<DtLista> dt = wscli.listarListaP().getListas();

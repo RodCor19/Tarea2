@@ -26,41 +26,9 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-client-wsartistas" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/wsartistas"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsartistas" destdir="${build.generated.dir}/jax-wsCache/wsartistas" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8088/wsartistas?wsdl" xnocompile="true" xendorsed="true" target="2.1">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/wsartistas"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/wsartistas">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-wsartistas" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/wsartistas"/>
-    </target>
-    <target name="wsimport-client-wsarchivos" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/wsarchivos"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsarchivos" destdir="${build.generated.dir}/jax-wsCache/wsarchivos" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8089/wsarchivos?wsdl" xnocompile="true" xendorsed="true" target="2.1">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/wsarchivos"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/wsarchivos">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-wsarchivos" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/wsarchivos"/>
-    </target>
     <target name="wsimport-client-wsclientes" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/wsclientes"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsclientes" destdir="${build.generated.dir}/jax-wsCache/wsclientes" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8087/wsclientes?wsdl" xnocompile="true" xendorsed="true" target="2.1">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsclientes" destdir="${build.generated.dir}/jax-wsCache/wsclientes" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8087/wsclientes?WSDL" xnocompile="true" xendorsed="true" package="webservices" target="2.1">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wsclientes/wsdl/localhost_8087/wsclientes.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/wsclientes"/>
         </wsimport>
@@ -74,10 +42,9 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
         <delete dir="${build.generated.dir}/jax-wsCache/wsclientes"/>
     </target>
-<<<<<<< HEAD
     <target name="wsimport-client-wsartistas" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/wsartistas"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsartistas" destdir="${build.generated.dir}/jax-wsCache/wsartistas" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8088/wsartistas?wsdl" xnocompile="true" xendorsed="true" target="2.1">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsartistas" destdir="${build.generated.dir}/jax-wsCache/wsartistas" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8088/wsartistas?WSDL" xnocompile="true" xendorsed="true" target="2.1">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wsartistas/wsdl/localhost_8088/wsartistas.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/wsartistas"/>
         </wsimport>
@@ -93,7 +60,7 @@
     </target>
     <target name="wsimport-client-wsarchivos" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/wsarchivos"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsarchivos" destdir="${build.generated.dir}/jax-wsCache/wsarchivos" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8089/wsarchivos?wsdl" xnocompile="true" xendorsed="true" target="2.1">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsarchivos" destdir="${build.generated.dir}/jax-wsCache/wsarchivos" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8089/wsarchivos?WSDL" xnocompile="true" xendorsed="true" target="2.1">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wsarchivos/wsdl/localhost_8089/wsarchivos.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/wsarchivos"/>
         </wsimport>
@@ -108,7 +75,4 @@
         <delete dir="${build.generated.dir}/jax-wsCache/wsarchivos"/>
     </target>
     <target name="wsimport-client-generate" depends="wsimport-client-wsclientes, wsimport-client-wsartistas, wsimport-client-wsarchivos"/>
-=======
-    <target name="wsimport-client-generate" depends="wsimport-client-wsartistas, wsimport-client-wsarchivos, wsimport-client-wsclientes"/>
->>>>>>> origin/Desarrollo
 </project>

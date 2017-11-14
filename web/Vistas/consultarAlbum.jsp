@@ -32,7 +32,12 @@
             <div class="row">
                 <div class="col-xs-12 text-center">
                     <div class="row">
-                        <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
+                        <%if (nomgen.equals("Rock") || nomgen.equals("Pop") || nomgen.equals("Clásica") || nomgen.equals("Balada") || nomgen.equals("Disco") || nomgen.equals("Rock Clásico") || nomgen.equals("Electropop")){%>
+                        <img src="/EspotifyWeb/Imagenes/<%=nomgen%>.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos">
+                        <%}else{%>
+                        <img src="/EspotifyWeb/Imagenes/iconoGenero.jpg" alt="foto del genero" class="img-responsive imgAlbum" title="Generos">
+                        <%}%>
+                        
                         <h3 class="tituloGenero text-primary"><b><%= nomgen %></b></h3>
                         <h4 class="text-left titulo lineaAbajo"><b>Álbumes</b></h4>
                         <table class="table text-left">

@@ -150,19 +150,20 @@
                                     <tbody>
                                         <%for (DtListaP lista : cliente.getListas()) {
                                                 String tipo;
-                                                String nombre = lista.getNombre();
-                                                nombre = nombre.replace("á", "&aacute;");
-                                                nombre = nombre.replace("é", "&eacute;");
-                                                nombre = nombre.replace("í", "&iacute;");
-                                                nombre = nombre.replace("ó", "&oacute;");
-                                                nombre = nombre.replace("ú", "&uacute;");
-                                                nombre = nombre.replace("Á", "&Aacute;");
-                                                nombre = nombre.replace("É", "&Eacute;");
-                                                nombre = nombre.replace("Í", "&Iacute;");
-                                                nombre = nombre.replace("Ó", "&Oacute;");
-                                                nombre = nombre.replace("Ú", "&Uacute;");
-                                                nombre = nombre.replace("ñ", "&ntilde;");
-                                                nombre = nombre.replace("Ñ", "&Ntilde;");
+                                             //    String nombre = lista.getNombre();
+                                                String nombre = URLEncoder.encode(lista.getNombre(), "UTF-8");
+//                                                nombre = nombre.replace("á", "&aacute;");
+//                                                nombre = nombre.replace("é", "&eacute;");
+//                                                nombre = nombre.replace("í", "&iacute;");
+//                                                nombre = nombre.replace("ó", "&oacute;");
+//                                                nombre = nombre.replace("ú", "&uacute;");
+//                                                nombre = nombre.replace("Á", "&Aacute;");
+//                                                nombre = nombre.replace("É", "&Eacute;");
+//                                                nombre = nombre.replace("Í", "&Iacute;");
+//                                                nombre = nombre.replace("Ó", "&Oacute;");
+//                                                nombre = nombre.replace("Ú", "&Uacute;");
+//                                                nombre = nombre.replace("ñ", "&ntilde;");
+//                                                nombre = nombre.replace("Ñ", "&Ntilde;");
                                                 if (lista.isPrivada()) {
                                                     tipo = "Privada";
                                                 } else {

@@ -74,8 +74,10 @@
                 </div>
                 <div class="col-sm-10 text-center">
                     <div class="row">
-                        <%if (dt.getRutaImagen() != null) {%>
-                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= dt.getRutaImagen()%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
+                        <%if (dt.getRutaImagen() != null) {
+                        String rutaImg = URLEncoder.encode(dt.getRutaImagen(), "UTF-8");
+                        %>
+                        <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= rutaImg%>" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%} else {%>
                         <img src="/EspotifyWeb/Imagenes/IconoLista.png" alt="Foto de la Lista" class="img-responsive imgAlbum" title="Listas"><!--Cambiar por imagen del usuario-->
                         <%}

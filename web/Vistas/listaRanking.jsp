@@ -120,7 +120,9 @@
                             </div>
                         </div>   
                     </ul>
-                    
+        <script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+        <script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+        <script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
 
 </body>
 </html>

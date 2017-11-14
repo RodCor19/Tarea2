@@ -176,7 +176,7 @@
                                         <th><h4><b>Album</b></h4></th>
                                         <th><h4><b>Artista</b></h4></th>
                                         <th><h4><b>Duración</b></h4></th>
-                                        <td></td> 
+                                        <th> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -202,38 +202,25 @@
                                     %>
                                     <tr class="filaTema">
                                         <%if (dt instanceof DtListaP) {
-                                                DtListaP aux = (DtListaP) dt;%>
-                                        <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">
-                                        <%if (cliente && control2) {%>
-                                            <div class="row">
-                                                <div class="span">
-                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
-                                                        <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
-                                                    </a>
-                                                    <div class="span" ><%= nombre%></div>
-                                                </div>
-                                            </div>
-                                        </td> 
-                                        <%}else {%>
-                                        <td><%= nombre%></td> 
-                                        <%}%>
-                                           
+                                            DtListaP aux = (DtListaP) dt;%>
+                                            <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', '<%= aux.getUsuario()%>', null)">                                                                                        
                                         <%}else {
-                                                DtListaPD aux = (DtListaPD) dt;%>
-                                        <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">
-                                        <%if (control2) {%>
-                                            <div class="row">
-                                                <div class="span">
-                                                    <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>">
-                                                        <!--<img onmouseover="hover(this, true)" onmouseout="hover(this, false)" src="/EspotifyWeb/Imagenes/guardar.png" width="20" alt="guardar" class="img-responsive imgGuardar" title="guardar">Cambiar por imagen del usuario-->
-                                                    </a>
-                                                    <div class="span" ><%= nombre%></div>
+                                            DtListaPD aux = (DtListaPD) dt;%>
+                                            <td onclick="reproducirTemaLista('<%= tem.getNombre()%>', '<%= aux.getNombre()%>', null, '<%= aux.getGenero()%>')">                                                                               
+                                        <%}%>
+                                            <% if (cliente && control2) {%>
+                                                <div class="row">
+                                                    <div class="span">
+                                                        <a class="enviarPorAjax glyphicon glyphicon-plus" style="float:left; margin-right: 5px" href="/EspotifyWeb/ServletClientes?Artista=<%=tem.getNomartista() + "&album=" + tem.getNomalbum() + "&tema=" + nombre%>"></a>
+                                                        <div class="span" ><%= nombre%></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <%} else {%>
-                                        <td><%= nombre%></td>
-                                        <%}}%>
+                                             
+                                            <%}else {%>
+                                            <%= nombre%> 
+                                            <%}%></td>
+                                        
+                                        
                                         
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
@@ -255,21 +242,21 @@
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
                                         </td> 
                                         <%}}%>
-                                        <td>
-                                            <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
-                                        </td>
+                                    <td>
+                                        <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>
+                                    </td>
                                     <div class="hidden" id="<%=indic%>">
                                         <div class="popover-heading">
                                             Titulo
                                         </div>
-                                    <div class="popover-body" >
-                                        <ul style="padding: 0px; margin: 0px;">
-                                            <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Reproducciones: <br> <%=tem.getCantReproduccion()%></b></li>
-                                            <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Descargas: <br> <%=tem.getCantDescarga()%></b></li>
-                                        </ul>
+                                        <div class="popover-body" >
+                                            <ul style="padding: 0px; margin: 0px;">
+                                                <%--<li class="list-group-item"><%=tem.getNombre()%></li>--%>
+                                                <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Reproducciones: <br> <%=tem.getCantReproduccion()%></b></li>
+                                                <li class="list-group-item" style="border-color: #1ED760; color: #1ED760"><b>Descargas: <br> <%=tem.getCantDescarga()%></b></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
                             </tr>
                                 <%indic++;  }%>
                         </tbody>

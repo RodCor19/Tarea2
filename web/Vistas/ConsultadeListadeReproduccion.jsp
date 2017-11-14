@@ -49,18 +49,16 @@
             DtCliente dtcontrol = null;
             if (dt instanceof DtListaP) {
                 DtListaP aux = (DtListaP) dt;
-//                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
+                dt = wscli.listaP(aux.getUsuario(), aux.getNombre());
                 if (aux.isPrivada() && (aux2 == null || aux2 instanceof DtArtista || !aux2.getNickname().equals(aux.getUsuario()))) {%>
         <meta http-equiv="refresh" content="0; URL=/EspotifyWeb/ServletArtistas?Inicio=true">
-        <%} else {
-                if (aux2 != null && aux2 instanceof DtCliente) {
+        <%}} if (aux2 != null && aux2 instanceof DtCliente) {
                     if (aux2 != null && wscli.suscripcionVigente(aux2.getNickname())) {
                         cliente = true;
                         dtcontrol = wscli.verPerfilCliente(aux2.getNickname());
                     }
 
-                }
-            }}%>
+                }%>
     </head>
     <body>
         <%  if (session.getAttribute("Mensaje") != null) {%>
@@ -69,10 +67,7 @@
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
-                <div class="btn-group-vertical">
-
-                </div>
-                <div class="col-sm-10 text-center">
+                <div class="col-sm-9 text-center">
                     <div class="row">
                         <%if (dt.getRutaImagen() != null) {
                         String rutaImg = URLEncoder.encode(dt.getRutaImagen(), "UTF-8");
@@ -91,18 +86,12 @@
                                     }
                                 }
                         %>
-                        <%if (cliente && control2) {%>
-                        <div class="row">
-                            <div class="span">
-                            <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
-                            <h3 class="titulo text-primary"><b><%= dt.getNombre()%></b></h3>
-                            </div>
-                        </div>                                        </td>
-                        <%} else {%>
                         <h3 class="titulo text-primary"><b><%= dt.getNombre()%></b></h3>
-                                <%}%>
                         <h4 class="text-center">Lista Por Defecto</h4>
                         <a onclick="reproducirListaPD('<%= dt.getNombre()%>', '<%= ((DtListaPD) dt).getGenero()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
+                        <%if (cliente && control2) {%>
+                            <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
+                        <%}%>
                         <%} else {
                             DtListaP listaP = (DtListaP) dt;
                             boolean control2 = true;
@@ -116,22 +105,15 @@
                                 }
                             }
                         %>
-                        <%if (cliente && control2) {%>
-                        <div class="row">
-                            <div class="span">
-                                <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre() + "&cliente=" + listaP.getUsuario()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
-                                <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
-                            </div>
-                        </div>                                        </td>
-                        <%} else {%>
                         <h3 class="tituloLista text-primary"><b><%= dt.getNombre()%></b></h3>
-                        <%}%>
                         <h4 class="text-center">Lista Particular</h4>
                         <a onclick="reproducirListaP('<%= dt.getNombre()%>', '<%= ((DtListaP) dt).getUsuario()%>')" href="#" class="btn boton" style="font-size: 15px;">Reproducir</a>
+                        <%if (cliente && control2) {%>
+                            <a href="/EspotifyWeb/ServletClientes?favLista=<%= dt.getNombre() + "&cliente=" + listaP.getUsuario()%>" class="btn boton enviarPorAjax" style="font-size: 15px; margin-left: 5px;">Guardar</a>
                         <%}%>
                         <br>
                         <div class="tab-pane">
-                            <% if (dt instanceof DtListaPD) {
+                            <%} if (dt instanceof DtListaPD) {
                                     DtListaPD dtpd = (DtListaPD) dt;
                                     String gen = dtpd.getGenero();
                                     if (gen.contains("&")) {
@@ -158,7 +140,7 @@
                         
                     </div>
                 </div>
-                <div class="btn-group-vertical col-sm-2">
+                <div class="btn-group-vertical col-sm-3">
                     <div id="divReproductor">
                         <% if (session.getAttribute("temasAReproducir") != null) { %>
                         <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
@@ -167,7 +149,9 @@
                 </div>
             </div> 
             <div class="row">
-                <div class="tab-pane">
+                <div class="col-sm-1">
+                </div>
+                <div class="tab-pane col-sm-10">
                             <% if (dt.getTemas() == null || dt.getTemas().isEmpty()) { %>
                             <h4 class="lineaAbajo"><i>No tiene temas</i></h4>
                             <%} else {%>
@@ -221,9 +205,6 @@
                                             <%}else {%>
                                             <%= nombre%> 
                                             <%}%></td>
-                                        
-                                        
-                                        
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tem.getNomalbum() + "&artista=" + tem.getNomartista()%>"><%= tem.getNomalbum()%></a></td>
                                         <td><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tem.getNomartista()%>"><%= a.getNombre() + " " + a.getApellido()%></td>
                                         <td><%= durac%></td>
@@ -265,6 +246,8 @@
                         </table>
                             <%}%>
 
+                </div>
+                            <div class="col-sm-1">
                 </div>
             </div>
         </div>

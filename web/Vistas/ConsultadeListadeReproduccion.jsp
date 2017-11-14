@@ -67,7 +67,7 @@
         <jsp:include page="Cabecera.jsp" />
         <div class="container">
             <div class="row">
-                <div class="col-sm-9 text-center">
+                <div class="col-sm-10 text-center">
                     <div class="row">
                         <%if (dt.getRutaImagen() != null) {
                         String rutaImg = URLEncoder.encode(dt.getRutaImagen(), "UTF-8");
@@ -140,17 +140,17 @@
                         
                     </div>
                 </div>
-                <div class="btn-group-vertical col-sm-3">
+                <div class="text-right btn-group-vertical col-sm-2">
                     <div id="divReproductor">
                         <% if (session.getAttribute("temasAReproducir") != null) { %>
                         <jsp:include page="reproductor.jsp" /> <%-- Importar codigo desde otro archivo .jsp --%>
                         <%}%>
                     </div>
                 </div>
-            </div> 
+            </div>
+        </div>
+        <div class="container">
             <div class="row">
-                <div class="col-sm-1">
-                </div>
                 <div class="tab-pane col-sm-10">
                             <% if (dt.getTemas() == null || dt.getTemas().isEmpty()) { %>
                             <h4 class="lineaAbajo"><i>No tiene temas</i></h4>
@@ -246,8 +246,6 @@
                         </table>
                             <%}%>
 
-                </div>
-                            <div class="col-sm-1">
                 </div>
             </div>
         </div>

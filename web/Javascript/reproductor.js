@@ -59,7 +59,6 @@ function mostrarOcultarTemas(boton){
 
 
 function reproducirAlbum(album, artista){
-    alert("reproduciralbum");
     $.ajax({
         type : 'POST', //tipo de request
         url : '/EspotifyWeb/ServletArchivos',
@@ -79,7 +78,6 @@ function reproducirAlbum(album, artista){
 }
 
 function reproducirTema(tema, album, artista){
-    //alert("reproducirtema");
     $.ajax({
         type : 'GET', //tipo de request
         url : '/EspotifyWeb/ServletArchivos',
@@ -197,7 +195,6 @@ function nuevaDescarga (artista, album, tema) {
     }); 
 }
 function nuevaReproduccion (artista, album, tema) {
-    alert("nuevareproduccion");
     $.ajax({
         type : 'POST', //tipo de request
         url : '/EspotifyWeb/ServletArtistas',
@@ -232,7 +229,6 @@ function doSomething(e) {
 //});
 
 function nuevaReproduccionalbum (artista, album) {
-    alert("nuevareproduccionalbum");
     $.ajax({
         type : 'POST', //tipo de request
         url : '/EspotifyWeb/ServletArtistas',

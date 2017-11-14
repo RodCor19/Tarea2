@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="webservices.WSArtistas"%>
 <%@page import="webservices.WSClientes"%>
 <%@page import="webservices.DtArtista"%>
 <%@page import="webservices.DtCliente"%>
@@ -22,6 +23,7 @@
 <%}else{
     DtCliente cliente = (DtCliente) session.getAttribute("PerfilCli");
     WSClientes wscli = (WSClientes) session.getAttribute("WSClientes");
+    WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
 %>
 <html>
     <head>
@@ -60,10 +62,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%for (DtAlbum album : cliente.getFavAlbumes()) {%>
+                                        <%for (DtAlbum album : cliente.getFavAlbumes()) {   
+                                        DtArtista art = wsart.elegirArtista(album.getNombreArtista());
+                                        %>
+                                        
                                         <tr>
                                             <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= album.getNombre() + "&artista=" + album.getNombreArtista()%>"><%= album.getNombre()%></a></h4></td>
-                                            <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= album.getNombreArtista()%></h4></a></td>
+                                            <td><h4><a class="link" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= album.getNombreArtista()%>"><%= art.getNombre() +" "+art.getApellido() %></h4></a></td>
                                         </tr>
                                         <%}%>
                                     </tbody>
@@ -83,11 +88,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%for (DtTema tema : cliente.getFavTemas()) {%>
+                                        <%for (DtTema tema : cliente.getFavTemas()) {   
+                                        DtArtista art = wsart.elegirArtista(tema.getNomartista());
+                                        %>
                                         <tr>
                                             <td><h4><%= tema.getNombre()%></h4></td>
                                             <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verAlbum=<%= tema.getNomalbum()+ "&artista=" + tema.getNomartista() %>"><h4><%= tema.getNomalbum() %></h4></a></td>
-                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getNomartista()%>"><h4><%= tema.getNomartista()%></h4></a></td>
+                                            <td><a class="link textoAcomparar" href="/EspotifyWeb/ServletArtistas?verPerfilArt=<%= tema.getNomartista()%>"><h4><%= art.getNombre() +" "+art.getApellido()%></h4></a></td>
                                         </tr>
                                         <%}%>
                                     </tbody>

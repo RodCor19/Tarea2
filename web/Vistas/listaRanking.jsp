@@ -57,9 +57,9 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
+                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
                                         <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                     </tr>
                                 </thead>
@@ -80,12 +80,12 @@
                                                 }
                                         %>
                                     <td>
-                                        <a class="link" href="<%= servlet + usr.getNickname()%>"><%=usr.getNombre() + " " + usr.getApellido()%></a>
+                                        <a class="link textoAcomparar" href="<%= servlet + usr.getNickname()%>"><%=usr.getNombre() + " " + usr.getApellido()%></a>
                                     </td>
-                                    <td>
+                                    <td class=" textoAcomparar">
                                         <%= tipo %> 
                                     </td>
-                                    <td>
+                                    <td class=" textoAcomparar">
                                         <%= wscli.getSeguidores(usr.getNickname()).getUsuarios().size()%>
                                         
                                     </td>

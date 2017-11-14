@@ -4,6 +4,8 @@
     Author     : usuario
 --%>
 
+<%@page import="webservices.WSArtistas"%>
+<%@page import="webservices.DtArtista"%>
 <%@page import="webservices.DtListaPD"%>
 <%@page import="webservices.DtAlbum"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
@@ -16,6 +18,7 @@
     String nomgen = (String) session.getAttribute("NomGenero");
     List<DtAlbum> albumes = (List<DtAlbum>) session.getAttribute("Album");
     List<DtListaPD> listas = (List<DtListaPD>) session.getAttribute("Listas");
+    WSArtistas wsart = (WSArtistas) session.getAttribute("WSArtistas");
     %>
     
     <head>
@@ -49,13 +52,14 @@
                             </thead>
                             <tbody>
                                 <%for(DtAlbum album: albumes){ 
+                                DtArtista art = wsart.elegirArtista(album.getNombreArtista());
                                 String nombreAlb = album.getNombre();
                                 String nombreArt = album.getNombreArtista();
                                 int anio=album.getAnio();
                                 %>
                                 <tr>
                                     <td><h4><a class="link textoAcomparar" href="ServletArtistas?verAlbum=<%= nombreAlb+"&artista="+nombreArt %>"><%= nombreAlb %></h4></a></td>
-                                    <td><h4><a class="link textoAcomparar" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= album.getNombreArtista() %></h4></a></td>
+                                    <td><h4><a class="link textoAcomparar" href="ServletArtistas?verPerfilArt=<%= album.getNombreArtista() %>"><%= art.getNombre() +" "+art.getApellido() %></h4></a></td>
                                 </tr>
                                 <%}%>
                             </tbody>

@@ -150,19 +150,20 @@
                                     <tbody>
                                         <%for (DtListaP lista : cliente.getListas()) {
                                                 String tipo;
-                                                String nombre = lista.getNombre();
-                                                nombre = nombre.replace("á", "&aacute;");
-                                                nombre = nombre.replace("é", "&eacute;");
-                                                nombre = nombre.replace("í", "&iacute;");
-                                                nombre = nombre.replace("ó", "&oacute;");
-                                                nombre = nombre.replace("ú", "&uacute;");
-                                                nombre = nombre.replace("Á", "&Aacute;");
-                                                nombre = nombre.replace("É", "&Eacute;");
-                                                nombre = nombre.replace("Í", "&Iacute;");
-                                                nombre = nombre.replace("Ó", "&Oacute;");
-                                                nombre = nombre.replace("Ú", "&Uacute;");
-                                                nombre = nombre.replace("ñ", "&ntilde;");
-                                                nombre = nombre.replace("Ñ", "&Ntilde;");
+                                             //    String nombre = lista.getNombre();
+                                                String nombre = URLEncoder.encode(lista.getNombre(), "UTF-8");
+//                                                nombre = nombre.replace("á", "&aacute;");
+//                                                nombre = nombre.replace("é", "&eacute;");
+//                                                nombre = nombre.replace("í", "&iacute;");
+//                                                nombre = nombre.replace("ó", "&oacute;");
+//                                                nombre = nombre.replace("ú", "&uacute;");
+//                                                nombre = nombre.replace("Á", "&Aacute;");
+//                                                nombre = nombre.replace("É", "&Eacute;");
+//                                                nombre = nombre.replace("Í", "&Iacute;");
+//                                                nombre = nombre.replace("Ó", "&Oacute;");
+//                                                nombre = nombre.replace("Ú", "&Uacute;");
+//                                                nombre = nombre.replace("ñ", "&ntilde;");
+//                                                nombre = nombre.replace("Ñ", "&Ntilde;");
                                                 if (lista.isPrivada()) {
                                                     tipo = "Privada";
                                                 } else {
@@ -249,20 +250,22 @@
 
                                 <br>
                             </div>
-                                    <div id="menu3" class="tab-pane fade"> <% if(perfilUsr.getNickname().equals(cliente.getNickname())){
-                                    %>
-                                <h3><form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left" style="width: 50%">
-                                        <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control">
+                            <div id="menu3" class="tab-pane fade"> 
+                                <% if(perfilUsr.getNickname().equals(cliente.getNickname())){%>
+                                <form id="formBuscar" action="/EspotifyWeb/Vistas/resultadosUsuarios.jsp" method="GET" class="navbar-form navbar-left" style="width: 100%">
+                                    <h3>    
+                                        <input id="buscar" name="BusquedaUsuarios" placeholder="Buscar usuarios" type="text" class="form-control" style="width: 50%">
                                         <button class="btn" type="submit">
                                             <i class="glyphicon glyphicon-search"></i> <%-- Icono de buscar, lupa--%>
                                         </button>
-                                    </form> 
-                                </h3>
-                                        <% }
-                                    %>
+                                    </h3>
+                                </form> 
+                                
+                                <% }%>
                                     <%if (cliente.getUsuariosSeguidos().isEmpty()) { %>
-                                <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
-                                <%} else {%>
+                                    <br>
+                                    <h4 class="lineaAbajo"><i>No sigue a ningún usuario</i></h4>
+                                    <%} else {%>
                                 <br>    
                                 <table class="table text-left">
                                     <thead>

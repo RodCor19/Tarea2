@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import webservices.DtAlbum;
 import webservices.DtArtista;
 import webservices.DtCliente;
 import webservices.DtLista;
@@ -137,35 +138,17 @@ public class ServletArchivos extends HttpServlet {
                 String temaSeleccionado = request.getParameter("tema");
                 //            response.getWriter().write(temaSeleccionado);
                 List<DtTema> temas = wsarch.reproducirAlbum(artista, album).getTemas();
-                
                 if(temas.isEmpty()){
                     request.getSession().setAttribute("Mensaje", "Este álbum no tiene temas que puedan ser reproducidos");
                     response.getWriter().write("no hay temas para reproducir");
                 }else{
                 
                     request.getSession().setAttribute("temasAReproducir", temas);
-                    byte[] imagen = wsarch.getImagenAlbum(artista, album).getByteArray();
-                    if (imagen != null) {
-                        try {
-                            String path = this.getClass().getClassLoader().getResource("").getPath();
-
-                            // EN NETBEANS
-                            path = path.replace("build/web/WEB-INF/classes/", "temporales/");
-                            // EN TOMCAT
-                            path = path.replace("WEB-INF/classes/", "temporales/");
-
-                            path = path + album + "REPRODUCTOR.jpg";
-                            path = path.replace("%20", " ");
-                            File f = new File(path);
-                            org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
-                            request.getSession().setAttribute("ImagenAlbumReproductor", path);
-                        } catch (FileNotFoundException ex) {
-                            ex.getMessage();
-                        } catch (IOException ex) {
-                            ex.getMessage();
-                        }
-                    } else if (request.getSession().getAttribute("ImagenAlbumReproductor") != null) {
-                        request.getSession().removeAttribute("ImagenAlbumReproductor");
+                    DtAlbum alb = wsart.elegirAlbum(artista, album);
+                    if (alb.getRutaImagen() != null) {
+                        request.getSession().setAttribute("ImagenReproductor", alb.getRutaImagen());
+                    } else if (request.getSession().getAttribute("ImagenReproductor") != null) {
+                        request.getSession().removeAttribute("ImagenReproductor");
                     }
 
                     //Si es el rquest que se envia al seleccionar un tema
@@ -206,9 +189,9 @@ public class ServletArchivos extends HttpServlet {
                 Collections.reverse(temas);
                 DtLista dt = (DtLista) request.getSession().getAttribute("Lista");
                 if (dt.getRutaImagen() != null) {
-                    request.getSession().setAttribute("ImagenAlbumReproductor", dt.getRutaImagen());
-                } else if (request.getSession().getAttribute("ImagenAlbumReproductor") != null) {
-                    request.getSession().removeAttribute("ImagenAlbumReproductor");
+                    request.getSession().setAttribute("ImagenReproductor", dt.getRutaImagen());
+                } else if (request.getSession().getAttribute("ImagenReproductor") != null) {
+                    request.getSession().removeAttribute("ImagenReproductor");
                 }
 
                 request.getSession().setAttribute("temasAReproducir", temas);

@@ -70,8 +70,10 @@
                 <div class="col-sm-10 text-center">
                     <div class="row">
                         <div class="col-sm-4 text-left">
-                            <%if (album.getRutaImagen() != null) {%>
-                            <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= album.getRutaImagen()%>" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
+                            <%if (album.getRutaImagen() != null) {
+                            String rutaImg = URLEncoder.encode(album.getRutaImagen(), "UTF-8");
+                            %>
+                            <img src="/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=<%= rutaImg %>" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                             <%} else {%>
                             <img src="/EspotifyWeb/Imagenes/iconoMusica.jpg" alt="foto del álbum" class="img-responsive imgAlbum" title="Generos"><!--Cambiar por imagen del usuario-->
                             <%}%>

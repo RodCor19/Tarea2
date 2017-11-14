@@ -4,6 +4,7 @@
     Author     : Kevin
 --%>
 
+<%@page import="java.net.URLEncoder"%>
 <%@page import="webservices.WSArtistas"%>
 <%@page import="webservices.DtArtista"%>
 <%@page import="java.util.Collections"%>
@@ -135,13 +136,11 @@
                 </thead>
                 <tbody style="padding-left: 5px;">
                     <%  for (DtTema tema : temas) { 
-                            //String cargarImagen = "/EspotifyWeb/ServletArchivos?tipo=imagen&ruta="+album.getRutaImagen();
-                            //if(album.getRutaImagen() == null){ //Si no tiene imagen se carga una por defecto
-                            
                             String cargarImagen = "/EspotifyWeb/Imagenes/albumReproductor.jpg";
-                            if (ImagenReproductor!=null)
-                                cargarImagen = "/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=" + ImagenReproductor;
-                           // }
+                            if (ImagenReproductor!=null){
+                                String rutaImg = URLEncoder.encode(ImagenReproductor, "UTF-8");
+                                cargarImagen = "/EspotifyWeb/ServletArchivos?tipo=imagen&ruta=" + rutaImg;
+                            }
                             if(tema.getArchivo() != null){
                                 boolean controlRepTema = false;
                                 if(repTema!=null && repTema.getArchivo() != null && repTema.getArchivo().equals(tema.getArchivo())){

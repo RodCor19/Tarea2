@@ -54,9 +54,9 @@
                             <table class="table text-left">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
-                                        <th onclick="sortTable(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
-                                        <th onclick="sortTable(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
+                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
+                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
+                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
                                         <th></th> <!-- Es para el boton seguir/dejar de seguir -->
                                     </tr>
                                 </thead>
@@ -121,6 +121,8 @@
                         </div>   
                     </ul>
                     
-
+<script src="/EspotifyWeb/Javascript/jquery.min.js"></script>
+<script src="/EspotifyWeb/Bootstrap/js/bootstrap.min.js"></script>
+<script src="/EspotifyWeb/Javascript/ordenarTabEnviarPorAjax.js"></script>
 </body>
 </html>

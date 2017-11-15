@@ -51,27 +51,27 @@
                 <div class="btn-group-vertical col-sm-8" >
                     <ul class="nav nav-tabs">
                         <div class="tab-content text-left">
-                        <div id="menu1" class="tab-pane fade in active">
-                            <% if (usuarios.isEmpty()) { %>
-                        <h4 class="lineaAbajo">No hay ningún resultado</h4>
-                        <%} else {%>
-                            <table class="table text-left">
-                                <thead>
-                                    <tr>
-                                        <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
-                                        <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
-                                        <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
-                                        <th></th> <!-- Es para el boton seguir/dejar de seguir -->
-                                    </tr>
-                                </thead>
-                                
-                                 <tbody> 
-                                <%for(DtUsuario usr: usuarios){ %>
-                                <tr>
-                                    <%
-                                        String tipo;
-                                        String servlet;
-                                        if (usr instanceof DtCliente) {
+                            <div id="menu1" class="tab-pane fade in active">
+                                <% if (usuarios.isEmpty()) { %>
+                                <h4 class="lineaAbajo">No hay ningún resultado</h4>
+                                <%} else {%>
+                                <table class="table text-left">
+                                    <thead>
+                                        <tr>
+                                            <th onclick="ordenarTabla(0, this)" class="tituloFila"><h4><b>Usuario</b></h4></th>
+                                            <th onclick="ordenarTabla(1, this)" class="tituloFila"><h4><b>Tipo de Usuario</b></h4></th>
+                                            <th onclick="ordenarTabla(2, this)" class="tituloFila"><h4><b>Seguidores</b></h4></th>
+                                            <th></th> <!-- Es para el boton seguir/dejar de seguir -->
+                                        </tr>
+                                    </thead>
+
+                                    <tbody> 
+                                        <%for (DtUsuario usr : usuarios) { %>
+                                        <tr>
+                                            <%
+                                                String tipo;
+                                                String servlet;
+                                                if (usr instanceof DtCliente) {
                                                     tipo = "Cliente";
                                                     servlet = "ServletClientes?verPerfilCli=";
                                                 } else {

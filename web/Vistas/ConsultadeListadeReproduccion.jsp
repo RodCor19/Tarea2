@@ -212,18 +212,19 @@
                                         <% if(tem.getArchivo() != null) {%>
                                         <td class="text-right">
                                              <a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a>
-                                        </td>
+                                        
                                         <%}else{%>
                                         <td class="text-right">
                                             <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                        </td> 
-                                        <%}}else{%>
-                                        <% if(tem.getArchivo()!=null ){ %>
-                                        <td class="text-right"><a id="Descargar" href="/EspotifyWeb/ServletArchivos?descargar=<%= tem.getArchivo()%>&tema=<%= nomTema %>&album=<%= nomAlbum %>&artista=<%= nickArt %>" class="glyphicon glyphicon-download" ></a></td>
-                                        <%}else{%>
-                                        <td class="text-right">
-                                            <a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a>
-                                        </td> 
+                                        
+                                        
+                                            <%}%></td>
+                                            <%}else{%>
+                                        <%if (tem.getDireccion() != null) {%>
+                                        <td><a id="Link" href="http://<%= tem.getDireccion()%>" class="glyphicon glyphicon-new-window" onclick="nuevaReproduccion('<%= tem.getNomartista()%>', '<%= tem.getNomalbum()%>', '<%= tem.getNombre()%>')"></a></td>
+                                        <%}else{
+                                        %>
+                                        <td></td>
                                         <%}}%>
                                     <td>
                                         <a class="link" data-popover-content="#<%= indic%>" data-toggle="popover" data-trigger="focus" tabindex="0"><b>...</b></a>

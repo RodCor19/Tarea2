@@ -59,7 +59,10 @@ $("#aceptar").click(function(e) {
                         for (i = 0; i < x.length; i++){
                             generos.push(x[i].innerHTML);
                         }
-                         
+                        
+                        document.getElementById("aceptar").value = "Cargando, espere por favor...";
+                        $("#aceptar").prop('disabled', true); //deshabilitar botón
+                    
                         $.ajax({
                         type : 'POST', //tipo de request
                         url : '/EspotifyWeb/ServletArtistas',

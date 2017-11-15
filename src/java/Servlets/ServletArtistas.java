@@ -312,6 +312,7 @@ public class ServletArtistas extends HttpServlet {
             if (request.getParameter("NombreAlbum") != null) {
                 String nom = request.getParameter("NombreAlbum");
                 String anio = request.getParameter("anioalbum");
+                String imagen = request.getParameter("foto");
                 nom = ConvertirString(nom);
                 DtArtista artista = (DtArtista) request.getSession().getAttribute("PerfilArt");
                 boolean x = wsart.estaAlbum(artista.getNickname(), nom);
@@ -337,6 +338,14 @@ public class ServletArtistas extends HttpServlet {
                     
                     path = path.replace( "%20", " ");
                     path= path.substring(1);
+                    byte[] imagenalbum = new byte[0];
+                    String rutaimagen;
+                    if (!"".equals(imagen)){
+                    rutaimagen = path + imagen;
+                        File im = new File(rutaimagen);
+                        imagenalbum = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+                        im.delete();       
+                    }
 
     //                List<DtTema> temasAlbum = new ArrayList();
                     DataTemas temasA = new DataTemas();
@@ -398,6 +407,7 @@ public class ServletArtistas extends HttpServlet {
                             }
                         }
                         sesion.setAttribute("generosAlbum", generosA);
+                        wsart.ingresarAlbumWeb(artista.getNickname(),anio,nom,imagenalbum,temasA,generosA);
                     } catch (Exception e) {
                         e.getMessage();
                     }

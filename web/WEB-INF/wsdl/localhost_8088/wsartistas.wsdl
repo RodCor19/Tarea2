@@ -37,12 +37,6 @@
 <message name="ListarListaPDResponse">
 <part name="return" type="tns:dataListas"></part>
 </message>
-<message name="listarAlbumGenero">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="listarAlbumGeneroResponse">
-<part name="return" type="tns:dataAlbumes"></part>
-</message>
 <message name="listarTodosAlbumes"></message>
 <message name="listarTodosAlbumesResponse">
 <part name="return" type="tns:dataAlbumes"></part>
@@ -52,6 +46,49 @@
 </message>
 <message name="BuscarGeneroResponse">
 <part name="return" type="tns:dataGeneros"></part>
+</message>
+<message name="listarAlbumGenero">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="listarAlbumGeneroResponse">
+<part name="return" type="tns:dataAlbumes"></part>
+</message>
+<message name="desactivarArtista">
+<part name="arg0" type="xsd:string"></part>
+</message>
+<message name="desactivarArtistaResponse"></message>
+<message name="AgregarTemaListaWeb">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+<part name="arg2" type="xsd:string"></part>
+<part name="arg3" type="xsd:string"></part>
+<part name="arg4" type="xsd:string"></part>
+</message>
+<message name="AgregarTemaListaWebResponse">
+<part name="return" type="xsd:boolean"></part>
+</message>
+<message name="verificarLoginArtista">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+</message>
+<message name="verificarLoginArtistaResponse">
+<part name="return" type="tns:dataUsuarios"></part>
+</message>
+<message name="nuevaReproduccionTema">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+<part name="arg2" type="xsd:string"></part>
+</message>
+<message name="nuevaReproduccionTemaResponse"></message>
+<message name="nuevaDescargaTema">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:string"></part>
+<part name="arg2" type="xsd:string"></part>
+</message>
+<message name="nuevaDescargaTemaResponse"></message>
+<message name="RankingDesendente"></message>
+<message name="RankingDesendenteResponse">
+<part name="return" type="tns:dataUsuarios"></part>
 </message>
 <message name="listarTodosTemas"></message>
 <message name="listarTodosTemasResponse">
@@ -90,43 +127,6 @@
 <part name="arg5" type="tns:dataGeneros"></part>
 </message>
 <message name="IngresarAlbumWebResponse"></message>
-<message name="desactivarArtista">
-<part name="arg0" type="xsd:string"></part>
-</message>
-<message name="desactivarArtistaResponse"></message>
-<message name="AgregarTemaListaWeb">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-<part name="arg2" type="xsd:string"></part>
-<part name="arg3" type="xsd:string"></part>
-<part name="arg4" type="xsd:string"></part>
-</message>
-<message name="AgregarTemaListaWebResponse">
-<part name="return" type="xsd:boolean"></part>
-</message>
-<message name="verificarLoginArtista">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-</message>
-<message name="verificarLoginArtistaResponse">
-<part name="return" type="tns:dataUsuarios"></part>
-</message>
-<message name="nuevaReproduccionTema">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-<part name="arg2" type="xsd:string"></part>
-</message>
-<message name="nuevaReproduccionTemaResponse"></message>
-<message name="nuevaDescargaTema">
-<part name="arg0" type="xsd:string"></part>
-<part name="arg1" type="xsd:string"></part>
-<part name="arg2" type="xsd:string"></part>
-</message>
-<message name="nuevaDescargaTemaResponse"></message>
-<message name="RankingDesendente"></message>
-<message name="RankingDesendenteResponse">
-<part name="return" type="tns:dataUsuarios"></part>
-</message>
 <message name="verificarDatosArt">
 <part name="arg0" type="xsd:string"></part>
 <part name="arg1" type="xsd:string"></part>
@@ -159,10 +159,6 @@
 <input wsam:Action="http://WebServices/WSArtistas/ListarListaPDRequest" message="tns:ListarListaPD"></input>
 <output wsam:Action="http://WebServices/WSArtistas/ListarListaPDResponse" message="tns:ListarListaPDResponse"></output>
 </operation>
-<operation name="listarAlbumGenero">
-<input wsam:Action="http://WebServices/WSArtistas/listarAlbumGeneroRequest" message="tns:listarAlbumGenero"></input>
-<output wsam:Action="http://WebServices/WSArtistas/listarAlbumGeneroResponse" message="tns:listarAlbumGeneroResponse"></output>
-</operation>
 <operation name="listarTodosAlbumes">
 <input wsam:Action="http://WebServices/WSArtistas/listarTodosAlbumesRequest" message="tns:listarTodosAlbumes"></input>
 <output wsam:Action="http://WebServices/WSArtistas/listarTodosAlbumesResponse" message="tns:listarTodosAlbumesResponse"></output>
@@ -171,29 +167,9 @@
 <input wsam:Action="http://WebServices/WSArtistas/BuscarGeneroRequest" message="tns:BuscarGenero"></input>
 <output wsam:Action="http://WebServices/WSArtistas/BuscarGeneroResponse" message="tns:BuscarGeneroResponse"></output>
 </operation>
-<operation name="listarTodosTemas">
-<input wsam:Action="http://WebServices/WSArtistas/listarTodosTemasRequest" message="tns:listarTodosTemas"></input>
-<output wsam:Action="http://WebServices/WSArtistas/listarTodosTemasResponse" message="tns:listarTodosTemasResponse"></output>
-</operation>
-<operation name="GetDataGeneros">
-<input wsam:Action="http://WebServices/WSArtistas/GetDataGenerosRequest" message="tns:GetDataGeneros"></input>
-<output wsam:Action="http://WebServices/WSArtistas/GetDataGenerosResponse" message="tns:GetDataGenerosResponse"></output>
-</operation>
-<operation name="estaAlbum" parameterOrder="arg0 arg1">
-<input wsam:Action="http://WebServices/WSArtistas/estaAlbumRequest" message="tns:estaAlbum"></input>
-<output wsam:Action="http://WebServices/WSArtistas/estaAlbumResponse" message="tns:estaAlbumResponse"></output>
-</operation>
-<operation name="ElegirAlbum" parameterOrder="arg0 arg1">
-<input wsam:Action="http://WebServices/WSArtistas/ElegirAlbumRequest" message="tns:ElegirAlbum"></input>
-<output wsam:Action="http://WebServices/WSArtistas/ElegirAlbumResponse" message="tns:ElegirAlbumResponse"></output>
-</operation>
-<operation name="getListasGenero">
-<input wsam:Action="http://WebServices/WSArtistas/getListasGeneroRequest" message="tns:getListasGenero"></input>
-<output wsam:Action="http://WebServices/WSArtistas/getListasGeneroResponse" message="tns:getListasGeneroResponse"></output>
-</operation>
-<operation name="IngresarAlbumWeb" parameterOrder="arg0 arg1 arg2 arg3 arg4 arg5">
-<input wsam:Action="http://WebServices/WSArtistas/IngresarAlbumWebRequest" message="tns:IngresarAlbumWeb"></input>
-<output wsam:Action="http://WebServices/WSArtistas/IngresarAlbumWebResponse" message="tns:IngresarAlbumWebResponse"></output>
+<operation name="listarAlbumGenero">
+<input wsam:Action="http://WebServices/WSArtistas/listarAlbumGeneroRequest" message="tns:listarAlbumGenero"></input>
+<output wsam:Action="http://WebServices/WSArtistas/listarAlbumGeneroResponse" message="tns:listarAlbumGeneroResponse"></output>
 </operation>
 <operation name="desactivarArtista">
 <input wsam:Action="http://WebServices/WSArtistas/desactivarArtistaRequest" message="tns:desactivarArtista"></input>
@@ -218,6 +194,30 @@
 <operation name="RankingDesendente">
 <input wsam:Action="http://WebServices/WSArtistas/RankingDesendenteRequest" message="tns:RankingDesendente"></input>
 <output wsam:Action="http://WebServices/WSArtistas/RankingDesendenteResponse" message="tns:RankingDesendenteResponse"></output>
+</operation>
+<operation name="listarTodosTemas">
+<input wsam:Action="http://WebServices/WSArtistas/listarTodosTemasRequest" message="tns:listarTodosTemas"></input>
+<output wsam:Action="http://WebServices/WSArtistas/listarTodosTemasResponse" message="tns:listarTodosTemasResponse"></output>
+</operation>
+<operation name="GetDataGeneros">
+<input wsam:Action="http://WebServices/WSArtistas/GetDataGenerosRequest" message="tns:GetDataGeneros"></input>
+<output wsam:Action="http://WebServices/WSArtistas/GetDataGenerosResponse" message="tns:GetDataGenerosResponse"></output>
+</operation>
+<operation name="estaAlbum" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSArtistas/estaAlbumRequest" message="tns:estaAlbum"></input>
+<output wsam:Action="http://WebServices/WSArtistas/estaAlbumResponse" message="tns:estaAlbumResponse"></output>
+</operation>
+<operation name="ElegirAlbum" parameterOrder="arg0 arg1">
+<input wsam:Action="http://WebServices/WSArtistas/ElegirAlbumRequest" message="tns:ElegirAlbum"></input>
+<output wsam:Action="http://WebServices/WSArtistas/ElegirAlbumResponse" message="tns:ElegirAlbumResponse"></output>
+</operation>
+<operation name="getListasGenero">
+<input wsam:Action="http://WebServices/WSArtistas/getListasGeneroRequest" message="tns:getListasGenero"></input>
+<output wsam:Action="http://WebServices/WSArtistas/getListasGeneroResponse" message="tns:getListasGeneroResponse"></output>
+</operation>
+<operation name="IngresarAlbumWeb" parameterOrder="arg0 arg1 arg2 arg3 arg4 arg5">
+<input wsam:Action="http://WebServices/WSArtistas/IngresarAlbumWebRequest" message="tns:IngresarAlbumWeb"></input>
+<output wsam:Action="http://WebServices/WSArtistas/IngresarAlbumWebResponse" message="tns:IngresarAlbumWebResponse"></output>
 </operation>
 <operation name="verificarDatosArt" parameterOrder="arg0 arg1">
 <input wsam:Action="http://WebServices/WSArtistas/verificarDatosArtRequest" message="tns:verificarDatosArt"></input>
@@ -280,15 +280,6 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="listarAlbumGenero">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
 <operation name="listarTodosAlbumes">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -307,52 +298,7 @@
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
 </output>
 </operation>
-<operation name="listarTodosTemas">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="GetDataGeneros">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="estaAlbum">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="ElegirAlbum">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="getListasGenero">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://WebServices/"></soap:body>
-</output>
-</operation>
-<operation name="IngresarAlbumWeb">
+<operation name="listarAlbumGenero">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>
@@ -407,6 +353,60 @@
 </output>
 </operation>
 <operation name="RankingDesendente">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="listarTodosTemas">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="GetDataGeneros">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="estaAlbum">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="ElegirAlbum">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="getListasGenero">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://WebServices/"></soap:body>
+</output>
+</operation>
+<operation name="IngresarAlbumWeb">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://WebServices/"></soap:body>

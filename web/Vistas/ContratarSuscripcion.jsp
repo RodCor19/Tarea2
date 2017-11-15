@@ -61,7 +61,7 @@
                     <div id="divErrorConSus" class="alert alert-danger" style="text-align: center;" hidden="">
                         <strong><h1 style="font-size: 30px;">Ya ha contratado una suscripción</h1></strong>
                         <h4>Ya tiene una suscripción Vigente o Pendiente.</h4>
-                        <h4>Si tiene una Pendiente, cancelela para poder contratar otra.</h4>
+                        <h4>Si tiene una Pendiente, cancele la misma para poder contratar otra.</h4>
                     </div>
                 </div>
                 <div class="btn-group-vertical col-sm-2">

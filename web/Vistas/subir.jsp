@@ -13,6 +13,7 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.*" %>
 <%@ page import="java.io.*" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
  
 <%
 
@@ -50,7 +51,7 @@
                 item.write(archivo_server);
                 out.print("Nombre --> " + item.getName() );
                 out.print("<br> Tipo --> " + item.getContentType());
-                out.print("<br> tamaño --> " + (item.getSize()/1240)+ "KB");
+                out.print("<br> tamaÃ±o --> " + (item.getSize()/1240)+ "KB");
                 out.print("<br>");
             }
         }

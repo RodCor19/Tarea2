@@ -79,7 +79,7 @@ function reproducirAlbum(album, artista){
 
 function reproducirTema(tema, album, artista){
     $.ajax({
-        type : 'GET', //tipo de request
+        type : 'POST', //tipo de request
         url : '/EspotifyWeb/ServletArchivos',
         dataType : 'text', // tipo de dato esperado en la respuesta(text, json, etc.)
         data:{ // Parametros que se pasan en el request

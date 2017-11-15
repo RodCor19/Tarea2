@@ -11,7 +11,7 @@
 
 <div class="row">
     <%for(DtArtista art: artistas){ %>
-    <div class="col-md-4" style="padding: 2px;">
+    <div class="col-xs-4" style="padding: 2px;">
         <a href="ServletArtistas?verPerfilArt=<%= art.getNickname() %>">
             <% if(art.getRutaImagen() == null){ %>
             <img src="/EspotifyWeb/Imagenes/iconoArtista.png" alt="foto del usuario" class="img-responsive imgAlbum" title="Artista"><!--Cambiar por imagen del usuario-->

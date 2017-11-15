@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.2.9-b130926.1035 svn-revision#5f6196f2b90e9460065a4c2f4e30e065b245e51e. --><xs:schema xmlns:tns="http://WebServices/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://WebServices/">
+
+<xs:element name="IOException" type="tns:IOException"></xs:element>
+
+<xs:complexType name="dataBytes">
+<xs:sequence>
+<xs:element name="byteArray" type="xs:base64Binary" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataTemas">
+<xs:sequence>
+<xs:element name="temas" type="tns:dtTema" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dtTema">
+<xs:sequence>
+<xs:element name="nombre" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="duracion" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="orden" type="xs:int"></xs:element>
+<xs:element name="direccion" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="archivo" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nomartista" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nomalbum" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="archivobyte" type="xs:base64Binary" minOccurs="0"></xs:element>
+<xs:element name="cantDescarga" type="xs:int"></xs:element>
+<xs:element name="cantReproduccion" type="xs:int"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="IOException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

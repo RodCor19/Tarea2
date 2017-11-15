@@ -166,7 +166,7 @@
                     <img id="imgalbum" src="/EspotifyWeb/Imagenes/iconoMusica.jpg" width="230" height="230" class="imgAlbum" />
                     <!--target="iframe"-->
                     <form target="iframe" action="subir.jsp" id="formcrear" enctype="multipart/form-data" method="post">
-                        <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
+                        <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept=".jpg*"/>
                         <br><br>
                     </form>
                     <input class="boton" name="aceptar" type="submit" value="Crear Album" id="aceptar" style="font-size: 15px">

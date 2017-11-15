@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="java.net.URL"%>
 <%@ page import="java.util.*" %>
@@ -39,8 +40,9 @@
             /*item.isFormField() false=input file; true=text field*/
             if (! item.isFormField() && item.getName().isEmpty() == false){
                 /*cual sera la ruta al archivo en el servidor*/
-                
-                File archivo_server = new File(path + item.getName());
+                byte[] bytes = item.getName().getBytes(StandardCharsets.ISO_8859_1);
+                String nom = new String(bytes, StandardCharsets.UTF_8);
+                File archivo_server = new File(path + nom);
                 archivo_server.getParentFile().mkdirs();
 //                archivo_server.getParentFile().mkdirs();
 //                archivo_server.createNewFile();

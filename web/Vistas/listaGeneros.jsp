@@ -15,7 +15,7 @@
 <div class="row">
     <%for (DtGenero gen : generos) {
     %>
-    <div class="col-md-4" style="padding: 2px;">
+    <div class="col-xs-4" style="padding: 2px;">
         <% String generoCodificado = URLEncoder.encode(gen.getNombre(), "UTF-8"); %>
         <a href="ServletArtistas?consultarAlbum=<%= generoCodificado %>">
             <%String nomgen = gen.getNombre();

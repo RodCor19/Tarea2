@@ -90,7 +90,7 @@
                     <h3>Elegir Imagen Perfil</h3>        
                     <img id="imgalbum" src="/EspotifyWeb/Imagenes/iconoUsuario.jpg" width="200" height="200" class="imgAlbum" />
 <!--                    <form  target="iframe" action="subir.jsp" id="formcrear" enctype="MULTIPART/FORM-DATA" method="post">-->
-                        <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept="image/*"/>
+                        <input type="file" name="elegirimagen" id="elegirimagen" value="Img" accept=".jpg"/>
                         <br><br><div class="form-group">
                             <!--<input name="aceptar" type="submit" value="subirfoto" id="subirfoto" class="hidden">-->
                         </div>

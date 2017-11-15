@@ -30,6 +30,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import java.net.Socket;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
 import org.json.JSONArray;
@@ -127,9 +128,12 @@ public class ServletArtistas extends HttpServlet {
                         /*item.isFormField() false=input file; true=text field*/
                         //Con if(item.isFormField()) se distingue si input es un archivo o es un input comun(texto)
                         if (item.isFormField() == false && item.getName().isEmpty() == false) {
-                            File archivo_server = new File(path + item.getName());
+                            byte[] bytes = item.getName().getBytes(StandardCharsets.ISO_8859_1);
+                            String nom = new String(bytes, StandardCharsets.UTF_8);
+                            File archivo_server = new File(path + nom );
+                            archivo_server.getParentFile().mkdirs();
                             item.write(archivo_server);
-                            rutaArchivo = path + item.getName();
+                            rutaArchivo = path + nom;
                         } else {
                             String nombreInput = item.getFieldName();
 
@@ -351,6 +355,9 @@ public class ServletArtistas extends HttpServlet {
                         dtt.setCantDescarga(0);
                         dtt.setCantReproduccion(0);
                         if (arch_url.contains(".mp3")){
+                            if (arch_url.contains("&amp;")){
+                                arch_url =arch_url.replace("&amp;", "&");
+                            }
                             arch_url = (path + arch_url);
                             File audio =new File(arch_url);
                             byte[] arch = org.apache.commons.io.FileUtils.readFileToByteArray(audio);

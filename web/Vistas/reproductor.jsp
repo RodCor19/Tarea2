@@ -147,7 +147,7 @@
                                     controlRepTema = true;
                                 }
                     %>
-                    <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%= tema.getArchivo() %>|<%= cargarImagen %>|<%=tema.getNombre()%>|<%=tema.getNomalbum()%>|<%=tema.getNomartista()%>" onclick="play(this);" style="cursor: pointer">
+                    <tr <%if(controlRepTema){%>class="reproducirTema"<%}%> id="/EspotifyWeb/ServletArchivos?tipo=audio&ruta=<%=  URLEncoder.encode(tema.getArchivo(), "UTF-8") %>|<%= cargarImagen %>|<%=tema.getNombre()%>|<%=tema.getNomalbum()%>|<%=tema.getNomartista()%>" onclick="play(this);" style="cursor: pointer">
                     <%}else{
                         boolean controlRepTema = false;
                         if(repTema!=null && repTema.getDireccion() != null && repTema.getDireccion().equals(tema.getDireccion())){
